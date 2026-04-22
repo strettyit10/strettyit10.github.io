@@ -86,7 +86,10 @@
       letter-spacing: -0.01em; text-shadow: 0 1px 8px rgba(0,0,0,0.25);
     }
     .tn-name:hover { color: rgba(255,255,255,0.78); }
-    .tn-eyebrow { font-size: 0.68rem; font-weight: 500; color: rgba(255,255,255,0.45); margin-top: 1px; }
+    .tn-eyebrow {
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em;
+      color: rgba(255,255,255,0.75); margin-top: 2px;
+    }
 
     .tn-nav { display: flex; align-items: center; gap: 4px; flex: 1; justify-content: flex-end; }
     .tn-link {
@@ -161,7 +164,7 @@
 
     /* ══ MAIN CONTENT ══════════════════════════════ */
     .main { flex: 1; min-width: 0; background: var(--bg); margin-left: 0; transition: background 0.2s; }
-    .main-inner { max-width: 980px; margin: 0 auto; padding: 48px 44px 80px; }
+    .main-inner { max-width: 1680px; margin: 0 auto; padding: 48px 56px 80px; }
 
     /* ══ HERO ══ */
     .hero { margin-bottom: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--rule); }
@@ -182,6 +185,28 @@
       max-width: 760px;
     }
     .hero-tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+
+    /* "NOT meant to" list in hero */
+    .hero-not-list {
+      list-style: none; padding: 0;
+      margin: 0 0 18px;
+      display: flex; flex-direction: column; gap: 8px;
+      max-width: 760px;
+    }
+    .hero-not-list li {
+      font-size: 0.97rem; color: var(--ink-2); line-height: 1.55;
+      padding-left: 28px; position: relative;
+    }
+    .hero-not-list li::before {
+      content: "✕"; position: absolute; left: 0; top: -1px;
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: #fee2e2; color: #dc2626;
+      font-size: 0.7rem; font-weight: 900;
+    }
+    [data-theme="dark"] .hero-not-list li::before { background: #450a0a; color: #fca5a5; }
+    .hero-not-list strong { color: #dc2626; font-weight: 800; }
+    [data-theme="dark"] .hero-not-list strong { color: #fca5a5; }
     .hero-tag {
       display: inline-flex; align-items: center; gap: 5px;
       padding: 5px 12px; border-radius: 999px;
@@ -316,58 +341,138 @@
     }
     [data-theme="dark"] .hero-nav-link.active { color: #0b1220; }
 
-    /* ══ WORKFLOW ACCORDION ══ */
-    .workflow-steps {
+    /* ══ WORKFLOW — 4-column timing segments ══ */
+    .wf-columns {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 14px; align-items: start;
+    }
+    .wf-col {
+      display: flex; flex-direction: column;
       background: var(--surface); border: 1px solid var(--rule);
-      border-radius: 14px; padding: 4px; box-shadow: var(--card-sh);
-      display: flex; flex-direction: column; gap: 2px;
+      border-radius: 12px; padding: 14px 12px 16px;
+      box-shadow: var(--card-sh);
+      border-top: 3px solid var(--accent);
     }
-    .wf-step {
-      border-radius: 10px;
-      transition: background 0.15s;
-      border-left: 3px solid transparent;
+    .wf-col.wf-col-1 { border-top-color: #6366f1; }  /* indigo — Day Before */
+    .wf-col.wf-col-2 { border-top-color: #f59e0b; }  /* amber  — Day Of */
+    .wf-col.wf-col-3 { border-top-color: #10b981; }  /* green  — Day After */
+    .wf-col.wf-col-4 { border-top-color: #ef4444; }  /* red    — Weeks → Exam */
+    .wf-col-header {
+      margin-bottom: 12px; padding: 2px 2px 10px;
+      border-bottom: 1px solid var(--rule);
     }
-    .wf-step + .wf-step { border-top: 1px solid var(--rule); }
-    .wf-step[open] {
-      background: color-mix(in srgb, var(--accent) 5%, var(--surface));
-      border-left-color: var(--accent);
+    .wf-col-label {
+      font-size: 0.7rem; font-weight: 800;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--ink-2); line-height: 1.3;
     }
-    .wf-step summary {
-      display: flex; align-items: center; gap: 14px;
-      padding: 11px 14px; cursor: pointer;
-      list-style: none; outline: none;
-      user-select: none;
+    .wf-col.wf-col-1 .wf-col-label { color: #4f46e5; }
+    .wf-col.wf-col-2 .wf-col-label { color: #b45309; }
+    .wf-col.wf-col-3 .wf-col-label { color: #047857; }
+    .wf-col.wf-col-4 .wf-col-label { color: #b91c1c; }
+    [data-theme="dark"] .wf-col.wf-col-1 .wf-col-label { color: #a5b4fc; }
+    [data-theme="dark"] .wf-col.wf-col-2 .wf-col-label { color: #fbbf24; }
+    [data-theme="dark"] .wf-col.wf-col-3 .wf-col-label { color: #6ee7b7; }
+    [data-theme="dark"] .wf-col.wf-col-4 .wf-col-label { color: #fca5a5; }
+
+    /* Inside columns — compact step variant that reuses the wf-t-* rail */
+    .wf-col .wf-t-step { gap: 10px; padding-bottom: 14px; }
+    .wf-col .wf-t-step:last-child { padding-bottom: 0; }
+    .wf-col .wf-t-rail { width: 38px; }
+    .wf-col .wf-t-dot {
+      width: 38px; height: 38px; font-size: 0.7rem;
+      box-shadow: 0 0 0 3px var(--surface), 0 1px 3px rgba(0,0,0,0.08);
     }
-    .wf-step summary::-webkit-details-marker { display: none; }
-    .wf-step summary:hover .wf-title { color: var(--accent); }
-    .wf-num {
-      font-size: 0.9rem; font-weight: 900; letter-spacing: -0.02em;
-      color: var(--ink-3); min-width: 34px; flex-shrink: 0;
-      font-variant-numeric: tabular-nums;
+    .wf-col .wf-t-rail::after { top: 38px; bottom: -14px; }
+    .wf-col .wf-t-step:last-child .wf-t-rail::after { display: none; }
+    .wf-col .wf-t-card { padding-top: 4px; }
+    .wf-col .wf-t-title { font-size: 0.84rem; margin-bottom: 2px; line-height: 1.3; }
+    .wf-col .wf-t-desc { font-size: 0.76rem; line-height: 1.5; }
+
+    /* Match per-column dot color to the column accent */
+    .wf-col.wf-col-1 .wf-t-dot { border-color: #6366f1; color: #4f46e5; }
+    .wf-col.wf-col-2 .wf-t-dot { border-color: #f59e0b; color: #b45309; }
+    .wf-col.wf-col-3 .wf-t-dot { border-color: #10b981; color: #047857; }
+    .wf-col.wf-col-4 .wf-t-dot { border-color: #ef4444; color: #b91c1c; }
+
+    /* Substep within a column */
+    .wf-col .wf-t-step.wf-t-sub { padding-left: 14px; }
+    .wf-col .wf-t-step.wf-t-sub .wf-t-dot {
+      width: 32px; height: 32px; font-size: 0.62rem;
     }
-    .wf-step[open] .wf-num { color: var(--accent); }
-    .wf-step.wf-sub { margin-left: 28px; }
-    .wf-step.wf-sub summary { padding-left: 10px; }
-    .wf-step.wf-sub .wf-num { font-size: 0.85rem; min-width: 34px; }
-    .wf-title {
-      flex: 1; font-size: 0.88rem; font-weight: 700; color: var(--ink);
-      letter-spacing: -0.01em; line-height: 1.3;
-      transition: color 0.15s;
+    .wf-col .wf-t-step.wf-t-sub .wf-t-rail::after { top: 32px; }
+
+    @media (max-width: 1000px) {
+      .wf-columns { grid-template-columns: repeat(2, 1fr); }
     }
-    .wf-chevron {
-      font-size: 1rem; color: var(--ink-3); flex-shrink: 0;
-      transition: transform 0.2s, color 0.15s;
-      font-weight: 900;
+    @media (max-width: 600px) {
+      .wf-columns { grid-template-columns: 1fr; }
     }
-    .wf-step[open] .wf-chevron { transform: rotate(90deg); color: var(--accent); }
-    .wf-desc {
-      padding: 0 16px 14px 62px;
+
+    /* ══ WORKFLOW TIMELINE (legacy single-column fallback) ══ */
+    .wf-timeline {
+      display: flex; flex-direction: column; gap: 0;
+      padding: 4px 0;
+    }
+    .wf-t-step {
+      display: flex; gap: 18px; position: relative;
+      padding-bottom: 22px;
+    }
+    .wf-t-step:last-child { padding-bottom: 4px; }
+    .wf-t-rail {
+      position: relative; flex-shrink: 0;
+      width: 48px; display: flex; justify-content: center;
+    }
+    /* Connector line between dots */
+    .wf-t-rail::after {
+      content: ""; position: absolute;
+      top: 46px; bottom: -22px; left: 50%;
+      width: 2px; background: var(--rule);
+      transform: translateX(-1px);
+    }
+    .wf-t-step:last-child .wf-t-rail::after { display: none; }
+
+    .wf-t-dot {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 900; color: var(--accent);
+      letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+      box-shadow: 0 0 0 4px var(--bg), var(--card-sh);
+      position: relative; z-index: 1;
+    }
+
+    .wf-t-card {
+      flex: 1; min-width: 0; padding-top: 8px;
+    }
+    .wf-t-title {
+      font-size: 0.95rem; font-weight: 800; color: var(--ink);
+      letter-spacing: -0.01em; margin-bottom: 4px; line-height: 1.3;
+    }
+    .wf-t-desc {
       font-size: 0.85rem; color: var(--ink-2); line-height: 1.6;
     }
-    .wf-step.wf-sub .wf-desc { padding-left: 62px; }
+
+    /* Substep — smaller dot, indented */
+    .wf-t-step.wf-t-sub { padding-left: 26px; }
+    .wf-t-step.wf-t-sub .wf-t-dot {
+      width: 38px; height: 38px; font-size: 0.7rem;
+      border-color: var(--ink-3); color: var(--ink-3);
+      background: var(--bg);
+    }
+    .wf-t-step.wf-t-sub .wf-t-rail::after {
+      top: 38px;
+    }
+    .wf-t-step.wf-t-sub .wf-t-card { padding-top: 4px; }
+    .wf-t-step.wf-t-sub .wf-t-title { font-size: 0.88rem; color: var(--ink-2); }
+
     @media (max-width: 600px) {
-      .wf-step.wf-sub { margin-left: 14px; }
-      .wf-desc { padding: 0 14px 12px 52px; }
+      .wf-t-step { gap: 12px; }
+      .wf-t-rail { width: 40px; }
+      .wf-t-dot { width: 40px; height: 40px; font-size: 0.72rem; }
+      .wf-t-step.wf-t-sub { padding-left: 18px; }
+      .wf-t-step.wf-t-sub .wf-t-dot { width: 32px; height: 32px; font-size: 0.62rem; }
     }
 
     /* ══ LEARN MORE BUTTON (inside cards) ══ */
@@ -390,24 +495,95 @@
     }
     .learn-more-btn:hover .lm-arrow { transform: translateX(3px); }
 
-    /* ══ LANDING → CHILDREN ARROW ══ */
-    .landing-arrow-down {
-      display: flex; align-items: center; justify-content: center; gap: 12px;
-      margin: 8px 0 2px; padding: 10px 0;
-      font-size: 0.78rem; font-weight: 700; color: var(--ink-3);
-      letter-spacing: 0.02em; text-transform: uppercase;
+    /* ══ CORE COMPONENTS — LANDING ▸ CHILDREN TREE DIAGRAM ══ */
+    .cc-layout { display: flex; flex-direction: column; }
+    .cc-top {
+      display: flex; justify-content: center; margin-bottom: 0;
     }
-    .landing-arrow-down::before,
-    .landing-arrow-down::after {
-      content: ""; flex: 1; max-width: 80px; height: 1px; background: var(--rule);
+    .cc-landing-card {
+      width: 100%; max-width: 720px;
+      background: var(--bc-blue-bg); border: 1.5px solid var(--bc-blue-br);
+      border-radius: 14px; padding: 20px 22px;
+      display: flex; gap: 14px; align-items: flex-start;
+      box-shadow: var(--card-sh);
+      position: relative;
     }
-    .landing-arrow-down .lad-arrow {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 30px; height: 30px; border-radius: 50%;
-      background: var(--bc-pur-bg); color: var(--accent);
-      font-size: 1.05rem; font-weight: 900; line-height: 1;
-      border: 1px solid var(--bc-pur-br);
+    .cc-landing-card .util-icon { flex-shrink: 0; }
+    .cc-landing-card strong {
+      display: block; font-size: 1rem; font-weight: 800;
+      color: var(--bc-blue-tx); margin-bottom: 4px;
     }
+    .cc-landing-card .lp-desc {
+      font-size: 0.85rem; color: var(--ink-2); line-height: 1.6;
+    }
+
+    /* Branch SVG — connects Landing to 3 children */
+    .cc-branch-svg {
+      display: block; width: 100%; height: 64px;
+      color: var(--bc-blue-br);
+      margin: 0 auto;
+    }
+    .cc-branch-svg path { stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
+    .cc-branch-svg circle { fill: currentColor; }
+
+    /* 3-column children grid */
+    .cc-children {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-top: 0;
+    }
+    .cc-child {
+      background: var(--surface); border: 1px solid var(--rule);
+      border-radius: 14px; padding: 18px 18px 20px;
+      box-shadow: var(--card-sh);
+      display: flex; flex-direction: column; gap: 10px;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+    .cc-child:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.07); }
+    .cc-child.cc-teal   { border-top: 3px solid #14b8a6; }
+    .cc-child.cc-purple { border-top: 3px solid #8b5cf6; }
+    .cc-child.cc-green  { border-top: 3px solid #10b981; }
+    .cc-child-head { display: flex; gap: 10px; align-items: center; }
+    .cc-child-head strong { font-size: 0.98rem; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
+    .cc-child-desc { font-size: 0.82rem; color: var(--ink-2); line-height: 1.55; }
+
+    @media (max-width: 900px) {
+      .cc-children { grid-template-columns: 1fr; }
+      .cc-branch-svg { display: none; }
+      .cc-top { margin-bottom: 10px; }
+      .cc-children { gap: 10px; }
+    }
+
+    /* ══ WHERE TO FIND WHAT — compact grid ══ */
+    .wtf-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .wtf-card {
+      background: var(--surface); border: 1px solid var(--rule);
+      border-radius: 12px; padding: 14px 16px;
+      box-shadow: var(--card-sh);
+      display: flex; flex-direction: column; gap: 8px;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+    .wtf-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+    .wtf-head { display: flex; align-items: flex-start; gap: 10px; }
+    .wtf-icon {
+      width: 34px; height: 34px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .wtf-q {
+      flex: 1; font-size: 0.82rem; font-weight: 700; color: var(--ink);
+      letter-spacing: -0.01em; line-height: 1.35;
+    }
+    .wtf-a {
+      font-size: 0.76rem; color: var(--ink-2); line-height: 1.5;
+      padding-left: 44px;
+    }
+    .wtf-a strong { color: var(--accent); font-weight: 700; }
+    .wtf-a em { color: var(--ink); font-style: normal; font-weight: 700; }
+    @media (max-width: 900px) { .wtf-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .wtf-grid { grid-template-columns: 1fr; } }
 
     /* ══ RESOURCE CHIP ROW ══ */
     .resource-chips {
@@ -529,6 +705,14 @@
     }
     .fn-example::before { content: "e.g. "; opacity: 0.6; }
 
+    /* ── Core component item note (subline under a sublist entry) ── */
+    .core-item-note {
+      display: block; margin-top: 4px;
+      font-size: 0.78rem; color: var(--ink-3);
+      line-height: 1.55; font-style: italic;
+    }
+    .core-item-note::before { content: "→ "; opacity: 0.7; font-style: normal; }
+
     /* ══ LANDING PAGE SPLIT ROW ══ */
     .util-row-landing { align-items: stretch; gap: 18px; }
     .landing-main {
@@ -571,15 +755,25 @@
       display: flex; gap: 14px; align-items: flex-start;
       background: var(--bc-amb-bg); border: 1px solid var(--bc-amb-br);
       border-radius: 12px; padding: 14px 18px;
-      margin-bottom: 20px;
+      margin: 22px 0 0;
     }
     .fb-note-icon { font-size: 1.25rem; flex-shrink: 0; line-height: 1.3; }
     .fb-note-body { flex: 1; font-size: 0.85rem; color: var(--ink-2); line-height: 1.6; }
     .fb-note-body strong { color: var(--bc-amb-tx); font-weight: 800; display: block; margin-bottom: 3px; }
-    .fb-note-body a {
-      color: var(--bc-amb-tx); font-weight: 700; text-decoration: underline;
-      text-underline-offset: 2px;
+    .fb-btn-wrap {
+      display: flex; justify-content: center;
+      margin-top: 14px;
     }
+    .fb-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 18px; border-radius: 999px;
+      background: var(--bc-amb-tx); color: #fff;
+      font-size: 0.82rem; font-weight: 800; letter-spacing: -0.01em;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    }
+    .fb-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(146,64,14,0.25); opacity: 0.95; }
+    [data-theme="dark"] .fb-btn { color: #0f172a; }
 
     /* ══ NAV BUTTONS (3-up jump grid) ══ */
     .nav-buttons {
@@ -640,6 +834,102 @@
       gap: 16px; font-size: 0.8rem; color: var(--ink-3); flex-wrap: wrap;
     }
     .footer strong { color: var(--ink-2); font-weight: 600; }
+    .footer-meta {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+      line-height: 1.3;
+    }
+    .footer-version {
+      font-family: 'SF Mono', ui-monospace, monospace;
+      font-size: 0.72rem; color: var(--ink-3);
+      background: var(--surface); border: 1px solid var(--rule);
+      padding: 1px 8px; border-radius: 999px; letter-spacing: 0.02em;
+      font-weight: 700;
+    }
+
+    /* ══ RECENT UPDATES — 3 block columns ══ */
+    .updates-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; align-items: start;
+    }
+    .upd-col {
+      background: var(--surface); border: 1px solid var(--rule);
+      border-radius: 14px; padding: 14px 14px 16px;
+      box-shadow: var(--card-sh);
+      border-top: 3px solid var(--rule);
+    }
+    .upd-col.upd-endo  { border-top-color: #CA8A04; }  /* Endocrine — amber/gold */
+    .upd-col.upd-gi    { border-top-color: #166534; }  /* GI — green */
+    .upd-col.upd-repro { border-top-color: #9f1239; }  /* Repro — rose */
+
+    .upd-col-head {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 12px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .upd-col-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .upd-col.upd-endo  .upd-col-dot { background: #CA8A04; }
+    .upd-col.upd-gi    .upd-col-dot { background: #166534; }
+    .upd-col.upd-repro .upd-col-dot { background: #9f1239; }
+    .upd-col-title {
+      font-size: 0.82rem; font-weight: 800;
+      letter-spacing: 0.02em; text-transform: uppercase;
+      color: var(--ink);
+    }
+    .upd-col.upd-endo  .upd-col-title { color: #CA8A04; }
+    .upd-col.upd-gi    .upd-col-title { color: #166534; }
+    .upd-col.upd-repro .upd-col-title { color: #9f1239; }
+    [data-theme="dark"] .upd-col.upd-endo  .upd-col-title { color: #fbbf24; }
+    [data-theme="dark"] .upd-col.upd-gi    .upd-col-title { color: #86efac; }
+    [data-theme="dark"] .upd-col.upd-repro .upd-col-title { color: #fda4af; }
+
+    .upd-item + .upd-item { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--rule); }
+    .upd-item-meta {
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 4px; flex-wrap: wrap;
+    }
+    .upd-type {
+      display: inline-flex; align-items: center;
+      padding: 2px 8px; border-radius: 999px;
+      font-size: 0.58rem; font-weight: 900;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      font-family: 'SF Mono', ui-monospace, monospace;
+    }
+    .upd-type-new    { background: #dcfce7; color: #166534; }
+    .upd-type-update { background: #dbeafe; color: #1e40af; }
+    [data-theme="dark"] .upd-type-new    { background: #14532d; color: #bbf7d0; }
+    [data-theme="dark"] .upd-type-update { background: #1e3a8a; color: #dbeafe; }
+    .upd-item-date {
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.04em;
+      color: var(--ink-3); font-family: 'SF Mono', ui-monospace, monospace;
+    }
+    .upd-item-title {
+      font-size: 0.86rem; font-weight: 800; color: var(--ink);
+      letter-spacing: -0.01em; line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .upd-item-list {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .upd-item-list li {
+      font-size: 0.78rem; color: var(--ink-2); line-height: 1.5;
+      padding-left: 14px; position: relative;
+    }
+    .upd-item-list li::before {
+      content: "→"; position: absolute; left: 0; top: 0;
+      color: var(--accent); font-weight: 800; font-size: 0.85rem;
+    }
+    .upd-item-list li strong { color: var(--ink); font-weight: 700; }
+    .upd-empty {
+      font-size: 0.78rem; color: var(--ink-3); font-style: italic;
+      padding: 6px 0 2px;
+    }
+
+    @media (max-width: 900px) { .updates-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .updates-grid { grid-template-columns: 1fr; } }
 
     /* ══ RESPONSIVE ══ */
     @media (max-width: 860px) {
@@ -661,8 +951,6 @@
     <nav class="tn-nav">
       <a class="tn-link" href="#workflow">Workflow</a>
       <a class="tn-link" href="#core-components">Core Components</a>
-      <a class="tn-link" href="#hubs">Practice</a>
-      <a class="tn-link" href="#mapping">3rd Party &amp; UWorld</a>
       <a class="tn-link" href="#where">Where to Find What</a>
       <a class="tn-link" href="#updates">Recent Updates</a>
     </nav>
@@ -686,17 +974,41 @@
             already learning — whether that's in-house lectures, BnB, Pathoma, Physeo, Sketchy, the BK Anki
             deck, ANKing, or anything else.
           </p>
+
+          <ul class="hero-not-list">
+            <li>It is <strong>NOT</strong> meant to teach you the content.</li>
+            <li>It is <strong>NOT</strong> meant to replace faculty-provided formative feedback.</li>
+          </ul>
+
           <p class="hero-sub">
-            <strong>It is NOT meant to teach you the content.</strong> Think of it as a <em>tailored aid</em>
-            that sits on top of whatever primary sources you're using.
+            Think of it as a <em>tailored aid</em> that sits on top of whatever primary sources you're using.
+            It's meant to <strong>level the playing field</strong> — giving those of us who need more reps a
+            place to actually get them. It's meant to be a <strong>spaced-repetition alternative</strong> for
+            anyone who can't stomach one more Anki session. And it's meant to save us all the time and money
+            we don't have as we balance Step and an in-house curriculum. And maybe — just maybe — leave enough
+            daylight in the day to confirm the sun still exists. 🌞
           </p>
+
+          <!-- Feedback note -->
+          <div class="feedback-note">
+            <div class="fb-note-icon">⚠️</div>
+            <div class="fb-note-body">
+              <strong>Found something broken or off?</strong>
+              Although everything is checked before publishing, errors happen. Please notify of any broken
+              links, incorrect content, erroneously placed questions, etc using the feedback button. We'll
+              get it fixed as fast as possible!
+              <div class="fb-btn-wrap">
+                <a class="fb-btn" href="https://docs.google.com/forms/d/e/1FAIpQLScP6c5q57ZozMHwDSVv4cny2MbjdO0PJNIVpjwuid6BNdQS-Q/viewform" target="_blank" rel="noopener">
+                  📝 Open the Feedback Form
+                </a>
+              </div>
+            </div>
+          </div>
 
           <!-- In-page nav -->
           <nav class="hero-nav">
             <a class="hero-nav-link" href="#workflow">Workflow</a>
             <a class="hero-nav-link" href="#core-components">Core Components</a>
-            <a class="hero-nav-link" href="#hubs">Practice</a>
-            <a class="hero-nav-link" href="#mapping">3rd Party &amp; UWorld</a>
             <a class="hero-nav-link" href="#where">Where to Find What</a>
             <a class="hero-nav-link" href="#updates">Recent Updates</a>
           </nav>
@@ -709,82 +1021,95 @@
             <div class="section-divider-line"></div>
           </div>
           <p class="section-lead">
-            One full pass through a lecture. Click any step to expand the details.
+            Choose your own adventure. Here's an example of a workflow start to finish, but feel free to go
+            à la carte and pick and choose which aspects of the Hub work best for you.
           </p>
 
-          <div class="workflow-steps">
+          <div class="wf-columns">
 
-            <details class="wf-step" open>
-              <summary>
-                <span class="wf-num">01</span>
-                <span class="wf-title">Review the Lecture Guide</span>
-                <span class="wf-chevron">›</span>
-              </summary>
-              <div class="wf-desc">The night before content is introduced, skim the lecture guide to prime your brain for what's coming. You're not memorizing — you're building scaffolding.</div>
-            </details>
+            <!-- DAY BEFORE LECTURE -->
+            <div class="wf-col wf-col-1">
+              <div class="wf-col-header">
+                <div class="wf-col-label">Day Before Lecture</div>
+              </div>
+              <div class="wf-t-step">
+                <div class="wf-t-rail"><span class="wf-t-dot">01</span></div>
+                <div class="wf-t-card">
+                  <div class="wf-t-title">Review the Lecture Guide</div>
+                  <p class="wf-t-desc">The night before content is introduced, skim the lecture guide to prime your brain for what's coming. You're not memorizing — you're building scaffolding.</p>
+                </div>
+              </div>
+            </div>
 
-            <details class="wf-step">
-              <summary>
-                <span class="wf-num">02a</span>
-                <span class="wf-title">Watch the 3rd-Party Resource</span>
-                <span class="wf-chevron">›</span>
-              </summary>
-              <div class="wf-desc">Before (or instead of) the in-house lecture, watch the mapped 3rd-party video — BnB, Bootcamp, Pathoma, Physeo, or Sketchy. This primes you for the lecture content and gives you the Step 1 framing upfront.</div>
-            </details>
+            <!-- DAY OF LECTURE -->
+            <div class="wf-col wf-col-2">
+              <div class="wf-col-header">
+                <div class="wf-col-label">Day Of Lecture</div>
+              </div>
+              <div class="wf-t-step">
+                <div class="wf-t-rail"><span class="wf-t-dot">02a</span></div>
+                <div class="wf-t-card">
+                  <div class="wf-t-title">Watch the 3rd-Party Resource</div>
+                  <p class="wf-t-desc">Before (or instead of) the in-house lecture, watch the mapped 3rd-party video — BnB, Bootcamp, Pathoma, Physeo, or Sketchy. Primes you for the lecture and gives you the Step 1 framing upfront.</p>
+                </div>
+              </div>
+              <div class="wf-t-step wf-t-sub">
+                <div class="wf-t-rail"><span class="wf-t-dot">02b</span></div>
+                <div class="wf-t-card">
+                  <div class="wf-t-title">Watch the In-House Lecture</div>
+                  <p class="wf-t-desc">Minimize stop time. Your notes are the <strong>MNTS</strong> and the <strong>lecture guide</strong> — let the lecturer build the narrative without constantly pausing to write.</p>
+                </div>
+              </div>
+              <div class="wf-t-step">
+                <div class="wf-t-rail"><span class="wf-t-dot">03</span></div>
+                <div class="wf-t-card">
+                  <div class="wf-t-title">Complete the Recall Drill</div>
+                  <p class="wf-t-desc">Ideally the same day as Step 2. A no-frills, fill-in-the-blank style drill over the high-yield content from the lecture guide. Quick, low-stakes, forces retrieval.</p>
+                </div>
+              </div>
+            </div>
 
-            <details class="wf-step wf-sub">
-              <summary>
-                <span class="wf-num">02b</span>
-                <span class="wf-title">Watch the In-House Lecture</span>
-                <span class="wf-chevron">›</span>
-              </summary>
-              <div class="wf-desc">Minimize stop time. Your notes are the <strong>MNTS</strong> and the <strong>lecture guide</strong> — let the lecturer build the narrative without constantly pausing to write.</div>
-            </details>
+            <!-- DAY AFTER -->
+            <div class="wf-col wf-col-3">
+              <div class="wf-col-header">
+                <div class="wf-col-label">Day After</div>
+              </div>
+              <div class="wf-t-step">
+                <div class="wf-t-rail"><span class="wf-t-dot">04</span></div>
+                <div class="wf-t-card">
+                  <div class="wf-t-title">Answer Lecture Guide MCQs &amp; Q&amp;A</div>
+                  <p class="wf-t-desc">Use the Recall Drill and Lecture Guide as your reference, then work through the embedded MCQs and Q&amp;A. This is where passive recognition turns into active application.</p>
+                </div>
+              </div>
+            </div>
 
-            <details class="wf-step">
-              <summary>
-                <span class="wf-num">03</span>
-                <span class="wf-title">Complete the Recall Drill</span>
-                <span class="wf-chevron">›</span>
-              </summary>
-              <div class="wf-desc">Ideally the same day as Step 2. A no-frills, fill-in-the-blank style drill over the high-yield content from the lecture guide. Quick, low-stakes, forces retrieval.</div>
-            </details>
-
-            <details class="wf-step">
-              <summary>
-                <span class="wf-num">04</span>
-                <span class="wf-title">Answer Lecture Guide MCQs &amp; Q&amp;A</span>
-                <span class="wf-chevron">›</span>
-              </summary>
-              <div class="wf-desc">Use the Recall Drill and Lecture Guide as your reference, then work through the embedded MCQs and Q&amp;A. This is where passive recognition turns into active application.</div>
-            </details>
-
-            <details class="wf-step">
-              <summary>
-                <span class="wf-num">05</span>
-                <span class="wf-title">Reinforce via the 3 Active Drill Hubs</span>
-                <span class="wf-chevron">›</span>
-              </summary>
-              <div class="wf-desc">Three drill hubs per lecture, each progressively harder — designed as an alternative or supportive track to Anki while still hitting spaced repetition. The progression concludes with the lecture's mapped UWorld QIDs.</div>
-            </details>
-
-            <details class="wf-step">
-              <summary>
-                <span class="wf-num">06</span>
-                <span class="wf-title">Board-Style Practice</span>
-                <span class="wf-chevron">›</span>
-              </summary>
-              <div class="wf-desc">Shift from lecture-based reinforcement to exam-style, system-based application. Questions are USMLE Step 1 style — a mix of AI-generated stems, 3rd-party questions, and items pulled from the free USMLE 120 exams.</div>
-            </details>
-
-            <details class="wf-step">
-              <summary>
-                <span class="wf-num">07</span>
-                <span class="wf-title">Formative Feedback</span>
-                <span class="wf-chevron">›</span>
-              </summary>
-              <div class="wf-desc">Head over to Canvas and complete any formative feedback — final tune-up before the block exam. This closes the loop and flags anything still soft.</div>
-            </details>
+            <!-- WEEKS AFTER → EXAM -->
+            <div class="wf-col wf-col-4">
+              <div class="wf-col-header">
+                <div class="wf-col-label">Weeks After → Exam</div>
+              </div>
+              <div class="wf-t-step">
+                <div class="wf-t-rail"><span class="wf-t-dot">05</span></div>
+                <div class="wf-t-card">
+                  <div class="wf-t-title">Reinforce via the 3 Active Drill Hubs</div>
+                  <p class="wf-t-desc">Three drill hubs per lecture, each progressively harder — designed as an alternative or supportive track to Anki while still hitting spaced repetition. Concludes with the lecture's mapped UWorld QIDs.</p>
+                </div>
+              </div>
+              <div class="wf-t-step">
+                <div class="wf-t-rail"><span class="wf-t-dot">06</span></div>
+                <div class="wf-t-card">
+                  <div class="wf-t-title">Board-Style Practice</div>
+                  <p class="wf-t-desc">Shift from lecture-based reinforcement to exam-style, system-based application. USMLE Step 1 style — a mix of AI-generated stems, 3rd-party questions, and items from the free USMLE 120 exams.</p>
+                </div>
+              </div>
+              <div class="wf-t-step">
+                <div class="wf-t-rail"><span class="wf-t-dot">07</span></div>
+                <div class="wf-t-card">
+                  <div class="wf-t-title">Formative Feedback</div>
+                  <p class="wf-t-desc">Head over to Canvas and complete any formative feedback — final tune-up before the block exam. Closes the loop and flags anything still soft.</p>
+                </div>
+              </div>
+            </div>
 
           </div>
         </section>
@@ -796,72 +1121,78 @@
             <div class="section-divider-line"></div>
           </div>
           <p class="section-lead">
-            Each block (GI, Endocrine, Repro) has the same four-part structure.
+            Each block (GI, Endocrine, Repro) has the same four-part core structure.
           </p>
 
-          <!-- LANDING PAGE — standalone card at top -->
-          <div class="util-list" style="margin-bottom: 6px;">
-            <div class="util-row">
-              <div class="util-icon ui-indigo">🏠</div>
-              <div class="util-text">
-                <strong>A Landing Page</strong>
-                <span>The daily home base for the block — pulls every resource listed below into a single dashboard along with a "Today's Lectures" calendar and other helpful tools such as:</span>
-                <ul class="core-sublist">
-                  <li>
-                    Google Sheet Lecture Checklist
-                    <span class="fn-example">Endocrine_Block_Checklist.gsheet</span>
-                  </li>
-                  <li>
-                    3rd Party Mapping Per Lecture (Excel file)
-                    <span class="fn-example">Endocrine_Resource_Mapping.xlsx</span>
-                  </li>
-                  <li>
-                    UWorld QID Mapping Per Lecture (Excel file)
-                    <span class="fn-example">HoyaDocs-UWorld-QID-Mapping.xlsx</span>
-                  </li>
-                </ul>
+          <div class="cc-layout">
+
+            <!-- Landing Page centered at top -->
+            <div class="cc-top">
+              <div class="cc-landing-card">
+                <div class="util-icon ui-indigo">🏠</div>
+                <div>
+                  <strong>A Landing Page</strong>
+                  <div class="lp-desc">The daily home base for the block — pulls every resource listed below into a single dashboard along with a "Today's Lectures" calendar and other helpful tools such as:</div>
+                  <ul class="core-sublist">
+                    <li>
+                      Google Sheet Lecture Checklist
+                      <span class="fn-example">Endocrine_Block_Checklist.gsheet</span>
+                    </li>
+                    <li>
+                      3rd Party Mapping Per Lecture (Excel file)
+                      <span class="fn-example">Endocrine_Resource_Mapping.xlsx</span>
+                    </li>
+                    <li>
+                      UWorld QID Mapping Per Lecture (Excel file)
+                      <span class="fn-example">HoyaDocs-UWorld-QID-Mapping.xlsx</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Divider showing the landing page points to the 3 cards below -->
-          <div class="landing-arrow-down">
-            <span class="lad-arrow">↓</span>
-            <span>The landing page provides access to</span>
-          </div>
+            <!-- Branch connectors: 1 trunk → 3 arrows -->
+            <svg class="cc-branch-svg" viewBox="0 0 600 64" preserveAspectRatio="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <!-- Trunk down from landing, horizontal rail, 3 drop lines -->
+              <path d="M300,0 V22 M100,22 H500 M100,22 V54 M300,22 V54 M500,22 V54" />
+              <!-- Arrow heads at each child -->
+              <path d="M100,60 l-5,-8 h10 z M300,60 l-5,-8 h10 z M500,60 l-5,-8 h10 z" />
+            </svg>
 
-          <!-- The three "child" components -->
-          <div class="util-list">
+            <!-- 3 scattered children: left / center / right -->
+            <div class="cc-children">
 
-            <!-- STUDY GUIDE RESOURCES -->
-            <div class="util-row">
-              <div class="util-icon ui-teal">📖</div>
-              <div class="util-text">
-                <strong>Study Guide Resources</strong>
-                <span>Three tiers of study guides, scoped from lecture-level all the way up to full-exam review.</span>
+              <div class="cc-child cc-teal">
+                <div class="cc-child-head">
+                  <div class="util-icon ui-teal">📖</div>
+                  <strong>Study Guide Resources</strong>
+                </div>
+                <p class="cc-child-desc">Three tiers of study guides, scoped from lecture-level all the way up to full-exam review.</p>
                 <ul class="core-sublist">
                   <li>
                     Per Lecture — "Lecture Guides"
+                    <div class="core-item-note">Also contain the MCQs and associated recall drills for that lecture.</div>
                     <span class="fn-example">end03-lg.html</span>
                   </li>
                   <li>
-                    Per Disease / Infection / Pharm / etc. — "Atlas"
+                    Per Topic List — "Atlas"
+                    <div class="core-item-note">E.g. an atlas of all GI diseases referenced throughout the block, populated with the associated HY information (including Test Traps!) for Step and in-house exams.</div>
                     <span class="fn-example">thyroid-disease-atlas.html</span>
                   </li>
                   <li>
-                    Per Exam — "HY Study Guides"
-                    <span class="fn-example">endocrine-hy-exam-review.html</span>
+                    Per System or Subject — "HY Study Guides"
+                    <div class="core-item-note">E.g. HY notes on endocrine physiology including Test Traps, most-commonly-tested concepts, and how they tend to be tested.</div>
+                    <span class="fn-example">endo-phys-sg.html</span>
                   </li>
                 </ul>
               </div>
-            </div>
 
-            <!-- 3RD-PARTY RESOURCE MAPPINGS -->
-            <div class="util-row">
-              <div class="util-icon ui-purple">🗂</div>
-              <div class="util-text">
-                <strong>3rd-Party Resource Mappings</strong>
-                <span>Every lecture cross-referenced to the outside resources you already use — no hunting through indexes.</span>
+              <div class="cc-child cc-purple">
+                <div class="cc-child-head">
+                  <div class="util-icon ui-purple">🗂</div>
+                  <strong>3rd-Party Resource Mappings</strong>
+                </div>
+                <p class="cc-child-desc">Every lecture cross-referenced to the outside resources you already use — no hunting through indexes.</p>
                 <ul class="core-sublist">
                   <li>
                     Per Lecture:
@@ -871,168 +1202,50 @@
                         <span class="fn-example">end03-uworld-qids.xlsx</span>
                       </li>
                       <li>
-                        Anki cards (BK deck + ANKing tags)
+                        Anki cards (BK + ANKing)
                         <span class="fn-example">BK_Endocrine_L3.apkg</span>
                       </li>
                       <li>
                         3rd-party videos (BnB, Bootcamp, Pathoma, Physeo, Sketchy)
-                        <span class="fn-example">BnB-Endo-Ch03-Thyroid.mp4</span>
+                        <span class="fn-example">BnB-Endo-Ch03.mp4</span>
                       </li>
                       <li>
-                        First Aid and other texts (as applicable)
+                        First Aid &amp; other texts
                         <span class="fn-example">FA2025-Endo-p319.pdf</span>
                       </li>
                     </ul>
                   </li>
                 </ul>
-                <a class="learn-more-btn" href="#mapping">
-                  Learn More About 3rd Party &amp; UWorld QID Mapping Resources
-                  <span class="lm-arrow">→</span>
-                </a>
               </div>
-            </div>
 
-            <!-- PROBLEM-SOLVING RESOURCES -->
-            <div class="util-row">
-              <div class="util-icon ui-green">🎯</div>
-              <div class="util-text">
-                <strong>Problem-Solving Resources</strong>
-                <span>Where you actually test what's sticking. Scales from a single learning objective up to a full exam block.</span>
+              <div class="cc-child cc-green">
+                <div class="cc-child-head">
+                  <div class="util-icon ui-green">🎯</div>
+                  <strong>Problem-Solving Resources</strong>
+                </div>
+                <p class="cc-child-desc">Where you actually test what's sticking. Scales from a single learning objective up to a full exam block.</p>
                 <ul class="core-sublist">
                   <li>
-                    Per Lecture:
-                    <ul>
-                      <li>
-                        Three tiered drill hubs (Hub 1 → Hub 2 → Hub 3)
-                        <span class="fn-example">end03_hub1.html</span>
-                      </li>
-                      <li>
-                        Per LO — Recall Drill, MCQ, Q&amp;A
-                        <span class="fn-example">end03_lo3_recall.html</span>
-                      </li>
-                    </ul>
+                    Per LO — Recall Drill, MCQ, Q&amp;A
+                    <span class="fn-example">end03_lo3_recall.html</span>
                   </li>
                   <li>
-                    Per Exam:
-                    <ul>
-                      <li>
-                        USMLE Question Bank
-                        <span class="fn-example">QuestionBank.html</span>
-                      </li>
-                    </ul>
+                    Per Lecture — Three tiered drill hubs (Hub 1 → 2 → 3)
+                    <span class="fn-example">end03_hub1.html</span>
+                  </li>
+                  <li>
+                    Per Exam — USMLE Question Bank
+                    <span class="fn-example">QuestionBank.html</span>
                   </li>
                 </ul>
-                <a class="learn-more-btn" href="#hubs">
-                  Learn More About Practice Problem Resources
-                  <span class="lm-arrow">→</span>
-                </a>
               </div>
+
             </div>
 
-          </div>
-
-          <!-- Feedback note -->
-          <div class="feedback-note" style="margin-top: 22px;">
-            <div class="fb-note-icon">⚠️</div>
-            <div class="fb-note-body">
-              <strong>Found something broken or off?</strong>
-              Although everything is checked before publishing, errors happen. Please share feedback for any
-              broken links, incorrect content, or erroneously placed questions so we can fix them fast.
-            </div>
           </div>
 
         </section>
 
-
-        <!-- ══ PRACTICE PROBLEM RESOURCES ═════════════════════════════════════ -->
-        <section class="section-block" id="hubs">
-          <div class="section-divider">
-            <span class="section-divider-text">Practice Problem Resources</span>
-            <div class="section-divider-line"></div>
-          </div>
-          <p class="section-lead">
-            The drill system is staged on purpose. Hub 1 reinforces what was in lecture. Hub 2 bridges lecture
-            to Step 1. Hub 3 tests you like the boards will. <strong>Work them in order.</strong>
-          </p>
-
-          <div class="res-grid">
-            <div class="bcard bc-green">
-              <div class="bcard-watermark">1</div>
-              <div class="bcard-icon">🟢</div>
-              <div class="bcard-label">Hub 1</div>
-              <h3>Core Concepts</h3>
-              <p>Focused on in-house resources — including the BK Anki deck, the lecture guide, and MNTS notes. Flashcards, fill-in-the-blank, ordering &amp; matching drills. Pure lecture reinforcement: no curveballs, just "did it stick?"</p>
-            </div>
-            <div class="bcard bc-amber">
-              <div class="bcard-watermark">2</div>
-              <div class="bcard-icon">🟡</div>
-              <div class="bcard-label">Hub 2</div>
-              <h3>Step 1 Extensions</h3>
-              <p>Maintains the connection to in-house lecture content while layering in 3rd-party resources — ANKing deck, workbooks, BnB, Bootcamp, First Aid, Physeo, Pathoma. Clinical correlates, HY notes, reference tables, and trap patterns.</p>
-            </div>
-            <div class="bcard bc-blue">
-              <div class="bcard-watermark">3</div>
-              <div class="bcard-icon">🔵</div>
-              <div class="bcard-label">Hub 3</div>
-              <h3>USMLE Practice</h3>
-              <p>Timed exam blocks focused on high-yield, lecture-specific USMLE Step 1 style questions — full-stem vignettes with detailed explanations. A dark-grey and gold dashboard tracks your scores.</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- ══ 3RD PARTY RESOURCES × LECTURE MAPPING ══════════════════════════ -->
-        <section class="section-block" id="mapping">
-          <div class="section-divider">
-            <span class="section-divider-text">3rd Party &amp; UWorld QID Mapping Resources</span>
-            <div class="section-divider-line"></div>
-          </div>
-          <p class="section-lead">
-            Every lecture is cross-referenced against the major outside resources so you can build a custom
-            study plan without hunting through indexes. Pick the resources you actually use, then follow
-            the mapping lecture-by-lecture.
-          </p>
-
-          <div class="resource-chips">
-            <span class="res-chip res-chip-bnb">📺 Boards &amp; Beyond</span>
-            <span class="res-chip res-chip-boot">🥾 Bootcamp</span>
-            <span class="res-chip res-chip-path">📕 Pathoma</span>
-            <span class="res-chip res-chip-phy">🎓 Physeo</span>
-            <span class="res-chip res-chip-sk">🎨 Sketchy</span>
-            <span class="res-chip res-chip-uw">⭐ UWorld QIDs</span>
-            <span class="res-chip res-chip-anki">🃏 Anki Tags</span>
-          </div>
-
-          <div class="util-list">
-            <div class="util-row">
-              <div class="util-icon ui-purple">🗂</div>
-              <div class="util-text">
-                <strong>Lecture × 3rd Party Matrix</strong>
-                <span>Side-by-side view of every lecture in the block with the matched BnB / Bootcamp / Pathoma / Physeo / Sketchy content. Use this when you want to plan a week at a glance.</span>
-              </div>
-            </div>
-            <div class="util-row">
-              <div class="util-icon ui-indigo">🔗</div>
-              <div class="util-text">
-                <strong>Per-Lecture Resource Hub</strong>
-                <span>A dedicated card for each lecture with the mapped videos, specific chapter/subchapter references, and the Step 1 content those resources cover.</span>
-              </div>
-            </div>
-            <div class="util-row">
-              <div class="util-icon ui-rose">⭐</div>
-              <div class="util-text">
-                <strong>UWorld QID Mapping</strong>
-                <span>High-yield UWorld QIDs pinned to each lecture. Drill the mapped QIDs at the end of Hub 1 → 2 → 3 to close out a lecture before moving on.</span>
-              </div>
-            </div>
-            <div class="util-row">
-              <div class="util-icon ui-teal">🃏</div>
-              <div class="util-text">
-                <strong>Anki Tag Mapping</strong>
-                <span>Specific BK deck + ANKing tags per lecture. Copy the tag into Anki and instantly filter your review deck to just what was in today's lecture.</span>
-              </div>
-            </div>
-          </div>
-        </section>
 
         <!-- ══ WHERE TO FIND WHAT ══════════════════════════════════════════════ -->
         <section class="section-block" id="where">
@@ -1041,51 +1254,56 @@
             <div class="section-divider-line"></div>
           </div>
           <p class="section-lead">
-            Quick reference — if you're looking for a specific thing, this is the shortest path to it.
+            Quick reference — the shortest path to whatever you're looking for.
           </p>
 
-          <div class="util-list">
-            <div class="util-row">
-              <div class="util-icon ui-indigo">🔎</div>
-              <div class="util-text">
-                <strong>"I want a guided overview of today's lecture."</strong>
-                <span>Block home page → <em>Lecture Study Guides</em>. Pick the lecture. The guide reads like a clean study note with embedded questions.</span>
+          <div class="wtf-grid">
+            <div class="wtf-card">
+              <div class="wtf-head">
+                <div class="wtf-icon ui-indigo">🔎</div>
+                <div class="wtf-q">"Guided overview of today's lecture."</div>
               </div>
+              <div class="wtf-a">→ <em>Lecture Study Guides</em> · clean study note + embedded questions</div>
             </div>
-            <div class="util-row">
-              <div class="util-icon ui-teal">🧠</div>
-              <div class="util-text">
-                <strong>"I want to actively test recall after lecture."</strong>
-                <span>Block home page → <em>Active Drills</em> → pick the lecture → <strong>Hub 1</strong>. Flashcards and fill-in-the-blank.</span>
+
+            <div class="wtf-card">
+              <div class="wtf-head">
+                <div class="wtf-icon ui-teal">🧠</div>
+                <div class="wtf-q">"Actively test recall after lecture."</div>
               </div>
+              <div class="wtf-a">→ <em>Active Drills</em> · <strong>Hub 1</strong> · flashcards &amp; fill-in-the-blank</div>
             </div>
-            <div class="util-row">
-              <div class="util-icon ui-amber">📚</div>
-              <div class="util-text">
-                <strong>"I want Step 1 framing and clinical correlates."</strong>
-                <span>Same lecture page → <strong>Hub 2</strong>. Combines mapped 3rd-party resources with clinical correlates, HY notes, and trap drills.</span>
+
+            <div class="wtf-card">
+              <div class="wtf-head">
+                <div class="wtf-icon ui-amber">📚</div>
+                <div class="wtf-q">"Step 1 framing &amp; clinical correlates."</div>
               </div>
+              <div class="wtf-a">→ <strong>Hub 2</strong> · mapped 3rd-party + HY notes + trap drills</div>
             </div>
-            <div class="util-row">
-              <div class="util-icon ui-rose">🩺</div>
-              <div class="util-text">
-                <strong>"I want to feel what Step 1 vignettes are like."</strong>
-                <span>Same lecture page → <strong>Hub 3</strong>. Timed exam blocks with explanations and a score dashboard.</span>
+
+            <div class="wtf-card">
+              <div class="wtf-head">
+                <div class="wtf-icon ui-rose">🩺</div>
+                <div class="wtf-q">"Feel of Step 1 vignettes."</div>
               </div>
+              <div class="wtf-a">→ <strong>Hub 3</strong> · timed exam blocks + score dashboard</div>
             </div>
-            <div class="util-row">
-              <div class="util-icon ui-purple">🗂</div>
-              <div class="util-text">
-                <strong>"I want to know what BnB / Bootcamp / Pathoma / Physeo / Sketchy covers this lecture."</strong>
-                <span>Block home page → <em>3rd-Party Mapping</em>. Side-by-side matrix for every lecture in the block.</span>
+
+            <div class="wtf-card">
+              <div class="wtf-head">
+                <div class="wtf-icon ui-purple">🗂</div>
+                <div class="wtf-q">"What does BnB / Bootcamp / Pathoma / Physeo / Sketchy cover?"</div>
               </div>
+              <div class="wtf-a">→ <em>3rd-Party Mapping</em> · side-by-side matrix by lecture</div>
             </div>
-            <div class="util-row">
-              <div class="util-icon ui-green">⭐</div>
-              <div class="util-text">
-                <strong>"I want the UWorld QIDs or Anki tags for a lecture."</strong>
-                <span>Block home page → <em>Lecture Resources</em> → per-lecture card. UWorld QIDs and Anki tags are listed directly.</span>
+
+            <div class="wtf-card">
+              <div class="wtf-head">
+                <div class="wtf-icon ui-green">⭐</div>
+                <div class="wtf-q">"UWorld QIDs or Anki tags for a lecture."</div>
               </div>
+              <div class="wtf-a">→ <em>Lecture Resources</em> · per-lecture card with QIDs &amp; tags</div>
             </div>
           </div>
         </section>
@@ -1097,85 +1315,203 @@
             <div class="section-divider-line"></div>
           </div>
           <p class="section-lead">
-            A running list of the most meaningful recent changes to the hub. Most recent first.
+            Recent changes by block. Each entry tags whether it's a <strong>new resource</strong> or an
+            <strong>update</strong> to an existing one, with a Day/Month/Year timestamp.
           </p>
 
-          <div class="update-card">
-            <div class="update-head">
-              <div class="update-title">HoyaDocs 101 page added</div>
-              <div class="update-date">April 2026</div>
-            </div>
-            <ul class="update-list">
-              <li>New <strong>orientation page</strong> (this one) — consolidates how to use the hub, where to find what, and the recommended workflow in one place.</li>
-              <li>The <strong>Recommended Workflow</strong> section has moved here from the Endocrine landing page to keep block landing pages focused on content.</li>
-              <li>Added a <strong>"Where to Find What"</strong> lookup for the most common questions.</li>
-            </ul>
-          </div>
+          <div class="updates-grid">
 
-          <div class="update-card">
-            <div class="update-head">
-              <div class="update-title">Hub 2 canonical formatting rolled out</div>
-              <div class="update-date">April 2026</div>
-            </div>
-            <ul class="update-list">
-              <li>Hub 2 pages now use a <strong>pill-styled source tag</strong>, <strong>LO-prefixed item titles</strong>, and a single combined source-tag span per item.</li>
-              <li>Clinical Correlates and HY Notes are now a <strong>combined tab</strong> — one place, fewer clicks.</li>
-              <li>Lecturer / Georgetown / GUSOM references removed site-wide; "In House" replaces "Slide" everywhere.</li>
-            </ul>
-          </div>
+            <!-- ENDOCRINE HUB UPDATES -->
+            <div class="upd-col upd-endo">
+              <div class="upd-col-head">
+                <span class="upd-col-dot"></span>
+                <span class="upd-col-title">Endocrine Hub</span>
+              </div>
 
-          <div class="update-card">
-            <div class="update-head">
-              <div class="update-title">Hub 3 Step 1 practice pages live</div>
-              <div class="update-date">April 2026</div>
-            </div>
-            <ul class="update-list">
-              <li>Full <strong>USMLE-style practice</strong> now available per lecture — timed exam blocks, clinical vignettes, detailed explanations.</li>
-              <li>New <strong>score dashboard</strong> with dark-grey + gold theme to visually separate Hub 3 from Hubs 1 and 2.</li>
-            </ul>
-          </div>
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-new">New</span>
+                  <span class="upd-item-date">22/04/2026</span>
+                </div>
+                <div class="upd-item-title">HoyaDocs 101 page published</div>
+                <ul class="upd-item-list">
+                  <li>New <strong>orientation page</strong> added to the Endocrine hub — covers how to use the hub, the 7-step workflow, and Where to Find What.</li>
+                  <li>Integrated <strong>feedback Google Form</strong> directly into the hero of every landing page.</li>
+                </ul>
+              </div>
 
-          <div class="update-card">
-            <div class="update-head">
-              <div class="update-title">Endocrine block launched</div>
-              <div class="update-date">April 2026</div>
-            </div>
-            <ul class="update-list">
-              <li>Full <strong>Endocrine block</strong> rolled out with matching structure to GI — landing page, guides, mapping, and all three hubs.</li>
-              <li>New <strong>amber / gold theming</strong> distinguishes Endocrine from GI (green) and Repro (red).</li>
-              <li>Per-lecture <strong>UWorld QID and Anki tag mapping</strong> added for Endocrine.</li>
-            </ul>
-          </div>
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-update">Update</span>
+                  <span class="upd-item-date">18/04/2026</span>
+                </div>
+                <div class="upd-item-title">Hub 2 canonical formatting rolled out</div>
+                <ul class="upd-item-list">
+                  <li>All Endocrine Hub 2 pages updated to the new canonical format — <strong>pill-styled source tag</strong>, <strong>LO-prefixed item titles</strong>, single combined source-tag span per item.</li>
+                  <li>Clinical Correlates + HY Notes merged into a <strong>single combined tab</strong>.</li>
+                  <li>Lecturer / Georgetown / GUSOM references removed; "In House" replaces "Slide" across the block.</li>
+                </ul>
+              </div>
 
-          <div class="update-card">
-            <div class="update-head">
-              <div class="update-title">Site-wide dark mode + universal templates</div>
-              <div class="update-date">March–April 2026</div>
-            </div>
-            <ul class="update-list">
-              <li><strong>Dark mode toggle</strong> added across every hub page. Preference persists between sessions.</li>
-              <li>Every block now builds from the same <strong>hub-builder skill</strong>, so template changes propagate uniformly.</li>
-              <li>New <strong>Hub Audit</strong> and <strong>Hub Status Tracker</strong> tools for spotting broken links and missing content.</li>
-            </ul>
-          </div>
-        </section>
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-new">New</span>
+                  <span class="upd-item-date">14/04/2026</span>
+                </div>
+                <div class="upd-item-title">Hub 3 Step 1 practice pages published</div>
+                <ul class="upd-item-list">
+                  <li>Published <strong>USMLE-style practice</strong> for every Endocrine lecture — timed exam blocks, full-stem vignettes, detailed explanations.</li>
+                  <li>New <strong>score dashboard</strong> (dark-grey + gold) tracks performance across lectures.</li>
+                </ul>
+              </div>
 
-        <!-- ══ FEEDBACK ══════════════════════════════════════════════════════ -->
-        <section class="section-block" id="feedback">
-          <div class="section-divider">
-            <span class="section-divider-text">Questions or Feedback?</span>
-            <div class="section-divider-line"></div>
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-new">New</span>
+                  <span class="upd-item-date">07/04/2026</span>
+                </div>
+                <div class="upd-item-title">Endocrine block launched</div>
+                <ul class="upd-item-list">
+                  <li>Full <strong>Endocrine block</strong> published with matching structure to GI — landing page, lecture guides, 3rd-party mapping, all three hubs.</li>
+                  <li>New <strong>amber / gold theming</strong> distinguishes Endocrine from GI (green) and Repro (rose).</li>
+                  <li>Per-lecture <strong>UWorld QID mapping</strong> and <strong>Anki tag mapping</strong> published.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- GI HUB UPDATES -->
+            <div class="upd-col upd-gi">
+              <div class="upd-col-head">
+                <span class="upd-col-dot"></span>
+                <span class="upd-col-title">GI Hub</span>
+              </div>
+
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-new">New</span>
+                  <span class="upd-item-date">22/04/2026</span>
+                </div>
+                <div class="upd-item-title">HoyaDocs 101 added to GI landing page</div>
+                <ul class="upd-item-list">
+                  <li>New <strong>orientation page</strong> linked from GI landing page.</li>
+                  <li>GI landing page <strong>cleaned up</strong> — Recommended Workflow moved to 101 to keep block home focused on content.</li>
+                </ul>
+              </div>
+
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-new">New</span>
+                  <span class="upd-item-date">12/04/2026</span>
+                </div>
+                <div class="upd-item-title">Hub Audit + Status Tracker tools published</div>
+                <ul class="upd-item-list">
+                  <li>New <strong>Hub Audit</strong> tool for detecting broken links and missing content across GI pages.</li>
+                  <li>New <strong>Hub Status Tracker</strong> gives at-a-glance build status for every lecture.</li>
+                </ul>
+              </div>
+
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-update">Update</span>
+                  <span class="upd-item-date">01/04/2026</span>
+                </div>
+                <div class="upd-item-title">Universal hub-builder skill rolled out</div>
+                <ul class="upd-item-list">
+                  <li>GI now builds from the same <strong>hub-builder skill</strong> used for Endocrine and Repro.</li>
+                  <li>Template changes now <strong>propagate uniformly</strong> across all three blocks.</li>
+                </ul>
+              </div>
+
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-update">Update</span>
+                  <span class="upd-item-date">28/03/2026</span>
+                </div>
+                <div class="upd-item-title">Site-wide dark mode added</div>
+                <ul class="upd-item-list">
+                  <li><strong>Dark mode toggle</strong> added to every GI hub page.</li>
+                  <li>Theme preference now <strong>persists</strong> across sessions via localStorage.</li>
+                </ul>
+              </div>
+
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-new">New</span>
+                  <span class="upd-item-date">05/02/2026</span>
+                </div>
+                <div class="upd-item-title">GI block — foundational release</div>
+                <ul class="upd-item-list">
+                  <li>Original block that established the HoyaDocs pattern — landing page, lecture guides, mapping, 3 drill hubs.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- REPRO HUB UPDATES -->
+            <div class="upd-col upd-repro">
+              <div class="upd-col-head">
+                <span class="upd-col-dot"></span>
+                <span class="upd-col-title">Repro Hub</span>
+              </div>
+
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-new">New</span>
+                  <span class="upd-item-date">22/04/2026</span>
+                </div>
+                <div class="upd-item-title">HoyaDocs 101 wired into Repro</div>
+                <ul class="upd-item-list">
+                  <li>Repro landing page now links to the unified <strong>orientation page</strong>.</li>
+                </ul>
+              </div>
+
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-new">New</span>
+                  <span class="upd-item-date">15/04/2026</span>
+                </div>
+                <div class="upd-item-title">Hub 1 / 2 / 3 progression released</div>
+                <ul class="upd-item-list">
+                  <li>Repro now follows the universal <strong>Hub 1 → Hub 2 → Hub 3</strong> tiering used in GI and Endocrine.</li>
+                  <li>3rd-party mapping (BnB, Bootcamp, Pathoma, Physeo, Sketchy) cross-referenced to every Repro lecture.</li>
+                </ul>
+              </div>
+
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-new">New</span>
+                  <span class="upd-item-date">10/04/2026</span>
+                </div>
+                <div class="upd-item-title">Active Recall Hub published</div>
+                <ul class="upd-item-list">
+                  <li>Dedicated <strong>Repro Active Recall Hub</strong> published with rose / crimson theming.</li>
+                  <li><strong>Per-subject sidebar nav</strong> added (Embryo, Histo, Anatomy, Physio, Path, Pharm, Micro, Radiology, Health Systems).</li>
+                </ul>
+              </div>
+
+              <div class="upd-item">
+                <div class="upd-item-meta">
+                  <span class="upd-type upd-type-update">Update</span>
+                  <span class="upd-item-date">08/04/2026</span>
+                </div>
+                <div class="upd-item-title">Repro lecture guides refreshed</div>
+                <ul class="upd-item-list">
+                  <li>All Repro lecture guides updated to the universal guide template with embedded MCQs and recall drills.</li>
+                </ul>
+              </div>
+
+              <div class="upd-item upd-empty">More Repro-specific updates coming as the block progresses.</div>
+            </div>
+
           </div>
-          <p class="section-lead">
-            Something broken, missing, or unclear? The fastest way to get it fixed is to send a note —
-            this hub is actively maintained.
-          </p>
         </section>
 
         <!-- FOOTER -->
         <footer class="footer">
           <span>HoyaDocs 101 · Built as a shared entry point for every block.</span>
-          <span><strong>Last updated: April 22, 2026</strong></span>
+          <span class="footer-meta">
+            <strong>Last updated: April 22, 2026</strong>
+            <span class="footer-version">v1.4.0</span>
+          </span>
         </footer>
 
       </div>
