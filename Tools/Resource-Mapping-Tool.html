@@ -468,7 +468,7 @@ const LS_STATE_KEY = 'endo_mapping_state_v1';
 // ──────────────────────────────────────────────────────────────────────
 // Boot
 // ──────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', => {
+document.addEventListener('DOMContentLoaded', () => {
  const bundleEl = document.getElementById('tool-bundle');
  try {
  BUNDLE = JSON.parse(bundleEl.textContent);
@@ -476,19 +476,19 @@ document.addEventListener('DOMContentLoaded', => {
  alert('Failed to load embedded data bundle. ' + e.message);
  return;
  }
- loadStateFromLocalStorage;
- hydrateKeyInput;
- populateLectureSelects;
- bindTabs;
- bindApiKeyUi;
- bindUploadUi;
- bindAuditUi;
+ loadStateFromLocalStorage();
+ hydrateKeyInput();
+ populateLectureSelects();
+ bindTabs();
+ bindApiKeyUi();
+ bindUploadUi();
+ bindAuditUi();
 });
 
 // ──────────────────────────────────────────────────────────────────────
 // Working state (mutable copy of baseline_map + baseline_los)
 // ──────────────────────────────────────────────────────────────────────
-function loadStateFromLocalStorage {
+function loadStateFromLocalStorage() {
  try {
  const raw = localStorage.getItem(LS_STATE_KEY);
  if (raw) {
@@ -500,27 +500,27 @@ function loadStateFromLocalStorage {
  STATE = {
  map: JSON.parse(JSON.stringify(BUNDLE.baseline_map)),
  los: JSON.parse(JSON.stringify(BUNDLE.baseline_los)),
- updated: new Date.toISOString,
+ updated: new Date().toISOString(),
  };
 }
-function persistState {
- STATE.updated = new Date.toISOString;
+function persistState() {
+ STATE.updated = new Date().toISOString();
  try { localStorage.setItem(LS_STATE_KEY, JSON.stringify(STATE)); } catch {}
 }
 
 // ──────────────────────────────────────────────────────────────────────
 // API key
 // ──────────────────────────────────────────────────────────────────────
-function hydrateKeyInput {
+function hydrateKeyInput() {
  const saved = localStorage.getItem(LS_KEY);
  if (saved) {
  document.getElementById('apiKeyInput').value = saved;
  document.getElementById('keySaved').style.display = 'inline-flex';
  }
 }
-function bindApiKeyUi {
- document.getElementById('saveKeyBtn').addEventListener('click', => {
- const v = document.getElementById('apiKeyInput').value.trim;
+function bindApiKeyUi() {
+ document.getElementById('saveKeyBtn').addEventListener('click', () => {
+ const v = document.getElementById('apiKeyInput').value.trim();
  if (!v.startsWith('sk-ant-')) {
  alert('That does not look like an Anthropic API key (should start with sk-ant-).');
  return;
@@ -529,16 +529,16 @@ function bindApiKeyUi {
  document.getElementById('keySaved').style.display = 'inline-flex';
  });
 }
-function getApiKey {
+function getApiKey() {
  return localStorage.getItem(LS_KEY) || '';
 }
 
 // ──────────────────────────────────────────────────────────────────────
 // Tabs
 // ──────────────────────────────────────────────────────────────────────
-function bindTabs {
+function bindTabs() {
  document.querySelectorAll('.tab-btn').forEach(btn => {
- btn.addEventListener('click', => {
+ btn.addEventListener('click', () => {
  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
  btn.classList.add('active');
  const tab = btn.dataset.tab;
@@ -551,8 +551,8 @@ function bindTabs {
 // ──────────────────────────────────────────────────────────────────────
 // Help modal
 // ──────────────────────────────────────────────────────────────────────
-window.openHelp = => document.getElementById('helpOverlay').classList.add('open');
-window.closeHelp = => document.getElementById('helpOverlay').classList.remove('open');
+window.openHelp = () => document.getElementById('helpOverlay').classList.add('open');
+window.closeHelp = () => document.getElementById('helpOverlay').classList.remove('open');
 document.getElementById('helpOverlay').addEventListener('click', (e) => {
  if (e.target.id === 'helpOverlay') closeHelp;
 });
@@ -560,7 +560,7 @@ document.getElementById('helpOverlay').addEventListener('click', (e) => {
 // ──────────────────────────────────────────────────────────────────────
 // Lecture selects
 // ──────────────────────────────────────────────────────────────────────
-function populateLectureSelects {
+function populateLectureSelects() {
  const opts = BUNDLE.lectures.map(l =>
  `<option value="${l.lid}">Class ${l.class} · ${escapeHtml(l.title)}</option>`
  ).join('');
@@ -578,32 +578,32 @@ function bindDropZone(zoneId, inputId, listId, textAreaId) {
  const input = document.getElementById(inputId);
  const list = document.getElementById(listId);
  const ta = document.getElementById(textAreaId);
- const filesByKey = new Map;
+ const filesByKey = new Map();
 
- const render = => {
+ const render = () => {
  list.innerHTML = '';
- for (const [key, entry] of filesByKey.entries) {
+ for (const [key, entry] of filesByKey.entries()) {
  const li = document.createElement('li');
  li.innerHTML = `
  <span>📄</span>
  <strong>${escapeHtml(entry.name)}</strong>
- <span style="color:var(-muted);font-size:.72rem">(${(entry.size/1024).toFixed(1)} KB, ${entry.text.length.toLocaleString} chars)</span>
+ <span style="color:var(-muted);font-size:.72rem">(${(entry.size/1024).toFixed(1)} KB, ${entry.text.length.toLocaleString()} chars)</span>
  <button class="remove-btn" aria-label="Remove">×</button>
  `;
- li.querySelector('.remove-btn').addEventListener('click', => {
+ li.querySelector('.remove-btn').addEventListener('click', () => {
  filesByKey.delete(key);
- render;
- syncPreview;
+ render();
+ syncPreview();
  });
  list.appendChild(li);
  }
  };
- const syncPreview = => {
+ const syncPreview = () => {
  const parts = [];
- for (const e of filesByKey.values) {
+ for (const e of filesByKey.values()) {
  parts.push(`\n\n── ${e.name} ──\n${e.text}`);
  }
- ta.value = parts.join('').trim;
+ ta.value = parts.join('').trim();
  };
 
  const ingest = async (fileList) => {
@@ -613,25 +613,25 @@ function bindDropZone(zoneId, inputId, listId, textAreaId) {
  let text = '';
  try {
  if (/\.docx$/i.test(file.name)) {
- const buf = await file.arrayBuffer;
+ const buf = await file.arrayBuffer();
  const r = await window.mammoth.extractRawText({ arrayBuffer: buf });
- text = r.value.trim;
+ text = r.value.trim();
  } else if (/\.pdf$/i.test(file.name)) {
  if (!window.pdfjsLib) {
  alert('PDF library did not load. Please refresh and try again.');
  continue;
  }
- const buf = await file.arrayBuffer;
+ const buf = await file.arrayBuffer();
  const pdf = await window.pdfjsLib.getDocument({ data: buf }).promise;
  const parts = [];
  for (let i = 1; i <= pdf.numPages; i++) {
  const page = await pdf.getPage(i);
- const tc = await page.getTextContent;
+ const tc = await page.getTextContent();
  parts.push(tc.items.map(it => it.str).join(' '));
  }
- text = parts.join('\n\n').trim;
+ text = parts.join('\n\n').trim();
  } else if (/\.(txt|md|markdown)$/i.test(file.name)) {
- text = (await file.text).trim;
+ text = (await file.text()).trim();
  } else {
  alert(`Unsupported file type: ${file.name} (use .pdf, .docx, or .txt/.md)`);
  continue;
@@ -642,15 +642,15 @@ function bindDropZone(zoneId, inputId, listId, textAreaId) {
  }
  filesByKey.set(key, { name: file.name, size: file.size, text });
  }
- render;
- syncPreview;
+ render();
+ syncPreview();
  };
 
- zone.addEventListener('click', => input.click);
- zone.addEventListener('dragover', (e) => { e.preventDefault; zone.classList.add('drag-over'); });
- zone.addEventListener('dragleave', => zone.classList.remove('drag-over'));
+ zone.addEventListener('click', () => input.click());
+ zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+ zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
  zone.addEventListener('drop', (e) => {
- e.preventDefault;
+ e.preventDefault();
  zone.classList.remove('drag-over');
  ingest(e.dataTransfer.files);
  });
@@ -660,29 +660,29 @@ function bindDropZone(zoneId, inputId, listId, textAreaId) {
 // ──────────────────────────────────────────────────────────────────────
 // Upload panel
 // ──────────────────────────────────────────────────────────────────────
-function bindUploadUi {
+function bindUploadUi() {
  bindDropZone('dropZone', 'fileInput', 'filesList', 'extractedContent');
  document.getElementById('runMapBtn').addEventListener('click', runUploadMapping);
  document.getElementById('clearBtn').addEventListener('click', clearUpload);
- document.getElementById('downloadMapXlsx').addEventListener('click', => downloadMappingXlsx(LAST_UPLOAD_RESULT));
- document.getElementById('downloadQidXlsx').addEventListener('click', => downloadQidXlsx(LAST_UPLOAD_RESULT));
+ document.getElementById('downloadMapXlsx').addEventListener('click', () => downloadMappingXlsx(LAST_UPLOAD_RESULT));
+ document.getElementById('downloadQidXlsx').addEventListener('click', () => downloadQidXlsx(LAST_UPLOAD_RESULT));
  document.getElementById('applyToBaseline').addEventListener('click', applyUploadToState);
 }
-function clearUpload {
+function clearUpload() {
  document.getElementById('filesList').innerHTML = '';
  document.getElementById('extractedContent').value = '';
  document.getElementById('resultsCard').style.display = 'none';
  document.getElementById('uploadStatus').innerHTML = '';
  LAST_UPLOAD_RESULT = null;
 }
-async function runUploadMapping {
- const key = getApiKey;
+async function runUploadMapping() {
+ const key = getApiKey();
  if (!key) {
  setStatus('uploadStatus', 'error', 'Please save your Anthropic API key first.');
  return;
  }
  const lid = document.getElementById('lectureSelect').value;
- const content = document.getElementById('extractedContent').value.trim;
+ const content = document.getElementById('extractedContent').value.trim();
  if (!content || content.length < 50) {
  setStatus('uploadStatus', 'error', 'Lecture content is empty or very short. Drop a file or paste LOs.');
  return;
@@ -690,7 +690,7 @@ async function runUploadMapping {
  const lec = BUNDLE.lectures.find(l => l.lid === lid);
  setStatus('uploadStatus', 'working', `Calling Claude for ${lec.lid} — ${lec.title}…`);
  showLog('uploadLog', true);
- logLine('uploadLog', `Sending ${content.length.toLocaleString} chars of lecture content to Claude.`);
+ logLine('uploadLog', `Sending ${content.length.toLocaleString()} chars of lecture content to Claude.`);
 
  const btn = document.getElementById('runMapBtn');
  btn.disabled = true;
@@ -713,12 +713,12 @@ async function runUploadMapping {
  btn.disabled = false;
  }
 }
-function applyUploadToState {
+function applyUploadToState() {
  if (!LAST_UPLOAD_RESULT) return;
  const { lid } = LAST_UPLOAD_RESULT;
  STATE.map[lid] = mappingWithOverrides(LAST_UPLOAD_RESULT);
  STATE.los[lid] = LAST_UPLOAD_RESULT.mapping.lecture_text_excerpts || STATE.los[lid];
- persistState;
+ persistState();
  const nKept = countOverrides(LAST_UPLOAD_RESULT.overrides);
  const suffix = nKept ? ` (kept ${nKept} item${nKept===1?'':'s'} marked for removal).` : '.';
  setStatus('uploadStatus', 'ok', `✓ Applied to working copy. ${lid} is now updated${suffix}`);
@@ -727,44 +727,44 @@ function applyUploadToState {
 // ──────────────────────────────────────────────────────────────────────
 // Audit panel
 // ──────────────────────────────────────────────────────────────────────
-function bindAuditUi {
+function bindAuditUi() {
  bindDropZone('auditDropZone', 'auditFileInput', 'auditFilesList', 'auditExtractedContent');
  document.getElementById('runAuditBtn').addEventListener('click', runAuditMapping);
- document.getElementById('loadStateBtn').addEventListener('click', => document.getElementById('stateFileInput').click);
+ document.getElementById('loadStateBtn').addEventListener('click', () => document.getElementById('stateFileInput').click());
  document.getElementById('stateFileInput').addEventListener('change', loadAuditState);
  document.getElementById('resetStateBtn').addEventListener('click', resetAuditState);
  document.getElementById('saveStateBtn').addEventListener('click', saveAuditState);
  document.getElementById('auditApplyBtn').addEventListener('click', applyAuditToState);
- document.getElementById('auditDownloadMapXlsx').addEventListener('click', => downloadMappingXlsx(LAST_AUDIT_RESULT));
- document.getElementById('auditDownloadQidXlsx').addEventListener('click', => downloadQidXlsx(LAST_AUDIT_RESULT));
- refreshStateStatus;
+ document.getElementById('auditDownloadMapXlsx').addEventListener('click', () => downloadMappingXlsx(LAST_AUDIT_RESULT));
+ document.getElementById('auditDownloadQidXlsx').addEventListener('click', () => downloadQidXlsx(LAST_AUDIT_RESULT));
+ refreshStateStatus();
 }
-function refreshStateStatus {
+function refreshStateStatus() {
  const el = document.getElementById('stateStatus');
  if (!STATE) { el.textContent = ''; return; }
  const n = Object.keys(STATE.map).length;
  el.textContent = `Working state: ${n} lectures · updated ${STATE.updated || 'baseline'}`;
 }
-function resetAuditState {
+function resetAuditState() {
  if (!confirm('Reset working state to the embedded Endocrine baseline? This clears any applied changes.')) return;
  STATE = {
  map: JSON.parse(JSON.stringify(BUNDLE.baseline_map)),
  los: JSON.parse(JSON.stringify(BUNDLE.baseline_los)),
- updated: new Date.toISOString,
+ updated: new Date().toISOString(),
  };
- persistState;
- refreshStateStatus;
+ persistState();
+ refreshStateStatus();
  setStatus('auditStatus', 'ok', 'Reset to baseline.');
 }
 function loadAuditState(e) {
  const file = e.target.files[0];
  if (!file) return;
- const reader = new FileReader;
- reader.onload = => {
+ const reader = new FileReader();
+ reader.onload = () => {
  try {
  STATE = JSON.parse(reader.result);
- persistState;
- refreshStateStatus;
+ persistState();
+ refreshStateStatus();
  setStatus('auditStatus', 'ok', `Loaded state from ${file.name}.`);
  } catch (err) {
  setStatus('auditStatus', 'error', 'Could not parse state file: ' + err.message);
@@ -772,15 +772,15 @@ function loadAuditState(e) {
  };
  reader.readAsText(file);
 }
-function saveAuditState {
+function saveAuditState() {
  const blob = new Blob([JSON.stringify(STATE, null, 2)], { type: 'application/json' });
  downloadBlob(blob, 'endocrine-mapping-state.json');
 }
-async function runAuditMapping {
- const key = getApiKey;
+async function runAuditMapping() {
+ const key = getApiKey();
  if (!key) { setStatus('auditStatus', 'error', 'Please save your Anthropic API key first.'); return; }
  const lid = document.getElementById('auditLectureSelect').value;
- const content = document.getElementById('auditExtractedContent').value.trim;
+ const content = document.getElementById('auditExtractedContent').value.trim();
  if (!content) { setStatus('auditStatus', 'error', 'Upload / paste lecture content first.'); return; }
  const lec = BUNDLE.lectures.find(l => l.lid === lid);
  // hash-check
@@ -811,13 +811,13 @@ async function runAuditMapping {
  btn.disabled = false;
  }
 }
-function applyAuditToState {
+function applyAuditToState() {
  if (!LAST_AUDIT_RESULT) return;
  const { lid } = LAST_AUDIT_RESULT;
  STATE.map[lid] = mappingWithOverrides(LAST_AUDIT_RESULT);
- STATE.los[lid] = (document.getElementById('auditExtractedContent').value || '').split('\n').filter(x => x.trim);
- persistState;
- refreshStateStatus;
+ STATE.los[lid] = (document.getElementById('auditExtractedContent').value || '').split('\n').filter(x => x.trim());
+ persistState();
+ refreshStateStatus();
  const nKept = countOverrides(LAST_AUDIT_RESULT.overrides);
  const suffix = nKept ? ` (kept ${nKept} item${nKept===1?'':'s'} marked for removal).` : '.';
  setStatus('auditStatus', 'ok', `✓ Applied diff for ${lid}${suffix} Save state file for long-term persistence.`);
@@ -840,15 +840,15 @@ async function callClaudeForMapping(lec, content) {
  'content-type': 'application/json',
  'anthropic-version': '2023-06-01',
  'anthropic-dangerous-direct-browser-access': 'true',
- 'x-api-key': getApiKey,
+ 'x-api-key': getApiKey(),
  },
  body: JSON.stringify(body),
  });
  if (!res.ok) {
- const txt = await res.text;
+ const txt = await res.text();
  throw new Error(`Anthropic API ${res.status}: ${txt.slice(0, 300)}`);
  }
- const data = await res.json;
+ const data = await res.json();
  const textOut = (data.content || []).map(c => c.text || '').join('');
  // Extract JSON object from response
  const m = textOut.match(/\{[\s\S]*\}/);
@@ -1129,8 +1129,8 @@ function renderAuditDiff(diff, mapping) {
 // want to keep anyway? Keyed by resource (or "uworld") → Set of subchapter
 // strings (or QID numbers). A "kept" item will be re-inserted into the final
 // mapping when applying / exporting.
-function emptyOverrides {
- return { bootcamp:new Set, bb:new Set, pathoma:new Set, fa:new Set, physeo:new Set, sketchy:new Set, uworld:new Set };
+function emptyOverrides() {
+ return { bootcamp:new Set(), bb:new Set(), pathoma:new Set(), fa:new Set(), physeo:new Set(), sketchy:new Set(), uworld:new Set() };
 }
 function countOverrides(ov) {
  if (!ov) return 0;
@@ -1144,7 +1144,7 @@ function mappingWithOverrides(result) {
  const baseline = STATE.map[result.lid] || {};
  const ov = result.overrides || emptyOverrides;
  for (const rk of ['bootcamp','bb','pathoma','fa','physeo','sketchy']) {
- const kept = ov[rk] || new Set;
+ const kept = ov[rk] || new Set();
  if (!kept.size) continue;
  const newSubs = new Set(flat[rk].map(x => normalizeSub(x.sub)));
  for (const x of (baseline[rk] || [])) {
@@ -1155,7 +1155,7 @@ function mappingWithOverrides(result) {
  }
  }
  // UWorld QIDs
- const keptQ = ov.uworld || new Set;
+ const keptQ = ov.uworld || new Set();
  if (keptQ.size) {
  const newQ = new Set(flat.uworld_qids);
  for (const q of (baseline.uworld_qids || [])) {
@@ -1305,8 +1305,8 @@ function renderResourceCell(entries) {
 // Build per-resource subchapter → cards/tag lookup (flat index into catalog)
 function _subchapterIndex(rk) {
  const cat = BUNDLE.resources[rk];
- if (!cat) return new Map;
- const idx = new Map;
+ if (!cat) return new Map();
+ const idx = new Map();
  for (const subs of Object.values(cat.chapters)) {
  for (const s of subs) {
  idx.set(normalizeSub(s.sub), { cards: s.cards, tag: s.tag, chap: s.chap });
@@ -1323,7 +1323,7 @@ async function downloadMappingXlsx(currentResult) {
  const working = JSON.parse(JSON.stringify(STATE.map));
  working[currentResult.lid] = mappingWithOverrides(currentResult);
 
- const wb = new ExcelJS.Workbook;
+ const wb = new ExcelJS.Workbook();
  wb.creator = 'HoyaDocs Endocrine Resource Mapping Tool';
 
  // ── MASTER SHEET ─────────────────────────────────────────────────────
@@ -1350,7 +1350,7 @@ async function downloadMappingXlsx(currentResult) {
 
  // Header row
  const masterHeaders = ['Class #','Subject','Lecture','Bootcamp','Boards & Beyond','Pathoma','First Aid','Physeo','Sketchy','UWorld QIDs'];
- master.getRow(2).values = masterHeaders;
+ master.getRow(2).values() = masterHeaders;
  master.getRow(2).height = 24.8;
  for (let c = 1; c <= masterHeaders.length; c++) {
  const cell = master.getCell(2, c);
@@ -1369,7 +1369,7 @@ async function downloadMappingXlsx(currentResult) {
  for (const lec of lecturesToExport) {
  const m = working[lec.lid] || {};
  const row = master.getRow(r);
- row.values = [
+ row.values() = [
  lec.class, lec.subject, lec.title,
  renderResourceCell(m.bootcamp),
  renderResourceCell(m.bb),
@@ -1405,7 +1405,7 @@ async function downloadMappingXlsx(currentResult) {
 
  // Header row — deep maroon
  const perHeaders = ['Subchapter','Lecture','Learning Objectives','Runtime (min)','Anki Cards','Anki Tag','UWorld QIDs'];
- ws.getRow(1).values = perHeaders;
+ ws.getRow(1).values() = perHeaders;
  ws.getRow(1).height = 24.8;
  for (let c = 1; c <= perHeaders.length; c++) {
  const cell = ws.getCell(1, c);
@@ -1464,7 +1464,7 @@ async function downloadMappingXlsx(currentResult) {
  firstRowForSub = false;
 
  const row = ws.getRow(dataRow);
- row.values = [
+ row.values() = [
  subKey,
  a.lec.title,
  losText,
@@ -1494,7 +1494,7 @@ async function downloadMappingXlsx(currentResult) {
  }
 
  // Write file
- const buf = await wb.xlsx.writeBuffer;
+ const buf = await wb.xlsx.writeBuffer();
  const blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
  downloadBlob(blob, 'Endocrine_Resource_Mapping.xlsx');
 }
@@ -1506,7 +1506,7 @@ async function downloadQidXlsx(currentResult) {
  const working = JSON.parse(JSON.stringify(STATE.map));
  working[currentResult.lid] = mappingWithOverrides(currentResult);
 
- const wb = new ExcelJS.Workbook;
+ const wb = new ExcelJS.Workbook();
  wb.creator = 'HoyaDocs Endocrine Resource Mapping Tool';
 
  // Filter to only the lecture being mapped.
@@ -1531,7 +1531,7 @@ async function downloadQidXlsx(currentResult) {
  ];
  ws.views = [{ state: 'frozen', xSplit: 0, ySplit: 1 }];
  const qHeaders = ['QID','Mapped Lectures','Topic','Subject','Repeats','Educational Objective'];
- ws.getRow(1).values = qHeaders;
+ ws.getRow(1).values() = qHeaders;
  ws.getRow(1).height = 24.8;
  for (let c = 1; c <= qHeaders.length; c++) {
  const cell = ws.getCell(1, c);
@@ -1541,7 +1541,7 @@ async function downloadQidXlsx(currentResult) {
  }
 
  // Filter QIDs to only those claimed by the target lecture
- const targetQids = new Set;
+ const targetQids = new Set();
  for (const lec of lecturesToExport) {
  for (const q of ((working[lec.lid] || {}).uworld_qids || [])) targetQids.add(q);
  }
@@ -1552,7 +1552,7 @@ async function downloadQidXlsx(currentResult) {
  for (const q of qids) {
  const lids = qidToLid[q.qid] || [q.primary_lid];
  const row = ws.getRow(r);
- row.values = [q.qid, lids.join(', '), q.topic, q.subject, q.repeats, q.edo];
+ row.values() = [q.qid, lids.join(', '), q.topic, q.subject, q.repeats, q.edo];
  const highRisk = q.repeats >= 3;
  const fill = highRisk ? XLSX_STYLE.moccasin : (r % 2 === 0 ? XLSX_STYLE.creamFill : XLSX_STYLE.whiteFill);
  for (let c = 1; c <= qHeaders.length; c++) {
@@ -1570,7 +1570,7 @@ async function downloadQidXlsx(currentResult) {
  ws2.columns = [{ width: 8 }, { width: 42 }, { width: 60 }];
  ws2.views = [{ state: 'frozen', xSplit: 0, ySplit: 1 }];
  const lHeaders = ['Class #','Lecture','UWorld QIDs'];
- ws2.getRow(1).values = lHeaders;
+ ws2.getRow(1).values() = lHeaders;
  ws2.getRow(1).height = 24.8;
  for (let c = 1; c <= lHeaders.length; c++) {
  const cell = ws2.getCell(1, c);
@@ -1582,7 +1582,7 @@ async function downloadQidXlsx(currentResult) {
  for (const lec of lecturesToExport) {
  const qs = ((working[lec.lid] || {}).uworld_qids || []).slice.sort((a,b)=>a-b);
  const row = ws2.getRow(r);
- row.values = [lec.class, lec.title, qs.join(', ')];
+ row.values() = [lec.class, lec.title, qs.join(', ')];
  const fill = r % 2 === 0 ? XLSX_STYLE.creamFill : XLSX_STYLE.whiteFill;
  for (let c = 1; c <= lHeaders.length; c++) {
  const cell = ws2.getCell(r, c);
@@ -1594,7 +1594,7 @@ async function downloadQidXlsx(currentResult) {
  r++;
  }
 
- const buf = await wb.xlsx.writeBuffer;
+ const buf = await wb.xlsx.writeBuffer();
  const blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
  downloadBlob(blob, 'HoyaDocs-UWorld-QID-Mapping.xlsx');
 }
@@ -1616,12 +1616,12 @@ function showLog(id, visible) {
 }
 function logLine(id, msg) {
  const el = document.getElementById(id);
- const ts = new Date.toLocaleTimeString;
+ const ts = new Date().toLocaleTimeString();
  el.insertAdjacentHTML('beforeend', `<div><span class="ts">${ts}</span>${escapeHtml(msg)}</div>`);
  el.scrollTop = el.scrollHeight;
 }
 async function sha256(s) {
- const enc = new TextEncoder.encode(s);
+ const enc = new TextEncoder().encode(s);
  const buf = await crypto.subtle.digest('SHA-256', enc);
  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
@@ -1629,8 +1629,8 @@ function downloadBlob(blob, name) {
  const url = URL.createObjectURL(blob);
  const a = document.createElement('a');
  a.href = url; a.download = name;
- a.click;
- setTimeout( => URL.revokeObjectURL(url), 2000);
+ a.click();
+ setTimeout( () => URL.revokeObjectURL(url), 2000);
 }
 
 </script>
