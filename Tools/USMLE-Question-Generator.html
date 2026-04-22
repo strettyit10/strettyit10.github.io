@@ -310,18 +310,91 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   .hidden { display: none !important; }
+
+  /* HoyaDocs top-left brand link */
+  .brand-link {
+    position: absolute;
+    top: 18px;
+    left: 24px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--primary-dark);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .brand-link:hover {
+    background: #e2e8f0;
+    text-decoration: underline;
+  }
+  @media (max-width: 640px) {
+    .brand-link {
+      position: static;
+      display: inline-block;
+      margin: 10px 0 0 16px;
+    }
+  }
+
+  /* AI preview question cards: answer toggling */
+  .ai-question-card:not(.answer-shown) .choice.reveal-correct {
+    border-color: var(--border);
+    background: #fff;
+  }
+  .ai-question-card:not(.answer-shown) .choice.reveal-other {
+    opacity: 1;
+  }
+  .ai-question-card:not(.answer-shown) .correct-badge { display: none; }
+  .ai-question-card:not(.answer-shown) .ai-explanation { display: none; }
+  .toggle-answer-btn {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary-dark);
+    transition: background 0.15s;
+  }
+  .toggle-answer-btn:hover { background: #e2e8f0; }
+  .ai-question-card.answer-shown .toggle-answer-btn {
+    background: var(--accent-light);
+    color: #065f46;
+    border-color: #a7f3d0;
+  }
 </style>
 </head>
 <body>
+<a class="brand-link" href="https://hoyadocs.com/documentation" target="_blank" rel="noopener">HoyaDocs</a>
 <div class="container">
   <header>
     <h1>USMLE Step 1 Question Generator</h1>
-    <p>Custom quizzes drawn from a curated bank mapped to the USMLE Content Outline &amp; Physician Tasks/Competencies</p>
   </header>
 
   <div id="setup-screen">
     <div class="card">
+      <h3 style="color:var(--text-muted);">About this tool</h3>
+      <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.7;">
+        Questions follow NBME/USMLE Step 1 conventions studied from the 2021, 2022, 2024, and 2026 official Sample Test Questions: clinical vignette with demographics, history, exam findings, labs, and a single best-answer stem with A-E options. Each item is tagged with the corresponding <strong>USMLE Content Outline</strong> category and subcategory, the relevant <strong>Physician Task/Competency</strong>, and a <strong>First Aid 2023</strong> page reference.
+      </p>
+    </div>
+
+    <div class="card">
       <h2>Custom Quiz Setup</h2>
+
+      <div class="form-grid">
+        <div>
+          <label for="api-key">API Key (sk-ant-…)</label>
+          <input type="password" id="api-key" placeholder="sk-ant-api03-…" autocomplete="off">
+          <p class="help">Stored only in this browser tab; transmitted only to the provider's API endpoint.</p>
+        </div>
+        <div>
+          <label style="margin-top:24px;"><input type="checkbox" id="use-api" style="width:auto;margin-right:6px;"> Use AI</label>
+          <p class="help">When checked, AI generation is enabled (requires an API key above).</p>
+        </div>
+      </div>
 
       <div class="form-grid">
         <div>
@@ -352,35 +425,34 @@
         </div>
       </div>
 
-      <details>
-        <summary>Advanced: AI-generated questions (optional)</summary>
-        <div class="info-banner" style="margin-top:12px;">
-          If you supply an API key, the tool can generate additional on-demand questions in NBME style. If left blank, the tool uses only the curated bank. Use the <strong>Preview AI Question</strong> button to inspect a single AI-generated sample before running a quiz.
+      <div class="form-grid">
+        <div>
+          <label for="inhouse-subject">In House Subject (Optional)</label>
+          <select id="inhouse-subject">
+            <option value="">— None —</option>
+            <option value="Endocrine">Endocrine</option>
+            <option value="GI">GI</option>
+            <option value="Repro">Repro</option>
+          </select>
+          <p class="help">Maps to a HoyaDocs block.</p>
         </div>
-        <div class="form-row">
-          <label for="api-key">API Key (sk-ant-…)</label>
-          <input type="password" id="api-key" placeholder="sk-ant-api03-…" autocomplete="off">
-          <p class="help">Stored only in this browser tab; transmitted only to the provider's API endpoint.</p>
+        <div>
+          <label for="inhouse-lecture">Lecture</label>
+          <select id="inhouse-lecture" disabled>
+            <option value="">— None —</option>
+          </select>
+          <p class="help">Populated after subject is chosen.</p>
         </div>
-        <div class="form-row">
-          <label><input type="checkbox" id="use-api" style="width:auto;margin-right:6px;"> Use AI to generate fresh questions when the curated bank doesn't have enough matches</label>
-        </div>
-      </details>
+      </div>
 
       <div class="btn-row">
-        <button class="btn-primary" id="start-quiz">Start Quiz</button>
-        <button class="btn-secondary" id="preview-count">Preview match count</button>
-        <button class="btn-secondary" id="preview-ai">Preview AI Question</button>
+        <button class="btn-secondary" id="preview-count">Find Matched USMLE Qs</button>
+        <button class="btn-secondary" id="preview-ai" disabled>Generate AI USMLE Qs</button>
+        <button class="btn-primary" id="start-quiz">Quiz Mode</button>
       </div>
       <div id="preview-result" style="margin-top:10px; font-size:0.9rem; color:var(--text-muted);"></div>
-      <div id="ai-preview-area" style="margin-top:18px;"></div>
-    </div>
 
-    <div class="card">
-      <h3 style="color:var(--text-muted);">About this tool</h3>
-      <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.7;">
-        Questions follow NBME/USMLE Step 1 conventions studied from the 2021, 2022, 2024, and 2026 official Sample Test Questions: clinical vignette with demographics, history, exam findings, labs, and a single best-answer stem with A-E options. Each item is tagged with the corresponding <strong>USMLE Content Outline</strong> category and subcategory, the relevant <strong>Physician Task/Competency</strong>, and a <strong>First Aid 2023</strong> page reference.
-      </p>
+      <div id="ai-preview-area" style="margin-top:18px;"></div>
     </div>
   </div>
 
@@ -629,6 +701,111 @@ const USMLE_OUTLINE = {
     "Systems-based practice and patient safety",
     "Quality improvement",
     "Health care policy and economics"
+  ]
+};
+
+/* ================================================================
+   IN HOUSE LECTURE MAP
+   Maps HoyaDocs block subjects to their lecture titles
+   (titles only — no subject prefix, no professor names).
+   Ordered by course sequence.
+   ================================================================ */
+const LECTURE_MAP = {
+  "Endocrine": [
+    "Intro to Hormones",
+    "Hypothalamic-Pituitary Relationships (part 1)",
+    "Hypothalamic-Pituitary Relationships (part 2)",
+    "Adrenal Hormone Synthesis & Action",
+    "Sex Steroid Synthesis & Action",
+    "Posterior Pituitary Hormones",
+    "Pituitary Pathology",
+    "Thyroid, Parathyroid, Adrenal",
+    "Thyroid Hormone Synthesis and Action",
+    "Thyroid and Parathyroid",
+    "Diagnosis & Treatment of Pituitary and Thyroid Disorders",
+    "Pathophysiology of Diabetes Mellitus",
+    "Type I & II Diabetes",
+    "Hypothalamic-Pituitary-Adrenal Axis",
+    "Adrenal Pathology",
+    "Diagnosis and Treatment of Adrenal Disorders",
+    "TBL Case Discussion — Pituitary & Thyroid Disorders",
+    "Stress, Stress Hormones & Pathophysiology Integration",
+    "Endocrine Path Lab",
+    "Diabetes Clinical Cases"
+  ],
+  "GI": [
+    "IL GI Overview",
+    "Introduction / Motility",
+    "Anterior Abdominal Wall / Hernia",
+    "Esophagus / Stomach / Intestines",
+    "IL Bile Workshop & Making a Micelle",
+    "GI Primer",
+    "Abdominal Viscera I — GI Tract",
+    "Secretions I & II",
+    "GI Embryology",
+    "Abdominal Viscera II — Liver & Pancreas",
+    "Overview of the Liver",
+    "Esophagus / Stomach Disease",
+    "Digestion & Absorption I & II",
+    "Intestinal Pathology I & II",
+    "Poisoning Conferences & Cases",
+    "GI Lab",
+    "Treatment of Peptic Ulcer, GERD & Other GI Disorders",
+    "GI Infections",
+    "Parasitology",
+    "Intestinal Pathology Case Review",
+    "Retroperitoneum",
+    "Abdominal Pain",
+    "Liver & Biliary Tract",
+    "Liver Disease I & II",
+    "Liver Enzymes",
+    "Pancreas Disease",
+    "Liver Pancreas Lab",
+    "PSW Cholera & Lactose Intolerance"
+  ],
+  "Repro": [
+    "Module Orientation",
+    "IL Urogenital Primer",
+    "Urogenital System",
+    "Female Reproductive System",
+    "Male Reproductive System",
+    "Endocrinology — Ovary & Female I & II",
+    "Pelvic Structure & Neurovasculature",
+    "CCS1 — Ovary & Female Reproductive Tract",
+    "Pelvic Viscera & Perineum",
+    "Sexual Health & Development I & II",
+    "GA Lab 1",
+    "Endocrinology — Testes & Male Reproductive Tract",
+    "Ovary & Testes",
+    "GA Lab 2",
+    "Contraception",
+    "Fertility & Infertility",
+    "Ovary & Testes Lab",
+    "Obstetrical Placenta",
+    "Endocrinology — Pregnancy, Labor, Lactation",
+    "SG5 Guideline-Directed Care",
+    "Pregnancy 101",
+    "Pelvic Imaging",
+    "Psychosocial Pregnancy & Postpartum",
+    "Menopause",
+    "Breast Diseases",
+    "PE Female Pelvis GYN Exam",
+    "Breast Clinical",
+    "Sexual History Taking",
+    "PE Breast Exam",
+    "SG Sexual History Taking",
+    "Disorders of Cervix & HPV",
+    "Disorders of Vulva & Uterus",
+    "GYN Case Review",
+    "Breast GYN Lab",
+    "Male Pelvis GU Exam",
+    "STI",
+    "CCS3 — Sexuality, Illness, Disability",
+    "Prostate",
+    "IL Sexual Boundary Issues",
+    "Prostate Clinical",
+    "Hormone Therapy & Cancer",
+    "LGBTQ I & II"
   ]
 };
 
@@ -1993,14 +2170,40 @@ function populateSubcategories() {
   }
 }
 
-function filterBank(category, subcategory, topic) {
+function populateInHouseLectures() {
+  const subject = $("inhouse-subject").value;
+  const lecSelect = $("inhouse-lecture");
+  lecSelect.innerHTML = '<option value="">— None —</option>';
+  if (subject && LECTURE_MAP[subject]) {
+    LECTURE_MAP[subject].forEach(lecture => {
+      const opt = document.createElement("option");
+      opt.value = lecture;
+      opt.textContent = lecture;
+      lecSelect.appendChild(opt);
+    });
+    lecSelect.disabled = false;
+  } else {
+    lecSelect.disabled = true;
+  }
+}
+
+function filterBank(category, subcategory, topic, inhouseLecture) {
+  // Build a combined keyword needle: topic + lecture (loose OR-match on the vignette)
   return QUESTION_BANK.filter(q => {
     if (category && q.category !== category) return false;
     if (subcategory && q.subcategory !== subcategory) return false;
+    const haystack = (q.topic + " " + q.vignette + " " + q.stem).toLowerCase();
     if (topic) {
-      const needle = topic.toLowerCase();
-      const haystack = (q.topic + " " + q.vignette + " " + q.stem).toLowerCase();
-      if (!haystack.includes(needle)) return false;
+      if (!haystack.includes(topic.toLowerCase())) return false;
+    }
+    if (inhouseLecture) {
+      // Extract content words from lecture title (ignore roman numerals, connectors)
+      const words = inhouseLecture.toLowerCase()
+        .replace(/[—\-\/&]/g, " ")
+        .split(/\s+/)
+        .filter(w => w.length > 3 && !/^(and|the|with|into|from|ii|iii|iv|vi)$/.test(w));
+      // Require at least one meaningful word to appear in the question
+      if (words.length > 0 && !words.some(w => haystack.includes(w))) return false;
     }
     return true;
   });
@@ -2010,14 +2213,17 @@ function previewCount() {
   const cat = $("category").value;
   const sub = $("subcategory").value;
   const topic = $("topic").value.trim();
-  const matches = filterBank(cat, sub, topic);
+  const inhouseLecture = $("inhouse-lecture").value;
+  const matches = filterBank(cat, sub, topic, inhouseLecture);
   const msg = $("preview-result");
   if (matches.length === 0) {
-    msg.textContent = "No matching questions in the curated bank. Narrow the topic, broaden the category, or enable API generation.";
+    msg.textContent = "No matching questions in the curated bank. Narrow the topic, broaden the category, or use AI generation.";
     msg.style.color = "var(--danger)";
+    $("ai-preview-area").innerHTML = "";
   } else {
     msg.textContent = `Found ${matches.length} matching question${matches.length===1?"":"s"} in the bank.`;
     msg.style.color = "var(--accent)";
+    renderAIPreview(matches, { source: "Bank" });
   }
 }
 
@@ -2035,13 +2241,15 @@ async function startQuiz() {
   const cat = $("category").value;
   const sub = $("subcategory").value;
   const topic = $("topic").value.trim();
+  const inhouseSubject = $("inhouse-subject").value;
+  const inhouseLecture = $("inhouse-lecture").value;
   const useAPI = $("use-api").checked;
   const apiKey = $("api-key").value.trim();
 
   state.apiKey = apiKey;
   state.usingAPI = useAPI && apiKey.length > 0;
 
-  let pool = filterBank(cat, sub, topic);
+  let pool = filterBank(cat, sub, topic, inhouseLecture);
 
   if (pool.length === 0 && !state.usingAPI) {
     alert("No matching questions in the bank. Broaden filters or enable AI generation.");
@@ -2057,13 +2265,13 @@ async function startQuiz() {
     btn.innerHTML = '<span class="spinner"></span>Generating AI questions…';
     try {
       const needed = n - chosen.length;
-      const generated = await generateQuestionsViaAPI(needed, cat, sub, topic);
+      const generated = await generateQuestionsViaAPI(needed, cat, sub, topic, inhouseSubject, inhouseLecture);
       chosen = chosen.concat(generated);
     } catch (err) {
       alert("API generation failed: " + err.message + "\nProceeding with bank questions only.");
     } finally {
       btn.disabled = false;
-      btn.textContent = "Start Quiz";
+      btn.textContent = "Quiz Mode";
     }
   }
 
@@ -2289,7 +2497,7 @@ const AI_CONFIG = {
   apiVersion: "2023-06-01"
 };
 
-async function generateQuestionsViaAPI(count, category, subcategory, topic) {
+async function generateQuestionsViaAPI(count, category, subcategory, topic, inhouseSubject, inhouseLecture) {
   if (!state.apiKey) throw new Error("No API key provided");
 
   const examples = QUESTION_BANK.slice(0, 2).map(q => ({
@@ -2314,13 +2522,14 @@ REQUIREMENTS:
 - Full explanation of why the correct answer is correct AND why each distractor is wrong
 - Tag to USMLE Content Outline: category="${category || "any Step 1 category"}", subcategory="${subcategory || "any relevant subcategory"}"
 ${topic ? `- Focus specifically on: "${topic}"` : ""}
+${inhouseSubject && inhouseLecture ? `- CONSTRAIN content to the HoyaDocs ${inhouseSubject} block lecture titled: "${inhouseLecture}". Questions should reflect the physiology, pathology, pharmacology, or clinical concepts covered in that specific lecture.` : (inhouseSubject ? `- General topical area: HoyaDocs ${inhouseSubject} block` : "")}
 - Tag to Physician Task/Competency from: Medical Knowledge, Diagnosis (H&P, Labs, Formulating, Prognosis), Management (Prevention, Pharmacotherapy, Interventions, Mixed), Communication, Professionalism, Systems-based Practice, Biostatistics
 - Provide a First Aid 2023 page reference (educated estimate acceptable)
 
 EXAMPLE FORMAT (2 curated items):
 ${JSON.stringify(examples, null, 2)}
 
-Return ONLY a valid JSON array of ${count} question objects with exactly these keys: id (string like "API-001"), category, subcategory, topic, vignette, stem, choices (array of 5 strings), correct (letter), explanations (object with "correct" key + letter keys for distractors), ptc, faRef. No markdown, no commentary — only the JSON array.`;
+Return ONLY a valid JSON array of ${count} question objects with exactly these keys: id (string like "API-001"), category, subcategory, topic, vignette, stem, choices (array of 5 strings), correct (letter), explanations (object with "correct" key + letter keys for distractors), ptc, faRef${inhouseLecture ? ', inhouseLecture (the lecture title provided)' : ''}. No markdown, no commentary — only the JSON array.`;
 
   const response = await fetch(AI_CONFIG.endpoint, {
     method: "POST",
@@ -2332,7 +2541,7 @@ Return ONLY a valid JSON array of ${count} question objects with exactly these k
     },
     body: JSON.stringify({
       model: AI_CONFIG.model,
-      max_tokens: 8000,
+      max_tokens: 16000,
       messages: [{ role: "user", content: prompt }]
     })
   });
@@ -2350,120 +2559,202 @@ Return ONLY a valid JSON array of ${count} question objects with exactly these k
   return parsed;
 }
 
+
 /* ================================================================
-   AI QUESTION PREVIEW
-   Generates ONE question with current filters and renders it in a
-   read-only card (answer + explanation revealed upfront).
+   AI QUESTION GENERATION & DISPLAY
+   Generates N questions (based on Number of Questions input) with
+   current filters and renders them ALL in a read-only preview
+   (answer + explanation revealed upfront for quality review).
    ================================================================ */
 async function previewAIQuestion() {
   const apiKey = $("api-key").value.trim();
+  const useAI = $("use-api").checked;
   const area = $("ai-preview-area");
   const btn = $("preview-ai");
 
+  if (!useAI) {
+    area.innerHTML = `<div class="warn-banner">Check the <strong>Use AI</strong> box above to enable AI question generation.</div>`;
+    return;
+  }
   if (!apiKey) {
-    area.innerHTML = `
-      <div class="warn-banner">
-        Enter an API key in the <em>Advanced</em> section above to preview AI-generated questions.
-      </div>`;
+    area.innerHTML = `<div class="warn-banner">Enter an API key above to generate AI questions.</div>`;
     return;
   }
 
   state.apiKey = apiKey;
+  const n = Math.max(1, Math.min(40, parseInt($("num-questions").value) || 10));
   const cat = $("category").value;
   const sub = $("subcategory").value;
   const topic = $("topic").value.trim();
+  const inhouseSubject = $("inhouse-subject").value;
+  const inhouseLecture = $("inhouse-lecture").value;
 
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner" style="border-top-color:#1e40af;border-color:rgba(30,64,175,0.3) rgba(30,64,175,0.3) rgba(30,64,175,0.3) #1e40af;"></span>Generating…';
-  area.innerHTML = `<div class="info-banner">Generating a sample AI question — this usually takes 10-30 seconds…</div>`;
+  btn.innerHTML = `<span class="spinner" style="border-top-color:#1e40af;border-color:rgba(30,64,175,0.3) rgba(30,64,175,0.3) rgba(30,64,175,0.3) #1e40af;"></span>Generating ${n}…`;
+  const ctxLine = inhouseLecture
+    ? ` (focused on <strong>${escapeHtml(inhouseSubject)} › ${escapeHtml(inhouseLecture)}</strong>)`
+    : (inhouseSubject ? ` (focused on <strong>${escapeHtml(inhouseSubject)}</strong>)` : "");
+  area.innerHTML = `<div class="info-banner">Generating ${n} AI question${n===1?"":"s"}${ctxLine}… this may take 20-60 seconds.</div>`;
 
   try {
-    const questions = await generateQuestionsViaAPI(1, cat, sub, topic);
-    if (!questions || questions.length === 0) {
-      throw new Error("No question returned by the API.");
+    // Batch in groups of 8 to stay within per-request token limits
+    const BATCH = 8;
+    let all = [];
+    const batches = Math.ceil(n / BATCH);
+    for (let i = 0; i < batches; i++) {
+      const batchSize = Math.min(BATCH, n - all.length);
+      area.innerHTML = `<div class="info-banner">Generating AI questions… (batch ${i+1}/${batches})${ctxLine}</div>`;
+      const chunk = await generateQuestionsViaAPI(batchSize, cat, sub, topic, inhouseSubject, inhouseLecture);
+      all = all.concat(chunk);
     }
-    renderAIPreview(questions[0]);
+    if (!all || all.length === 0) {
+      throw new Error("No questions returned by the API.");
+    }
+    renderAIPreview(all, { source: "AI-generated", regenerateFn: previewAIQuestion });
   } catch (err) {
     area.innerHTML = `
       <div class="warn-banner">
         <strong>Generation failed:</strong> ${escapeHtml(err.message || "Unknown error")}<br>
-        <span style="font-size:0.85rem;">Check that your API key is valid and that you have available credits.</span>
+        <span style="font-size:0.85rem;">Check that your API key is valid and that you have available credits. Try reducing the Number of Questions if the request timed out.</span>
       </div>`;
   } finally {
-    btn.disabled = false;
-    btn.textContent = "Preview AI Question";
+    btn.disabled = !$("use-api").checked;
+    btn.textContent = "Generate AI USMLE Qs";
   }
 }
 
-function renderAIPreview(q) {
+function renderAIPreview(questions, options = {}) {
+  const {
+    source = "AI-generated",       // badge label per card
+    headerLabel = null,            // custom top-bar label (defaults from source)
+    regenerateFn = null            // if provided, show Regenerate button
+  } = options;
   const letters = ["A","B","C","D","E","F","G","H"];
   const area = $("ai-preview-area");
 
-  let choicesHtml = '<ul class="choices" style="margin-top:10px;">';
-  (q.choices || []).forEach((choice, i) => {
-    const l = letters[i];
-    const isCorrect = (l === q.correct);
-    const cls = isCorrect ? "choice reveal-correct disabled" : "choice reveal-other disabled";
-    choicesHtml += `
-      <li class="${cls}">
-        <span class="choice-letter">${l}</span>
-        <span>${escapeHtml(choice)}${isCorrect ? ' <strong style="color:#065f46;">✓ Correct answer</strong>' : ''}</span>
-      </li>`;
-  });
-  choicesHtml += '</ul>';
+  const cards = questions.map((q, idx) => {
+    let choicesHtml = '<ul class="choices" style="margin-top:10px;">';
+    (q.choices || []).forEach((choice, i) => {
+      const l = letters[i];
+      const isCorrect = (l === q.correct);
+      const cls = isCorrect ? "choice reveal-correct disabled" : "choice reveal-other disabled";
+      choicesHtml += `
+        <li class="${cls}">
+          <span class="choice-letter">${l}</span>
+          <span>${escapeHtml(choice)}${isCorrect ? ' <strong class="correct-badge" style="color:#065f46;">✓ Correct answer</strong>' : ''}</span>
+        </li>`;
+    });
+    choicesHtml += '</ul>';
 
-  let distractorHtml = '';
-  (q.choices || []).forEach((_, i) => {
-    const l = letters[i];
-    if (l === q.correct) return;
-    const reason = (q.explanations && q.explanations[l]) || "No rationale provided.";
-    distractorHtml += `
-      <div class="distractor-item">
-        <strong>${l}:</strong> ${escapeHtml(reason)}
+    let distractorHtml = '';
+    (q.choices || []).forEach((_, i) => {
+      const l = letters[i];
+      if (l === q.correct) return;
+      const reason = (q.explanations && q.explanations[l]) || "No rationale provided.";
+      distractorHtml += `
+        <div class="distractor-item">
+          <strong>${l}:</strong> ${escapeHtml(reason)}
+        </div>`;
+    });
+
+    const correctIdx = letters.indexOf(q.correct);
+    const correctChoice = q.choices && correctIdx >= 0 ? q.choices[correctIdx] : "";
+
+    return `
+      <div class="card ai-question-card" data-card-idx="${idx}" style="margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border); gap:10px; flex-wrap:wrap;">
+          <h3 style="color:var(--primary-dark); margin:0;">Question ${idx+1} of ${questions.length}</h3>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <span class="tag" style="font-size:0.75rem;"><strong>${escapeHtml(source)}</strong></span>
+            <button class="toggle-answer-btn" data-toggle-idx="${idx}">Show Answer</button>
+          </div>
+        </div>
+        <div class="vignette">${escapeHtml(q.vignette || "")}</div>
+        <div class="stem">${escapeHtml(q.stem || "")}</div>
+        ${choicesHtml}
+        <div class="explanation ai-explanation" style="margin-top:18px;">
+          <h3>Answer: ${q.correct || "?"}</h3>
+          <div class="correct-block">
+            <strong>${q.correct || "?"} — ${escapeHtml(correctChoice)}</strong><br>
+            ${escapeHtml((q.explanations && q.explanations.correct) || "No rationale provided.")}
+          </div>
+          <h3 style="font-size:0.95rem; margin-top:12px;">Why the other choices are wrong</h3>
+          <div class="distractor-list">${distractorHtml}</div>
+          <div class="meta-tags">
+            <span class="tag"><strong>Category:</strong> ${escapeHtml(q.category || "—")}</span>
+            <span class="tag"><strong>Subcategory:</strong> ${escapeHtml(q.subcategory || "—")}</span>
+            <span class="tag"><strong>Competency:</strong> ${escapeHtml(q.ptc || "—")}</span>
+            <span class="tag"><strong>Reference:</strong> ${escapeHtml(q.faRef || "—")}</span>
+            ${q.inhouseLecture ? `<span class="tag"><strong>In House Lecture:</strong> ${escapeHtml(q.inhouseLecture)}</span>` : ""}
+          </div>
+        </div>
       </div>`;
-  });
+  }).join("");
 
-  const correctIdx = letters.indexOf(q.correct);
-  const correctChoice = q.choices && correctIdx >= 0 ? q.choices[correctIdx] : "";
+  const defaultHeader = source === "AI-generated"
+    ? `${questions.length} AI-generated question${questions.length===1?"":"s"}`
+    : `${questions.length} matching question${questions.length===1?"":"s"} from the curated bank`;
+  const topLabel = headerLabel || defaultHeader;
+  const regenBtn = regenerateFn
+    ? `<button class="btn-secondary" id="preview-regenerate" style="padding:6px 12px; font-size:0.85rem;">Regenerate</button>`
+    : "";
 
   area.innerHTML = `
-    <div class="card" style="margin:0;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border);">
-        <h3 style="color:var(--primary-dark); margin:0;">AI-Generated Question Preview</h3>
-        <div style="display:flex; gap:8px;">
-          <button class="btn-secondary" id="preview-regenerate" style="padding:6px 12px; font-size:0.85rem;">Generate Another</button>
+    <div class="card" style="margin-bottom:14px; padding:16px 20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <strong>${escapeHtml(topLabel)}</strong>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-top:2px;">
+            Answers are collapsed by default — click <em>Show Answer</em> on a question to reveal its explanation.
+          </p>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn-secondary" id="preview-toggle-all" style="padding:6px 12px; font-size:0.85rem;">Show All Answers</button>
+          ${regenBtn}
           <button class="btn-secondary" id="preview-clear" style="padding:6px 12px; font-size:0.85rem;">Clear</button>
         </div>
       </div>
-      <div class="info-banner" style="margin-bottom:14px; font-size:0.82rem;">
-        This is a sample for quality review — the correct answer and explanations are shown immediately. Start a quiz to attempt AI questions without seeing the answer first.
-      </div>
-      <div class="vignette">${escapeHtml(q.vignette || "")}</div>
-      <div class="stem">${escapeHtml(q.stem || "")}</div>
-      ${choicesHtml}
-      <div class="explanation" style="margin-top:18px;">
-        <h3>Answer: ${q.correct || "?"}</h3>
-        <div class="correct-block">
-          <strong>${q.correct || "?"} — ${escapeHtml(correctChoice)}</strong><br>
-          ${escapeHtml((q.explanations && q.explanations.correct) || "No rationale provided.")}
-        </div>
-        <h3 style="font-size:0.95rem; margin-top:12px;">Why the other choices are wrong</h3>
-        <div class="distractor-list">${distractorHtml}</div>
-        <div class="meta-tags">
-          <span class="tag"><strong>Category:</strong> ${escapeHtml(q.category || "—")}</span>
-          <span class="tag"><strong>Subcategory:</strong> ${escapeHtml(q.subcategory || "—")}</span>
-          <span class="tag"><strong>Competency:</strong> ${escapeHtml(q.ptc || "—")}</span>
-          <span class="tag"><strong>Reference:</strong> ${escapeHtml(q.faRef || "—")}</span>
-        </div>
-      </div>
-    </div>`;
+    </div>
+    ${cards}`;
 
-  // Wire up the preview card buttons
-  $("preview-regenerate").addEventListener("click", previewAIQuestion);
+  // Per-card Show/Hide Answer toggle
+  document.querySelectorAll(".toggle-answer-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const idx = btn.dataset.toggleIdx;
+      const card = document.querySelector(`.ai-question-card[data-card-idx="${idx}"]`);
+      if (!card) return;
+      card.classList.toggle("answer-shown");
+      btn.textContent = card.classList.contains("answer-shown") ? "Hide Answer" : "Show Answer";
+    });
+  });
+
+  // Show/Hide all
+  $("preview-toggle-all").addEventListener("click", () => {
+    const cards = document.querySelectorAll(".ai-question-card");
+    const anyHidden = Array.from(cards).some(c => !c.classList.contains("answer-shown"));
+    cards.forEach(c => {
+      if (anyHidden) c.classList.add("answer-shown");
+      else c.classList.remove("answer-shown");
+      const tb = c.querySelector(".toggle-answer-btn");
+      if (tb) tb.textContent = anyHidden ? "Hide Answer" : "Show Answer";
+    });
+    $("preview-toggle-all").textContent = anyHidden ? "Hide All Answers" : "Show All Answers";
+  });
+
+  if (regenerateFn && $("preview-regenerate")) {
+    $("preview-regenerate").addEventListener("click", regenerateFn);
+  }
   $("preview-clear").addEventListener("click", () => { area.innerHTML = ""; });
 
-  // Scroll into view
   area.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* Toggle "Generate AI USMLE Qs" button enabled state based on the Use AI checkbox */
+function syncAIButtonState() {
+  const useAI = $("use-api").checked;
+  const btn = $("preview-ai");
+  btn.disabled = !useAI;
+  btn.title = useAI ? "" : "Check 'Use AI' above to enable";
 }
 
 /* ================================================================
@@ -2471,7 +2762,18 @@ function renderAIPreview(q) {
    ================================================================ */
 document.addEventListener("DOMContentLoaded", () => {
   populateCategories();
+  syncAIButtonState();
   $("category").addEventListener("change", populateSubcategories);
+  $("inhouse-subject").addEventListener("change", populateInHouseLectures);
+  $("use-api").addEventListener("change", syncAIButtonState);
+  // Auto-check "Use AI" the moment an API key is entered
+  $("api-key").addEventListener("input", () => {
+    const hasKey = $("api-key").value.trim().length > 0;
+    if (hasKey && !$("use-api").checked) {
+      $("use-api").checked = true;
+    }
+    syncAIButtonState();
+  });
   $("preview-count").addEventListener("click", previewCount);
   $("preview-ai").addEventListener("click", previewAIQuestion);
   $("start-quiz").addEventListener("click", startQuiz);
