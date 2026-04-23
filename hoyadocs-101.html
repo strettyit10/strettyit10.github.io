@@ -900,9 +900,23 @@
 
     .upd-col-head {
       display: flex; align-items: center; gap: 8px;
-      margin-bottom: 12px; padding-bottom: 10px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--rule);
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
     }
+    .upd-col-head::-webkit-details-marker { display: none; }
+    .upd-col-head::marker { content: ''; }
+    details.upd-col[open] > .upd-col-head { margin-bottom: 12px; }
+    .upd-col-caret {
+      margin-left: auto;
+      font-size: 0.72rem; font-weight: 700;
+      color: var(--ink-3);
+      transition: transform 0.18s ease;
+      line-height: 1;
+    }
+    details.upd-col[open] > .upd-col-head .upd-col-caret { transform: rotate(180deg); }
     .upd-col-dot {
       width: 10px; height: 10px; border-radius: 50%;
       flex-shrink: 0;
@@ -989,7 +1003,7 @@
       <a class="tn-link" href="#workflow">Workflow</a>
       <a class="tn-link" href="#core-components">Core Components</a>
       <a class="tn-link" href="#where">Where to Find What</a>
-      <a class="tn-link" href="#updates">Recent Updates</a>
+      <a class="tn-link" href="#updates">Update Log</a>
     </nav>
   </header>
 
@@ -1050,7 +1064,7 @@
             <a class="hero-nav-link" href="#workflow">Workflow</a>
             <a class="hero-nav-link" href="#core-components">Core Components</a>
             <a class="hero-nav-link" href="#where">Where to Find What</a>
-            <a class="hero-nav-link" href="#updates">Recent Updates</a>
+            <a class="hero-nav-link" href="#updates">Update Log</a>
           </nav>
         </section>
 
@@ -1351,7 +1365,7 @@
         <!-- ══ RECENT UPDATES ══════════════════════════════════════════════════ -->
         <section class="section-block" id="updates">
           <div class="section-divider">
-            <span class="section-divider-text">Recent HoyaDoc Updates</span>
+            <span class="section-divider-text">HoyaDocs Update Log</span>
             <div class="section-divider-line"></div>
           </div>
           <p class="section-lead">
@@ -1362,11 +1376,12 @@
           <div class="updates-grid">
 
             <!-- ENDOCRINE HUB UPDATES -->
-            <div class="upd-col upd-endo">
-              <div class="upd-col-head">
+            <details class="upd-col upd-endo">
+              <summary class="upd-col-head">
                 <span class="upd-col-dot"></span>
                 <span class="upd-col-title">Endocrine Hub</span>
-              </div>
+                <span class="upd-col-caret" aria-hidden="true">▾</span>
+              </summary>
 
               <div class="upd-item">
                 <div class="upd-item-meta">
@@ -1416,14 +1431,15 @@
                   <li>Per-lecture <strong>UWorld QID mapping</strong> and <strong>Anki tag mapping</strong> published.</li>
                 </ul>
               </div>
-            </div>
+            </details>
 
             <!-- GI HUB UPDATES -->
-            <div class="upd-col upd-gi">
-              <div class="upd-col-head">
+            <details class="upd-col upd-gi">
+              <summary class="upd-col-head">
                 <span class="upd-col-dot"></span>
                 <span class="upd-col-title">GI Hub</span>
-              </div>
+                <span class="upd-col-caret" aria-hidden="true">▾</span>
+              </summary>
 
               <div class="upd-item">
                 <div class="upd-item-meta">
@@ -1483,14 +1499,15 @@
                   <li>Original block that established the HoyaDocs pattern — landing page, lecture guides, mapping, 3 drill hubs.</li>
                 </ul>
               </div>
-            </div>
+            </details>
 
             <!-- REPRO HUB UPDATES -->
-            <div class="upd-col upd-repro">
-              <div class="upd-col-head">
+            <details class="upd-col upd-repro">
+              <summary class="upd-col-head">
                 <span class="upd-col-dot"></span>
                 <span class="upd-col-title">Repro Hub</span>
-              </div>
+                <span class="upd-col-caret" aria-hidden="true">▾</span>
+              </summary>
 
               <div class="upd-item">
                 <div class="upd-item-meta">
@@ -1539,7 +1556,7 @@
               </div>
 
               <div class="upd-item upd-empty">More Repro-specific updates coming as the block progresses.</div>
-            </div>
+            </details>
 
           </div>
         </section>
