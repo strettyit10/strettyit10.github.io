@@ -216,22 +216,6 @@
   .fm-mid .fm-field::after{right:10px}
   .fm-mid .fm-field span:not(.fm-pin){flex:1;text-align:left}
 
-  /* Generator strip at top */
-  .fm-gen-strip{
-    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-    background:#0d1628;border:1px dashed #273556;border-radius:12px;
-    padding:10px 14px;margin-bottom:14px;
-  }
-  .fm-gen-strip b{
-    color:#86efac;font-weight:800;font-size:11px;letter-spacing:.1em;
-    text-transform:uppercase;margin-right:4px
-  }
-  .fm-gen-strip code{
-    background:#0a2e22;border:1px solid #1e4a38;color:#86efac;
-    padding:4px 10px;border-radius:6px;font:600 11px 'JetBrains Mono',monospace
-  }
-  .fm-gen-strip .gen-hint{margin-left:auto;color:var(--muted);font-size:11px;font-style:italic}
-
   /* Card collapse toggle */
   .fm-toggle{
     margin-left:auto;cursor:pointer;user-select:none;flex:0 0 22px;
@@ -329,14 +313,11 @@
     <div class="name">HoyaDocs · Block 4 · Endocrine</div>
     <div class="version"><span class="v-label">rev</span>v1.2 · 2026-04-21</div>
   </div>
-  <h1>Endocrine Hub <span class="tag">Map</span></h1>
-  <p>A bird's-eye view of every HTML in the endocrine study hub — how the pages link to each other, and which primary sources (lecture slides, learning objectives, Anki decks, workbooks, and practice banks) each tier pulls from.</p>
+  <h1>Endocrine Hub Data Mapping</h1>
 </header>
 
 <nav class="tabs">
   <button class="tab active" data-view="fieldmap">Field mapping</button>
-  <button class="tab" data-view="impact">Source → impact (if I update…)</button>
-  <button class="tab" data-view="index">File index</button>
 </nav>
 
 <main>
@@ -378,16 +359,6 @@
     </div>
   </div>
 
-  <div class="fm-gen-strip">
-    <b>Generators</b>
-    <code>hub-builder</code>
-    <code>hub-index-generator</code>
-    <code>hub3-generator</code>
-    <code>study-planner-generator</code>
-    <code>lecture-resource-mapper</code>
-    <span class="gen-hint">skills that produce the outputs below from the inputs to the left</span>
-  </div>
-
   <div class="fieldmap-wrap" id="fieldmap-wrap">
     <svg class="fm-svg" id="fm-svg" xmlns="http://www.w3.org/2000/svg"></svg>
 
@@ -398,7 +369,7 @@
         <div class="fm-col-head">Primary sources <span>inputs</span></div>
 
         <div class="fm-card fm-src" data-card="inlec">
-          <div class="fm-card-head"><span class="ic">📝</span><span data-k="inlec_title"></span><span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">Per Lecture / — LO docx + slide PDF</span></div>
+          <div class="fm-card-head"><span class="ic">📝</span><span data-k="inlec_title"></span><span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">Per Lecture / — simplified LO</span></div>
 
           <div class="fm-subhead"><span class="label">Learning Objectives</span></div>
           <div class="fm-field" id="f-lo-1"><span data-k="obj1"></span><span class="fm-pin"></span></div>
@@ -420,7 +391,7 @@
         </div>
 
         <div class="fm-card fm-src" data-card="subj">
-          <div class="fm-card-head"><span class="ic">📘</span>In House Subject Review<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">Per Subject / — in-house review materials</span></div>
+          <div class="fm-card-head"><span class="ic">📘</span>In House Subject Review<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">Per Subject / — student made in-house review materials</span></div>
 
           <div class="fm-subhead"><span class="label">Physiology</span></div>
           <div class="fm-field" id="f-sub-physio"><span>Endocrine Physiology Review Guide.docx</span><span class="fm-pin"></span></div>
@@ -445,7 +416,7 @@
         </div>
 
         <div class="fm-card fm-src" data-card="thirdparty">
-          <div class="fm-card-head"><span class="ic">📚</span>3rd-Party Resources<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">Workbooks + Anki decks, grouped by vendor</span></div>
+          <div class="fm-card-head"><span class="ic">📚</span>3rd-Party Resources<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">ANKing decks, grouped by resource</span></div>
 
           <div class="fm-subhead"><span class="label">BnB</span><span class="dim">Boards &amp; Beyond</span></div>
           <div class="fm-field" id="f-wb-bnb"><span data-k="wb_bnb"></span><span class="fm-pin"></span></div>
@@ -508,13 +479,13 @@
         </div>
 
         <div class="fm-card fm-mid" data-card="xlsx">
-          <div class="fm-card-head"><span class="ic">📑</span>Resource Mapping Spreadsheet<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">Endocrine_Resource_Mapping.xlsx</span></div>
+          <div class="fm-card-head"><span class="ic">📑</span>Resource Mapping Spreadsheet<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">end_Resource_Mapping.xlsx</span></div>
           <div class="fm-field" id="f-rm-1"><span data-k="rm1"></span><span class="fm-pin"></span></div>
           <div class="fm-field" id="f-rm-2"><span data-k="rm2"></span><span class="fm-pin"></span></div>
         </div>
 
         <div class="fm-card fm-mid" data-card="uworld">
-          <div class="fm-card-head"><span class="ic">🎯</span>UWorld QID Spreadsheet<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">HoyaDocs-UWorld-QID-Mapping.xlsx</span></div>
+          <div class="fm-card-head"><span class="ic">🎯</span>UWorld QID Spreadsheet<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">end-UWorld-QID-Mapping.xlsx</span></div>
           <div class="fm-field" id="f-uw-1"><span data-k="uw1"></span><span class="fm-pin"></span></div>
           <div class="fm-field" id="f-uw-2"><span data-k="uw2"></span><span class="fm-pin"></span></div>
         </div>
@@ -556,20 +527,14 @@
           <div class="fm-field" id="t-h3-all"><span class="fm-pin"></span><span data-k="t_h3_row"></span></div>
         </div>
 
-        <div class="fm-card fm-tgt" data-card="map">
-          <div class="fm-card-head"><span class="ic">🗺</span>Resource Mapping Matrix<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">resource-mapping/endocrine_mapping.html</span></div>
-          <div class="fm-field" id="t-map-row"><span class="fm-pin"></span><span data-k="t_map_row"></span></div>
-          <div class="fm-field" id="t-map-topics"><span class="fm-pin"></span><span data-k="t_map_topics"></span></div>
-        </div>
-
         <div class="fm-card fm-tgt" data-card="rhub">
-          <div class="fm-card-head"><span class="ic">🗂</span>Resource Hub Catalog<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">resource-mapping/endocrine_resource_hub.html</span></div>
+          <div class="fm-card-head"><span class="ic">🗂</span>Resource Mapping Hub<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">resource-mapping/end_resource-hub.html</span></div>
           <div class="fm-field" id="t-rhub-card"><span class="fm-pin"></span><span>Cards per 3rd-party source</span></div>
           <div class="fm-field" id="t-rhub-row"><span class="fm-pin"></span><span data-k="t_rhub_row"></span></div>
         </div>
 
         <div class="fm-card fm-tgt" data-card="rexp">
-          <div class="fm-card-head"><span class="ic">🔍</span>Resource Explorer<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">resource-explorer.html</span></div>
+          <div class="fm-card-head"><span class="ic">🔍</span>Extended Resource Explorer<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">end_resource-explorer.html</span></div>
           <div class="fm-field" id="t-rexp-row"><span class="fm-pin"></span><span data-k="t_rexp_row"></span></div>
           <div class="fm-field" id="t-rexp-hier"><span class="fm-pin"></span><span>Deck hierarchies + resource cards</span></div>
         </div>
@@ -578,590 +543,6 @@
     </div>
   </div>
 
-  <p style="color:var(--muted);font-size:13px;margin-top:18px;max-width:960px;line-height:1.55">
-    <b>How to read this:</b> pick a lecture in the dropdown — every card rewrites to that lecture's sources and output filenames. Hover a field row to isolate its connections; hover a card header to highlight everything touching that file. Blue = Learning-Objective → section, green = slide-range → section body, pink = workbook/Anki citation (dashed for Anki), amber = resource-mapping matrix flow.
-  </p>
-</section>
-
-<!-- ================= VIEW 2B: SOURCE IMPACT ================= -->
-<section class="view" id="view-impact">
-  <h2>If I update this source, what HTMLs need review? <span class="hint">Reverse dependency map — change-impact view</span></h2>
-  <p style="color:var(--muted);max-width:900px;margin:6px 0 22px;line-height:1.55">
-    Read this view as: "If the file on the left changes, the HTMLs on the right need to be opened, reviewed, and likely regenerated." Items marked <span class="risk risk-high" style="padding:1px 7px">Primary</span> pull content <em>directly</em> from that source — they'll be wrong if not updated. Items marked <span class="risk risk-med" style="padding:1px 7px">Secondary</span> reference it indirectly. <span class="risk risk-low" style="padding:1px 7px">Downstream</span> items re-use the affected tier and should at least be spot-checked.
-  </p>
-
-  <!-- ========= Learning Objectives ========= -->
-  <div class="impact-card">
-    <div class="impact-head">
-      <span class="src-tag">Per Lecture / Learning Objectives / end##_LO_*.docx</span>
-      <h3>Learning-objective doc for a single lecture</h3>
-      <span class="risk risk-high">Highest-impact source</span>
-    </div>
-    <div class="blurb">LO docs are the <b>spine</b> of the entire 3-hub stack for that lecture. Every downstream page is organized around these objectives — an objective being added, renumbered, or reworded cascades everywhere.</div>
-    <div class="impact-grid">
-      <div class="impact-col primary">
-        <h4>Primary (must update)</h4>
-        <ul>
-          <li><code>lecture-guides/end##-&lt;slug&gt;.html</code> — sidebar, progress counter, #obj1…#objN sections, #cheatsheet, #quiz all match LO headings</li>
-          <li><code>active-lesson-drills/end##_active_recall.html</code> — drill questions are seeded per objective</li>
-          <li><code>active-lesson-drills/end##_key.html</code> — answer key mirrors drill</li>
-          <li><code>testing-drills/end##-hub1-&lt;slug&gt;.html</code></li>
-          <li><code>testing-drills/end##-hub2-&lt;slug&gt;.html</code></li>
-          <li><code>testing-drills/end##-hub3-&lt;slug&gt;.html</code> (vignettes anchored to LOs)</li>
-        </ul>
-      </div>
-      <div class="impact-col secondary">
-        <h4>Secondary (review)</h4>
-        <ul>
-          <li><code>lecture-guides/index.html</code> — lecture-card blurb text</li>
-          <li><code>active-recall-hub.html</code> — subject-tab blurbs referencing that lecture</li>
-          <li><code>StudyPlanner.html</code> — task checkboxes per lecture</li>
-          <li><code>resource-mapping/endocrine_mapping.html</code> — LO column in the matrix</li>
-          <li><code>resource-mapping/endocrine_resource_hub.html</code></li>
-        </ul>
-      </div>
-      <div class="impact-col tertiary">
-        <h4>Downstream / admin</h4>
-        <ul>
-          <li><code>hub-update-tracker/status.json</code> — rerun <code>scan.py</code> to refresh completeness</li>
-          <li><code>endALL-LO-All-Overall Module Objectives.docx</code> — keep master roll-up in sync</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= Lecture slide PDF ========= -->
-  <div class="impact-card">
-    <div class="impact-head">
-      <span class="src-tag">Per Lecture / end##_&lt;topic&gt; / *.pdf</span>
-      <h3>Lecture slide deck for a single lecture</h3>
-      <span class="risk risk-high">Highest-impact source</span>
-    </div>
-    <div class="blurb">The slide deck is the authoritative content the Hub 1 guide teaches against. Wording tweaks or slide reorderings don't usually ripple, but <em>new slides, removed topics, or changed mechanisms</em> absolutely do.</div>
-    <div class="impact-grid">
-      <div class="impact-col primary">
-        <h4>Primary (must update)</h4>
-        <ul>
-          <li><code>lecture-guides/end##-&lt;slug&gt;.html</code> — all prose, diagrams, #cheatsheet, #references cite specific slides</li>
-          <li><code>lecture-guides/end##-*.html</code> #audit section — slide-by-slide source audit table</li>
-          <li><code>active-lesson-drills/end##_active_recall.html</code> — "Lecture ##" references</li>
-          <li><code>active-lesson-drills/end##_key.html</code></li>
-        </ul>
-      </div>
-      <div class="impact-col secondary">
-        <h4>Secondary (review)</h4>
-        <ul>
-          <li><code>testing-drills/end##-hub1|hub2|hub3-*.html</code> — question stems may cite specific slide facts</li>
-          <li><code>resource-mapping/endocrine_mapping.html</code> — slide-level references</li>
-        </ul>
-      </div>
-      <div class="impact-col tertiary">
-        <h4>Downstream / admin</h4>
-        <ul>
-          <li><code>Per Lecture/Learning Objectives/end##_LO_*.docx</code> — check if LOs need to change too</li>
-          <li><code>hub-update-tracker/content-cache.json</code> — invalidate cache</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= Per Subject review ========= -->
-  <div class="impact-card">
-    <div class="impact-head">
-      <span class="src-tag">Per Subject / *.docx (Histo / Path / Physio / Pharm / Biochem)</span>
-      <h3>Subject-level review guide</h3>
-      <span class="risk risk-med">Cross-cutting source</span>
-    </div>
-    <div class="blurb">Subject review guides cut across lectures — a Path update can touch every lecture that has a pathology component (end08, end11, end16, end20, end24).</div>
-    <div class="impact-grid">
-      <div class="impact-col primary">
-        <h4>Primary (must update)</h4>
-        <ul>
-          <li>Every <code>lecture-guides/end##-*.html</code> whose subject tag matches — e.g. a Pharmacology update hits end13, end17, end18, end21, end22, end25</li>
-          <li><code>active-recall-hub.html</code> — the matching subject tab (#physio, #path, #histo, #biochem, #drt)</li>
-        </ul>
-      </div>
-      <div class="impact-col secondary">
-        <h4>Secondary (review)</h4>
-        <ul>
-          <li><code>testing-drills/*-hub2|hub3-*.html</code> for affected lectures</li>
-          <li><code>Per Subject/Endocrine_Checklist_Revised.xlsx</code></li>
-        </ul>
-      </div>
-      <div class="impact-col tertiary">
-        <h4>Downstream / admin</h4>
-        <ul>
-          <li><code>StudyPlanner.html</code> — if checklist headings changed</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= 3rd Party workbook ========= -->
-  <div class="impact-card">
-    <div class="impact-head">
-      <span class="src-tag">3rd Party / Workbooks / *.pdf (BnB / Bootcamp / Pathoma / Physeo / Sketchy / First Aid)</span>
-      <h3>3rd-party workbook edition</h3>
-      <span class="risk risk-med">Cross-cutting source</span>
-    </div>
-    <div class="blurb">New edition or chapter reorg of a 3rd-party workbook. Hub 1 guides cite these directly in their References + Source Audit sections.</div>
-    <div class="impact-grid">
-      <div class="impact-col primary">
-        <h4>Primary (must update)</h4>
-        <ul>
-          <li>Every <code>lecture-guides/end##-*.html</code> #references + #audit section that cites that workbook</li>
-          <li><code>resource-mapping/endocrine_mapping.html</code> — column for that resource</li>
-          <li><code>resource-mapping/endocrine_resource_hub.html</code> — resource card</li>
-          <li><code>resource-mapping/DRAFT-&lt;resource&gt;-Mapping-FOR-REVIEW.md</code></li>
-        </ul>
-      </div>
-      <div class="impact-col secondary">
-        <h4>Secondary (review)</h4>
-        <ul>
-          <li><code>resource-mapping/Endocrine_Resource_Mapping.xlsx</code></li>
-          <li><code>resource-explorer.html</code></li>
-          <li>Corresponding Anki deck + hierarchy (may need re-export)</li>
-        </ul>
-      </div>
-      <div class="impact-col tertiary">
-        <h4>Downstream / admin</h4>
-        <ul>
-          <li><code>hub-update-tracker/mapping-status.json</code> — rerun <code>mapping_tracker.py</code></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= Anki package ========= -->
-  <div class="impact-card">
-    <div class="impact-head">
-      <span class="src-tag">3rd Party / ANKing / *.apkg + *.tsv</span>
-      <h3>Anki deck update (BnB, Bootcamp, Physeo, Sketchy, FA, Pathoma, AnKing)</h3>
-      <span class="risk risk-med">Cross-cutting source</span>
-    </div>
-    <div class="blurb">When a card deck is updated, the mapping spreadsheets and inline "mapped cards" in Hub 1 audit tables are what break. The workbook PDFs are independent.</div>
-    <div class="impact-grid">
-      <div class="impact-col primary">
-        <h4>Primary (must update)</h4>
-        <ul>
-          <li><code>3rd Party/Hierarchy/&lt;deck&gt;-hierarchy.txt</code> — re-export hierarchy</li>
-          <li><code>3rd Party/Mapped-RunTime-Anki/&lt;deck&gt;-RT-AK-*.xlsx</code> — re-map card IDs</li>
-          <li><code>resource-mapping/endocrine_mapping.html</code></li>
-          <li><code>resource-mapping/endocrine_resource_hub.html</code></li>
-          <li>Every <code>lecture-guides/end##-*.html</code> #audit table that cites cards from that deck</li>
-        </ul>
-      </div>
-      <div class="impact-col secondary">
-        <h4>Secondary (review)</h4>
-        <ul>
-          <li><code>resource-explorer.html</code></li>
-          <li><code>anki_package_parser_v10.html</code> (when present)</li>
-          <li><code>resource-mapping/DRAFT-&lt;deck&gt;-Mapping-FOR-REVIEW.md</code></li>
-        </ul>
-      </div>
-      <div class="impact-col tertiary">
-        <h4>Downstream / admin</h4>
-        <ul>
-          <li><code>hub-update-tracker/dashboard.html</code>, <code>mapping-dashboard.html</code> — refresh tracker</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= Resource mapping xlsx ========= -->
-  <div class="impact-card">
-    <div class="impact-head">
-      <span class="src-tag">resource-mapping / Endocrine_Resource_Mapping.xlsx</span>
-      <h3>Master resource-mapping spreadsheet</h3>
-      <span class="risk risk-high">Highest-impact source (meta-file)</span>
-    </div>
-    <div class="blurb">The xlsx is the single source of truth for "which 3rd-party resource covers which lecture" — it drives every mapping-flavored page and tool.</div>
-    <div class="impact-grid">
-      <div class="impact-col primary">
-        <h4>Primary (must regenerate)</h4>
-        <ul>
-          <li><code>resource-mapping/endocrine_mapping.html</code> — the matrix</li>
-          <li><code>resource-mapping/endocrine_resource_hub.html</code> — resource catalog</li>
-          <li><code>resource-explorer.html</code></li>
-          <li><code>resource-mapping-tool.html</code></li>
-        </ul>
-      </div>
-      <div class="impact-col secondary">
-        <h4>Secondary (review)</h4>
-        <ul>
-          <li>Every <code>lecture-guides/end##-*.html</code> #audit table (mapped-resource pills)</li>
-          <li><code>active-recall-hub.html</code> — subject tab blurbs</li>
-        </ul>
-      </div>
-      <div class="impact-col tertiary">
-        <h4>Downstream / admin</h4>
-        <ul>
-          <li><code>resource-mapping/DRAFT-*-Mapping-FOR-REVIEW.md</code> — update any draft in flight</li>
-          <li><code>hub-update-tracker/mapping-status.json</code></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= UWorld QID mapping ========= -->
-  <div class="impact-card">
-    <div class="impact-head">
-      <span class="src-tag">resource-mapping / HoyaDocs-UWorld-QID-Mapping.xlsx</span>
-      <h3>UWorld QID → lecture mapping</h3>
-      <span class="risk risk-low">Narrow impact</span>
-    </div>
-    <div class="blurb">Only touches pages that expose UWorld QID recommendations.</div>
-    <div class="impact-grid">
-      <div class="impact-col primary">
-        <h4>Primary</h4>
-        <ul>
-          <li><code>resource-mapping/endocrine_mapping.html</code></li>
-          <li><code>resource-mapping/endocrine_resource_hub.html</code></li>
-        </ul>
-      </div>
-      <div class="impact-col secondary">
-        <h4>Secondary</h4>
-        <ul>
-          <li><code>testing-drills/*-hub3-*.html</code> — vignettes sometimes reference QID themes</li>
-        </ul>
-      </div>
-      <div class="impact-col tertiary">
-        <h4>Downstream</h4>
-        <ul><li>—</li></ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= Practice Problems ========= -->
-  <div class="impact-card">
-    <div class="impact-head">
-      <span class="src-tag">Practice Problems / *.pdf, *.docx  +  Practice Problems / 3rd Party / BRS</span>
-      <h3>In-house + BRS practice banks</h3>
-      <span class="risk risk-med">Hub 3 driver</span>
-    </div>
-    <div class="blurb">The question pools behind the USMLE-style vignettes. Changes here primarily affect Hub 3.</div>
-    <div class="impact-grid">
-      <div class="impact-col primary">
-        <h4>Primary (must update)</h4>
-        <ul>
-          <li>Every <code>testing-drills/end##-hub3-*.html</code></li>
-        </ul>
-      </div>
-      <div class="impact-col secondary">
-        <h4>Secondary (review)</h4>
-        <ul>
-          <li><code>testing-drills/end##-hub2-*.html</code> — longer mixed sets</li>
-          <li><code>active-recall-hub.html</code> — subject tab counts</li>
-        </ul>
-      </div>
-      <div class="impact-col tertiary">
-        <h4>Downstream / admin</h4>
-        <ul><li><code>hub-update-tracker/status.json</code></li></ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= Calendar ========= -->
-  <div class="impact-card">
-    <div class="impact-head">
-      <span class="src-tag">logistics / Full-Lectures-Calendar.pdf</span>
-      <h3>Block calendar (dates / times / week layout)</h3>
-      <span class="risk risk-low">Schedule only</span>
-    </div>
-    <div class="blurb">Only affects pages that render the week-by-week schedule. Content pages are unaffected.</div>
-    <div class="impact-grid">
-      <div class="impact-col primary">
-        <h4>Primary</h4>
-        <ul>
-          <li><code>StudyPlanner.html</code> — weekly calendar grid</li>
-          <li><code>index.html</code> / <code>endocrine_hub_index.html</code> — schedule section</li>
-        </ul>
-      </div>
-      <div class="impact-col secondary">
-        <h4>Secondary</h4>
-        <ul><li><code>logistics/Endocrine_Checklist_Revised.xlsx</code></li></ul>
-      </div>
-      <div class="impact-col tertiary">
-        <h4>Downstream</h4>
-        <ul><li>—</li></ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= Checklist ========= -->
-  <div class="impact-card">
-    <div class="impact-head">
-      <span class="src-tag">logistics / Endocrine_Checklist_Revised.xlsx</span>
-      <h3>Master block checklist</h3>
-      <span class="risk risk-low">Schedule / tracking only</span>
-    </div>
-    <div class="blurb">Drives task-tracking widgets. Doesn't touch lecture content.</div>
-    <div class="impact-grid">
-      <div class="impact-col primary">
-        <h4>Primary</h4>
-        <ul>
-          <li><code>StudyPlanner.html</code></li>
-          <li><code>hub-update-tracker/dashboard.html</code></li>
-        </ul>
-      </div>
-      <div class="impact-col secondary">
-        <h4>Secondary</h4>
-        <ul><li><code>Per Subject/Endocrine_Checklist_Revised.xlsx</code> — keep duplicate in sync</li></ul>
-      </div>
-      <div class="impact-col tertiary">
-        <h4>Downstream</h4>
-        <ul><li>—</li></ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= Heatmap ========= -->
-  <h2 style="margin-top:34px">At-a-glance impact heatmap <span class="hint">● Primary  ◐ Secondary  ○ Downstream</span></h2>
-  <div style="overflow-x:auto">
-  <table class="source-table" style="min-width:1100px">
-    <thead>
-      <tr>
-        <th>Source ↓ / HTML →</th>
-        <th>lecture-guides/end##</th>
-        <th>active-lesson-drills/end##</th>
-        <th>testing-drills end##-hub1/2/3</th>
-        <th>active-recall-hub</th>
-        <th>lecture-guides/index</th>
-        <th>StudyPlanner</th>
-        <th>endocrine_mapping</th>
-        <th>endocrine_resource_hub</th>
-        <th>resource-explorer / -mapping-tool</th>
-        <th>hub-update-tracker/*</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td><b>end##_LO_*.docx</b></td><td>●</td><td>●</td><td>●</td><td>◐</td><td>◐</td><td>◐</td><td>◐</td><td>○</td><td>○</td><td>○</td></tr>
-      <tr><td><b>end##_slides.pdf</b></td><td>●</td><td>●</td><td>◐</td><td>○</td><td>○</td><td>○</td><td>◐</td><td>○</td><td>—</td><td>○</td></tr>
-      <tr><td><b>Per Subject review</b></td><td>●</td><td>◐</td><td>◐</td><td>●</td><td>○</td><td>○</td><td>○</td><td>○</td><td>—</td><td>○</td></tr>
-      <tr><td><b>3rd Party Workbook</b></td><td>●</td><td>○</td><td>◐</td><td>○</td><td>—</td><td>—</td><td>●</td><td>●</td><td>◐</td><td>○</td></tr>
-      <tr><td><b>Anki .apkg + .tsv</b></td><td>◐</td><td>◐</td><td>○</td><td>○</td><td>—</td><td>—</td><td>●</td><td>●</td><td>●</td><td>◐</td></tr>
-      <tr><td><b>Hierarchy .txt</b></td><td>○</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>◐</td><td>◐</td><td>●</td><td>○</td></tr>
-      <tr><td><b>Mapped-RunTime-Anki xlsx</b></td><td>○</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>●</td><td>◐</td><td>●</td><td>◐</td></tr>
-      <tr><td><b>Endocrine_Resource_Mapping.xlsx</b></td><td>◐</td><td>—</td><td>—</td><td>◐</td><td>—</td><td>—</td><td>●</td><td>●</td><td>●</td><td>◐</td></tr>
-      <tr><td><b>UWorld-QID-Mapping.xlsx</b></td><td>—</td><td>—</td><td>◐</td><td>—</td><td>—</td><td>—</td><td>●</td><td>●</td><td>○</td><td>—</td></tr>
-      <tr><td><b>Practice Problems PDFs</b></td><td>○</td><td>○</td><td>●</td><td>◐</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>○</td></tr>
-      <tr><td><b>Full-Lectures-Calendar.pdf</b></td><td>—</td><td>—</td><td>—</td><td>—</td><td>○</td><td>●</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-      <tr><td><b>Endocrine_Checklist_Revised.xlsx</b></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>●</td><td>—</td><td>—</td><td>—</td><td>●</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <h3 style="margin-top:28px">Recommended change workflow</h3>
-  <ol style="color:#c9d4ec;line-height:1.7;max-width:900px">
-    <li><b>Identify the source tier</b> (LO, slide, subject, workbook, Anki, mapping, practice, schedule) — use the cards above.</li>
-    <li><b>Update the Primary column first</b> — these pages pull content directly and will be visibly wrong.</li>
-    <li><b>Spot-check Secondary</b> — usually small copy tweaks (blurbs, tab labels, matrix cells).</li>
-    <li><b>Re-run the trackers</b> in <code>hub-update-tracker/</code> (<code>python scan.py</code>, <code>python mapping_tracker.py</code>) to refresh JSON feeds the dashboards read.</li>
-    <li><b>Regenerate via the skills</b> — <code>hub-builder</code> / <code>hub-index-generator</code> / <code>hub3-generator</code> / <code>study-planner-generator</code> if the change is structural rather than content-level.</li>
-  </ol>
-</section>
-
-
-<!-- ================= VIEW 4: FILE INDEX ================= -->
-<section class="view" id="view-index">
-  <h2>Every HTML in the hub <span class="hint">Click to open locally</span></h2>
-
-  <h3>Top-level landing pages</h3>
-  <div class="grid">
-    <div class="card">
-      <div class="title"><span class="badge badge-hub">HUB</span> index.html</div>
-      <div class="path">./index.html</div>
-      <div class="desc">Block 4 master landing page — section anchors for lecture tools, exam tools, mapping tools.</div>
-      <div class="links"><a href="./index.html" target="_blank">open</a></div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-hub">HUB</span> endocrine_hub_index.html</div>
-      <div class="path">./endocrine_hub_index.html</div>
-      <div class="desc">Parallel landing page variant (same anchors/sections; alternative entry point).</div>
-      <div class="links"><a href="./endocrine_hub_index.html" target="_blank">open</a></div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-hub">HUB</span> active-recall-hub.html</div>
-      <div class="path">./active-recall-hub.html</div>
-      <div class="desc">Hub 2 directory — subject-tabbed (#biochem, #physio, #histo, #path, #drt) links to testing-drills.</div>
-      <div class="links"><a href="./active-recall-hub.html" target="_blank">open</a></div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-hub">HUB</span> StudyPlanner.html</div>
-      <div class="path">./StudyPlanner.html</div>
-      <div class="desc">Weekly calendar + per-lecture planner with task tracking, driven by the calendar PDF and LO docx list.</div>
-      <div class="links"><a href="./StudyPlanner.html" target="_blank">open</a></div>
-    </div>
-  </div>
-
-  <h3>Mid-tier directory pages</h3>
-  <div class="grid">
-    <div class="card">
-      <div class="title"><span class="badge badge-hub">DIR</span> lecture-guides/index.html</div>
-      <div class="path">./lecture-guides/index.html</div>
-      <div class="desc">Master directory of all 26 lecture guides — routes to Hub 1 guides and Hub 2 active-recall drills.</div>
-      <div class="links"><a href="./lecture-guides/index.html" target="_blank">open</a></div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-hub">DIR</span> endocrine_mapping.html</div>
-      <div class="path">./resource-mapping/endocrine_mapping.html</div>
-      <div class="desc">Lecture × 3rd-party resource matrix. Links back up to index.html and lecture-guides/index.html.</div>
-      <div class="links"><a href="./resource-mapping/endocrine_mapping.html" target="_blank">open</a></div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-hub">DIR</span> endocrine_resource_hub.html</div>
-      <div class="path">./resource-mapping/endocrine_resource_hub.html</div>
-      <div class="desc">Resource catalog page — cards for each 3rd-party source with links to workbooks & Anki exports.</div>
-      <div class="links"><a href="./resource-mapping/endocrine_resource_hub.html" target="_blank">open</a></div>
-    </div>
-  </div>
-
-  <h3>Per-lecture pages (Hub 1 · Hub 2 · Hub 3)</h3>
-  <div class="grid">
-    <div class="card">
-      <div class="title"><span class="badge badge-page">H1</span> Lecture guides</div>
-      <div class="path">./lecture-guides/end##-&lt;slug&gt;.html</div>
-      <div class="desc">One guide per lecture. Currently populated: end01 (intro to hormones), end02 (HP relationships I), end04 (adrenal synthesis), end05 (sex steroid synthesis). Internal anchors: #cover, #obj1..#objN, #cheatsheet, #quiz, #references, #audit.</div>
-      <div class="links">
-        <a href="./lecture-guides/end01-module-introduction-introduction-to-hormones.html" target="_blank">end01</a>
-        <a href="./lecture-guides/end02-hypothalamic-pituitary-hormone-relationships-i.html" target="_blank">end02</a>
-        <a href="./lecture-guides/end04-il-adrenal-hormone-synthesis-and-action.html" target="_blank">end04</a>
-        <a href="./lecture-guides/end05-il-sex-steroid-synthesis-and-action.html" target="_blank">end05</a>
-      </div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-page">H2</span> Active-lesson drills</div>
-      <div class="path">./active-lesson-drills/end##_active_recall.html + _key.html</div>
-      <div class="desc">Short-answer drill + answer key per lecture. Currently populated: end01, end02, end03, end04.</div>
-      <div class="links">
-        <a href="./active-lesson-drills/end01_active_recall.html" target="_blank">end01 drill</a>
-        <a href="./active-lesson-drills/end01_key.html" target="_blank">key</a>
-        <a href="./active-lesson-drills/end02_active_recall.html" target="_blank">end02</a>
-        <a href="./active-lesson-drills/end03_active_recall.html" target="_blank">end03</a>
-        <a href="./active-lesson-drills/end04_active_recall.html" target="_blank">end04</a>
-      </div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-page">H1/2/3</span> Testing drills</div>
-      <div class="path">./testing-drills/end##-hub1|hub2|hub3-&lt;slug&gt;.html</div>
-      <div class="desc">Three difficulty tiers per lecture. Each tier cross-links to its two siblings and up to active-recall-hub.</div>
-      <div class="links">
-        <a href="./testing-drills/end01-hub1-intro-to-hormones.html" target="_blank">end01 · hub1</a>
-        <a href="./testing-drills/end01-hub2-intro-to-hormones.html" target="_blank">hub2</a>
-        <a href="./testing-drills/end01-hub3-intro-to-hormones.html" target="_blank">hub3</a>
-      </div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-page">GAP</span> end05+ drills not yet built</div>
-      <div class="path">./active-lesson-drills/end05_active_recall.html <em>(and beyond)</em></div>
-      <div class="desc">Hub 1 lecture guides exist for end05 (sex steroids) and later lectures are on the horizon, but short-answer drills only go through end04 today. Gap to fill to keep the 3-hub pattern consistent.</div>
-    </div>
-  </div>
-
-  <h3>Tools & utilities</h3>
-  <div class="grid">
-    <div class="card">
-      <div class="title"><span class="badge badge-tool">TOOL</span> resource-explorer.html</div>
-      <div class="path">./resource-explorer.html</div>
-      <div class="desc">Browse 3rd-party hierarchies and mapping data.</div>
-      <div class="links"><a href="./resource-explorer.html" target="_blank">open</a></div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-tool">TOOL</span> resource-mapping-tool.html</div>
-      <div class="path">./resource-mapping-tool.html</div>
-      <div class="desc">Interactive editor for the Endocrine_Resource_Mapping.xlsx matrix.</div>
-      <div class="links"><a href="./resource-mapping-tool.html" target="_blank">open</a></div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-tool">TOOL</span> anki_package_parser_v10.html</div>
-      <div class="path">./anki_package_parser_v10.html <em>(referenced but not yet present)</em></div>
-      <div class="desc">Parses <code>.apkg</code> + hierarchy files. index.html and endocrine_hub_index.html link to it.</div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-tool">TOOL</span> hub-status-report.html</div>
-      <div class="path">./hub-update-tracker/hub-status-report.html</div>
-      <div class="desc">Build-status dashboard for hub completeness (uses status.json written by hub-update-tracker/scan.py). <em>index.html has a broken link to a root-level copy — file only exists inside the tracker folder.</em></div>
-      <div class="links"><a href="./hub-update-tracker/hub-status-report.html" target="_blank">open</a></div>
-    </div>
-  </div>
-
-  <h3>Hub-update tracker (internal)</h3>
-  <div class="grid">
-    <div class="card">
-      <div class="title"><span class="badge badge-tracker">TRK</span> dashboard.html</div>
-      <div class="path">./hub-update-tracker/dashboard.html</div>
-      <div class="desc">Main tracker dashboard (reads status.json).</div>
-      <div class="links"><a href="./hub-update-tracker/dashboard.html" target="_blank">open</a></div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-tracker">TRK</span> jv-dashboard.html</div>
-      <div class="path">./hub-update-tracker/jv-dashboard.html</div>
-      <div class="desc">Alternative "junior-varsity" dashboard view.</div>
-      <div class="links"><a href="./hub-update-tracker/jv-dashboard.html" target="_blank">open</a></div>
-    </div>
-    <div class="card">
-      <div class="title"><span class="badge badge-tracker">TRK</span> mapping-dashboard.html</div>
-      <div class="path">./hub-update-tracker/mapping-dashboard.html</div>
-      <div class="desc">Focused on mapping-status.json produced by mapping_tracker.py.</div>
-      <div class="links"><a href="./hub-update-tracker/mapping-dashboard.html" target="_blank">open</a></div>
-    </div>
-  </div>
-
-  <h2>Primary source folders <span class="hint">Not HTML — the content these pages are built from</span></h2>
-  <div class="grid">
-    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> Per Lecture/</div>
-      <div class="path">./Per Lecture/end##_&lt;topic&gt;/*.pdf</div>
-      <div class="desc">Authoritative slide decks powering every Hub 1 guide.</div>
-    </div>
-    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> Learning Objectives/</div>
-      <div class="path">./Per Lecture/Learning Objectives/*.docx</div>
-      <div class="desc">26 per-lecture LO docs + overall module LO. These define the Hub 1 objective structure and seed Hub 2 drill questions.</div>
-    </div>
-    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> Per Subject/</div>
-      <div class="path">./Per Subject/*.docx, *.pdf, *.xlsx</div>
-      <div class="desc">Histo, Path, Physio, Pharm, Biochem review guides + drug table + clinical correlations + module checklist.</div>
-    </div>
-    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> 3rd Party/ANKing/</div>
-      <div class="path">./3rd Party/ANKing/*.apkg, *.tsv, *.csv</div>
-      <div class="desc">BnB, Bootcamp, Physeo, Sketchy, First Aid, Pathoma, AnKing optional — the raw card decks. Referenced inline in Hub 1 source-audit tables.</div>
-    </div>
-    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> 3rd Party/Hierarchy/</div>
-      <div class="path">./3rd Party/Hierarchy/*-hierarchy.txt</div>
-      <div class="desc">Deck-hierarchy dumps (one per resource). Feed the resource-explorer / anki-parser tools.</div>
-    </div>
-    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> 3rd Party/Mapped-RunTime-Anki/</div>
-      <div class="path">./3rd Party/Mapped-RunTime-Anki/*.xlsx</div>
-      <div class="desc">Runtime "which card belongs to which lecture" spreadsheets — drive the endocrine_mapping.html matrix.</div>
-    </div>
-    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> 3rd Party/Workbooks/</div>
-      <div class="path">./3rd Party/Workbooks/*.pdf</div>
-      <div class="desc">BnB Endo/Biochem/ID/Repro, Bootcamp Endo/Biochem/Micro/Repro, Pathoma, Physeo Path/Pharm/Physio GI, Sketchy Path/Pharm, First Aid. Referenced from Hub 1 "References" sections.</div>
-    </div>
-    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> Practice Problems/</div>
-      <div class="path">./Practice Problems/*.pdf, *.docx + ./3rd Party/BRS</div>
-      <div class="desc">In-house old block exams, Endo pathology Qs, combined ENDO module Qs, pharm ENDO practice, histo practice, plus BRS Embryo/Histo/Path/Pharm.</div>
-    </div>
-    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> resource-mapping/</div>
-      <div class="path">./resource-mapping/*.xlsx + DRAFT-*.md</div>
-      <div class="desc"><code>Endocrine_Resource_Mapping.xlsx</code>, <code>HoyaDocs-UWorld-QID-Mapping.xlsx</code>, and six draft markdown mappings (BnB / Bootcamp / First Aid / Pathoma / Physeo / Sketchy) awaiting review.</div>
-    </div>
-    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> logistics/</div>
-      <div class="path">./logistics/</div>
-      <div class="desc"><code>Full-Lectures-Calendar.pdf</code> + <code>Endocrine_Checklist_Revised.xlsx</code> → drives StudyPlanner.html week layout and the master checklist.</div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <b>Broken / missing links spotted while mapping:</b>
-    <ul>
-      <li><code>index.html</code> and <code>endocrine_hub_index.html</code> link to <code>./hub-status-report.html</code> and <code>./anki_package_parser_v10.html</code>, but neither file exists at the repo root. The status report only lives inside <code>hub-update-tracker/</code>; the parser isn't checked in yet.</li>
-      <li><code>lecture-guides/index.html</code> lists <code>end01..end26</code> active-recall drills, but only <code>end01–end03</code> exist in <code>active-lesson-drills/</code>; end04+ still 404 (<code>end04_key.html</code> exists but no drill file yet).</li>
-      <li>Four Hub 1 guides exist (<code>end01, end02, end04, end05</code>) — <code>end03</code> and everything from <code>end06</code> onward haven't been authored yet.</li>
-      <li>Testing-drills only exist for <code>end01, end02, end03</code> (all three tiers per lecture).</li>
-      <li><code>lecture-guides/xxend01-*.html</code> and every <code>Archive/</code> folder hold deprecated versions — excluded from the map on purpose.</li>
-      <li><code>index.html</code> contains a literal <code>href="${l.link}"</code> — a template string that was never interpolated; the dynamic lecture-list block isn't wired up.</li>
-    </ul>
-  </div>
 </section>
 
 </main>
@@ -1492,7 +873,7 @@
     m.push([`f-lo-${n}`,'f-rm-1','mapping']);
     m.push(['f-lo-1','f-uw-2','mapping']);
     m.push([`f-lo-${n}`,'f-uw-2','mapping']);
-    // LOs also directly feed the Resource Hub Catalog — per-lecture row + card descriptions
+    // LOs also directly feed the Resource Mapping Hub — per-lecture row + card descriptions
     m.push(['f-lo-1','t-rhub-row','mapping']);
     m.push(['f-lo-1','t-rhub-card','mapping']);
     if (n>=3) m.push([`f-lo-${mid}`,'t-rhub-row','mapping']);
@@ -1672,7 +1053,7 @@
 
     // Targets — friendly titles on line 1, filenames on line 2
     setK('t_lg_title',  `${key} Lecture Guide`);
-    setK('t_lg_file',   `lecture-guides/${key}-${L.slug}.html`);
+    setK('t_lg_file',   `lecture-guides/${key}_lg.html`);
     setK('t_arkey_title', `${key} Active-Recall Drill + Key`);
     setK('t_arkey_file',  `active-lesson-drills/${key}_*.html`);
     setK('t_ar_file',     `active-lesson-drills/${key}_active_recall.html`);
