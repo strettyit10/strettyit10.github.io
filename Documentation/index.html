@@ -680,7 +680,12 @@
           <div class="bento-col" data-col="endo">
             <div class="bento-col-head col-endo">Endocrine</div>
 
-            <a class="bcard bc-amber" href="Resource-Mapping/Endocrine_Resource_Mapping.xlsx" data-block="endo">
+            <a class="bcard bc-amber"
+               href="https://hoyadocs.com/Block4-Endocrine/resource-mapping/end_resource-hub.html"
+               target="_blank" rel="noopener"
+               data-download="https://hoyadocs.com/Block4-Endocrine/end_Resource_Mapping.xlsx"
+               data-download-filename="end_Resource_Mapping.xlsx"
+               data-block="endo">
               <span class="bcard-watermark">📊</span>
               <div class="bcard-header">
                 <div class="bcard-icon">📊</div>
@@ -689,10 +694,10 @@
                   <h3>Endocrine Resource Mapping</h3>
                 </div>
               </div>
-              <p>Master workbook aligning every Endocrine learning objective to its mapped third-party resources.</p>
+              <p>Master workbook aligning every Endocrine learning objective to its mapped third-party resources. Opens the Resource Mapping Hub and auto-downloads the 3rd Party Resource × Lecture workbook.</p>
               <div class="bcard-footer">
-                <span class="bcard-cta">Download ↓</span>
-                <span class="bcard-format">XLSX · 72 KB</span>
+                <span class="bcard-cta">Open hub ↗ &amp; download ↓</span>
+                <span class="bcard-format">HTML + XLSX</span>
               </div>
             </a>
 
@@ -875,6 +880,24 @@
     buttons.forEach(function (btn) {
       btn.addEventListener('click', function () {
         applyFilter(btn.getAttribute('data-filter'));
+      });
+    });
+  })();
+
+  // ── Auto-download companion file for cards with data-download ──
+  (function () {
+    document.querySelectorAll('a[data-download]').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var url = card.getAttribute('data-download');
+        if (!url) return;
+        var filename = card.getAttribute('data-download-filename') || '';
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.rel = 'noopener';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       });
     });
   })();
