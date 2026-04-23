@@ -36,6 +36,23 @@
       text-shadow: 0 2px 12px rgba(0,0,0,0.6);
     }
 
+    /* ── Read Me link (directly below brand) ── */
+    .readme-link {
+      position: fixed;
+      top: 82px;
+      left: 38px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: rgba(255,255,255,0.75);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      z-index: 10;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+      transition: color 0.15s;
+    }
+    .readme-link:hover { color: #fff; }
+
     /* ── Stage: centers the body image ── */
     .stage {
       position: relative;
@@ -180,6 +197,7 @@
     /* ── Tablet / small laptop ── */
     @media (max-width: 960px) {
       .brand { font-size: 2rem; top: 22px; left: 24px; }
+      .readme-link { top: 64px; left: 26px; font-size: 0.82rem; }
 
       .callout-endo  .line { width: 120px; }
       .callout-endo  .pill { left: 130px; }
@@ -197,6 +215,7 @@
     /* ── Phone ── */
     @media (max-width: 640px) {
       .brand { font-size: 1.5rem; top: 16px; left: 18px; }
+      .readme-link { top: 48px; left: 20px; font-size: 0.75rem; }
 
       .body-frame { max-width: 78vw; height: min(72vh, 72dvh); }
 
@@ -242,6 +261,7 @@
       .stage { padding: 50px 0 40px; }
       .body-frame { height: min(85vh, 85dvh); max-width: 46vw; }
       .brand { font-size: 1.4rem; top: 14px; left: 16px; }
+      .readme-link { top: 42px; left: 18px; font-size: 0.72rem; }
       .caption { display: none; }
     }
 
@@ -262,6 +282,7 @@
 
 <body>
   <div class="brand">HoyaDocs</div>
+  <a class="readme-link" href="https://hoyadocs.com/hoyadocs-101">Read Me</a>
 
   <div class="stage">
     <div class="body-frame">
