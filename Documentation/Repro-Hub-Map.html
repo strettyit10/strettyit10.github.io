@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Repro Hub Map · HoyaDocs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+<style>
+  :root{
+    --bg:#0b1220;
+    --panel:#111a2e;
+    --card:#16213a;
+    --card-2:#1b2945;
+    --border:#273556;
+    --text:#eaf0ff;
+    --muted:#9aa9c6;
+    --accent:#e11d48;        /* repro rose/red */
+    --accent-2:#fb7185;
+    --ok:#34d399;
+    --warn:#f87171;
+    --info:#60a5fa;
+    --purple:#a78bfa;
+    --pink:#f472b6;
+    --teal:#2dd4bf;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif}
+  a{color:var(--accent-2);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header.hero{
+    background:
+      radial-gradient(1200px 400px at 10% -10%, rgba(225,29,72,.18), transparent 60%),
+      radial-gradient(900px 400px at 110% 10%, rgba(96,165,250,.15), transparent 60%),
+      linear-gradient(180deg, #0e1830, #0b1220);
+    border-bottom:1px solid var(--border);
+    padding:32px 40px 28px;
+  }
+  .brand{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+  .brand .dot{width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 18px rgba(225,29,72,.7)}
+  .brand .name{font-weight:800;letter-spacing:.04em;font-size:12px;color:var(--muted);text-transform:uppercase}
+  .brand .version{
+    margin-left:auto;font:600 11px 'JetBrains Mono',monospace;color:#fecdd3;
+    background:rgba(251,113,133,.12);border:1px solid rgba(251,113,133,.35);
+    padding:3px 9px;border-radius:99px;letter-spacing:.04em;
+  }
+  .brand .version .v-label{color:#9aa9c6;margin-right:6px}
+  h1{margin:0 0 6px;font-size:34px;font-weight:800;letter-spacing:-.02em}
+  h1 .tag{color:var(--accent-2)}
+  header.hero p{margin:0;color:var(--muted);max-width:860px;line-height:1.55}
+
+  .tabs{display:flex;gap:8px;padding:18px 40px 0;border-bottom:1px solid var(--border);background:var(--panel)}
+  .tab{
+    background:transparent;color:var(--muted);border:1px solid transparent;
+    padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;font:600 13px 'Inter',sans-serif;
+    border-bottom:none
+  }
+  .tab.active{background:var(--bg);color:var(--text);border-color:var(--border);position:relative;top:1px}
+  .tab:hover{color:var(--text)}
+
+  main{padding:28px 40px 60px;max-width:1400px;margin:0 auto}
+  section.view{display:none}
+  section.view.active{display:block}
+
+  .legend{
+    display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:10px;
+    background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:22px
+  }
+  .legend .chip{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+  .legend .sw{width:14px;height:14px;border-radius:4px;border:1px solid #00000033}
+
+  .diagram-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;overflow:auto}
+  .mermaid{min-width:900px}
+
+  h2{margin:34px 0 10px;font-size:20px;letter-spacing:-.01em}
+  h2 .hint{font-size:12px;color:var(--muted);font-weight:500;margin-left:8px}
+  h3{margin:22px 0 8px;font-size:15px;color:var(--accent-2);letter-spacing:.02em;text-transform:uppercase;font-weight:700}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(320px,1fr));gap:14px}
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;
+    transition:transform .12s ease, border-color .12s ease
+  }
+  .card:hover{transform:translateY(-1px);border-color:var(--accent)}
+  .card .title{font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .card .title .badge{font-size:10px;padding:2px 7px;border-radius:99px;font-weight:700;letter-spacing:.03em}
+  .card .path{font:500 12px 'JetBrains Mono', monospace;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .card .desc{font-size:13px;color:#c9d4ec;line-height:1.5}
+  .card .links{margin-top:8px;font-size:12px}
+  .card .links a{margin-right:10px;color:var(--info)}
+
+  .badge-hub{background:#881337;color:#fecdd3}
+  .badge-page{background:#1e3a8a;color:#dbeafe}
+  .badge-tool{background:#064e3b;color:#bbf7d0}
+  .badge-src{background:#3b0764;color:#ede9fe}
+  .badge-tracker{background:#831843;color:#fce7f3}
+
+  details{background:var(--card-2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin:8px 0}
+  details summary{cursor:pointer;font-weight:600}
+  details[open] summary{color:var(--accent-2)}
+
+  .source-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  .source-table th,.source-table td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+  .source-table th{color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-size:11px;font-weight:700}
+  .source-table code{font:500 12px 'JetBrains Mono',monospace;color:#ffd791;background:#1a1030;padding:1px 6px;border-radius:4px}
+
+  .footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:12px}
+
+  /* Impact view */
+  .impact-card{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin:14px 0;
+  }
+  .impact-head{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;margin-bottom:6px}
+  .impact-head h3{margin:0;text-transform:none;font-size:17px;color:var(--text);letter-spacing:-.01em}
+  .impact-head .src-tag{font:600 11px 'JetBrains Mono',monospace;color:#fecdd3;background:#4c0519;border:1px solid #881337;padding:3px 8px;border-radius:6px}
+  .impact-head .risk{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:99px;border:1px solid transparent}
+  .risk-high{background:#450a0a;color:#fecaca;border-color:#7f1d1d}
+  .risk-med{background:#4c0519;color:#fecaca;border-color:#9f1239}
+  .risk-low{background:#052e16;color:#86efac;border-color:#14532d}
+  .impact-card .blurb{color:#c9d4ec;font-size:13px;line-height:1.55;margin:4px 0 10px}
+  .impact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+  .impact-col h4{margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .impact-col ul{margin:0;padding-left:18px;font-size:13px;line-height:1.55}
+  .impact-col ul li{margin:3px 0}
+  .impact-col code{font:500 11px 'JetBrains Mono',monospace;color:#ffd791;background:#1a1030;padding:1px 5px;border-radius:4px}
+  .impact-col.primary h4{color:#fca5a5}
+  .impact-col.secondary h4{color:#fecaca}
+  .impact-col.tertiary h4{color:#86efac}
+
+  /* ===== Field-map view (data-integration style) ===== */
+  .fm-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:8px 0 14px;flex-wrap:wrap}
+  .fm-chips{display:flex;gap:6px;flex-wrap:wrap}
+  .fm-chip{
+    background:var(--panel);border:1px solid var(--border);color:var(--muted);
+    padding:5px 11px;border-radius:99px;font-size:12px;font-weight:600;cursor:pointer;user-select:none
+  }
+  .fm-chip:hover{color:var(--text);border-color:var(--accent)}
+  .fm-chip.active{background:var(--accent);color:#1b1205;border-color:var(--accent)}
+  .fm-legend{display:flex;gap:14px;color:var(--muted);font-size:12px;flex-wrap:wrap}
+  .fm-legend span{display:inline-flex;align-items:center;gap:6px}
+  .fm-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+  .fieldmap-wrap{
+    position:relative;
+    background:#0d1628;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px;
+    overflow:hidden;
+  }
+  .fm-cols{
+    display:grid;
+    grid-template-columns: 1fr 1.05fr 1fr;
+    gap:50px;
+    position:relative;
+    z-index:2;
+  }
+  .fm-col{display:flex;flex-direction:column;gap:18px}
+  .fm-col-head{
+    font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+    padding:0 4px 6px;border-bottom:1px dashed var(--border);margin-bottom:2px;
+    display:flex;align-items:baseline;justify-content:space-between
+  }
+  .fm-col-head span{font-weight:500;letter-spacing:.04em;text-transform:none;color:#5e7399;font-size:11px}
+
+  .fm-card{
+    background:linear-gradient(180deg,#172339,#111a2e);
+    border:1px solid #2a3a5c;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 2px 0 rgba(0,0,0,.2), 0 10px 24px -16px rgba(0,0,0,.6);
+    transition:border-color .12s ease, transform .12s ease;
+  }
+  .fm-card.highlight{border-color:var(--accent);transform:translateY(-1px)}
+  .fm-card.dim{opacity:.25}
+
+  .fm-card-head{
+    display:flex;align-items:center;gap:8px;
+    padding:9px 12px;
+    font-weight:700;font-size:13px;color:#eaf0ff;
+    border-bottom:1px solid #243355;
+    background:linear-gradient(180deg,#1e2c4d,#19253f);
+    cursor:pointer;
+    flex-wrap:wrap;
+  }
+  .fm-card-head .ic{font-size:14px;opacity:.9}
+  .fm-card-sub{flex-basis:100%;font-size:10px;font-weight:500;color:#7a8bac;letter-spacing:.04em}
+
+  .fm-src .fm-card-head{background:linear-gradient(180deg,#3b2c11,#2a1f0a);border-bottom-color:#5a4018}
+  .fm-src{border-color:#5a4018}
+  .fm-tgt .fm-card-head{background:linear-gradient(180deg,#0e2d49,#0a2239);border-bottom-color:#174169}
+  .fm-tgt{border-color:#174169}
+  .fm-xform{text-align:center;border-color:#1e4a38}
+  .fm-xform .fm-card-head{background:linear-gradient(180deg,#0f3d2d,#0a2e22);border-bottom-color:#195f45;justify-content:center}
+
+  /* Intermediate cards — both consume and emit */
+  .fm-mid{border-color:#1e4a5a}
+  .fm-mid .fm-card-head{background:linear-gradient(180deg,#0c3848,#091f2a);border-bottom-color:#195f75}
+  .fm-mid .fm-field{
+    padding-left:26px;padding-right:26px;
+    position:relative;justify-content:flex-start;text-align:left
+  }
+  .fm-mid .fm-field > .fm-pin{display:none}
+  .fm-mid .fm-field::before,
+  .fm-mid .fm-field::after{
+    content:'';
+    width:9px;height:9px;border-radius:50%;
+    background:#2dd4bf;border:1px solid #0d9488;
+    box-shadow:0 0 0 2px rgba(45,212,191,.18);
+    position:absolute;top:50%;transform:translateY(-50%);
+  }
+  .fm-mid .fm-field::before{left:10px}
+  .fm-mid .fm-field::after{right:10px}
+  .fm-mid .fm-field span:not(.fm-pin){flex:1;text-align:left}
+
+  /* Generator strip at top */
+  .fm-gen-strip{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    background:#0d1628;border:1px dashed #273556;border-radius:12px;
+    padding:10px 14px;margin-bottom:14px;
+  }
+  .fm-gen-strip b{
+    color:#86efac;font-weight:800;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;margin-right:4px
+  }
+  .fm-gen-strip code{
+    background:#0a2e22;border:1px solid #1e4a38;color:#86efac;
+    padding:4px 10px;border-radius:6px;font:600 11px 'JetBrains Mono',monospace
+  }
+  .fm-gen-strip .gen-hint{margin-left:auto;color:var(--muted);font-size:11px;font-style:italic}
+
+  /* Card collapse toggle */
+  .fm-toggle{
+    margin-left:auto;cursor:pointer;user-select:none;flex:0 0 22px;
+    width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;
+    border-radius:5px;color:var(--muted);font-size:12px;
+    transition:transform .2s ease,background .12s ease,color .12s ease;
+  }
+  .fm-toggle:hover{background:rgba(255,255,255,.08);color:var(--text)}
+  .fm-card.collapsed .fm-toggle{transform:rotate(-90deg)}
+  .fm-card.collapsed .fm-field{display:none}
+  .fm-card.collapsed .fm-subhead{display:none}
+  .fm-card.collapsed .fm-card-head{border-bottom:none}
+
+  /* data-hidden = content retained but not displayed (user-toggleable) */
+  .fm-field.data-hidden,
+  .fm-subhead.data-hidden{display:none}
+
+  /* Vendor subheaders inside a grouped card */
+  .fm-subhead{
+    padding:7px 12px 4px;
+    font:800 10px 'Inter',sans-serif;
+    color:#fb7185;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    border-top:1px solid #1d2a47;
+    background:linear-gradient(180deg,rgba(251,113,133,.07),rgba(251,113,133,.02));
+  }
+  .fm-subhead:first-of-type{border-top:none}
+  .fm-subhead .label{display:inline-flex;align-items:center;gap:6px}
+  .fm-subhead .dim{color:#7a8bac;font-weight:500;text-transform:none;letter-spacing:.02em;margin-left:6px}
+
+  .fm-field{
+    display:flex;align-items:center;gap:10px;
+    padding:6px 12px;
+    font-size:12px;line-height:1.35;color:#d5dff3;
+    border-top:1px solid #1d2a47;
+    position:relative;
+    cursor:pointer;
+  }
+  .fm-field:first-of-type{border-top:none}
+  .fm-src .fm-field{justify-content:space-between}
+  .fm-tgt .fm-field{justify-content:flex-start}
+  .fm-field span:not(.fm-pin){flex:1}
+  .fm-field:hover{background:#16233e;color:#fff}
+  .fm-field.highlight{background:#1b2e55;color:#fff}
+  .fm-field.dim{opacity:.3}
+
+  .fm-pin{
+    width:9px;height:9px;border-radius:50%;
+    background:#38bdf8;border:1px solid #0ea5e9;flex:0 0 9px;
+    box-shadow:0 0 0 2px rgba(56,189,248,.15)
+  }
+  .fm-src .fm-pin{background:#fb7185;border-color:#d97706;box-shadow:0 0 0 2px rgba(251,113,133,.18)}
+  .fm-tgt .fm-pin{background:#60a5fa;border-color:#2563eb;box-shadow:0 0 0 2px rgba(96,165,250,.18)}
+
+  .fm-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+  .fm-svg path{
+    fill:none;stroke-width:1.4;opacity:.55;
+    transition:opacity .15s ease, stroke-width .15s ease;
+  }
+  .fm-svg path.highlight{opacity:1;stroke-width:2.6;filter:drop-shadow(0 0 4px currentColor)}
+  .fm-svg path.dim{opacity:.07}
+  .fm-svg path.hidden{display:none}
+
+  /* category colors */
+  .fm-svg path.c-lo{stroke:#60a5fa;color:#60a5fa}
+  .fm-svg path.c-slide{stroke:#34d399;color:#34d399}
+  .fm-svg path.c-workbook{stroke:#f472b6;color:#f472b6}
+  .fm-svg path.c-anki{stroke:#f472b6;color:#f472b6;stroke-dasharray:4 3}
+  .fm-svg path.c-subj{stroke:#a78bfa;color:#a78bfa}
+  .fm-svg path.c-mapping{stroke:#fb7185;color:#fb7185}
+  .fm-svg path.c-xform{stroke:#64748b;color:#64748b;stroke-dasharray:2 4;opacity:.35}
+  .fm-svg path.c-derived{stroke:#a78bfa;color:#a78bfa;stroke-dasharray:6 3;opacity:.55}
+  .fm-field.not-covered{opacity:.35;font-style:italic}
+  .fm-field.not-covered .fm-pin{background:#475569;border-color:#334155;box-shadow:none}
+
+  .fm-select{
+    background:var(--panel);color:var(--text);border:1px solid var(--border);
+    padding:7px 10px;border-radius:8px;font:600 13px 'Inter',sans-serif;
+    min-width:340px;cursor:pointer;
+  }
+  .fm-select:focus{outline:none;border-color:var(--accent)}
+  .fm-tag{
+    font:600 11px 'JetBrains Mono',monospace;color:#fecdd3;background:#4c0519;
+    border:1px solid #881337;padding:3px 8px;border-radius:6px;letter-spacing:.04em
+  }
+  .fm-field[hidden]{display:none !important}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="brand">
+    <div class="dot"></div>
+    <div class="name">HoyaDocs · Block 4 · Repro</div>
+    <div class="version"><span class="v-label">rev</span>v1.0 · 2026-04-22</div>
+  </div>
+  <h1>Repro Hub <span class="tag">Map</span></h1>
+  <p>A bird's-eye view of every HTML in the reproduction study hub — how the pages link to each other, and which primary sources (lecture slides, learning objectives, Anki decks, workbooks, and practice banks) each tier pulls from.</p>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-view="fieldmap">Field mapping</button>
+  <button class="tab" data-view="impact">Source → impact (if I update…)</button>
+  <button class="tab" data-view="index">File index</button>
+</nav>
+
+<main>
+
+<!-- ================= LEGEND ================= -->
+<div class="legend">
+  <div class="chip"><span class="sw" style="background:#e11d48"></span>Top-level hub (landing page)</div>
+  <div class="chip"><span class="sw" style="background:#60a5fa"></span>Per-lecture HTML (Hub 1 / 2 / 3 tier)</div>
+  <div class="chip"><span class="sw" style="background:#34d399"></span>Tool / utility page</div>
+  <div class="chip"><span class="sw" style="background:#a78bfa"></span>Primary source (PDF / DOCX / APKG / XLSX)</div>
+  <div class="chip"><span class="sw" style="background:#f472b6"></span>Hub-update tracker dashboard</div>
+</div>
+
+<!-- ================= VIEW 1: NAVIGATION FLOW ================= -->
+<!-- ================= VIEW 0: FIELD MAPPING (data-integration style) ================= -->
+<section class="view active" id="view-fieldmap">
+  <h2>Field-level data mapping <span class="hint" id="fm-hint">pick a lecture to see how its sources feed the HTML outputs</span></h2>
+
+  <div class="fm-toolbar">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <label for="fm-lecture-select" style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase">Lecture</label>
+      <select id="fm-lecture-select" class="fm-select"></select>
+      <span id="fm-lecture-tag" class="fm-tag"></span>
+    </div>
+    <div class="fm-chips">
+      <span class="fm-chip" data-filter="all">Show all</span>
+      <span class="fm-chip" data-filter="lo">LO flows</span>
+      <span class="fm-chip" data-filter="slide">Slide flows</span>
+      <span class="fm-chip" data-filter="workbook">Workbook / Anki</span>
+      <span class="fm-chip" data-filter="mapping">Resource mapping</span>
+      <span class="fm-chip" data-filter="derived">Lecture-guide → drills</span>
+    </div>
+    <div class="fm-legend">
+      <span><span class="fm-dot" style="background:#60a5fa"></span>LO</span>
+      <span><span class="fm-dot" style="background:#34d399"></span>Slides</span>
+      <span><span class="fm-dot" style="background:#f472b6"></span>Workbook / Anki</span>
+      <span><span class="fm-dot" style="background:#fb7185"></span>Mapping</span>
+      <span><span class="fm-dot" style="background:#a78bfa"></span>Derived (guide→drills)</span>
+    </div>
+  </div>
+
+  <div class="fm-gen-strip">
+    <b>Generators</b>
+    <code>hub-builder</code>
+    <code>hub-index-generator</code>
+    <code>hub3-generator</code>
+    <code>study-planner-generator</code>
+    <code>lecture-resource-mapper</code>
+    <span class="gen-hint">skills that produce the outputs below from the inputs to the left</span>
+  </div>
+
+  <div class="fieldmap-wrap" id="fieldmap-wrap">
+    <svg class="fm-svg" id="fm-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <div class="fm-cols">
+
+      <!-- =========== LEFT: SOURCES =========== -->
+      <div class="fm-col">
+        <div class="fm-col-head">Primary sources <span>inputs</span></div>
+
+        <div class="fm-card fm-src" data-card="inlec">
+          <div class="fm-card-head"><span class="ic">📝</span><span data-k="inlec_title"></span><span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">Per Lecture / — LO docx + slide PDF</span></div>
+
+          <div class="fm-subhead"><span class="label">Learning Objectives</span></div>
+          <div class="fm-field" id="f-lo-1"><span data-k="obj1"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-lo-2"><span data-k="obj2"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-lo-3"><span data-k="obj3"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-lo-4"><span data-k="obj4"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-lo-5"><span data-k="obj5"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-lo-6"><span data-k="obj6"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-lo-7"><span data-k="obj7"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-lo-8"><span data-k="obj8"></span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead data-hidden"><span class="label">Lecture Notes</span><span class="dim" data-k="slide_file"></span></div>
+          <div class="fm-field data-hidden" id="f-sl-1"><span data-k="sl1"></span><span class="fm-pin"></span></div>
+          <div class="fm-field data-hidden" id="f-sl-2"><span data-k="sl2"></span><span class="fm-pin"></span></div>
+          <div class="fm-field data-hidden" id="f-sl-3"><span data-k="sl3"></span><span class="fm-pin"></span></div>
+          <div class="fm-field data-hidden" id="f-sl-4"><span data-k="sl4"></span><span class="fm-pin"></span></div>
+          <div class="fm-field data-hidden" id="f-sl-5"><span data-k="sl5"></span><span class="fm-pin"></span></div>
+          <div class="fm-field data-hidden" id="f-sl-6"><span data-k="sl6"></span><span class="fm-pin"></span></div>
+        </div>
+
+        <div class="fm-card fm-src" data-card="subj">
+          <div class="fm-card-head"><span class="ic">📘</span>In House Subject Review<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">Per Subject / — in-house review materials</span></div>
+
+          <div class="fm-subhead"><span class="label">Anatomy</span></div>
+          <div class="fm-field" id="f-sub-anat"><span>Reproduction Anatomy Review Guide.pdf</span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">Physiology &amp; Biochemistry</span></div>
+          <div class="fm-field" id="f-sub-physio"><span>Repro Physiology Biochem Review Guide.pdf</span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">Pathology</span></div>
+          <div class="fm-field" id="f-sub-path"><span>Repro Pathology Review Guide.pdf</span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">Histology</span></div>
+          <div class="fm-field" id="f-sub-histo"><span>Reproduction Histology Review Guide.pdf</span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-sub-histo2"><span>Repro Histology (supplementary).pdf</span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">Pharmacology</span></div>
+          <div class="fm-field" id="f-sub-pharm"><span>Reproduction Pharmacology Review Guide.pdf</span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-sub-pharmatable"><span>REP Pharma Table.pdf</span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">Sexual Health</span></div>
+          <div class="fm-field" id="f-sub-sexuality"><span>Human Sexuality.pptx</span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">Organizational</span></div>
+          <div class="fm-field" id="f-sub-checklist"><span>Repro Lecture Checklist.xlsx</span><span class="fm-pin"></span></div>
+        </div>
+
+        <div class="fm-card fm-src" data-card="thirdparty">
+          <div class="fm-card-head"><span class="ic">📚</span>3rd-Party Resources<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">Workbooks + Anki decks, grouped by vendor</span></div>
+
+          <div class="fm-subhead"><span class="label">BnB</span><span class="dim">Boards &amp; Beyond</span></div>
+          <div class="fm-field" id="f-wb-bnb"><span data-k="wb_bnb"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-ak-bnb"><span data-k="ak_bnb"></span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">Bootcamp</span><span class="dim">Bootcamp.com</span></div>
+          <div class="fm-field" id="f-wb-bc"><span data-k="wb_bc"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-ak-bc"><span data-k="ak_bc"></span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">First Aid</span><span class="dim">USMLE Step One</span></div>
+          <div class="fm-field" id="f-wb-fa"><span data-k="wb_fa"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-ak-fa"><span data-k="ak_fa"></span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">Pathoma</span><span class="dim">Sattar</span></div>
+          <div class="fm-field" id="f-wb-path"><span data-k="wb_path"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-ak-path"><span data-k="ak_path"></span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">Physeo</span><span class="dim">Physeo.com</span></div>
+          <div class="fm-field" id="f-wb-phy"><span data-k="wb_phy"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-ak-phy"><span data-k="ak_phy"></span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">Sketchy</span><span class="dim">SketchyMedical</span></div>
+          <div class="fm-field" id="f-wb-sk"><span data-k="wb_sk"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-ak-sk"><span data-k="ak_sk"></span><span class="fm-pin"></span></div>
+        </div>
+
+        <div class="fm-card fm-src" data-card="addank">
+          <div class="fm-card-head"><span class="ic">🧩</span>Additional Anki Decks<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">In-House + 3rd-Party decks beyond the vendor set above</span></div>
+
+          <div class="fm-subhead"><span class="label">In House Decks</span><span class="dim">School-wide + Block 4</span></div>
+          <div class="fm-field" id="f-in-gusom"><span data-k="in_gusom"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-in-block4"><span data-k="in_block4"></span><span class="fm-pin"></span></div>
+
+          <div class="fm-subhead"><span class="label">3rd Party Decks</span><span class="dim">Duke · Michigan · AnkiHub optional</span></div>
+          <div class="fm-field" id="f-in-path"><span data-k="in_path"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-in-mich"><span data-k="in_mich"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-in-ahopt"><span data-k="in_ahopt"></span><span class="fm-pin"></span></div>
+        </div>
+      </div>
+
+      <!-- =========== MIDDLE: INTERMEDIATE (both input AND output) =========== -->
+      <div class="fm-col">
+        <div class="fm-col-head">Intermediate files <span>inputs + outputs</span></div>
+
+        <div class="fm-card fm-mid" data-card="lg">
+          <div class="fm-card-head"><span class="ic">📄</span><span data-k="t_lg_title"></span><span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub" data-k="t_lg_file"></span></div>
+          <div class="fm-field" id="t-lg-cover"><span class="fm-pin"></span><span>#cover</span></div>
+          <div class="fm-field" id="t-lg-obj1"><span class="fm-pin"></span><span data-k="t_obj1"></span></div>
+          <div class="fm-field" id="t-lg-obj2"><span class="fm-pin"></span><span data-k="t_obj2"></span></div>
+          <div class="fm-field" id="t-lg-obj3"><span class="fm-pin"></span><span data-k="t_obj3"></span></div>
+          <div class="fm-field" id="t-lg-obj4"><span class="fm-pin"></span><span data-k="t_obj4"></span></div>
+          <div class="fm-field" id="t-lg-obj5"><span class="fm-pin"></span><span data-k="t_obj5"></span></div>
+          <div class="fm-field" id="t-lg-obj6"><span class="fm-pin"></span><span data-k="t_obj6"></span></div>
+          <div class="fm-field" id="t-lg-obj7"><span class="fm-pin"></span><span data-k="t_obj7"></span></div>
+          <div class="fm-field" id="t-lg-obj8"><span class="fm-pin"></span><span data-k="t_obj8"></span></div>
+          <div class="fm-field" id="t-lg-cheat"><span class="fm-pin"></span><span>#cheatsheet</span></div>
+          <div class="fm-field" id="t-lg-quiz"><span class="fm-pin"></span><span>#quiz</span></div>
+          <div class="fm-field" id="t-lg-ref"><span class="fm-pin"></span><span>#references</span></div>
+          <div class="fm-field" id="t-lg-audit"><span class="fm-pin"></span><span>#audit</span></div>
+        </div>
+
+        <div class="fm-card fm-mid" data-card="xlsx">
+          <div class="fm-card-head"><span class="ic">📑</span>Resource Mapping Spreadsheet<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">Repro_Resource_Mapping.xlsx</span></div>
+          <div class="fm-field" id="f-rm-1"><span data-k="rm1"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-rm-2"><span data-k="rm2"></span><span class="fm-pin"></span></div>
+        </div>
+
+        <div class="fm-card fm-mid" data-card="uworld">
+          <div class="fm-card-head"><span class="ic">🎯</span>UWorld QID Spreadsheet<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">HoyaDocs-UWorld-QID-Mapping.xlsx</span></div>
+          <div class="fm-field" id="f-uw-1"><span data-k="uw1"></span><span class="fm-pin"></span></div>
+          <div class="fm-field" id="f-uw-2"><span data-k="uw2"></span><span class="fm-pin"></span></div>
+        </div>
+      </div>
+
+      <!-- =========== RIGHT: TARGETS =========== -->
+      <div class="fm-col">
+        <div class="fm-col-head">HTML outputs <span>destinations</span></div>
+
+        <div class="fm-card fm-tgt" data-card="arkey">
+          <div class="fm-card-head"><span class="ic">✏️</span><span data-k="t_arkey_title"></span><span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub" data-k="t_arkey_file"></span></div>
+
+          <div class="fm-subhead"><span class="label">Active-Recall Drill</span><span class="dim" data-k="t_ar_file"></span></div>
+          <div class="fm-field" id="t-ar-1"><span class="fm-pin"></span><span>Q1 (Obj 1)</span></div>
+          <div class="fm-field" id="t-ar-2"><span class="fm-pin"></span><span>Q2 (Obj 2)</span></div>
+          <div class="fm-field" id="t-ar-3"><span class="fm-pin"></span><span>Q3 (Obj 3)</span></div>
+          <div class="fm-field" id="t-ar-4"><span class="fm-pin"></span><span>Q4 (Obj 4)</span></div>
+          <div class="fm-field" id="t-ar-5"><span class="fm-pin"></span><span>Q5 (Obj 5)</span></div>
+          <div class="fm-field" id="t-ar-6"><span class="fm-pin"></span><span>Q6 (Obj 6)</span></div>
+          <div class="fm-field" id="t-ar-7"><span class="fm-pin"></span><span>Q7 (Obj 7)</span></div>
+          <div class="fm-field" id="t-ar-8"><span class="fm-pin"></span><span>Q8 (Obj 8)</span></div>
+
+          <div class="fm-subhead"><span class="label">Answer Key</span><span class="dim" data-k="t_key_file"></span></div>
+          <div class="fm-field" id="t-key-all"><span class="fm-pin"></span><span data-k="t_key_row"></span></div>
+        </div>
+
+        <div class="fm-card fm-tgt" data-card="td1">
+          <div class="fm-card-head"><span class="ic">🎯</span><span data-k="t_h1_title"></span><span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub" data-k="t_h1_file"></span></div>
+          <div class="fm-field" id="t-h1-all"><span class="fm-pin"></span><span data-k="t_h1_row"></span></div>
+        </div>
+
+        <div class="fm-card fm-tgt" data-card="td2">
+          <div class="fm-card-head"><span class="ic">🎯</span><span data-k="t_h2_title"></span><span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub" data-k="t_h2_file"></span></div>
+          <div class="fm-field" id="t-h2-all"><span class="fm-pin"></span><span data-k="t_h2_row"></span></div>
+        </div>
+
+        <div class="fm-card fm-tgt" data-card="td3">
+          <div class="fm-card-head"><span class="ic">🩺</span><span data-k="t_h3_title"></span><span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub" data-k="t_h3_file"></span></div>
+          <div class="fm-field" id="t-h3-all"><span class="fm-pin"></span><span data-k="t_h3_row"></span></div>
+        </div>
+
+        <div class="fm-card fm-tgt" data-card="map">
+          <div class="fm-card-head"><span class="ic">🗺</span>Resource Mapping Matrix<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">resource-mapping/repro_mapping.html</span></div>
+          <div class="fm-field" id="t-map-row"><span class="fm-pin"></span><span data-k="t_map_row"></span></div>
+          <div class="fm-field" id="t-map-topics"><span class="fm-pin"></span><span data-k="t_map_topics"></span></div>
+        </div>
+
+        <div class="fm-card fm-tgt" data-card="rhub">
+          <div class="fm-card-head"><span class="ic">🗂</span>Resource Hub Catalog<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">resource-mapping/repro_resource_hub.html</span></div>
+          <div class="fm-field" id="t-rhub-card"><span class="fm-pin"></span><span>Cards per 3rd-party source</span></div>
+          <div class="fm-field" id="t-rhub-row"><span class="fm-pin"></span><span data-k="t_rhub_row"></span></div>
+        </div>
+
+        <div class="fm-card fm-tgt" data-card="rexp">
+          <div class="fm-card-head"><span class="ic">🔍</span>Resource Explorer<span class="fm-toggle" title="Collapse / expand">▾</span><span class="fm-card-sub">resource-explorer.html</span></div>
+          <div class="fm-field" id="t-rexp-row"><span class="fm-pin"></span><span data-k="t_rexp_row"></span></div>
+          <div class="fm-field" id="t-rexp-hier"><span class="fm-pin"></span><span>Deck hierarchies + resource cards</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <p style="color:var(--muted);font-size:13px;margin-top:18px;max-width:960px;line-height:1.55">
+    <b>How to read this:</b> pick a lecture in the dropdown — every card rewrites to that lecture's sources and output filenames. Hover a field row to isolate its connections; hover a card header to highlight everything touching that file. Blue = Learning-Objective → section, green = slide-range → section body, pink = workbook/Anki citation (dashed for Anki), amber = resource-mapping matrix flow.
+  </p>
+</section>
+
+<!-- ================= VIEW 2B: SOURCE IMPACT ================= -->
+<section class="view" id="view-impact">
+  <h2>If I update this source, what HTMLs need review? <span class="hint">Reverse dependency map — change-impact view</span></h2>
+  <p style="color:var(--muted);max-width:900px;margin:6px 0 22px;line-height:1.55">
+    Read this view as: "If the file on the left changes, the HTMLs on the right need to be opened, reviewed, and likely regenerated." Items marked <span class="risk risk-high" style="padding:1px 7px">Primary</span> pull content <em>directly</em> from that source — they'll be wrong if not updated. Items marked <span class="risk risk-med" style="padding:1px 7px">Secondary</span> reference it indirectly. <span class="risk risk-low" style="padding:1px 7px">Downstream</span> items re-use the affected tier and should at least be spot-checked.
+  </p>
+
+  <!-- ========= Learning Objectives ========= -->
+  <div class="impact-card">
+    <div class="impact-head">
+      <span class="src-tag">Per Lecture / Learning Objectives / end##_LO_*.docx</span>
+      <h3>Learning-objective doc for a single lecture</h3>
+      <span class="risk risk-high">Highest-impact source</span>
+    </div>
+    <div class="blurb">LO docs are the <b>spine</b> of the entire 3-hub stack for that lecture. Every downstream page is organized around these objectives — an objective being added, renumbered, or reworded cascades everywhere.</div>
+    <div class="impact-grid">
+      <div class="impact-col primary">
+        <h4>Primary (must update)</h4>
+        <ul>
+          <li><code>lecture-guides/end##-&lt;slug&gt;.html</code> — sidebar, progress counter, #obj1…#objN sections, #cheatsheet, #quiz all match LO headings</li>
+          <li><code>active-lesson-drills/end##_active_recall.html</code> — drill questions are seeded per objective</li>
+          <li><code>active-lesson-drills/end##_key.html</code> — answer key mirrors drill</li>
+          <li><code>testing-drills/end##-hub1-&lt;slug&gt;.html</code></li>
+          <li><code>testing-drills/end##-hub2-&lt;slug&gt;.html</code></li>
+          <li><code>testing-drills/end##-hub3-&lt;slug&gt;.html</code> (vignettes anchored to LOs)</li>
+        </ul>
+      </div>
+      <div class="impact-col secondary">
+        <h4>Secondary (review)</h4>
+        <ul>
+          <li><code>lecture-guides/index.html</code> — lecture-card blurb text</li>
+          <li><code>active-recall-hub.html</code> — subject-tab blurbs referencing that lecture</li>
+          <li><code>StudyPlanner.html</code> — task checkboxes per lecture</li>
+          <li><code>resource-mapping/repro_mapping.html</code> — LO column in the matrix</li>
+          <li><code>resource-mapping/repro_resource_hub.html</code></li>
+        </ul>
+      </div>
+      <div class="impact-col tertiary">
+        <h4>Downstream / admin</h4>
+        <ul>
+          <li><code>hub-update-tracker/status.json</code> — rerun <code>scan.py</code> to refresh completeness</li>
+          <li><code>endALL-LO-All-Overall Module Objectives.docx</code> — keep master roll-up in sync</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= Lecture slide PDF ========= -->
+  <div class="impact-card">
+    <div class="impact-head">
+      <span class="src-tag">Per Lecture / end##_&lt;topic&gt; / *.pdf</span>
+      <h3>Lecture slide deck for a single lecture</h3>
+      <span class="risk risk-high">Highest-impact source</span>
+    </div>
+    <div class="blurb">The slide deck is the authoritative content the Hub 1 guide teaches against. Wording tweaks or slide reorderings don't usually ripple, but <em>new slides, removed topics, or changed mechanisms</em> absolutely do.</div>
+    <div class="impact-grid">
+      <div class="impact-col primary">
+        <h4>Primary (must update)</h4>
+        <ul>
+          <li><code>lecture-guides/end##-&lt;slug&gt;.html</code> — all prose, diagrams, #cheatsheet, #references cite specific slides</li>
+          <li><code>lecture-guides/end##-*.html</code> #audit section — slide-by-slide source audit table</li>
+          <li><code>active-lesson-drills/end##_active_recall.html</code> — "Lecture ##" references</li>
+          <li><code>active-lesson-drills/end##_key.html</code></li>
+        </ul>
+      </div>
+      <div class="impact-col secondary">
+        <h4>Secondary (review)</h4>
+        <ul>
+          <li><code>testing-drills/end##-hub1|hub2|hub3-*.html</code> — question stems may cite specific slide facts</li>
+          <li><code>resource-mapping/repro_mapping.html</code> — slide-level references</li>
+        </ul>
+      </div>
+      <div class="impact-col tertiary">
+        <h4>Downstream / admin</h4>
+        <ul>
+          <li><code>Per Lecture/Learning Objectives/end##_LO_*.docx</code> — check if LOs need to change too</li>
+          <li><code>hub-update-tracker/content-cache.json</code> — invalidate cache</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= Per Subject review ========= -->
+  <div class="impact-card">
+    <div class="impact-head">
+      <span class="src-tag">Per Subject / *.docx (Histo / Path / Physio / Pharm / Biochem)</span>
+      <h3>Subject-level review guide</h3>
+      <span class="risk risk-med">Cross-cutting source</span>
+    </div>
+    <div class="blurb">Subject review guides cut across lectures — a Path update can touch every lecture that has a pathology component (end08, end11, end16, end20, end24).</div>
+    <div class="impact-grid">
+      <div class="impact-col primary">
+        <h4>Primary (must update)</h4>
+        <ul>
+          <li>Every <code>lecture-guides/end##-*.html</code> whose subject tag matches — e.g. a Pharmacology update hits end13, end17, end18, end21, end22, end25</li>
+          <li><code>active-recall-hub.html</code> — the matching subject tab (#physio, #path, #histo, #biochem, #drt)</li>
+        </ul>
+      </div>
+      <div class="impact-col secondary">
+        <h4>Secondary (review)</h4>
+        <ul>
+          <li><code>testing-drills/*-hub2|hub3-*.html</code> for affected lectures</li>
+          <li><code>Per Subject/Endocrine_Checklist_Revised.xlsx</code></li>
+        </ul>
+      </div>
+      <div class="impact-col tertiary">
+        <h4>Downstream / admin</h4>
+        <ul>
+          <li><code>StudyPlanner.html</code> — if checklist headings changed</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= 3rd Party workbook ========= -->
+  <div class="impact-card">
+    <div class="impact-head">
+      <span class="src-tag">3rd Party / Workbooks / *.pdf (BnB / Bootcamp / Pathoma / Physeo / Sketchy / First Aid)</span>
+      <h3>3rd-party workbook edition</h3>
+      <span class="risk risk-med">Cross-cutting source</span>
+    </div>
+    <div class="blurb">New edition or chapter reorg of a 3rd-party workbook. Hub 1 guides cite these directly in their References + Source Audit sections.</div>
+    <div class="impact-grid">
+      <div class="impact-col primary">
+        <h4>Primary (must update)</h4>
+        <ul>
+          <li>Every <code>lecture-guides/end##-*.html</code> #references + #audit section that cites that workbook</li>
+          <li><code>resource-mapping/repro_mapping.html</code> — column for that resource</li>
+          <li><code>resource-mapping/repro_resource_hub.html</code> — resource card</li>
+          <li><code>resource-mapping/DRAFT-&lt;resource&gt;-Mapping-FOR-REVIEW.md</code></li>
+        </ul>
+      </div>
+      <div class="impact-col secondary">
+        <h4>Secondary (review)</h4>
+        <ul>
+          <li><code>resource-mapping/Repro_Resource_Mapping.xlsx</code></li>
+          <li><code>resource-explorer.html</code></li>
+          <li>Corresponding Anki deck + hierarchy (may need re-export)</li>
+        </ul>
+      </div>
+      <div class="impact-col tertiary">
+        <h4>Downstream / admin</h4>
+        <ul>
+          <li><code>hub-update-tracker/mapping-status.json</code> — rerun <code>mapping_tracker.py</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= Anki package ========= -->
+  <div class="impact-card">
+    <div class="impact-head">
+      <span class="src-tag">3rd Party / ANKing / *.apkg + *.tsv</span>
+      <h3>Anki deck update (BnB, Bootcamp, Physeo, Sketchy, FA, Pathoma, AnKing)</h3>
+      <span class="risk risk-med">Cross-cutting source</span>
+    </div>
+    <div class="blurb">When a card deck is updated, the mapping spreadsheets and inline "mapped cards" in Hub 1 audit tables are what break. The workbook PDFs are independent.</div>
+    <div class="impact-grid">
+      <div class="impact-col primary">
+        <h4>Primary (must update)</h4>
+        <ul>
+          <li><code>3rd Party/Hierarchy/&lt;deck&gt;-hierarchy.txt</code> — re-export hierarchy</li>
+          <li><code>3rd Party/Mapped-RunTime-Anki/&lt;deck&gt;-RT-AK-*.xlsx</code> — re-map card IDs</li>
+          <li><code>resource-mapping/repro_mapping.html</code></li>
+          <li><code>resource-mapping/repro_resource_hub.html</code></li>
+          <li>Every <code>lecture-guides/end##-*.html</code> #audit table that cites cards from that deck</li>
+        </ul>
+      </div>
+      <div class="impact-col secondary">
+        <h4>Secondary (review)</h4>
+        <ul>
+          <li><code>resource-explorer.html</code></li>
+          <li><code>anki_package_parser_v10.html</code> (when present)</li>
+          <li><code>resource-mapping/DRAFT-&lt;deck&gt;-Mapping-FOR-REVIEW.md</code></li>
+        </ul>
+      </div>
+      <div class="impact-col tertiary">
+        <h4>Downstream / admin</h4>
+        <ul>
+          <li><code>hub-update-tracker/dashboard.html</code>, <code>mapping-dashboard.html</code> — refresh tracker</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= Resource mapping xlsx ========= -->
+  <div class="impact-card">
+    <div class="impact-head">
+      <span class="src-tag">resource-mapping / Repro_Resource_Mapping.xlsx</span>
+      <h3>Master resource-mapping spreadsheet</h3>
+      <span class="risk risk-high">Highest-impact source (meta-file)</span>
+    </div>
+    <div class="blurb">The xlsx is the single source of truth for "which 3rd-party resource covers which lecture" — it drives every mapping-flavored page and tool.</div>
+    <div class="impact-grid">
+      <div class="impact-col primary">
+        <h4>Primary (must regenerate)</h4>
+        <ul>
+          <li><code>resource-mapping/repro_mapping.html</code> — the matrix</li>
+          <li><code>resource-mapping/repro_resource_hub.html</code> — resource catalog</li>
+          <li><code>resource-explorer.html</code></li>
+          <li><code>resource-mapping-tool.html</code></li>
+        </ul>
+      </div>
+      <div class="impact-col secondary">
+        <h4>Secondary (review)</h4>
+        <ul>
+          <li>Every <code>lecture-guides/end##-*.html</code> #audit table (mapped-resource pills)</li>
+          <li><code>active-recall-hub.html</code> — subject tab blurbs</li>
+        </ul>
+      </div>
+      <div class="impact-col tertiary">
+        <h4>Downstream / admin</h4>
+        <ul>
+          <li><code>resource-mapping/DRAFT-*-Mapping-FOR-REVIEW.md</code> — update any draft in flight</li>
+          <li><code>hub-update-tracker/mapping-status.json</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= UWorld QID mapping ========= -->
+  <div class="impact-card">
+    <div class="impact-head">
+      <span class="src-tag">resource-mapping / HoyaDocs-UWorld-QID-Mapping.xlsx</span>
+      <h3>UWorld QID → lecture mapping</h3>
+      <span class="risk risk-low">Narrow impact</span>
+    </div>
+    <div class="blurb">Only touches pages that expose UWorld QID recommendations.</div>
+    <div class="impact-grid">
+      <div class="impact-col primary">
+        <h4>Primary</h4>
+        <ul>
+          <li><code>resource-mapping/repro_mapping.html</code></li>
+          <li><code>resource-mapping/repro_resource_hub.html</code></li>
+        </ul>
+      </div>
+      <div class="impact-col secondary">
+        <h4>Secondary</h4>
+        <ul>
+          <li><code>testing-drills/*-hub3-*.html</code> — vignettes sometimes reference QID themes</li>
+        </ul>
+      </div>
+      <div class="impact-col tertiary">
+        <h4>Downstream</h4>
+        <ul><li>—</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= Practice Problems ========= -->
+  <div class="impact-card">
+    <div class="impact-head">
+      <span class="src-tag">Practice Problems / *.pdf, *.docx  +  Practice Problems / 3rd Party / BRS</span>
+      <h3>In-house + BRS practice banks</h3>
+      <span class="risk risk-med">Hub 3 driver</span>
+    </div>
+    <div class="blurb">The question pools behind the USMLE-style vignettes. Changes here primarily affect Hub 3.</div>
+    <div class="impact-grid">
+      <div class="impact-col primary">
+        <h4>Primary (must update)</h4>
+        <ul>
+          <li>Every <code>testing-drills/end##-hub3-*.html</code></li>
+        </ul>
+      </div>
+      <div class="impact-col secondary">
+        <h4>Secondary (review)</h4>
+        <ul>
+          <li><code>testing-drills/end##-hub2-*.html</code> — longer mixed sets</li>
+          <li><code>active-recall-hub.html</code> — subject tab counts</li>
+        </ul>
+      </div>
+      <div class="impact-col tertiary">
+        <h4>Downstream / admin</h4>
+        <ul><li><code>hub-update-tracker/status.json</code></li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= Calendar ========= -->
+  <div class="impact-card">
+    <div class="impact-head">
+      <span class="src-tag">logistics / Full-Lectures-Calendar.pdf</span>
+      <h3>Block calendar (dates / times / week layout)</h3>
+      <span class="risk risk-low">Schedule only</span>
+    </div>
+    <div class="blurb">Only affects pages that render the week-by-week schedule. Content pages are unaffected.</div>
+    <div class="impact-grid">
+      <div class="impact-col primary">
+        <h4>Primary</h4>
+        <ul>
+          <li><code>StudyPlanner.html</code> — weekly calendar grid</li>
+          <li><code>index.html</code> / <code>repro_hub_index.html</code> — schedule section</li>
+        </ul>
+      </div>
+      <div class="impact-col secondary">
+        <h4>Secondary</h4>
+        <ul><li><code>logistics/Endocrine_Checklist_Revised.xlsx</code></li></ul>
+      </div>
+      <div class="impact-col tertiary">
+        <h4>Downstream</h4>
+        <ul><li>—</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= Checklist ========= -->
+  <div class="impact-card">
+    <div class="impact-head">
+      <span class="src-tag">logistics / Endocrine_Checklist_Revised.xlsx</span>
+      <h3>Master block checklist</h3>
+      <span class="risk risk-low">Schedule / tracking only</span>
+    </div>
+    <div class="blurb">Drives task-tracking widgets. Doesn't touch lecture content.</div>
+    <div class="impact-grid">
+      <div class="impact-col primary">
+        <h4>Primary</h4>
+        <ul>
+          <li><code>StudyPlanner.html</code></li>
+          <li><code>hub-update-tracker/dashboard.html</code></li>
+        </ul>
+      </div>
+      <div class="impact-col secondary">
+        <h4>Secondary</h4>
+        <ul><li><code>Per Subject/Endocrine_Checklist_Revised.xlsx</code> — keep duplicate in sync</li></ul>
+      </div>
+      <div class="impact-col tertiary">
+        <h4>Downstream</h4>
+        <ul><li>—</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= Heatmap ========= -->
+  <h2 style="margin-top:34px">At-a-glance impact heatmap <span class="hint">● Primary  ◐ Secondary  ○ Downstream</span></h2>
+  <div style="overflow-x:auto">
+  <table class="source-table" style="min-width:1100px">
+    <thead>
+      <tr>
+        <th>Source ↓ / HTML →</th>
+        <th>lecture-guides/end##</th>
+        <th>active-lesson-drills/end##</th>
+        <th>testing-drills end##-hub1/2/3</th>
+        <th>active-recall-hub</th>
+        <th>lecture-guides/index</th>
+        <th>StudyPlanner</th>
+        <th>repro_mapping</th>
+        <th>repro_resource_hub</th>
+        <th>resource-explorer / -mapping-tool</th>
+        <th>hub-update-tracker/*</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><b>end##_LO_*.docx</b></td><td>●</td><td>●</td><td>●</td><td>◐</td><td>◐</td><td>◐</td><td>◐</td><td>○</td><td>○</td><td>○</td></tr>
+      <tr><td><b>end##_slides.pdf</b></td><td>●</td><td>●</td><td>◐</td><td>○</td><td>○</td><td>○</td><td>◐</td><td>○</td><td>—</td><td>○</td></tr>
+      <tr><td><b>Per Subject review</b></td><td>●</td><td>◐</td><td>◐</td><td>●</td><td>○</td><td>○</td><td>○</td><td>○</td><td>—</td><td>○</td></tr>
+      <tr><td><b>3rd Party Workbook</b></td><td>●</td><td>○</td><td>◐</td><td>○</td><td>—</td><td>—</td><td>●</td><td>●</td><td>◐</td><td>○</td></tr>
+      <tr><td><b>Anki .apkg + .tsv</b></td><td>◐</td><td>◐</td><td>○</td><td>○</td><td>—</td><td>—</td><td>●</td><td>●</td><td>●</td><td>◐</td></tr>
+      <tr><td><b>Hierarchy .txt</b></td><td>○</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>◐</td><td>◐</td><td>●</td><td>○</td></tr>
+      <tr><td><b>Mapped-RunTime-Anki xlsx</b></td><td>○</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>●</td><td>◐</td><td>●</td><td>◐</td></tr>
+      <tr><td><b>Repro_Resource_Mapping.xlsx</b></td><td>◐</td><td>—</td><td>—</td><td>◐</td><td>—</td><td>—</td><td>●</td><td>●</td><td>●</td><td>◐</td></tr>
+      <tr><td><b>UWorld-QID-Mapping.xlsx</b></td><td>—</td><td>—</td><td>◐</td><td>—</td><td>—</td><td>—</td><td>●</td><td>●</td><td>○</td><td>—</td></tr>
+      <tr><td><b>Practice Problems PDFs</b></td><td>○</td><td>○</td><td>●</td><td>◐</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>○</td></tr>
+      <tr><td><b>Full-Lectures-Calendar.pdf</b></td><td>—</td><td>—</td><td>—</td><td>—</td><td>○</td><td>●</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><b>Endocrine_Checklist_Revised.xlsx</b></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>●</td><td>—</td><td>—</td><td>—</td><td>●</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="margin-top:28px">Recommended change workflow</h3>
+  <ol style="color:#c9d4ec;line-height:1.7;max-width:900px">
+    <li><b>Identify the source tier</b> (LO, slide, subject, workbook, Anki, mapping, practice, schedule) — use the cards above.</li>
+    <li><b>Update the Primary column first</b> — these pages pull content directly and will be visibly wrong.</li>
+    <li><b>Spot-check Secondary</b> — usually small copy tweaks (blurbs, tab labels, matrix cells).</li>
+    <li><b>Re-run the trackers</b> in <code>hub-update-tracker/</code> (<code>python scan.py</code>, <code>python mapping_tracker.py</code>) to refresh JSON feeds the dashboards read.</li>
+    <li><b>Regenerate via the skills</b> — <code>hub-builder</code> / <code>hub-index-generator</code> / <code>hub3-generator</code> / <code>study-planner-generator</code> if the change is structural rather than content-level.</li>
+  </ol>
+</section>
+
+
+<!-- ================= VIEW 4: FILE INDEX ================= -->
+<section class="view" id="view-index">
+  <h2>Every HTML in the hub <span class="hint">Click to open locally</span></h2>
+
+  <h3>Top-level landing pages</h3>
+  <div class="grid">
+    <div class="card">
+      <div class="title"><span class="badge badge-hub">HUB</span> index.html</div>
+      <div class="path">./index.html</div>
+      <div class="desc">Block 4 master landing page — section anchors for lecture tools, exam tools, mapping tools.</div>
+      <div class="links"><a href="./index.html" target="_blank">open</a></div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-hub">HUB</span> repro_hub_index.html</div>
+      <div class="path">./repro_hub_index.html</div>
+      <div class="desc">Parallel landing page variant (same anchors/sections; alternative entry point).</div>
+      <div class="links"><a href="./repro_hub_index.html" target="_blank">open</a></div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-hub">HUB</span> active-recall-hub.html</div>
+      <div class="path">./active-recall-hub.html</div>
+      <div class="desc">Hub 2 directory — subject-tabbed (#biochem, #physio, #histo, #path, #drt) links to testing-drills.</div>
+      <div class="links"><a href="./active-recall-hub.html" target="_blank">open</a></div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-hub">HUB</span> StudyPlanner.html</div>
+      <div class="path">./StudyPlanner.html</div>
+      <div class="desc">Weekly calendar + per-lecture planner with task tracking, driven by the calendar PDF and LO docx list.</div>
+      <div class="links"><a href="./StudyPlanner.html" target="_blank">open</a></div>
+    </div>
+  </div>
+
+  <h3>Mid-tier directory pages</h3>
+  <div class="grid">
+    <div class="card">
+      <div class="title"><span class="badge badge-hub">DIR</span> lecture-guides/index.html</div>
+      <div class="path">./lecture-guides/index.html</div>
+      <div class="desc">Master directory of all 26 lecture guides — routes to Hub 1 guides and Hub 2 active-recall drills.</div>
+      <div class="links"><a href="./lecture-guides/index.html" target="_blank">open</a></div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-hub">DIR</span> repro_mapping.html</div>
+      <div class="path">./resource-mapping/repro_mapping.html</div>
+      <div class="desc">Lecture × 3rd-party resource matrix. Links back up to index.html and lecture-guides/index.html.</div>
+      <div class="links"><a href="./resource-mapping/repro_mapping.html" target="_blank">open</a></div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-hub">DIR</span> repro_resource_hub.html</div>
+      <div class="path">./resource-mapping/repro_resource_hub.html</div>
+      <div class="desc">Resource catalog page — cards for each 3rd-party source with links to workbooks & Anki exports.</div>
+      <div class="links"><a href="./resource-mapping/repro_resource_hub.html" target="_blank">open</a></div>
+    </div>
+  </div>
+
+  <h3>Per-lecture pages (Hub 1 · Hub 2 · Hub 3)</h3>
+  <div class="grid">
+    <div class="card">
+      <div class="title"><span class="badge badge-page">H1</span> Lecture guides</div>
+      <div class="path">./lecture-guides/end##-&lt;slug&gt;.html</div>
+      <div class="desc">One guide per lecture. Currently populated: end01 (intro to hormones), end02 (HP relationships I), end04 (adrenal synthesis), end05 (sex steroid synthesis). Internal anchors: #cover, #obj1..#objN, #cheatsheet, #quiz, #references, #audit.</div>
+      <div class="links">
+        <a href="./lecture-guides/end01-module-introduction-introduction-to-hormones.html" target="_blank">end01</a>
+        <a href="./lecture-guides/end02-hypothalamic-pituitary-hormone-relationships-i.html" target="_blank">end02</a>
+        <a href="./lecture-guides/end04-il-adrenal-hormone-synthesis-and-action.html" target="_blank">end04</a>
+        <a href="./lecture-guides/end05-il-sex-steroid-synthesis-and-action.html" target="_blank">end05</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-page">H2</span> Active-lesson drills</div>
+      <div class="path">./active-lesson-drills/end##_active_recall.html + _key.html</div>
+      <div class="desc">Short-answer drill + answer key per lecture. Currently populated: end01, end02, end03, end04.</div>
+      <div class="links">
+        <a href="./active-lesson-drills/end01_active_recall.html" target="_blank">end01 drill</a>
+        <a href="./active-lesson-drills/end01_key.html" target="_blank">key</a>
+        <a href="./active-lesson-drills/end02_active_recall.html" target="_blank">end02</a>
+        <a href="./active-lesson-drills/end03_active_recall.html" target="_blank">end03</a>
+        <a href="./active-lesson-drills/end04_active_recall.html" target="_blank">end04</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-page">H1/2/3</span> Testing drills</div>
+      <div class="path">./testing-drills/end##-hub1|hub2|hub3-&lt;slug&gt;.html</div>
+      <div class="desc">Three difficulty tiers per lecture. Each tier cross-links to its two siblings and up to active-recall-hub.</div>
+      <div class="links">
+        <a href="./testing-drills/end01-hub1-intro-to-hormones.html" target="_blank">end01 · hub1</a>
+        <a href="./testing-drills/end01-hub2-intro-to-hormones.html" target="_blank">hub2</a>
+        <a href="./testing-drills/end01-hub3-intro-to-hormones.html" target="_blank">hub3</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-page">GAP</span> end05+ drills not yet built</div>
+      <div class="path">./active-lesson-drills/end05_active_recall.html <em>(and beyond)</em></div>
+      <div class="desc">Hub 1 lecture guides exist for end05 (sex steroids) and later lectures are on the horizon, but short-answer drills only go through end04 today. Gap to fill to keep the 3-hub pattern consistent.</div>
+    </div>
+  </div>
+
+  <h3>Tools & utilities</h3>
+  <div class="grid">
+    <div class="card">
+      <div class="title"><span class="badge badge-tool">TOOL</span> resource-explorer.html</div>
+      <div class="path">./resource-explorer.html</div>
+      <div class="desc">Browse 3rd-party hierarchies and mapping data.</div>
+      <div class="links"><a href="./resource-explorer.html" target="_blank">open</a></div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-tool">TOOL</span> resource-mapping-tool.html</div>
+      <div class="path">./resource-mapping-tool.html</div>
+      <div class="desc">Interactive editor for the Repro_Resource_Mapping.xlsx matrix.</div>
+      <div class="links"><a href="./resource-mapping-tool.html" target="_blank">open</a></div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-tool">TOOL</span> anki_package_parser_v10.html</div>
+      <div class="path">./anki_package_parser_v10.html <em>(referenced but not yet present)</em></div>
+      <div class="desc">Parses <code>.apkg</code> + hierarchy files. index.html and repro_hub_index.html link to it.</div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-tool">TOOL</span> hub-status-report.html</div>
+      <div class="path">./hub-update-tracker/hub-status-report.html</div>
+      <div class="desc">Build-status dashboard for hub completeness (uses status.json written by hub-update-tracker/scan.py). <em>index.html has a broken link to a root-level copy — file only exists inside the tracker folder.</em></div>
+      <div class="links"><a href="./hub-update-tracker/hub-status-report.html" target="_blank">open</a></div>
+    </div>
+  </div>
+
+  <h3>Hub-update tracker (internal)</h3>
+  <div class="grid">
+    <div class="card">
+      <div class="title"><span class="badge badge-tracker">TRK</span> dashboard.html</div>
+      <div class="path">./hub-update-tracker/dashboard.html</div>
+      <div class="desc">Main tracker dashboard (reads status.json).</div>
+      <div class="links"><a href="./hub-update-tracker/dashboard.html" target="_blank">open</a></div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-tracker">TRK</span> jv-dashboard.html</div>
+      <div class="path">./hub-update-tracker/jv-dashboard.html</div>
+      <div class="desc">Alternative "junior-varsity" dashboard view.</div>
+      <div class="links"><a href="./hub-update-tracker/jv-dashboard.html" target="_blank">open</a></div>
+    </div>
+    <div class="card">
+      <div class="title"><span class="badge badge-tracker">TRK</span> mapping-dashboard.html</div>
+      <div class="path">./hub-update-tracker/mapping-dashboard.html</div>
+      <div class="desc">Focused on mapping-status.json produced by mapping_tracker.py.</div>
+      <div class="links"><a href="./hub-update-tracker/mapping-dashboard.html" target="_blank">open</a></div>
+    </div>
+  </div>
+
+  <h2>Primary source folders <span class="hint">Not HTML — the content these pages are built from</span></h2>
+  <div class="grid">
+    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> Per Lecture/</div>
+      <div class="path">./Per Lecture/end##_&lt;topic&gt;/*.pdf</div>
+      <div class="desc">Authoritative slide decks powering every Hub 1 guide.</div>
+    </div>
+    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> Learning Objectives/</div>
+      <div class="path">./Per Lecture/Learning Objectives/*.docx</div>
+      <div class="desc">26 per-lecture LO docs + overall module LO. These define the Hub 1 objective structure and seed Hub 2 drill questions.</div>
+    </div>
+    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> Per Subject/</div>
+      <div class="path">./Per Subject/*.docx, *.pdf, *.xlsx</div>
+      <div class="desc">Histo, Path, Physio, Pharm, Biochem review guides + drug table + clinical correlations + module checklist.</div>
+    </div>
+    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> 3rd Party/ANKing/</div>
+      <div class="path">./3rd Party/ANKing/*.apkg, *.tsv, *.csv</div>
+      <div class="desc">BnB, Bootcamp, Physeo, Sketchy, First Aid, Pathoma, AnKing optional — the raw card decks. Referenced inline in Hub 1 source-audit tables.</div>
+    </div>
+    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> 3rd Party/Hierarchy/</div>
+      <div class="path">./3rd Party/Hierarchy/*-hierarchy.txt</div>
+      <div class="desc">Deck-hierarchy dumps (one per resource). Feed the resource-explorer / anki-parser tools.</div>
+    </div>
+    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> 3rd Party/Mapped-RunTime-Anki/</div>
+      <div class="path">./3rd Party/Mapped-RunTime-Anki/*.xlsx</div>
+      <div class="desc">Runtime "which card belongs to which lecture" spreadsheets — drive the repro_mapping.html matrix.</div>
+    </div>
+    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> 3rd Party/Workbooks/</div>
+      <div class="path">./3rd Party/Workbooks/*.pdf</div>
+      <div class="desc">BnB Endo/Biochem/ID/Repro, Bootcamp Endo/Biochem/Micro/Repro, Pathoma, Physeo Path/Pharm/Physio GI, Sketchy Path/Pharm, First Aid. Referenced from Hub 1 "References" sections.</div>
+    </div>
+    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> Practice Problems/</div>
+      <div class="path">./Practice Problems/*.pdf, *.docx + ./3rd Party/BRS</div>
+      <div class="desc">In-house old block exams, Endo pathology Qs, combined ENDO module Qs, pharm ENDO practice, histo practice, plus BRS Embryo/Histo/Path/Pharm.</div>
+    </div>
+    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> resource-mapping/</div>
+      <div class="path">./resource-mapping/*.xlsx + DRAFT-*.md</div>
+      <div class="desc"><code>Repro_Resource_Mapping.xlsx</code>, <code>HoyaDocs-UWorld-QID-Mapping.xlsx</code>, and six draft markdown mappings (BnB / Bootcamp / First Aid / Pathoma / Physeo / Sketchy) awaiting review.</div>
+    </div>
+    <div class="card"><div class="title"><span class="badge badge-src">SRC</span> logistics/</div>
+      <div class="path">./logistics/</div>
+      <div class="desc"><code>Full-Lectures-Calendar.pdf</code> + <code>Endocrine_Checklist_Revised.xlsx</code> → drives StudyPlanner.html week layout and the master checklist.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <b>Broken / missing links spotted while mapping:</b>
+    <ul>
+      <li><code>index.html</code> and <code>repro_hub_index.html</code> link to <code>./hub-status-report.html</code> and <code>./anki_package_parser_v10.html</code>, but neither file exists at the repo root. The status report only lives inside <code>hub-update-tracker/</code>; the parser isn't checked in yet.</li>
+      <li><code>lecture-guides/index.html</code> lists <code>end01..end26</code> active-recall drills, but only <code>end01–end03</code> exist in <code>active-lesson-drills/</code>; end04+ still 404 (<code>end04_key.html</code> exists but no drill file yet).</li>
+      <li>Four Hub 1 guides exist (<code>end01, end02, end04, end05</code>) — <code>end03</code> and everything from <code>end06</code> onward haven't been authored yet.</li>
+      <li>Testing-drills only exist for <code>end01, end02, end03</code> (all three tiers per lecture).</li>
+      <li><code>lecture-guides/xxend01-*.html</code> and every <code>Archive/</code> folder hold deprecated versions — excluded from the map on purpose.</li>
+      <li><code>index.html</code> contains a literal <code>href="${l.link}"</code> — a template string that was never interpolated; the dynamic lecture-list block isn't wired up.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<script>
+  // Initialize Mermaid with dark-friendly theme
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      fontFamily: 'Inter, sans-serif',
+      primaryColor: '#1e293b',
+      primaryTextColor: '#eaf0ff',
+      primaryBorderColor: '#334155',
+      lineColor: '#64748b',
+      secondaryColor: '#111a2e',
+      tertiaryColor: '#16213a',
+      clusterBkg: '#0f1a30',
+      clusterBorder: '#273556',
+      edgeLabelBackground: '#0b1220',
+    },
+    flowchart: { htmlLabels: true, curve: 'basis', nodeSpacing: 40, rankSpacing: 60 }
+  });
+
+  // Tabs
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      document.getElementById('view-' + t.dataset.view).classList.add('active');
+      // redraw field-map lines if we just switched to it (elements need layout)
+      if (t.dataset.view === 'fieldmap') requestAnimationFrame(drawFieldMap);
+    });
+  });
+
+  // =============== LECTURE DATA ===============
+  const SUBJECT_REVIEWS = {
+    Anat:    {file:'Reproduction Anatomy Review Guide.pdf',     sub:['Gross pelvic anatomy','Neurovascular supply']},
+    Physio:  {file:'Repro Physiology Biochem Review Guide.pdf', sub:['Reproductive physiology','Hormone biochemistry']},
+    Path:    {file:'Repro Pathology Review Guide.pdf',          sub:['Gland-specific pathology','Neoplastic vs benign']},
+    Histo:   {file:'Reproduction Histology Review Guide.pdf',   sub:['Reproductive-tract histology','Cell-type morphology']},
+    Pharm:   {file:'Reproduction Pharmacology Review Guide.pdf',sub:['Drug-class mechanisms','Indications + adverse effects']},
+    Sex:     {file:'Human Sexuality.pptx',                      sub:['Sexuality framework','Development + identity']},
+    Clinical:{file:'Reproduction Anatomy Review Guide.pdf',     sub:['Clinical integration','Exam + workup approach']},
+    Lab:     {file:'Reproduction Histology Review Guide.pdf',   sub:['Gross + histo correlates','Slide interpretation']},
+    Ethics:  {file:'Human Sexuality.pptx',                      sub:['Professionalism framework','Ethics principles']},
+    Orient:  {file:'Reproduction Anatomy Review Guide.pdf',     sub:['Module overview','Orientation materials']}
+  };
+
+  // Compact per-lecture data — everything else is derived
+  const LECTURES = {
+    rpd00:{t:'Module Orientation',sj:'Orient',folder:'rpd00_Module-Orientation',slug:'module-orientation',
+      lo:'',sd:'00_Module-Orientation.pdf',
+      O:['Block overview + expectations','Resources + study framework','Exam format + timeline'],
+      S:['Slides 1–5 — cover','Slides 6–15 — overview','Slides 16–25 — resources','Slides 26–35 — timeline'],
+      wb:{bnb:'—',bc:'—',fa:'Repro section overview',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'}},
+    rpd01:{t:'Urogenital Primer',sj:'Anat',folder:'rpd01_IL-Urogenital-Primer',slug:'urogenital-primer',
+      lo:'rpd01_LO_Urogenital-Primer.docx',sd:'01_IL-Urogenital-Primer.pdf',
+      O:['Urogenital-ridge embryology','Genital-tubercle development','Sex-determining cascade','Common congenital anomalies'],
+      S:['Slides 1–5 — cover','Slides 6–14 — urogenital ridge','Slides 15–22 — genital tubercle','Slides 23–30 — sex determination','Slides 31–38 — anomalies'],
+      wb:{bnb:'Repro Ch 1 — embryology',bc:'Repro Ch 1 — development',fa:'Repro pp 610–613',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Embryo',bc:'::Bootcamp::Repro::Embryo',fa:'::FirstAid::Repro::Embryo',path:'—',phy:'—',sk:'—'}},
+    rpd02:{t:'Urogenital System',sj:'Anat',folder:'rpd02_Urogenital-System',slug:'urogenital-system',
+      lo:'rpd02_LO_Urogenital-System-I-II.docx',sd:'02_Urogenital-System.pdf',
+      O:['Renal + urinary tract anatomy','Ureter + bladder relationships','Pelvic floor anatomy','Vascular + lymphatic drainage','Autonomic innervation'],
+      S:['Slides 1–6 — cover','Slides 7–16 — kidneys + ureter','Slides 17–26 — bladder','Slides 27–34 — pelvic floor','Slides 35–42 — vessels + nerves'],
+      wb:{bnb:'—',bc:'—',fa:'Urogenital pp 607–610',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Anat::Urogenital',path:'—',phy:'—',sk:'—'}},
+    rpd03:{t:'Female Reproductive System',sj:'Anat',folder:'rpd03_Female-Reproductive-System',slug:'female-reproductive-system',
+      lo:'rpd03_LO_Female-Reproductive-System.docx',sd:'03_Female-Reproductive-System.pdf',
+      O:['Uterus + adnexa anatomy','Ovarian anatomy + vascular supply','Fallopian tube structure','Vagina + vulva anatomy','Pelvic support structures'],
+      S:['Slides 1–5 — cover','Slides 6–14 — uterus','Slides 15–22 — ovary','Slides 23–30 — tubes','Slides 31–38 — vagina/vulva','Slides 39–46 — pelvic support'],
+      wb:{bnb:'Repro Ch 2 — female anatomy',bc:'Repro Ch 2 — female anat',fa:'Female anat pp 614–620',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Female anat',bc:'::Bootcamp::Repro::Female',fa:'::FirstAid::Repro::Female anat',path:'—',phy:'—',sk:'—'}},
+    rpd04:{t:'Male Reproductive System',sj:'Anat',folder:'rpd04_Male-Reproductive-System',slug:'male-reproductive-system',
+      lo:'rpd04_LO_Male-Reproductive-System.docx',sd:'04_Male-Reproductive-System.pdf',
+      O:['Testicular anatomy + descent','Epididymis + vas deferens','Seminal vesicles + prostate','Penis + urethra anatomy','Scrotal layers + vasculature'],
+      S:['Slides 1–5 — cover','Slides 6–14 — testes','Slides 15–22 — epididymis/vas','Slides 23–30 — accessory glands','Slides 31–38 — penis','Slides 39–46 — scrotum'],
+      wb:{bnb:'Repro Ch 3 — male anatomy',bc:'Repro Ch 3 — male anat',fa:'Male anat pp 621–625',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Male anat',bc:'::Bootcamp::Repro::Male',fa:'::FirstAid::Repro::Male anat',path:'—',phy:'—',sk:'—'}},
+    'rpd05-06':{t:'Endocrinology of Ovary & Female Reproductive I-II',sj:'Physio',folder:'rpd05-06_Endocrinology-Ovary-Female-I-II',slug:'endocrinology-ovary-female-reproductive-i-ii',
+      lo:'rpd05-06_LO_Endocrinology-Ovary-Female-Reproductive-I-II.docx',sd:'05-06_Endocrinology-Ovary-Female.pdf',
+      O:['HPO axis + feedback loops','Menstrual cycle phases','Follicular development','Ovulation mechanism','Luteal phase + corpus luteum','Estrogen + progesterone actions'],
+      S:['Slides 1–6 — cover','Slides 7–16 — HPO axis','Slides 17–26 — cycle phases','Slides 27–34 — follicles','Slides 35–42 — ovulation','Slides 43–50 — luteal phase'],
+      wb:{bnb:'Repro Ch 4 — female endo',bc:'Repro Ch 4 — HPO',fa:'HPO pp 626–630',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::HPO',bc:'::Bootcamp::Repro::HPO',fa:'::FirstAid::Repro::HPO axis',path:'—',phy:'—',sk:'—'}},
+    rpd07:{t:'Pelvic Structure & Neurovasculature',sj:'Anat',folder:'rpd07_Pelvic-Structure-Neurovasculature',slug:'pelvic-structure-neurovasculature',
+      lo:'rpd07_LO_Pelvic-Structure-Neurovasculature.docx',sd:'07_Pelvic-Structure-Neurovasculature.pdf',
+      O:['Bony pelvis landmarks','Internal iliac branches','Pelvic autonomic plexus','Lymphatic drainage patterns','Clinical correlates'],
+      S:['Slides 1–5 — cover','Slides 6–14 — bony pelvis','Slides 15–22 — vessels','Slides 23–30 — nerves','Slides 31–38 — lymphatics','Slides 39–46 — clinical'],
+      wb:{bnb:'—',bc:'—',fa:'Pelvic anat pp 614–620',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Anat::Pelvis',path:'—',phy:'—',sk:'—'}},
+    rpd08:{t:'CCS1 — Ovary & Female Reproductive Tract',sj:'Clinical',folder:'rpd08_CCS1-Ovary-Female-Reproductive-Tract',slug:'ccs1-ovary-female-reproductive-tract',
+      lo:'rpd08_LO_CCS1-Ovary-Female-Reproductive-Tract.docx',sd:'08_CCS1-Ovary-Female.pdf',
+      O:['Integrated case approach','Female reproductive workup','Case-based diagnostic reasoning','Management pearls'],
+      S:['Slides 1–5 — intro','Slides 6–15 — case 1','Slides 16–25 — case 2','Slides 26–34 — diagnostic approach','Slides 35–44 — management'],
+      wb:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'}},
+    rpd09:{t:'Pelvic Viscera & Perineum',sj:'Anat',folder:'rpd09_Pelvic-Viscera-Perineum',slug:'pelvic-viscera-perineum',
+      lo:'rpd09_LO_Pelvic-Viscera-Perineum.docx',sd:'09_Pelvic-Viscera-Perineum.pdf',
+      O:['Pelvic viscera relationships','Perineal anatomy (urogenital + anal triangles)','Ischioanal fossa','Pudendal canal + nerve','Clinical correlates'],
+      S:['Slides 1–5 — cover','Slides 6–14 — viscera','Slides 15–22 — perineum','Slides 23–30 — ischioanal','Slides 31–38 — pudendal','Slides 39–46 — clinical'],
+      wb:{bnb:'—',bc:'—',fa:'Perineum pp 614–620',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Anat::Perineum',path:'—',phy:'—',sk:'—'}},
+    'rpd10-11':{t:'Sexual Health & Development I-II',sj:'Sex',folder:'rpd10-11_Sexual-Health-Development-I-II',slug:'sexual-health-development-i-ii',
+      lo:'rpd10-11_LO_Sexual-Health-Development-I-II.docx',sd:'10-11_Sexual-Health-Development.pdf',
+      O:['Sexual development stages','Sexual identity + orientation','Sexual response cycle','Common sexual health issues','Communication + counseling'],
+      S:['Slides 1–6 — cover','Slides 7–16 — development','Slides 17–26 — identity','Slides 27–34 — response','Slides 35–42 — health issues','Slides 43–50 — counseling'],
+      wb:{bnb:'—',bc:'—',fa:'Sexual health pp 634–640',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Repro::Sexuality',path:'—',phy:'—',sk:'—'}},
+    rpd12:{t:'GA Lab 1',sj:'Lab',folder:'rpd12_GA-Lab-1',slug:'ga-lab-1',
+      lo:'',sd:'12_GA-Lab-1.pdf',
+      O:['Gross anatomy of female pelvis','Gross anatomy of male pelvis','Specimen identification','Clinical correlates'],
+      S:['Slides 1–5 — intro','Slides 6–15 — female pelvis','Slides 16–25 — male pelvis','Slides 26–34 — specimens','Slides 35–44 — clinical'],
+      wb:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'}},
+    rpd13:{t:'Endocrinology of Testes & Male Reproductive Tract',sj:'Physio',folder:'rpd13_Endocrinology-Testes-Male-Reproductive-Tract',slug:'endocrinology-testes-male-reproductive-tract',
+      lo:'rpd13_LO_Endocrinology-Testes-Male-Reproductive-Tract.docx',sd:'13_Endocrinology-Testes.pdf',
+      O:['HPT axis + feedback','Testosterone synthesis + action','Spermatogenesis','5α-reductase + DHT','Sertoli + Leydig cell function','Clinical correlates'],
+      S:['Slides 1–6 — cover','Slides 7–15 — HPT axis','Slides 16–24 — testosterone','Slides 25–32 — spermatogenesis','Slides 33–40 — 5α-reductase','Slides 41–48 — Sertoli/Leydig'],
+      wb:{bnb:'Repro Ch 5 — male endo',bc:'Repro Ch 5 — HPT',fa:'HPT pp 628–632',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::HPT',bc:'::Bootcamp::Repro::HPT',fa:'::FirstAid::Repro::HPT axis',path:'—',phy:'—',sk:'—'}},
+    rpd14:{t:'Ovary & Testes',sj:'Physio',folder:'rpd14_Ovary-Testes',slug:'ovary-testes',
+      lo:'rpd14_LO_Ovary-Testes.docx',sd:'14_Ovary-Testes.pdf',
+      O:['Integrated gonad physiology','Hormone cross-talk','Gametogenesis comparison','Aging + reserve'],
+      S:['Slides 1–5 — cover','Slides 6–14 — integration','Slides 15–22 — cross-talk','Slides 23–30 — gametogenesis','Slides 31–38 — aging'],
+      wb:{bnb:'Repro Ch 6 — gonads',bc:'Repro Ch 6 — gonads',fa:'Gonads pp 628–632',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Gonads',bc:'::Bootcamp::Repro::Gonads',fa:'::FirstAid::Repro::Gonads',path:'—',phy:'—',sk:'—'}},
+    rpd15:{t:'GA Lab 2',sj:'Lab',folder:'rpd15_GA-Lab-2',slug:'ga-lab-2',
+      lo:'',sd:'15_GA-Lab-2.pdf',
+      O:['Deep pelvic dissection','Perineal dissection','Internal structures identification','Clinical correlates'],
+      S:['Slides 1–5 — intro','Slides 6–15 — deep pelvis','Slides 16–25 — perineum','Slides 26–34 — structures','Slides 35–44 — clinical'],
+      wb:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'}},
+    rpd16:{t:'Contraception',sj:'Pharm',folder:'rpd16_Contraception',slug:'contraception',
+      lo:'rpd16_LO_Contraception.docx',sd:'16_Contraception.pdf',
+      O:['Combined oral contraceptives','Progestin-only methods','Long-acting reversible contraception','Emergency contraception','Sterilization methods','Counseling approach'],
+      S:['Slides 1–6 — cover','Slides 7–16 — COCs','Slides 17–25 — progestin-only','Slides 26–34 — LARCs','Slides 35–42 — emergency','Slides 43–50 — sterilization'],
+      wb:{bnb:'Repro Ch 7 — contraception',bc:'Repro Ch 7 — contraception',fa:'Contraception pp 642–646',path:'—',phy:'—',sk:'Sketchy Pharm — contraception'},
+      ak:{bnb:'::Repro::Contraception',bc:'::Bootcamp::Repro::Contraception',fa:'::FirstAid::Repro::Contraception',path:'—',phy:'—',sk:'::Sketchy::Pharm::Contraception'}},
+    rpd17:{t:'Fertility & Infertility',sj:'Pharm',folder:'rpd17_fertility-infertility',slug:'fertility-infertility',
+      lo:'rpd17_LO_fertility-infertility.docx',sd:'17_fertility-infertility.pdf',
+      O:['Fertility evaluation — female','Fertility evaluation — male','Ovulation induction agents','Assisted reproductive technology','Causes of infertility'],
+      S:['Slides 1–5 — cover','Slides 6–15 — female eval','Slides 16–25 — male eval','Slides 26–34 — ovulation drugs','Slides 35–42 — ART','Slides 43–50 — causes'],
+      wb:{bnb:'Repro Ch 8 — infertility',bc:'Repro Ch 8 — infertility',fa:'Infertility pp 647–650',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Infertility',bc:'::Bootcamp::Repro::Infertility',fa:'::FirstAid::Repro::Infertility',path:'—',phy:'—',sk:'—'}},
+    rpd18:{t:'Ovary & Testes Lab',sj:'Lab',folder:'rpd18_ovary-testes-lab',slug:'ovary-testes-lab',
+      lo:'rpd18_LO_ovary-testes-lab.docx',sd:'18_ovary-testes-lab.pdf',
+      O:['Ovary histology identification','Testes histology identification','Follicle staging','Seminiferous tubule cell types'],
+      S:['Slides 1–5 — intro','Slides 6–15 — ovary histo','Slides 16–25 — testes histo','Slides 26–34 — follicles','Slides 35–44 — spermatogenesis'],
+      wb:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Histo::Repro',path:'—',phy:'—',sk:'—'}},
+    rpd19:{t:'Obstetrical Placenta',sj:'Path',folder:'rpd19_obstetrical-placenta',slug:'obstetrical-placenta',
+      lo:'rpd19_LO_obstetrical-placenta.docx',sd:'19_obstetrical-placenta.pdf',
+      O:['Placental development','Placental pathology (abruption, previa, accreta)','Molar pregnancy','Trophoblastic disease','Preeclampsia + eclampsia'],
+      S:['Slides 1–6 — cover','Slides 7–16 — development','Slides 17–26 — abruption/previa','Slides 27–34 — molar','Slides 35–42 — trophoblastic','Slides 43–50 — preeclampsia'],
+      wb:{bnb:'Repro Ch 9 — placenta',bc:'Repro Ch 9 — obstetric',fa:'Placenta pp 651–655',path:'Ch 16 — repro path',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Placenta',bc:'::Bootcamp::Repro::Placenta',fa:'::FirstAid::Repro::Placenta',path:'::Pathoma::Ch16::Placenta',phy:'—',sk:'—'}},
+    rpd20:{t:'Endocrinology of Pregnancy, Labor & Lactation',sj:'Physio',folder:'rpd20_endocrinology-pregnancy-labor-lactation',slug:'endocrinology-pregnancy-labor-lactation',
+      lo:'rpd20_LO_endocrinology-pregnancy-labor-lactation.docx',sd:'20_endocrinology-pregnancy.pdf',
+      O:['hCG + pregnancy hormones','Progesterone maintenance','Labor cascade (oxytocin, prostaglandins)','Prolactin + lactation','Postpartum changes'],
+      S:['Slides 1–5 — cover','Slides 6–14 — hCG','Slides 15–22 — progesterone','Slides 23–30 — labor','Slides 31–38 — prolactin','Slides 39–46 — postpartum'],
+      wb:{bnb:'Repro Ch 10 — pregnancy',bc:'Repro Ch 10 — pregnancy',fa:'Pregnancy pp 656–660',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Pregnancy',bc:'::Bootcamp::Repro::Pregnancy',fa:'::FirstAid::Repro::Pregnancy',path:'—',phy:'—',sk:'—'}},
+    rpd21:{t:'SG5 — Guideline-Directed Care',sj:'Clinical',folder:'rpd21_SG5-Guideline-Directed-Care',slug:'sg5-guideline-directed-care',
+      lo:'',sd:'21_SG5-Guideline-Directed-Care.pdf',
+      O:['ACOG/ACP guideline framework','Evidence-based screening','Shared decision-making','Guideline application to cases'],
+      S:['Slides 1–5 — intro','Slides 6–14 — ACOG','Slides 15–22 — screening','Slides 23–30 — SDM','Slides 31–38 — cases'],
+      wb:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'}},
+    rpd22:{t:'Pregnancy 101',sj:'Clinical',folder:'rpd22_Pregnancy-101',slug:'pregnancy-101',
+      lo:'rpd22_LO_Pregnancy-101.docx',sd:'22_Pregnancy-101.pdf',
+      O:['Pregnancy timeline + milestones','Prenatal care schedule','Common pregnancy symptoms','Nutritional + behavioral counseling','High-risk features'],
+      S:['Slides 1–6 — cover','Slides 7–15 — timeline','Slides 16–24 — prenatal care','Slides 25–32 — symptoms','Slides 33–40 — counseling','Slides 41–48 — high risk'],
+      wb:{bnb:'—',bc:'—',fa:'Pregnancy pp 656–660',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Repro::Pregnancy',path:'—',phy:'—',sk:'—'}},
+    rpd23:{t:'Pelvic Imaging',sj:'Clinical',folder:'rpd23_pelvic-imaging',slug:'pelvic-imaging',
+      lo:'rpd23_LO_pelvic-imaging.docx',sd:'23_pelvic-imaging.pdf',
+      O:['Pelvic US technique + indications','MRI of female pelvis','CT of pelvis — when + why','HSG + SIS','Imaging-pathology correlates'],
+      S:['Slides 1–5 — cover','Slides 6–14 — US','Slides 15–22 — MRI','Slides 23–30 — CT','Slides 31–38 — HSG','Slides 39–46 — correlates'],
+      wb:{bnb:'—',bc:'—',fa:'Pelvic imaging pp 665–668',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Repro::Imaging',path:'—',phy:'—',sk:'—'}},
+    rpd24:{t:'Psychosocial Aspects of Pregnancy & Postpartum',sj:'Clinical',folder:'rpd24_psychosocial-pregnancy-postpartum',slug:'psychosocial-pregnancy-postpartum',
+      lo:'rpd24_LO_psychosocial-pregnancy-postpartum.docx',sd:'24_psychosocial-pregnancy.pdf',
+      O:['Pregnancy psychology','Postpartum blues vs depression','Screening tools (EPDS)','Psychiatric medications in pregnancy','Social support systems'],
+      S:['Slides 1–5 — cover','Slides 6–14 — psychology','Slides 15–22 — PPD','Slides 23–30 — screening','Slides 31–38 — meds','Slides 39–46 — support'],
+      wb:{bnb:'—',bc:'—',fa:'Postpartum pp 657',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Psych::Postpartum',path:'—',phy:'—',sk:'—'}},
+    rpd25:{t:'Menopause',sj:'Clinical',folder:'rpd25_menopause',slug:'menopause',
+      lo:'',sd:'25_menopause.pdf',
+      O:['Perimenopausal hormonal changes','Vasomotor + GU symptoms','Bone health + cardiovascular risk','Hormone therapy — benefits vs risks','Non-hormonal management'],
+      S:['Slides 1–5 — cover','Slides 6–14 — hormones','Slides 15–22 — symptoms','Slides 23–30 — bone/CV','Slides 31–38 — HT','Slides 39–46 — non-HT'],
+      wb:{bnb:'Repro Ch 11 — menopause',bc:'Repro Ch 11 — menopause',fa:'Menopause pp 662–665',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Menopause',bc:'::Bootcamp::Repro::Menopause',fa:'::FirstAid::Repro::Menopause',path:'—',phy:'—',sk:'—'}},
+    rpd26:{t:'Breast Diseases',sj:'Path',folder:'rpd26_Breast-Diseases',slug:'breast-diseases',
+      lo:'rpd26_LO_Breast-Diseases.docx',sd:'26_Breast-Diseases.pdf',
+      O:['Benign breast conditions (FCC, fibroadenoma)','Breast cancer pathology — DCIS','Invasive ductal + lobular carcinoma','Molecular subtypes (HER2, hormone receptors)','Paget disease + inflammatory breast cancer'],
+      S:['Slides 1–6 — cover','Slides 7–16 — benign','Slides 17–26 — DCIS','Slides 27–34 — invasive','Slides 35–42 — subtypes','Slides 43–50 — special'],
+      wb:{bnb:'Repro Ch 12 — breast path',bc:'Repro Ch 12 — breast',fa:'Breast path pp 670–676',path:'Ch 16 — breast',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Breast::Path',bc:'::Bootcamp::Repro::Breast',fa:'::FirstAid::Repro::Breast path',path:'::Pathoma::Ch16::Breast',phy:'—',sk:'—'}},
+    rpd27:{t:'PE — Female Pelvis / GYN Exam',sj:'Clinical',folder:'rpd27_PE-Female-Pelvis-GYN-Exam',slug:'pe-female-pelvis-gyn-exam',
+      lo:'',sd:'27_PE-Female-Pelvis-GYN-Exam.pdf',
+      O:['External genital exam','Bimanual exam technique','Speculum exam + Pap smear','Cervical + uterine assessment','Documentation + communication'],
+      S:['Slides 1–5 — cover','Slides 6–14 — external','Slides 15–22 — bimanual','Slides 23–30 — speculum','Slides 31–38 — assessment','Slides 39–46 — documentation'],
+      wb:{bnb:'—',bc:'—',fa:'GYN exam pp 680',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Repro::PE',path:'—',phy:'—',sk:'—'}},
+    rpd28:{t:'Breast Clinical',sj:'Clinical',folder:'rpd28_Breast-Clinical',slug:'breast-clinical',
+      lo:'rpd28_LO_Breast-Clinical.docx',sd:'28_Breast-Clinical.pdf',
+      O:['Breast cancer screening guidelines','Clinical breast exam','Workup of a breast mass','Staging + prognosis','Treatment overview (surgery, radiation, systemic)'],
+      S:['Slides 1–6 — cover','Slides 7–16 — screening','Slides 17–26 — CBE','Slides 27–34 — workup','Slides 35–42 — staging','Slides 43–50 — treatment'],
+      wb:{bnb:'—',bc:'—',fa:'Breast clinical pp 677–680',path:'Ch 16 — breast',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Breast::Clinical',bc:'::Bootcamp::Repro::Breast',fa:'::FirstAid::Repro::Breast clinical',path:'::Pathoma::Ch16::Breast',phy:'—',sk:'—'}},
+    rpd29:{t:'Sexual History Taking',sj:'Clinical',folder:'rpd29_Sexual-History-Taking',slug:'sexual-history-taking',
+      lo:'',sd:'29_Sexual-History-Taking.pdf',
+      O:['5 Ps framework','Patient-centered approach','LGBTQ+ affirming history','Trauma-informed interviewing','Documentation'],
+      S:['Slides 1–5 — cover','Slides 6–14 — 5 Ps','Slides 15–22 — approach','Slides 23–30 — LGBTQ+','Slides 31–38 — trauma','Slides 39–46 — docs'],
+      wb:{bnb:'—',bc:'—',fa:'Sexual hx pp 681',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Repro::Sex Hx',path:'—',phy:'—',sk:'—'}},
+    rpd30:{t:'PE — Breast Exam',sj:'Clinical',folder:'rpd30_PE-Breast-Exam',slug:'pe-breast-exam',
+      lo:'',sd:'30_PE-Breast-Exam.pdf',
+      O:['Breast inspection technique','Palpation patterns','Lymph node examination','Recognizing abnormal findings','Patient counseling'],
+      S:['Slides 1–5 — cover','Slides 6–14 — inspection','Slides 15–22 — palpation','Slides 23–30 — LN exam','Slides 31–38 — findings','Slides 39–46 — counseling'],
+      wb:{bnb:'—',bc:'—',fa:'CBE pp 677–680',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Repro::CBE',path:'—',phy:'—',sk:'—'}},
+    rpd31:{t:'SG — Sexual History Taking',sj:'Clinical',folder:'rpd31_SG-Sexual-History-Taking',slug:'sg-sexual-history-taking',
+      lo:'',sd:'31_SG-Sexual-History-Taking.pdf',
+      O:['Small-group practice','Role-play interviews','Peer feedback + reflection','Case debrief'],
+      S:['Slides 1–5 — intro','Slides 6–15 — role play','Slides 16–25 — feedback','Slides 26–34 — debrief'],
+      wb:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'}},
+    rpd32:{t:'Disorders of Cervix & HPV',sj:'Path',folder:'rpd32_Disorders-Cervix-HPV',slug:'disorders-cervix-hpv',
+      lo:'rpd32_LO_Disorders-Cervix-HPV.docx',sd:'32_Disorders-Cervix-HPV.pdf',
+      O:['HPV biology + strain types','CIN grading','Cervical cancer pathology','Screening + management (Pap, HPV test)','HPV vaccination'],
+      S:['Slides 1–6 — cover','Slides 7–16 — HPV bio','Slides 17–26 — CIN','Slides 27–34 — cervical CA','Slides 35–42 — screening','Slides 43–50 — vaccine'],
+      wb:{bnb:'Repro Ch 13 — cervix',bc:'Repro Ch 13 — cervix',fa:'Cervix path pp 684–688',path:'Ch 16 — cervix',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Cervix',bc:'::Bootcamp::Repro::Cervix',fa:'::FirstAid::Repro::Cervix',path:'::Pathoma::Ch16::Cervix',phy:'—',sk:'—'}},
+    rpd33:{t:'Disorders of Vulva & Uterus',sj:'Path',folder:'rpd33_Disorders-Vulva-Uterus',slug:'disorders-vulva-uterus',
+      lo:'rpd33_LO_Disorders-Vulva-Uterus.docx',sd:'33_Disorders-Vulva-Uterus.pdf',
+      O:['Vulvar pathology (LS, LSA, VIN)','Endometriosis + adenomyosis','Endometrial hyperplasia + carcinoma','Leiomyoma (fibroids) + leiomyosarcoma','Uterine bleeding causes'],
+      S:['Slides 1–6 — cover','Slides 7–16 — vulva','Slides 17–26 — endometriosis','Slides 27–34 — endometrial','Slides 35–42 — fibroids','Slides 43–50 — bleeding'],
+      wb:{bnb:'Repro Ch 14 — uterus',bc:'Repro Ch 14 — uterus',fa:'Uterine path pp 689–694',path:'Ch 16 — uterus',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Uterus',bc:'::Bootcamp::Repro::Uterus',fa:'::FirstAid::Repro::Uterus',path:'::Pathoma::Ch16::Uterus',phy:'—',sk:'—'}},
+    rpd34:{t:'GYN Case Review',sj:'Clinical',folder:'rpd34_GYN-Case-Review',slug:'gyn-case-review',
+      lo:'',sd:'34_GYN-Case-Review.pdf',
+      O:['Integrated GYN cases','Diagnostic reasoning practice','Management decision-making','Multidisciplinary coordination'],
+      S:['Slides 1–5 — intro','Slides 6–15 — case 1','Slides 16–25 — case 2','Slides 26–34 — reasoning','Slides 35–44 — management'],
+      wb:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'}},
+    rpd35:{t:'Breast & GYN Lab',sj:'Lab',folder:'rpd35_Breast-GYN-Lab',slug:'breast-gyn-lab',
+      lo:'rpd35_Breast-GYN-Lab.docx',sd:'35_Breast-GYN-Lab.pdf',
+      O:['Breast gross specimens','GYN gross specimens','Histo correlates','Clinical integration'],
+      S:['Slides 1–5 — intro','Slides 6–15 — breast specimens','Slides 16–25 — GYN specimens','Slides 26–34 — histo','Slides 35–44 — clinical'],
+      wb:{bnb:'—',bc:'—',fa:'—',path:'Ch 16 — gross pearls',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'—',path:'::Pathoma::Ch16::Gross',phy:'—',sk:'—'}},
+    rpd36:{t:'PE — Male Pelvis / GU Exam',sj:'Clinical',folder:'rpd36_Male-Pelvis-GU-Exam',slug:'pe-male-pelvis-gu-exam',
+      lo:'',sd:'36_Male-Pelvis-GU-Exam.pdf',
+      O:['External genital exam','Testicular exam + self-exam teaching','DRE technique + findings','Hernia exam','Documentation'],
+      S:['Slides 1–5 — cover','Slides 6–14 — external','Slides 15–22 — testes','Slides 23–30 — DRE','Slides 31–38 — hernia','Slides 39–46 — docs'],
+      wb:{bnb:'—',bc:'—',fa:'GU exam pp 695',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Repro::Male PE',path:'—',phy:'—',sk:'—'}},
+    rpd37:{t:'Sexually Transmitted Infections',sj:'Clinical',folder:'rpd37_STI',slug:'sti',
+      lo:'rpd37_LO_STI.docx',sd:'37_STI.pdf',
+      O:['Bacterial STIs (GC, chlamydia, syphilis)','Viral STIs (HSV, HIV, HPV)','Trichomoniasis + parasitic STIs','PID workup + treatment','STI screening guidelines'],
+      S:['Slides 1–6 — cover','Slides 7–16 — bacterial','Slides 17–26 — viral','Slides 27–34 — parasitic','Slides 35–42 — PID','Slides 43–50 — screening'],
+      wb:{bnb:'Repro Ch 15 — STIs',bc:'Repro Ch 15 — STIs',fa:'STIs pp 696–704',path:'Ch 16 — STIs',phy:'—',sk:'Sketchy Micro — STIs'},
+      ak:{bnb:'::Repro::STI',bc:'::Bootcamp::Repro::STI',fa:'::FirstAid::Repro::STI',path:'::Pathoma::Ch16::STI',phy:'—',sk:'::Sketchy::Micro::STI'}},
+    rpd38:{t:'CCS3 — Sexuality, Illness & Disability',sj:'Clinical',folder:'rpd38_CCS3-Sexuality-Illness-Disability',slug:'ccs3-sexuality-illness-disability',
+      lo:'rpd38_LO_CCS3-Sexuality-Illness-Disability.pdf',sd:'38_CCS3-Sexuality-Illness-Disability.pdf',
+      O:['Sexuality in chronic illness','Disability + sexual health','Medication effects on sexual function','Counseling approach','Resources + advocacy'],
+      S:['Slides 1–5 — cover','Slides 6–14 — illness','Slides 15–22 — disability','Slides 23–30 — meds','Slides 31–38 — counseling','Slides 39–46 — advocacy'],
+      wb:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'}},
+    rpd39:{t:'Prostate',sj:'Path',folder:'rpd39_ Prostate',slug:'prostate',
+      lo:'rpd39_ LO_Prostate.docx',sd:'39_Prostate.pdf',
+      O:['BPH pathophysiology','Prostatitis (acute + chronic)','Prostate adenocarcinoma','PIN + Gleason grading','Metastatic patterns'],
+      S:['Slides 1–6 — cover','Slides 7–15 — BPH','Slides 16–24 — prostatitis','Slides 25–32 — adenoCA','Slides 33–40 — Gleason','Slides 41–48 — mets'],
+      wb:{bnb:'Repro Ch 16 — prostate',bc:'Repro Ch 16 — prostate',fa:'Prostate pp 705–710',path:'Ch 16 — prostate',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Prostate',bc:'::Bootcamp::Repro::Prostate',fa:'::FirstAid::Repro::Prostate',path:'::Pathoma::Ch16::Prostate',phy:'—',sk:'—'}},
+    rpd40:{t:'Sexual Boundary Issues',sj:'Ethics',folder:'rpd40_IL-Sexual-Boundary-Issues',slug:'sexual-boundary-issues',
+      lo:'',sd:'40_IL-Sexual-Boundary-Issues.pdf',
+      O:['Professional boundaries','Chaperone guidelines','Power dynamics in medicine','Reporting obligations','Ethical framework'],
+      S:['Slides 1–5 — cover','Slides 6–14 — boundaries','Slides 15–22 — chaperones','Slides 23–30 — power','Slides 31–38 — reporting','Slides 39–46 — ethics'],
+      wb:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'—',path:'—',phy:'—',sk:'—'}},
+    rpd41:{t:'Prostate Clinical',sj:'Clinical',folder:'rpd41_Prostate-clinical',slug:'prostate-clinical',
+      lo:'rpd41_LO_Prostate-clinical.docx',sd:'41_Prostate-clinical.pdf',
+      O:['Prostate cancer screening (PSA)','BPH evaluation + treatment','Prostatitis management','Workup of elevated PSA','Treatment options for prostate CA'],
+      S:['Slides 1–6 — cover','Slides 7–15 — screening','Slides 16–24 — BPH','Slides 25–32 — prostatitis','Slides 33–40 — PSA workup','Slides 41–48 — treatment'],
+      wb:{bnb:'—',bc:'—',fa:'Prostate clinical pp 705–710',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'::Repro::Prostate::Clinical',bc:'::Bootcamp::Repro::Prostate',fa:'::FirstAid::Repro::Prostate',path:'—',phy:'—',sk:'—'}},
+    rpd42:{t:'Hormone Therapy & Cancer',sj:'Pharm',folder:'rpd42_Hormone-therapy-Cancer',slug:'hormone-therapy-cancer',
+      lo:'rpd42_LO_Hormone-therapy-Cancer.docx',sd:'42_Hormone-therapy-Cancer.pdf',
+      O:['Tamoxifen + aromatase inhibitors','GnRH agonists + antagonists','Anti-androgens in prostate CA','SERMs + SPRMs','Clinical uses + adverse effects'],
+      S:['Slides 1–6 — cover','Slides 7–15 — tamoxifen/AI','Slides 16–24 — GnRH','Slides 25–32 — anti-androgens','Slides 33–40 — SERMs','Slides 41–48 — AEs'],
+      wb:{bnb:'Repro Ch 17 — hormone Rx',bc:'Repro Ch 17 — hormone Rx',fa:'Repro pharm pp 711–714',path:'—',phy:'—',sk:'Sketchy Pharm — hormones'},
+      ak:{bnb:'::Repro::Hormone Rx',bc:'::Bootcamp::Repro::Hormone Rx',fa:'::FirstAid::Repro::Hormone Rx',path:'—',phy:'—',sk:'::Sketchy::Pharm::Hormones'}},
+    'rpd43-44':{t:'LGBTQ+ Health I-II',sj:'Ethics',folder:'rpd43-44_LGBTQ-I-II',slug:'lgbtq-i-ii',
+      lo:'rpd43-44_LO_LGBTQ-I-II.docx',sd:'43-44_LGBTQ-I-II.pdf',
+      O:['Terminology + identity','Health disparities in LGBTQ+ populations','Gender-affirming care overview','Minority stress + social determinants','Culturally competent care'],
+      S:['Slides 1–6 — cover','Slides 7–15 — terminology','Slides 16–24 — disparities','Slides 25–32 — GAC','Slides 33–40 — minority stress','Slides 41–48 — competency'],
+      wb:{bnb:'—',bc:'—',fa:'LGBTQ+ health pp 715',path:'—',phy:'—',sk:'—'},
+      ak:{bnb:'—',bc:'—',fa:'::FirstAid::Repro::LGBTQ',path:'—',phy:'—',sk:'—'}}
+  };
+
+
+  // =============== MAPPING BUILDER ===============
+  // [sourceFieldId, targetFieldId, category] — rebuilt per lecture
+  function buildMappings(L) {
+    const m = [];
+    const n = L.O.length;
+    const mid = Math.ceil(n/2);
+    // LOs feed the lecture guide directly; the drill + key are built FROM the guide,
+    // so drop direct LO → drill/key arrows and let the lineage flow LO → lg → drill.
+    for (let i=1;i<=n;i++) {
+      m.push([`f-lo-${i}`,`t-lg-obj${i}`,'lo']);
+    }
+    // Bulk targets — testing drills still have some direct LO lines
+    m.push(['f-lo-1','t-h1-all','lo']);
+    m.push([`f-lo-${n}`,'t-h1-all','lo']);
+    m.push([`f-lo-${mid}`,'t-h2-all','lo']);
+    m.push([`f-lo-${n}`,'t-h2-all','lo']);
+    m.push(['f-lo-1','t-h3-all','lo']);
+    m.push([`f-lo-${n}`,'t-h3-all','lo']);
+    m.push(['f-lo-1','t-lg-quiz','lo']);
+    m.push([`f-lo-${n}`,'t-lg-quiz','lo']);
+    // Slides
+    m.push(['f-sl-1','t-lg-cover','slide']);
+    for (let i=2;i<=Math.min(6,n+1);i++) m.push([`f-sl-${i}`,`t-lg-obj${i-1}`,'slide']);
+    // Subject review → cheatsheet + obj bodies (primary review varies per lecture subject)
+    const SUBJ_PRIMARY = {
+      Anat:    'f-sub-anat',
+      Physio:  'f-sub-physio',
+      Path:    'f-sub-path',
+      Histo:   'f-sub-histo',
+      Pharm:   'f-sub-pharm',
+      Sex:     'f-sub-sexuality',
+      Clinical:'f-sub-anat',
+      Lab:     'f-sub-histo',
+      Ethics:  'f-sub-sexuality',
+      Orient:  'f-sub-anat'
+    };
+    const primarySub = SUBJ_PRIMARY[L.sj] || 'f-sub-anat';
+    m.push([primarySub,'t-lg-cheat','subj']);
+    m.push([primarySub,'t-lg-obj1','subj']);
+    m.push([primarySub,`t-lg-obj${Math.min(n,3)}`,'subj']);
+    m.push([primarySub,`t-lg-obj${n}`,'subj']);
+    m.push([primarySub,'t-lg-audit','subj']);
+
+    // Pharm lectures also use the pharma table
+    if (L.sj === 'Pharm') {
+      m.push(['f-sub-pharmatable','t-lg-ref','subj']);
+      m.push(['f-sub-pharmatable','t-lg-audit','subj']);
+    }
+    // Clinical / Lab / Ethics also reference the anatomy + sexuality guides
+    if (L.sj === 'Clinical' || L.sj === 'Lab') {
+      m.push(['f-sub-anat','t-lg-cheat','subj']);
+    }
+    if (L.sj === 'Ethics' || L.sj === 'Sex') {
+      m.push(['f-sub-sexuality',`t-lg-obj${Math.min(n,2)}`,'subj']);
+    }
+    // Histology lectures also use the supplementary histo guide
+    if (L.sj === 'Histo' || L.sj === 'Lab') {
+      m.push(['f-sub-histo2','t-lg-audit','subj']);
+    }
+    // The block checklist is cross-cutting — feeds the references section and matrix row
+    m.push(['f-sub-checklist','t-lg-ref','subj']);
+    m.push(['f-sub-checklist','t-map-row','subj']);
+    // Workbooks → references + obj bodies (only if that resource covers the lecture)
+    const wbs = ['bnb','bc','fa','path','phy','sk'];
+    wbs.forEach((k,idx)=>{
+      if (L.wb[k] && L.wb[k] !== '—') {
+        m.push([`f-wb-${k}`,'t-lg-ref','workbook']);
+        m.push([`f-wb-${k}`,`t-lg-obj${Math.min(n, idx+1)}`,'workbook']);
+      }
+    });
+    // Anki decks → #audit + mapping row/hub
+    wbs.forEach((k)=>{
+      if (L.ak[k] && L.ak[k] !== '—') {
+        m.push([`f-ak-${k}`,'t-lg-audit','anki']);
+      }
+    });
+    if (L.ak.bnb && L.ak.bnb !== '—') m.push(['f-ak-bnb','t-map-row','anki']);
+    if (L.ak.bc  && L.ak.bc  !== '—') m.push(['f-ak-bc','t-rhub-card','anki']);
+
+    // Additional Anki Decks (in-house school-wide + Block 4) → lecture guide (audit + obj bodies)
+    m.push(['f-in-gusom','t-lg-audit','anki']);
+    m.push(['f-in-gusom','t-lg-obj1','anki']);
+    m.push(['f-in-gusom',`t-lg-obj${n}`,'anki']);
+    m.push(['f-in-gusom','t-map-row','anki']);
+    m.push(['f-in-gusom','t-rhub-card','anki']);
+    m.push(['f-in-block4','t-lg-audit','anki']);
+    m.push(['f-in-block4',`t-lg-obj${mid}`,'anki']);
+    m.push(['f-in-block4','t-map-row','anki']);
+    // Additional Anki Decks (3rd-party optional)
+    m.push(['f-in-path','t-lg-audit','anki']);
+    m.push(['f-in-path','t-map-row','anki']);
+    m.push(['f-in-mich','t-lg-audit','anki']);
+    m.push(['f-in-mich','t-rhub-card','anki']);
+    m.push(['f-in-ahopt','t-lg-audit','anki']);
+
+    // UWorld QID Mapping → matrix + rhub + Hub 3 vignettes
+    m.push(['f-uw-1','t-map-row','mapping']);
+    m.push(['f-uw-1','t-rhub-card','mapping']);
+    m.push(['f-uw-1','t-h3-all','mapping']);
+    m.push(['f-uw-2','t-map-row','mapping']);
+    m.push(['f-uw-2','t-h3-all','mapping']);
+
+    // LOs populate the resource-mapping xlsx (topic column) and UWorld QID xlsx (topic mapping)
+    m.push(['f-lo-1','f-rm-1','mapping']);
+    if (n>=3) m.push([`f-lo-${mid}`,'f-rm-1','mapping']);
+    m.push([`f-lo-${n}`,'f-rm-1','mapping']);
+    m.push(['f-lo-1','f-uw-2','mapping']);
+    m.push([`f-lo-${n}`,'f-uw-2','mapping']);
+    // LOs also directly feed the Resource Hub Catalog — per-lecture row + card descriptions
+    m.push(['f-lo-1','t-rhub-row','mapping']);
+    m.push(['f-lo-1','t-rhub-card','mapping']);
+    if (n>=3) m.push([`f-lo-${mid}`,'t-rhub-row','mapping']);
+    m.push([`f-lo-${n}`,'t-rhub-row','mapping']);
+    m.push([`f-lo-${n}`,'t-rhub-card','mapping']);
+
+    // 3rd-party workbooks populate the resource-coverage cells of the xlsx
+    ['bnb','bc','fa','path','phy','sk'].forEach(k=>{
+      if (L.wb[k] && L.wb[k] !== '—') m.push([`f-wb-${k}`,'f-rm-2','workbook']);
+      if (L.ak[k] && L.ak[k] !== '—') m.push([`f-ak-${k}`,'f-rm-2','anki']);
+    });
+    // In-house Anki decks also populate coverage cells
+    m.push(['f-in-gusom','f-rm-2','anki']);
+    m.push(['f-in-block4','f-rm-2','anki']);
+    m.push(['f-in-path','f-rm-2','anki']);
+
+    // Resource-explorer pulls from xlsx + hierarchy + Anki hierarchy
+    m.push(['f-rm-1','t-rexp-row','mapping']);
+    m.push(['f-rm-2','t-rexp-row','mapping']);
+    m.push(['f-uw-1','t-rexp-row','mapping']);
+    m.push(['f-ak-bnb','t-rexp-hier','anki']);
+    m.push(['f-ak-bc','t-rexp-hier','anki']);
+    m.push(['f-ak-fa','t-rexp-hier','anki']);
+    m.push(['f-in-gusom','t-rexp-hier','anki']);
+    m.push(['f-in-block4','t-rexp-hier','anki']);
+
+    // Resource mapping xlsx
+    m.push(['f-rm-1','t-map-row','mapping']);
+    m.push(['f-rm-2','t-map-row','mapping']);
+    m.push(['f-rm-1','t-rhub-card','mapping']);
+    m.push(['f-rm-2','t-lg-audit','mapping']);
+
+    // DERIVED: lecture-guide → drill & testing HTMLs (the guide is the primary source for drills)
+    for (let i=1;i<=n;i++) {
+      m.push([`t-lg-obj${i}`,`t-ar-${i}`,'derived']);
+    }
+    // Guide → answer key (references + audit supply the rationale)
+    m.push(['t-lg-ref','t-key-all','derived']);
+    m.push(['t-lg-audit','t-key-all','derived']);
+    m.push([`t-lg-obj${mid}`,'t-key-all','derived']);
+    m.push([`t-lg-obj${n}`,'t-key-all','derived']);
+    m.push(['t-lg-quiz','t-h1-all','derived']);
+    m.push(['t-lg-cheat','t-h1-all','derived']);
+    m.push(['t-lg-obj1','t-h2-all','derived']);
+    m.push([`t-lg-obj${n}`,'t-h2-all','derived']);
+    m.push([`t-lg-obj${mid}`,'t-h3-all','derived']);
+    m.push(['t-lg-audit','t-h3-all','derived']);
+
+    // COMPLETE OUTPUT LINEAGE — every HTML output shows every primary source that feeds it
+
+    // Resource Mapping Spreadsheet informs coverage of all three testing drills
+    m.push(['f-rm-1','t-h1-all','mapping']);
+    m.push(['f-rm-1','t-h2-all','mapping']);
+    m.push(['f-rm-1','t-h3-all','mapping']);
+    m.push(['f-rm-2','t-h2-all','mapping']);
+    m.push(['f-rm-2','t-h3-all','mapping']);
+
+    // 3rd-party workbooks → testing drills (Q content source)
+    ['bnb','bc','fa','path','phy','sk'].forEach(k => {
+      if (L.wb[k] && L.wb[k] !== '—') {
+        m.push([`f-wb-${k}`,'t-h1-all','workbook']);
+        m.push([`f-wb-${k}`,'t-h2-all','workbook']);
+        m.push([`f-wb-${k}`,'t-h3-all','workbook']);
+      }
+    });
+
+    // 3rd-party Anki decks → testing drills (flashcard framing for h2 & h3)
+    ['bnb','bc','fa','path','phy','sk'].forEach(k => {
+      if (L.ak[k] && L.ak[k] !== '—') {
+        m.push([`f-ak-${k}`,'t-h2-all','anki']);
+        m.push([`f-ak-${k}`,'t-h3-all','anki']);
+      }
+    });
+
+    // In-House + Additional Anki decks → testing drills
+    m.push(['f-in-gusom','t-h1-all','anki']);
+    m.push(['f-in-gusom','t-h2-all','anki']);
+    m.push(['f-in-block4','t-h2-all','anki']);
+    m.push(['f-in-block4','t-h3-all','anki']);
+    m.push(['f-in-path','t-h3-all','anki']);
+
+    // Subject review → Hub 1 testing drill (primary subject review + checklist)
+    m.push([primarySub,'t-h1-all','subj']);
+    m.push(['f-sub-checklist','t-h1-all','subj']);
+
+    // Slides → active-recall drill (direct slide-fact recall)
+    m.push(['f-sl-1','t-ar-1','slide']);
+    if (n >= 2) m.push(['f-sl-2','t-ar-2','slide']);
+    if (n >= 3) m.push([`f-sl-3`,`t-ar-3`,'slide']);
+    // UWorld QID → active-recall drill key (answer-key rationale)
+    m.push(['f-uw-2','t-key-all','mapping']);
+
+    return m;
+  }
+
+  let currentMappings = [];
+
+  // =============== RENDER LECTURE ===============
+  function setK(k, v) {
+    document.querySelectorAll(`[data-k="${k}"]`).forEach(el => el.textContent = v || '');
+  }
+  // Strip professor names + institution tokens from displayed filenames
+  // (the underlying data in LECTURES stays intact)
+  const SCRUB_TOKENS = [
+    // professor / contributor names
+    'Kothmann','Watson','Jonklaas','Janicic','Wieneke','Danielsen','Santi',
+    'Notario','Sherman','Furlong','Sharma','Altayeb','Maryam','Panel',
+    // institution / school tokens
+    'GUSOM','Georgetown','NK'
+  ];
+  function stripProf(s) {
+    if (!s) return s;
+    SCRUB_TOKENS.forEach(tok => {
+      s = s.replace(new RegExp(`[_\\s-]+${tok}([_\\s.-]|$)`, 'g'), '$1');
+      s = s.replace(new RegExp(`^${tok}[_\\s-]+`, 'g'), '');
+    });
+    return s.replace(/__/g,'_').replace(/\s{2,}/g,' ').trim();
+  }
+  function renderLecture(key) {
+    const L = LECTURES[key];
+    if (!L) return;
+    // (SUBJECT_REVIEWS map kept for reference but no longer used since the subject review
+    //  card now lists all Per Subject files individually.)
+
+    // Sources — headers use friendly titles, sub-lines expose the actual filenames
+    setK('inlec_title', `In House ${key} Lecture Materials`);
+    setK('lo_title',    `In House ${key} Learning Objectives`);
+    setK('lo_file',     stripProf(L.lo));
+    L.O.forEach((o,i)=> setK(`obj${i+1}`, `Obj ${i+1} — ${o}`));
+    for (let i=L.O.length+1;i<=8;i++) setK(`obj${i}`, '');
+    setK('slide_title', `In House ${key} Lecture Notes`);
+    setK('slide_file',  stripProf(L.sd));
+    L.S.forEach((s,i)=> setK(`sl${i+1}`, s));
+    for (let i=L.S.length+1;i<=6;i++) setK(`sl${i}`, '');
+    // Mark subject review files as applicable / not-covered based on this lecture's subject
+    const subjApplies = {
+      'f-sub-anat':        L.sj === 'Anat' || L.sj === 'Clinical' || L.sj === 'Orient',
+      'f-sub-physio':      L.sj === 'Physio',
+      'f-sub-path':        L.sj === 'Path' || L.sj === 'Lab',
+      'f-sub-histo':       L.sj === 'Histo' || L.sj === 'Lab',
+      'f-sub-histo2':      L.sj === 'Histo' || L.sj === 'Lab',
+      'f-sub-pharm':       L.sj === 'Pharm',
+      'f-sub-pharmatable': L.sj === 'Pharm',
+      'f-sub-sexuality':   L.sj === 'Sex' || L.sj === 'Ethics',
+      'f-sub-checklist':   true   // cross-cutting — always applies
+    };
+    Object.entries(subjApplies).forEach(([id, ok]) => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('not-covered', !ok);
+    });
+    const wbLabel = (name, v) => v && v !== '—' ? `${name} — ${v}` : `${name} — (not covered)`;
+    setK('wb_bnb',  wbLabel('BnB Endo Book',   L.wb.bnb));
+    setK('wb_bc',   wbLabel('Bootcamp Endo',   L.wb.bc));
+    setK('wb_fa',   wbLabel('First Aid Step 1',L.wb.fa));
+    setK('wb_path', wbLabel('Pathoma',         L.wb.path));
+    setK('wb_phy',  wbLabel('Physeo',          L.wb.phy));
+    setK('wb_sk',   wbLabel('Sketchy',         L.wb.sk));
+    const akLabel = (file, v) => v && v !== '—' ? `${file} → ${v}` : `${file} — (not mapped)`;
+    setK('ak_bnb',  akLabel('bnb-endocrine.apkg',      L.ak.bnb));
+    setK('ak_bc',   akLabel('bootcamp-endocrine.apkg', L.ak.bc));
+    setK('ak_fa',   akLabel('firstaid-endocrine.apkg', L.ak.fa));
+    setK('ak_path', akLabel('duke-pathoma-all.apkg',   L.ak.path));
+    setK('ak_phy',  akLabel('physeo-pathology.apkg',   L.ak.phy));
+    setK('ak_sk',   akLabel('sketchy-pharm.apkg',      L.ak.sk));
+    setK('rm1', `${key} row — resource coverage`);
+    setK('rm2', 'LO topic cells + BnB/Bootcamp/FA/Pathoma/Physeo/Sketchy coverage');
+    // In-house Anki
+    const n2 = key.replace('end','');
+    setK('in_gusom',  `in-house-all.apkg → ::InHouse::Endo::Module`);
+    setK('in_block4', `block4-all.apkg → ::Block4::Endo::L${n2}`);
+    setK('in_path',   'duke-pathoma-all.apkg → ::Pathoma::Endo');
+    setK('in_mich',   'michigan-blue-atlas-all.apkg → (anatomy overlay)');
+    setK('in_ahopt',  'ankihub-optional-block4.apkg → ::AnkiHub::Optional::Block4');
+    // UWorld QID
+    setK('uw1', `${key} QID set — LO-mapped question IDs`);
+    setK('uw2', 'Per-QID → LO-topic cells (feed hub3 vignettes)');
+
+    // Targets — friendly titles on line 1, filenames on line 2
+    setK('t_lg_title',  `${key} Lecture Guide`);
+    setK('t_lg_file',   `lecture-guides/${key}-${L.slug}.html`);
+    setK('t_arkey_title', `${key} Active-Recall Drill + Key`);
+    setK('t_arkey_file',  `active-lesson-drills/${key}_*.html`);
+    setK('t_ar_file',     `active-lesson-drills/${key}_active_recall.html`);
+    setK('t_key_file',    `active-lesson-drills/${key}_key.html`);
+    setK('t_key_row',     `A1–A${L.O.length}`);
+    setK('t_h1_title',  `${key} Hub 1 Testing Drill`);
+    setK('t_h1_file',   `testing-drills/${key}-hub1-${L.slug}.html`);
+    setK('t_h1_row',    `Questions — Obj 1–${L.O.length}`);
+    setK('t_h2_title',  `${key} Hub 2 Testing Drill`);
+    setK('t_h2_file',   `testing-drills/${key}-hub2-${L.slug}.html`);
+    setK('t_h2_row',    `Mixed sets — Obj 1–${L.O.length}`);
+    setK('t_h3_title',  `${key} Hub 3 Testing Drill`);
+    setK('t_h3_file',   `testing-drills/${key}-hub3-${L.slug}.html`);
+    setK('t_h3_row',    `Vignettes — Obj 1–${L.O.length}`);
+    setK('t_map_row',  `${key} row — resource cells`);
+    setK('t_map_topics', `${key} — LO topic column (seeded by objectives)`);
+    setK('t_rhub_row',  `${key} row — LO topics + resource coverage`);
+    setK('t_rexp_row',  `${key} row — hierarchy + deck card links`);
+    L.O.forEach((o,i)=>{
+      const short = o.split(/[\(\-–—]/)[0].trim().slice(0,38);
+      setK(`t_obj${i+1}`, `#obj${i+1} — ${short}`);
+    });
+    for (let i=L.O.length+1;i<=8;i++) setK(`t_obj${i}`, '');
+
+    // Hide extra rows beyond this lecture's counts
+    for (let i=1;i<=8;i++) {
+      const show = i <= L.O.length;
+      ['f-lo-','t-lg-obj','t-ar-'].forEach(p => {
+        const el = document.getElementById(`${p}${i}`);
+        if (el) el.hidden = !show;
+      });
+    }
+    for (let i=1;i<=6;i++) {
+      const el = document.getElementById(`f-sl-${i}`);
+      if (el) el.hidden = i > L.S.length;
+    }
+    // Workbook/Anki: always visible — mark "not covered" rows with dimmed style
+    const wks = ['bnb','bc','fa','path','phy','sk'];
+    wks.forEach(k=>{
+      const wEl = document.getElementById(`f-wb-${k}`);
+      const aEl = document.getElementById(`f-ak-${k}`);
+      const wNC = !L.wb[k] || L.wb[k] === '—';
+      const aNC = !L.ak[k] || L.ak[k] === '—';
+      if (wEl) { wEl.hidden = false; wEl.classList.toggle('not-covered', wNC); }
+      if (aEl) { aEl.hidden = false; aEl.classList.toggle('not-covered', aNC); }
+    });
+
+    // Update header + tag
+    document.getElementById('fm-lecture-tag').textContent = `${key.toUpperCase()} · ${L.sj}`;
+    document.getElementById('fm-hint').textContent = `${key} — ${L.t}`;
+
+    // Rebuild mapping array + redraw
+    currentMappings = buildMappings(L);
+    requestAnimationFrame(drawFieldMap);
+  }
+
+  // Generators are now shown as a top strip (not drawn as SVG arrows)
+
+  const fmSvg = document.getElementById('fm-svg');
+  const fmWrap = document.getElementById('fieldmap-wrap');
+
+  function center(el, side) {
+    // side = 'right' or 'left' — anchor on the card edge.
+    // If the field's parent card is collapsed, anchor at the card header instead
+    // so that connections stay visible as a consolidated line to the card.
+    // If the field itself is data-hidden (user chose to hide its details),
+    // also anchor at the card header so the lineage line still draws.
+    const card = el.closest && el.closest('.fm-card');
+    let refEl = el;
+    const collapsed = card && card.classList.contains('collapsed');
+    const dataHidden = el.classList && el.classList.contains('data-hidden');
+    if (collapsed || dataHidden) {
+      refEl = (card && card.querySelector('.fm-card-head')) || card || el;
+    }
+    const r = refEl.getBoundingClientRect();
+    const wr = fmWrap.getBoundingClientRect();
+    const y = r.top + r.height/2 - wr.top;
+    const x = side === 'right' ? (r.right - wr.left) : (r.left - wr.left);
+    return { x, y };
+  }
+
+  function bezier(p1, p2, mode) {
+    if (mode === 'loopRight') {
+      const cx = Math.max(p1.x, p2.x) + 80;
+      return `M ${p1.x} ${p1.y} C ${cx} ${p1.y}, ${cx} ${p2.y}, ${p2.x} ${p2.y}`;
+    }
+    if (mode === 'loopLeft') {
+      const cx = Math.min(p1.x, p2.x) - 80;
+      return `M ${p1.x} ${p1.y} C ${cx} ${p1.y}, ${cx} ${p2.y}, ${p2.x} ${p2.y}`;
+    }
+    const dx = Math.max(60, (p2.x - p1.x) * 0.45);
+    return `M ${p1.x} ${p1.y} C ${p1.x+dx} ${p1.y}, ${p2.x-dx} ${p2.y}, ${p2.x} ${p2.y}`;
+  }
+
+  function drawFieldMap(){
+    if (!fmSvg || !fmWrap) return;
+    const wr = fmWrap.getBoundingClientRect();
+    fmSvg.setAttribute('viewBox', `0 0 ${wr.width} ${wr.height}`);
+    fmSvg.setAttribute('width', wr.width);
+    fmSvg.setAttribute('height', wr.height);
+    fmSvg.innerHTML = '';
+
+    // 1. Field-to-field content mappings (from currentMappings)
+    currentMappings.forEach((m) => {
+      const src = document.getElementById(m[0]);
+      const tgt = document.getElementById(m[1]);
+      if (!src || !tgt) return;
+      if (src.hidden || tgt.hidden) return;
+      const srcCard = src.closest('.fm-card');
+      const tgtCard = tgt.closest('.fm-card');
+      const srcMid = srcCard && srcCard.classList.contains('fm-mid');
+      const tgtMid = tgtCard && tgtCard.classList.contains('fm-mid');
+      // Same-column routing: middle → middle loops out to the right
+      const pathMode = (srcMid && tgtMid) ? 'loopRight' : null;
+      const p1 = center(src, 'right');
+      const p2 = center(tgt, 'left');
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', bezier(p1, p2, pathMode));
+      path.setAttribute('class', 'c-' + m[2]);
+      path.dataset.src = m[0];
+      path.dataset.tgt = m[1];
+      path.dataset.cat = m[2];
+      fmSvg.appendChild(path);
+    });
+    // Re-apply active filter after redraw
+    applyFilter(activeFilter);
+
+  }
+
+  // ============ INTERACTIONS ============
+  function highlightFromField(fieldId) {
+    const paths = fmSvg.querySelectorAll('path');
+    const fields = document.querySelectorAll('.fm-field');
+    const cards = document.querySelectorAll('.fm-card');
+    const connected = new Set([fieldId]);
+    const cardSet = new Set();
+    paths.forEach(p => {
+      if (p.dataset.src === fieldId || p.dataset.tgt === fieldId) {
+        p.classList.add('highlight');
+        p.classList.remove('dim');
+        connected.add(p.dataset.src); connected.add(p.dataset.tgt);
+      } else if (p.dataset.cat) {
+        p.classList.add('dim'); p.classList.remove('highlight');
+      }
+    });
+    fields.forEach(f => {
+      if (connected.has(f.id)) { f.classList.add('highlight'); f.classList.remove('dim'); cardSet.add(f.closest('.fm-card')); }
+      else { f.classList.add('dim'); f.classList.remove('highlight'); }
+    });
+    cards.forEach(c => {
+      if (cardSet.has(c) || c.classList.contains('fm-xform')) c.classList.remove('dim');
+      else c.classList.add('dim');
+    });
+  }
+  function clearHighlights(){
+    fmSvg.querySelectorAll('path').forEach(p => { p.classList.remove('highlight','dim'); });
+    document.querySelectorAll('.fm-field').forEach(f => f.classList.remove('highlight','dim'));
+    document.querySelectorAll('.fm-card').forEach(c => c.classList.remove('highlight','dim'));
+  }
+  document.querySelectorAll('.fm-field').forEach(f => {
+    f.addEventListener('mouseenter', () => highlightFromField(f.id));
+    f.addEventListener('mouseleave', clearHighlights);
+  });
+  document.querySelectorAll('.fm-card-head').forEach(h => {
+    h.addEventListener('mouseenter', () => {
+      const card = h.closest('.fm-card');
+      const ids = [...card.querySelectorAll('.fm-field')].map(f => f.id);
+      if (ids.length === 0) return;
+      const set = new Set(ids);
+      fmSvg.querySelectorAll('path').forEach(p => {
+        if (set.has(p.dataset.src) || set.has(p.dataset.tgt)) { p.classList.add('highlight'); p.classList.remove('dim'); }
+        else if (p.dataset.cat) { p.classList.add('dim'); p.classList.remove('highlight'); }
+      });
+    });
+    h.addEventListener('mouseleave', clearHighlights);
+  });
+
+  // Filter chips
+  let activeFilter = 'all';
+  function applyFilter(f) {
+    fmSvg.querySelectorAll('path').forEach(p => {
+      p.classList.remove('hidden');
+      if (f === 'all') return;
+      if (!p.dataset.cat) return;
+      if (f === 'workbook' && (p.dataset.cat === 'workbook' || p.dataset.cat === 'anki')) return;
+      if (p.dataset.cat !== f) p.classList.add('hidden');
+    });
+  }
+  document.querySelectorAll('.fm-chip').forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll('.fm-chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+      activeFilter = c.dataset.filter;
+      applyFilter(activeFilter);
+    });
+  });
+  document.querySelector('.fm-chip[data-filter="all"]').classList.add('active');
+
+  // Collapse every card by default for a compact overview;
+  // leave 3rd-Party Resources expanded so its vendor subgroups are immediately visible.
+  document.querySelectorAll('.fm-card').forEach(c => c.classList.add('collapsed'));
+  const fmDefaultOpen = document.querySelector('.fm-card[data-card="thirdparty"]');
+  if (fmDefaultOpen) fmDefaultOpen.classList.remove('collapsed');
+
+  // Card collapse toggles
+  document.querySelectorAll('.fm-toggle').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const card = btn.closest('.fm-card');
+      if (!card) return;
+      card.classList.toggle('collapsed');
+      requestAnimationFrame(drawFieldMap);
+    });
+  });
+
+  // Populate lecture dropdown
+  const fmSelect = document.getElementById('fm-lecture-select');
+  Object.keys(LECTURES).forEach(k => {
+    const L = LECTURES[k];
+    const opt = document.createElement('option');
+    opt.value = k;
+    opt.textContent = `${k} — ${L.t}  ·  ${L.sj}`;
+    fmSelect.appendChild(opt);
+  });
+  fmSelect.addEventListener('change', () => renderLecture(fmSelect.value));
+
+  // Initial render
+  renderLecture('end01');
+
+  // Draw on load + resize
+  window.addEventListener('load', () => requestAnimationFrame(drawFieldMap));
+  window.addEventListener('resize', () => requestAnimationFrame(drawFieldMap));
+</script>
+
+</body>
+</html>

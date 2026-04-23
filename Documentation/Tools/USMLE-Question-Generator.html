@@ -1,0 +1,2789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USMLE Step 1 Question Generator</title>
+<style>
+  :root {
+    --primary: #1e40af;
+    --primary-dark: #1e3a8a;
+    --accent: #059669;
+    --accent-light: #d1fae5;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --warn: #d97706;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+  header {
+    text-align: center;
+    padding: 32px 0 16px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 32px;
+  }
+  header h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    letter-spacing: -0.02em;
+  }
+  header p { color: var(--text-muted); margin-top: 6px; font-size: 0.95rem; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--primary-dark);
+  }
+  h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 10px; }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+  .help {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  input[type="text"], input[type="number"], input[type="password"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+  .form-row { margin-bottom: 18px; }
+  button {
+    padding: 11px 22px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, transform 0.1s;
+  }
+  button:active { transform: translateY(1px); }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-primary:disabled { background: #94a3b8; cursor: not-allowed; }
+  .btn-secondary { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: #e2e8f0; }
+  .btn-success { background: var(--accent); color: #fff; }
+  .btn-success:hover { background: #047857; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .quiz-meta { font-size: 0.9rem; color: var(--text-muted); }
+  .progress-bar {
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s;
+  }
+  .vignette {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+  }
+  .stem {
+    font-weight: 600;
+    margin: 16px 0 12px;
+    font-size: 1rem;
+  }
+  .choices { list-style: none; }
+  .choice {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #fff;
+  }
+  .choice:hover { border-color: #94a3b8; background: #f8fafc; }
+  .choice.selected { border-color: var(--primary); background: #eff6ff; }
+  .choice input { margin-right: 12px; margin-top: 4px; flex-shrink: 0; }
+  .choice-letter {
+    font-weight: 700;
+    margin-right: 10px;
+    color: var(--primary-dark);
+    min-width: 18px;
+  }
+  .choice.reveal-correct { border-color: var(--accent); background: var(--accent-light); }
+  .choice.reveal-incorrect { border-color: var(--danger); background: var(--danger-light); }
+  .choice.reveal-other { opacity: 0.75; }
+  .choice.disabled { cursor: default; }
+  .choice.disabled:hover { background: inherit; }
+
+  .explanation {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: 8px;
+  }
+  .explanation h3 { color: var(--primary-dark); margin-bottom: 8px; }
+  .explanation .correct-block {
+    background: var(--accent-light);
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    border-left: 3px solid var(--accent);
+  }
+  .explanation .correct-block strong { color: #065f46; }
+  .distractor-list { margin-top: 12px; }
+  .distractor-item {
+    padding: 8px 0;
+    border-bottom: 1px dashed #e2e8f0;
+    font-size: 0.92rem;
+  }
+  .distractor-item:last-child { border-bottom: none; }
+  .distractor-item strong { color: var(--danger); }
+
+  .meta-tags {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.82rem;
+  }
+  .tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-muted);
+  }
+  .tag strong { color: var(--primary-dark); }
+
+  .results-summary {
+    text-align: center;
+    padding: 30px 20px;
+  }
+  .score-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+  }
+  .score-pct { font-size: 2.2rem; }
+  .score-label { font-size: 0.85rem; opacity: 0.9; }
+  .review-item {
+    margin-bottom: 14px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .review-item.correct { border-left: 4px solid var(--accent); }
+  .review-item.incorrect { border-left: 4px solid var(--danger); }
+  .review-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .review-item-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .review-badge {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .review-badge.correct { background: var(--accent-light); color: #065f46; }
+  .review-badge.incorrect { background: var(--danger-light); color: #991b1b; }
+
+  .info-banner {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    margin-bottom: 14px;
+  }
+  .warn-banner {
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    margin-bottom: 14px;
+  }
+  details {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #f8fafc;
+  }
+  details summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  details[open] summary { margin-bottom: 8px; }
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .hidden { display: none !important; }
+
+  /* HoyaDocs top-left brand link */
+  .brand-link {
+    position: absolute;
+    top: 18px;
+    left: 24px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--primary-dark);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .brand-link:hover {
+    background: #e2e8f0;
+    text-decoration: underline;
+  }
+  @media (max-width: 640px) {
+    .brand-link {
+      position: static;
+      display: inline-block;
+      margin: 10px 0 0 16px;
+    }
+  }
+
+  /* AI preview question cards: answer toggling */
+  .ai-question-card:not(.answer-shown) .choice.reveal-correct {
+    border-color: var(--border);
+    background: #fff;
+  }
+  .ai-question-card:not(.answer-shown) .choice.reveal-other {
+    opacity: 1;
+  }
+  .ai-question-card:not(.answer-shown) .correct-badge { display: none; }
+  .ai-question-card:not(.answer-shown) .ai-explanation { display: none; }
+  .toggle-answer-btn {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary-dark);
+    transition: background 0.15s;
+  }
+  .toggle-answer-btn:hover { background: #e2e8f0; }
+  .ai-question-card.answer-shown .toggle-answer-btn {
+    background: var(--accent-light);
+    color: #065f46;
+    border-color: #a7f3d0;
+  }
+</style>
+</head>
+<body>
+<a class="brand-link" href="https://hoyadocs.com/documentation" target="_blank" rel="noopener">HoyaDocs</a>
+<div class="container">
+  <header>
+    <h1>USMLE Step 1 Question Generator</h1>
+  </header>
+
+  <div id="setup-screen">
+    <div class="card">
+      <h3 style="color:var(--text-muted);">About this tool</h3>
+      <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.7;">
+        Questions follow NBME/USMLE Step 1 conventions studied from the 2021, 2022, 2024, and 2026 official Sample Test Questions: clinical vignette with demographics, history, exam findings, labs, and a single best-answer stem with A-E options. Each item is tagged with the corresponding <strong>USMLE Content Outline</strong> category and subcategory, the relevant <strong>Physician Task/Competency</strong>, and a <strong>First Aid 2023</strong> page reference.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Custom Quiz Setup</h2>
+
+      <div class="form-grid">
+        <div>
+          <label for="api-key">API Key (sk-ant-…)</label>
+          <input type="password" id="api-key" placeholder="sk-ant-api03-…" autocomplete="off">
+          <p class="help">Stored only in this browser tab; transmitted only to the provider's API endpoint.</p>
+        </div>
+        <div>
+          <label style="margin-top:24px;"><input type="checkbox" id="use-api" style="width:auto;margin-right:6px;"> Use AI</label>
+          <p class="help">When checked, AI generation is enabled (requires an API key above).</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label for="num-questions">Number of Questions</label>
+          <input type="number" id="num-questions" min="1" max="40" value="10">
+          <p class="help">1 to 40. Real Step 1 blocks run 40 items in 60 minutes.</p>
+        </div>
+        <div>
+          <label for="category">Category (USMLE Content Area)</label>
+          <select id="category">
+            <option value="">— Any category —</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label for="subcategory">Subcategory</label>
+          <select id="subcategory" disabled>
+            <option value="">— Any subcategory —</option>
+          </select>
+          <p class="help">Populated after category is chosen.</p>
+        </div>
+        <div>
+          <label for="topic">Specific Topic (Optional)</label>
+          <input type="text" id="topic" placeholder='e.g. "pheochromocytoma", "aortic stenosis"'>
+          <p class="help">Narrows to questions matching this keyword.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label for="inhouse-subject">In House Subject (Optional)</label>
+          <select id="inhouse-subject">
+            <option value="">— None —</option>
+            <option value="Endocrine">Endocrine</option>
+            <option value="GI">GI</option>
+            <option value="Repro">Repro</option>
+          </select>
+          <p class="help">Maps to a HoyaDocs block.</p>
+        </div>
+        <div>
+          <label for="inhouse-lecture">Lecture</label>
+          <select id="inhouse-lecture" disabled>
+            <option value="">— None —</option>
+          </select>
+          <p class="help">Populated after subject is chosen.</p>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-secondary" id="preview-count">Find Matched USMLE Qs</button>
+        <button class="btn-secondary" id="preview-ai" disabled>Generate AI USMLE Qs</button>
+        <button class="btn-primary" id="start-quiz">Quiz Mode</button>
+      </div>
+      <div id="preview-result" style="margin-top:10px; font-size:0.9rem; color:var(--text-muted);"></div>
+
+      <div id="ai-preview-area" style="margin-top:18px;"></div>
+    </div>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="card">
+      <div class="quiz-header">
+        <div class="quiz-meta">
+          Question <span id="q-current">1</span> of <span id="q-total">10</span>
+        </div>
+        <div>
+          <button class="btn-secondary" id="exit-quiz" style="padding:6px 12px; font-size:0.85rem;">Exit</button>
+        </div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:10%"></div></div>
+
+      <div id="question-content"></div>
+      <div id="post-answer" class="hidden"></div>
+
+      <div class="btn-row" style="margin-top:24px;">
+        <button class="btn-primary" id="submit-answer" disabled>Submit Answer</button>
+        <button class="btn-success hidden" id="next-question">Next Question →</button>
+        <button class="btn-success hidden" id="finish-quiz">Finish Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="results-screen" class="hidden">
+    <div class="card">
+      <div class="results-summary">
+        <div class="score-circle">
+          <div class="score-pct" id="final-pct">0%</div>
+          <div class="score-label"><span id="final-correct">0</span>/<span id="final-total">0</span> correct</div>
+        </div>
+        <h2 id="results-message" style="color:var(--text);">Quiz Complete</h2>
+        <p style="color:var(--text-muted); margin-top:4px;">Review each question below, or start a new quiz.</p>
+      </div>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn-primary" id="new-quiz">New Quiz</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Review</h2>
+      <div id="review-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   USMLE CONTENT OUTLINE
+   Based on: USMLE Content Outline (2025) - 18 categories
+   ================================================================ */
+const USMLE_OUTLINE = {
+  "Human Development": [
+    "Normal age-related findings and care of the well patient",
+    "Infancy and childhood (0–12 years)",
+    "Adolescence (13–17 years)",
+    "Adulthood (18–64 years)",
+    "Older Adulthood (65+ years)"
+  ],
+  "Immune System": [
+    "Disorders associated with immunodeficiency",
+    "HIV/AIDS",
+    "Hypersensitivity reactions",
+    "Transplantation",
+    "Adverse effects of drugs on the immune system"
+  ],
+  "Blood & Lymphoreticular System": [
+    "Infectious and immunologic disorders",
+    "Neoplasms (leukemia, lymphoma, myeloma)",
+    "Anemia, cytopenias, and polycythemia",
+    "Coagulation disorders",
+    "Traumatic, mechanical, and vascular disorders",
+    "Adverse effects of drugs on blood"
+  ],
+  "Behavioral Health": [
+    "Psychotic disorders",
+    "Anxiety disorders",
+    "Mood disorders",
+    "Somatic symptoms and related disorders",
+    "Eating and impulse-control disorders",
+    "Disorders originating in infancy/childhood",
+    "Personality disorders",
+    "Substance use disorders",
+    "Sexual disorders and gender dysphoria"
+  ],
+  "Nervous System & Special Senses": [
+    "Infectious, immunologic, and inflammatory disorders",
+    "Neoplasms (cerebral, spinal, peripheral)",
+    "Cerebrovascular disease",
+    "Spine and spinal cord disorders",
+    "Cranial and peripheral nerve disorders",
+    "Neurologic pain syndromes",
+    "Degenerative disorders and dementias",
+    "Global cerebral dysfunction (delirium, coma)",
+    "Neuromuscular disorders",
+    "Movement disorders",
+    "Paroxysmal disorders (headache, seizures)",
+    "Sleep disorders",
+    "Traumatic and mechanical disorders",
+    "Congenital disorders",
+    "Disorders of the eye and eyelid",
+    "Disorders of the ear",
+    "Adverse effects of drugs on the nervous system"
+  ],
+  "Skin & Subcutaneous Tissue": [
+    "Infectious disorders and infestations",
+    "Immunologic and inflammatory disorders",
+    "Neoplasms (benign and malignant)",
+    "Integumentary disorders (hair, nails, glands)",
+    "Disorders of pigmentation",
+    "Traumatic and mechanical disorders",
+    "Congenital disorders",
+    "Adverse effects of drugs on skin"
+  ],
+  "Musculoskeletal System": [
+    "Infectious, inflammatory, and immunologic disorders",
+    "Neoplasms (bone and soft tissue)",
+    "Degenerative and metabolic disorders",
+    "Traumatic and mechanical disorders",
+    "Congenital disorders",
+    "Adverse effects of drugs on musculoskeletal system"
+  ],
+  "Cardiovascular System": [
+    "Infectious, immunologic, and inflammatory disorders",
+    "Neoplasms",
+    "Dysrhythmias",
+    "Heart failure",
+    "Ischemic heart disease",
+    "Diseases of the myocardium",
+    "Diseases of the pericardium",
+    "Valvular heart disease",
+    "Hypotension",
+    "Hypertension",
+    "Dyslipidemia",
+    "Vascular disorders",
+    "Traumatic and mechanical disorders",
+    "Congenital disorders",
+    "Adverse effects of drugs on cardiovascular system"
+  ],
+  "Respiratory System": [
+    "Infectious, immunologic, inflammatory disorders of upper airways",
+    "Infectious, immunologic, inflammatory disorders of lower airways",
+    "Neoplasms",
+    "Obstructive airway disease",
+    "Pneumoconiosis/interstitial lung disease",
+    "Respiratory failure and pulmonary vascular disorders",
+    "Metabolic, regulatory, and structural disorders",
+    "Pleura, mediastinum, and chest wall disorders",
+    "Traumatic and mechanical disorders",
+    "Congenital disorders",
+    "Adverse effects of drugs on respiratory system"
+  ],
+  "Gastrointestinal System": [
+    "Infectious, immunologic, and inflammatory disorders",
+    "Neoplasms",
+    "Signs, symptoms, and ill-defined disorders",
+    "Disorders of oral cavity and esophagus",
+    "Disorders of stomach, small intestine, colon, rectum, anus",
+    "Disorders of liver and biliary system",
+    "Disorders of the pancreas",
+    "Disorders of the peritoneal cavity",
+    "Traumatic and mechanical disorders",
+    "Congenital disorders",
+    "Adverse effects of drugs on GI system"
+  ],
+  "Renal & Urinary System": [
+    "Infectious, immunologic, and inflammatory disorders",
+    "Neoplasms",
+    "Signs, symptoms, and ill-defined disorders",
+    "Metabolic and regulatory disorders",
+    "Vascular disorders",
+    "Traumatic and mechanical disorders",
+    "Congenital disorders",
+    "Adverse effects of drugs on renal system"
+  ],
+  "Pregnancy, Childbirth, & Puerperium": [
+    "Prenatal care",
+    "Obstetric complications",
+    "Labor and delivery",
+    "Puerperium and complications",
+    "Newborn (birth to 4 weeks)",
+    "Adverse effects of drugs on pregnancy",
+    "Systemic disorders affecting pregnancy"
+  ],
+  "Female Reproductive System & Breast": [
+    "Breast disorders (infectious, neoplasms)",
+    "Infectious, immunologic, inflammatory disorders of female reproductive system",
+    "Neoplasms of the vulva, vagina, cervix, uterus, ovaries",
+    "Fertility and infertility",
+    "Menopause",
+    "Menstrual and endocrine disorders",
+    "Sexual dysfunction",
+    "Traumatic and mechanical disorders",
+    "Congenital disorders",
+    "Adverse effects of drugs on female reproductive system"
+  ],
+  "Male Reproductive System": [
+    "Infectious, immunologic, and inflammatory disorders",
+    "Neoplasms (penile, prostate, testicular, breast)",
+    "Metabolic/regulatory disorders and sexual dysfunction",
+    "Traumatic and mechanical disorders",
+    "Congenital disorders",
+    "Adverse effects of drugs on male reproductive system"
+  ],
+  "Endocrine System": [
+    "Diabetes mellitus and disorders of endocrine pancreas",
+    "Thyroid disorders",
+    "Parathyroid disorders",
+    "Adrenal disorders",
+    "Pituitary disorders",
+    "Hypothalamic endocrine disorders",
+    "Multiple endocrine neoplasia (MEN1, MEN2)",
+    "Congenital disorders",
+    "Adverse effects of drugs on endocrine system"
+  ],
+  "Multisystem Processes & Disorders": [
+    "Infectious, immunologic, inflammatory disorders",
+    "Paraneoplastic syndromes and inherited cancer syndromes",
+    "Signs, symptoms, and ill-defined disorders",
+    "Nutrition",
+    "Toxins and environmental extremes",
+    "Venomous bites and stings",
+    "Fluid, electrolyte, and acid-base disorders",
+    "Abuse",
+    "Shock",
+    "Genetic, metabolic, and developmental disorders",
+    "Adverse effects of drugs on multisystem disorders"
+  ],
+  "Biostatistics, Epidemiology, & Medical Literature": [
+    "Epidemiology and population health",
+    "Study design",
+    "Measures of association",
+    "Distributions of data",
+    "Correlation and regression",
+    "Principles of testing and screening",
+    "Study interpretation (bias, confounding, validity)",
+    "Clinical decision making and evidence-based data",
+    "Research ethics"
+  ],
+  "Social Sciences": [
+    "Communication and interpersonal skills",
+    "Medical ethics and jurisprudence",
+    "Death, dying, and palliative care",
+    "Systems-based practice and patient safety",
+    "Quality improvement",
+    "Health care policy and economics"
+  ]
+};
+
+/* ================================================================
+   IN HOUSE LECTURE MAP
+   Maps HoyaDocs block subjects to their lecture titles
+   (titles only — no subject prefix, no professor names).
+   Ordered by course sequence.
+   ================================================================ */
+const LECTURE_MAP = {
+  "Endocrine": [
+    "Intro to Hormones",
+    "Hypothalamic-Pituitary Relationships (part 1)",
+    "Hypothalamic-Pituitary Relationships (part 2)",
+    "Adrenal Hormone Synthesis & Action",
+    "Sex Steroid Synthesis & Action",
+    "Posterior Pituitary Hormones",
+    "Pituitary Pathology",
+    "Thyroid, Parathyroid, Adrenal",
+    "Thyroid Hormone Synthesis and Action",
+    "Thyroid and Parathyroid",
+    "Diagnosis & Treatment of Pituitary and Thyroid Disorders",
+    "Pathophysiology of Diabetes Mellitus",
+    "Type I & II Diabetes",
+    "Hypothalamic-Pituitary-Adrenal Axis",
+    "Adrenal Pathology",
+    "Diagnosis and Treatment of Adrenal Disorders",
+    "TBL Case Discussion — Pituitary & Thyroid Disorders",
+    "Stress, Stress Hormones & Pathophysiology Integration",
+    "Endocrine Path Lab",
+    "Diabetes Clinical Cases"
+  ],
+  "GI": [
+    "IL GI Overview",
+    "Introduction / Motility",
+    "Anterior Abdominal Wall / Hernia",
+    "Esophagus / Stomach / Intestines",
+    "IL Bile Workshop & Making a Micelle",
+    "GI Primer",
+    "Abdominal Viscera I — GI Tract",
+    "Secretions I & II",
+    "GI Embryology",
+    "Abdominal Viscera II — Liver & Pancreas",
+    "Overview of the Liver",
+    "Esophagus / Stomach Disease",
+    "Digestion & Absorption I & II",
+    "Intestinal Pathology I & II",
+    "Poisoning Conferences & Cases",
+    "GI Lab",
+    "Treatment of Peptic Ulcer, GERD & Other GI Disorders",
+    "GI Infections",
+    "Parasitology",
+    "Intestinal Pathology Case Review",
+    "Retroperitoneum",
+    "Abdominal Pain",
+    "Liver & Biliary Tract",
+    "Liver Disease I & II",
+    "Liver Enzymes",
+    "Pancreas Disease",
+    "Liver Pancreas Lab",
+    "PSW Cholera & Lactose Intolerance"
+  ],
+  "Repro": [
+    "Module Orientation",
+    "IL Urogenital Primer",
+    "Urogenital System",
+    "Female Reproductive System",
+    "Male Reproductive System",
+    "Endocrinology — Ovary & Female I & II",
+    "Pelvic Structure & Neurovasculature",
+    "CCS1 — Ovary & Female Reproductive Tract",
+    "Pelvic Viscera & Perineum",
+    "Sexual Health & Development I & II",
+    "GA Lab 1",
+    "Endocrinology — Testes & Male Reproductive Tract",
+    "Ovary & Testes",
+    "GA Lab 2",
+    "Contraception",
+    "Fertility & Infertility",
+    "Ovary & Testes Lab",
+    "Obstetrical Placenta",
+    "Endocrinology — Pregnancy, Labor, Lactation",
+    "SG5 Guideline-Directed Care",
+    "Pregnancy 101",
+    "Pelvic Imaging",
+    "Psychosocial Pregnancy & Postpartum",
+    "Menopause",
+    "Breast Diseases",
+    "PE Female Pelvis GYN Exam",
+    "Breast Clinical",
+    "Sexual History Taking",
+    "PE Breast Exam",
+    "SG Sexual History Taking",
+    "Disorders of Cervix & HPV",
+    "Disorders of Vulva & Uterus",
+    "GYN Case Review",
+    "Breast GYN Lab",
+    "Male Pelvis GU Exam",
+    "STI",
+    "CCS3 — Sexuality, Illness, Disability",
+    "Prostate",
+    "IL Sexual Boundary Issues",
+    "Prostate Clinical",
+    "Hormone Therapy & Cancer",
+    "LGBTQ I & II"
+  ]
+};
+
+/* ================================================================
+   PHYSICIAN TASKS / COMPETENCIES
+   ================================================================ */
+const PTC_LIST = [
+  "Medical Knowledge: Applying Foundational Science Concepts",
+  "Diagnosis: History and Physical Examination",
+  "Diagnosis: Laboratory and Diagnostic Studies",
+  "Diagnosis: Formulating the Diagnosis",
+  "Diagnosis: Determining Prognosis/Outcome",
+  "Management: Health Maintenance and Disease Prevention",
+  "Management: Pharmacotherapy",
+  "Management: Clinical Interventions/Treatment",
+  "Management: Mixed Management",
+  "Communication",
+  "Professionalism, Legal, and Ethical Issues",
+  "Systems-based Practice and Patient Safety",
+  "Applied Biostatistics and Clinical Epidemiology"
+];
+
+/* ================================================================
+   CURATED QUESTION BANK
+   ~50 high-quality USMLE Step 1 style questions spanning all 18
+   content outline categories. Each follows NBME format:
+   - Clinical vignette with demographics, history, exam, labs
+   - Single best-answer stem
+   - 5 lettered options (A-E)
+   - Full explanation for correct + each distractor
+   - USMLE Content Outline tag + Physician Task/Competency + FA ref
+   ================================================================ */
+const QUESTION_BANK = QUESTION_BANK_DATA(); // populated below
+
+function QUESTION_BANK_DATA() { return [
+/* =========== ENDOCRINE SYSTEM =========== */
+{
+  id: "END-001",
+  category: "Endocrine System",
+  subcategory: "Adrenal disorders",
+  topic: "pheochromocytoma",
+  vignette: "A 38-year-old woman is evaluated for a 6-month history of intermittent episodes of headache, palpitations, and diaphoresis. During episodes, she feels anxious and lightheaded. Between episodes, she is asymptomatic. She takes no medications. Her pulse is 110/min and blood pressure is 182/108 mm Hg during an episode; between episodes, pulse is 78/min and blood pressure is 128/82 mm Hg. Physical examination is otherwise unremarkable. Plasma free metanephrines are markedly elevated. Abdominal MRI shows a 4-cm mass in the right adrenal gland.",
+  stem: "Which of the following is the most likely biochemical mechanism underlying this patient's symptoms?",
+  choices: [
+    "Ectopic production of ACTH",
+    "Excess aldosterone secretion by a zona glomerulosa tumor",
+    "Excess catecholamine synthesis and release from chromaffin cells",
+    "Excess cortisol secretion from a zona fasciculata adenoma",
+    "Hyperactivity of the renin–angiotensin–aldosterone system"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "Pheochromocytoma is a catecholamine-secreting tumor of chromaffin cells of the adrenal medulla. Episodic headache, palpitations, and diaphoresis in a hypertensive patient is the classic triad. Elevated plasma free metanephrines (metabolites of epinephrine/norepinephrine) confirm the diagnosis. Tumors follow the \"rule of 10s\" (10% extra-adrenal, 10% bilateral, 10% malignant, 10% familial — eg, MEN 2A/2B, VHL, NF1).",
+    A: "Ectopic ACTH → Cushing syndrome (weight gain, striae, hyperglycemia), not paroxysmal hypertension with metanephrines.",
+    B: "Aldosterone excess (Conn syndrome) causes sustained hypertension with hypokalemia and metabolic alkalosis — not paroxysmal symptoms.",
+    D: "Cortisol-secreting adenoma would present as Cushing syndrome, not episodic sympathetic surges.",
+    E: "Renovascular or primary RAAS activation causes sustained, not episodic, hypertension and would not elevate metanephrines."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 339 (Pheochromocytoma)"
+},
+{
+  id: "END-002",
+  category: "Endocrine System",
+  subcategory: "Thyroid disorders",
+  topic: "graves disease",
+  vignette: "A 32-year-old woman comes to the office with a 3-month history of heat intolerance, palpitations, 5-kg unintentional weight loss, and fine tremor. She reports anxiety and difficulty sleeping. Her pulse is 118/min and blood pressure is 140/70 mm Hg. Physical examination shows a diffusely enlarged, nontender thyroid with an audible bruit, warm moist skin, lid lag, and mild proptosis bilaterally. Serum TSH is <0.01 µU/mL and free T4 is 4.2 ng/dL.",
+  stem: "Which of the following is the most likely pathogenic mechanism of this patient's disease?",
+  choices: [
+    "Autoantibodies that stimulate the TSH receptor",
+    "Autoantibodies that destroy thyroid peroxidase",
+    "Ectopic TSH secretion from a pituitary adenoma",
+    "Iodine-induced thyrotoxicosis",
+    "Thyroid follicular rupture releasing preformed hormone"
+  ],
+  correct: "A",
+  explanations: {
+    correct: "Graves disease is caused by IgG autoantibodies (thyroid-stimulating immunoglobulins) directed against the TSH receptor, which mimic TSH and drive continuous hormone synthesis and gland hypertrophy. The classic triad of hyperthyroidism + diffuse goiter with bruit + ophthalmopathy (proptosis, lid lag) distinguishes Graves from other hyperthyroid states. Pretibial myxedema may also occur.",
+    B: "Anti-TPO antibodies are the hallmark of Hashimoto thyroiditis (hypothyroidism with lymphocytic infiltrate), not Graves disease.",
+    C: "TSH-secreting pituitary adenoma causes central hyperthyroidism with elevated TSH — this patient's TSH is suppressed.",
+    D: "Jod-Basedow phenomenon (iodine load) causes hyperthyroidism typically in patients with preexisting nodular goiter and lacks ophthalmopathy.",
+    E: "Subacute (de Quervain) thyroiditis causes release of preformed hormone with a painful, tender thyroid — not diffusely enlarged with bruit and ophthalmopathy."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 344 (Hyperthyroidism)"
+},
+{
+  id: "END-003",
+  category: "Endocrine System",
+  subcategory: "Diabetes mellitus and disorders of endocrine pancreas",
+  topic: "dka",
+  vignette: "A 19-year-old college student is brought to the emergency department with a 2-day history of polyuria, polydipsia, nausea, and vomiting. He has a history of type 1 diabetes mellitus and admits to missing several insulin doses. Temperature is 37.2°C, pulse is 122/min, respirations are 28/min and deep, and blood pressure is 102/60 mm Hg. He appears ill and has fruity breath. Serum studies show: glucose 512 mg/dL, Na⁺ 132 mEq/L, K⁺ 5.2 mEq/L, HCO3⁻ 8 mEq/L, anion gap 22, pH 7.18, β-hydroxybutyrate markedly elevated. Urine shows large ketones.",
+  stem: "Which of the following is the most appropriate initial step in management?",
+  choices: [
+    "Intravenous 0.9% saline bolus",
+    "Intravenous sodium bicarbonate infusion",
+    "Potassium phosphate intravenously before insulin",
+    "Subcutaneous long-acting insulin glargine",
+    "Oral metformin"
+  ],
+  correct: "A",
+  explanations: {
+    correct: "Diabetic ketoacidosis (DKA) management starts with aggressive IV isotonic (0.9% NaCl) fluid resuscitation to restore perfusion and begin correcting osmotic diuresis deficits. Insulin (IV regular) and potassium replacement follow once K⁺ is confirmed >3.3 mEq/L. Fluids alone lower glucose by ~20%.",
+    B: "Bicarbonate is only considered for pH <6.9 and is not first-line; it may worsen hypokalemia and cerebral edema risk.",
+    C: "Insulin should not be delayed unless K⁺ is <3.3 mEq/L (this patient is 5.2). Phosphate is rarely required.",
+    D: "Long-acting SC insulin has too slow an onset to treat acute DKA; IV regular insulin is required.",
+    E: "Metformin is contraindicated in acidosis and has no role in DKA management."
+  },
+  ptc: "Management: Clinical Interventions/Treatment",
+  faRef: "First Aid 2023 p. 355 (Diabetic ketoacidosis)"
+},
+{
+  id: "END-004",
+  category: "Endocrine System",
+  subcategory: "Pituitary disorders",
+  topic: "prolactinoma",
+  vignette: "A 28-year-old woman presents with a 6-month history of amenorrhea and bilateral milky nipple discharge. She has not been pregnant and takes no medications. Her vital signs are normal. Visual field testing shows bitemporal hemianopia. Serum pregnancy test is negative, TSH is normal, and prolactin is 210 ng/mL (N <25).",
+  stem: "Treatment with which of the following is most likely to reduce both the hormonal excess and tumor size in this patient?",
+  choices: [
+    "Bromocriptine",
+    "Levothyroxine",
+    "Octreotide",
+    "Radioactive iodine",
+    "Transsphenoidal surgery as first-line"
+  ],
+  correct: "A",
+  explanations: {
+    correct: "This patient has a macroprolactinoma (prolactin >200 ng/mL with mass effect producing bitemporal hemianopia from chiasmal compression). Dopamine agonists (bromocriptine, cabergoline) are first-line — they suppress prolactin secretion AND shrink tumor volume by activating D2 receptors on lactotrophs. Surgery is reserved for refractory cases or apoplexy.",
+    B: "Levothyroxine treats hypothyroidism; TRH elevation can raise prolactin, but her TSH is normal.",
+    C: "Octreotide (somatostatin analog) is first-line for acromegaly (GH-secreting adenoma), not prolactinoma.",
+    D: "Radioactive iodine treats hyperthyroidism — no role in pituitary disease.",
+    E: "Surgery is reserved for dopamine-agonist failure, intolerance, or rapidly progressive visual loss."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 336 (Prolactinoma)"
+},
+{
+  id: "END-005",
+  category: "Endocrine System",
+  subcategory: "Adrenal disorders",
+  topic: "cushing syndrome",
+  vignette: "A 45-year-old woman has an 8-month history of progressive weight gain, easy bruising, proximal muscle weakness, and new-onset hypertension. She has not been taking glucocorticoids. Examination shows central obesity, a dorsocervical fat pad, facial plethora, and purple abdominal striae. Serum 24-hour urinary free cortisol is markedly elevated. Low-dose dexamethasone suppression test does NOT suppress cortisol. High-dose dexamethasone suppression DOES suppress cortisol by >50%. Serum ACTH is elevated.",
+  stem: "Which of the following is the most likely diagnosis?",
+  choices: [
+    "Adrenal cortical adenoma",
+    "Cushing disease (ACTH-secreting pituitary adenoma)",
+    "Ectopic ACTH secretion from small cell lung cancer",
+    "Exogenous glucocorticoid use",
+    "Primary adrenocortical hyperplasia"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "High-dose dexamethasone suppression >50% indicates a pituitary source that retains partial negative feedback — classic Cushing disease. Elevated ACTH excludes primary adrenal causes (which have low ACTH). Clinical features (moon facies, striae, proximal weakness, HTN) are typical.",
+    A: "Adrenal adenoma would cause low ACTH (not elevated) and no response to dexamethasone.",
+    C: "Ectopic ACTH from small cell carcinoma typically does NOT suppress with high-dose dexamethasone (malignant tumors lack feedback) and usually presents with hypokalemia, hyperpigmentation, and rapid onset.",
+    D: "Exogenous steroids would cause suppressed endogenous ACTH and low serum cortisol despite cushingoid features.",
+    E: "Primary adrenocortical hyperplasia/carcinoma has low ACTH (primary adrenal source)."
+  },
+  ptc: "Diagnosis: Laboratory and Diagnostic Studies",
+  faRef: "First Aid 2023 p. 338 (Cushing syndrome)"
+},
+
+/* =========== CARDIOVASCULAR SYSTEM =========== */
+{
+  id: "CV-001",
+  category: "Cardiovascular System",
+  subcategory: "Ischemic heart disease",
+  topic: "stemi",
+  vignette: "A 62-year-old man with hypertension and hyperlipidemia arrives at the emergency department 45 minutes after the onset of crushing substernal chest pain radiating to his left arm, accompanied by diaphoresis and nausea. Pulse is 102/min, blood pressure is 150/92 mm Hg. Physical examination shows an S4 gallop. ECG shows 3-mm ST-segment elevations in leads II, III, and aVF with reciprocal depressions in I and aVL.",
+  stem: "Occlusion of which of the following coronary arteries is most likely responsible for this patient's findings?",
+  choices: [
+    "Left anterior descending",
+    "Left circumflex",
+    "Left main",
+    "Right coronary artery",
+    "Posterior descending artery"
+  ],
+  correct: "D",
+  explanations: {
+    correct: "ST elevations in II, III, aVF indicate an inferior-wall STEMI. In ~85% of people, the right coronary artery is dominant and supplies the inferior LV via the posterior descending artery. RCA occlusion also risks AV block (supplies SA/AV nodes) and right ventricular infarction.",
+    A: "LAD occlusion → anterior/anteroseptal STEMI (V1–V4 elevations).",
+    B: "Left circumflex → lateral STEMI (I, aVL, V5, V6).",
+    C: "Left main → widespread ST elevations and hemodynamic collapse.",
+    E: "PDA is the terminal branch; the upstream occluded vessel (RCA in most, LCx in 15%) is what is \"occluded\" — by convention we name the culprit parent vessel."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 295 (Coronary artery anatomy & MI localization)"
+},
+{
+  id: "CV-002",
+  category: "Cardiovascular System",
+  subcategory: "Valvular heart disease",
+  topic: "aortic stenosis",
+  vignette: "A 76-year-old man presents with a 6-month history of exertional dyspnea, chest tightness, and one episode of syncope while climbing stairs. Physical examination shows a harsh, late-peaking crescendo-decrescendo systolic ejection murmur best heard at the right upper sternal border, radiating to the carotids. S2 is diminished. Carotid upstrokes are delayed and diminished (pulsus parvus et tardus). Echocardiography shows a calcified, stenotic aortic valve with a mean gradient of 52 mm Hg and valve area of 0.7 cm².",
+  stem: "Which of the following is the most appropriate next step in management?",
+  choices: [
+    "Balloon aortic valvuloplasty",
+    "Initiate afterload-reducing therapy with ACE inhibitor",
+    "Reassurance and annual echocardiography",
+    "Surgical or transcatheter aortic valve replacement",
+    "Warfarin anticoagulation"
+  ],
+  correct: "D",
+  explanations: {
+    correct: "Severe symptomatic aortic stenosis (triad of angina, syncope, heart failure + mean gradient >40 mm Hg or AVA <1.0 cm²) carries a mortality of ~50% within 2-3 years untreated. Aortic valve replacement (surgical AVR or TAVR in elderly/high-risk patients) is the definitive treatment.",
+    A: "Balloon valvuloplasty is a bridge for children with congenital AS or unstable adults awaiting definitive therapy; high restenosis rate.",
+    B: "Vasodilators can precipitate syncope in severe AS (fixed obstruction, preload-dependent); use cautiously.",
+    C: "Severe symptomatic AS requires intervention, not watchful waiting.",
+    E: "Anticoagulation has no role unless another indication (afib) exists."
+  },
+  ptc: "Management: Clinical Interventions/Treatment",
+  faRef: "First Aid 2023 p. 301 (Aortic stenosis)"
+},
+{
+  id: "CV-003",
+  category: "Cardiovascular System",
+  subcategory: "Dysrhythmias",
+  topic: "atrial fibrillation",
+  vignette: "A 72-year-old woman with hypertension and type 2 diabetes mellitus is evaluated for a 1-week history of intermittent palpitations and fatigue. Her pulse is irregularly irregular at 118/min. Blood pressure is 138/78 mm Hg. ECG shows an irregularly irregular rhythm with no discernible P waves and narrow QRS complexes. Echocardiography is unremarkable. CHA₂DS₂-VASc score is calculated to be 4.",
+  stem: "Which of the following is most likely to reduce this patient's risk of ischemic stroke?",
+  choices: [
+    "Aspirin monotherapy",
+    "Apixaban",
+    "Cardioversion without anticoagulation",
+    "Clopidogrel monotherapy",
+    "Metoprolol"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "In nonvalvular atrial fibrillation with CHA₂DS₂-VASc ≥2, long-term oral anticoagulation is indicated for stroke prevention. DOACs (apixaban, rivaroxaban, dabigatran, edoxaban) are preferred over warfarin due to lower intracranial hemorrhage risk and no INR monitoring. CHA₂DS₂-VASc components: CHF, HTN, Age ≥75 (2 pts), DM, Stroke/TIA (2 pts), Vascular disease, Age 65-74, Sex (female).",
+    A: "Aspirin is inferior to anticoagulation for stroke prevention in AF with elevated risk.",
+    C: "Cardioversion without ≥3 weeks of anticoagulation (or TEE-guided) risks dislodging atrial thrombus causing stroke.",
+    D: "Clopidogrel alone is inferior to anticoagulation; the ACTIVE-W trial confirmed warfarin superiority.",
+    E: "Metoprolol is useful for rate control but does not reduce stroke risk."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 307 (Atrial fibrillation)"
+},
+{
+  id: "CV-004",
+  category: "Cardiovascular System",
+  subcategory: "Heart failure",
+  topic: "heart failure",
+  vignette: "A 68-year-old man with a history of coronary artery disease presents with 2 weeks of progressive dyspnea on exertion, orthopnea, and bilateral lower extremity edema. Examination shows jugular venous distention to 12 cm, bibasilar crackles, and an S3 gallop. Echocardiography shows a left ventricular ejection fraction of 28% and dilated LV.",
+  stem: "Which of the following medication combinations has the greatest mortality benefit in this patient?",
+  choices: [
+    "ACE inhibitor + beta blocker + mineralocorticoid receptor antagonist + SGLT2 inhibitor",
+    "Digoxin + hydralazine + isosorbide dinitrate",
+    "Furosemide monotherapy",
+    "Losartan + amlodipine + hydrochlorothiazide",
+    "Non-dihydropyridine calcium channel blocker + nitrate"
+  ],
+  correct: "A",
+  explanations: {
+    correct: "Guideline-directed medical therapy for HFrEF (LVEF ≤40%) combines 4 mortality-reducing classes: (1) ARNI or ACEi/ARB, (2) evidence-based beta-blocker (carvedilol, metoprolol succinate, bisoprolol), (3) mineralocorticoid receptor antagonist (spironolactone/eplerenone), (4) SGLT2 inhibitor (dapagliflozin, empagliflozin). Each independently reduces mortality.",
+    B: "Hydralazine/isosorbide dinitrate is an alternative in ACEi-intolerant patients (especially African-American patients); digoxin reduces hospitalization, not mortality.",
+    C: "Loop diuretics relieve congestion (symptomatic) but do NOT reduce mortality.",
+    D: "CCB amlodipine is neutral; HCTZ does not treat HFrEF.",
+    E: "Non-dihydropyridine CCBs (diltiazem, verapamil) are CONTRAINDICATED in HFrEF (negative inotropy)."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 312 (Heart failure)"
+},
+
+/* =========== RESPIRATORY SYSTEM =========== */
+{
+  id: "RESP-001",
+  category: "Respiratory System",
+  subcategory: "Respiratory failure and pulmonary vascular disorders",
+  topic: "pulmonary embolism",
+  vignette: "A 42-year-old woman presents with a 6-hour history of sudden-onset pleuritic right-sided chest pain and dyspnea. She returned from a 14-hour flight 2 days ago. She takes a combined oral contraceptive. Pulse is 118/min, respirations are 26/min, blood pressure is 124/78 mm Hg, oxygen saturation is 89% on room air. Lungs are clear. The right calf is swollen and tender. ECG shows sinus tachycardia with an S1Q3T3 pattern.",
+  stem: "Which of the following is the most appropriate next step in diagnosis?",
+  choices: [
+    "Chest radiography",
+    "CT pulmonary angiography",
+    "D-dimer assay",
+    "Echocardiography",
+    "Ventilation-perfusion scan"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "With high pretest probability (Wells score ≥4 — recent immobilization, tachycardia, hypoxia, unilateral leg swelling, clinical suspicion of PE), skip D-dimer and proceed directly to CT pulmonary angiography, which is the diagnostic gold standard.",
+    A: "Chest X-ray is typically normal in PE or may show nonspecific findings (Hampton hump, Westermark sign); not diagnostic.",
+    C: "D-dimer is appropriate for LOW/intermediate pretest probability — not for high-risk patients where false-negatives could be catastrophic.",
+    D: "Echo can show RV strain but is neither sensitive nor specific for PE diagnosis.",
+    E: "V/Q scan is reserved when CTPA is contraindicated (pregnancy, renal failure, contrast allergy)."
+  },
+  ptc: "Diagnosis: Laboratory and Diagnostic Studies",
+  faRef: "First Aid 2023 p. 680 (Pulmonary embolism)"
+},
+{
+  id: "RESP-002",
+  category: "Respiratory System",
+  subcategory: "Obstructive airway disease",
+  topic: "asthma",
+  vignette: "A 22-year-old woman with a history of seasonal allergies presents with a 4-month history of nighttime cough and dyspnea triggered by exercise and cold air. She uses an albuterol inhaler 3-4 times per week. Lung auscultation is normal today. Spirometry shows FEV1/FVC 68%, with a 15% improvement in FEV1 after bronchodilator administration.",
+  stem: "Addition of which of the following is most appropriate for long-term control of this patient's symptoms?",
+  choices: [
+    "Chronic oral prednisone",
+    "Ipratropium bromide",
+    "Low-dose inhaled corticosteroid",
+    "Montelukast monotherapy",
+    "Short-acting beta agonist alone"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "Persistent asthma (>2 symptoms/week or any night awakenings) requires a daily controller — low-dose inhaled corticosteroid (ICS) is first-line. GINA 2023 preferred alternative: as-needed ICS-formoterol (combination reliever/controller).",
+    A: "Chronic oral steroids cause osteoporosis, DM, cataracts, suppression — reserved for severe refractory disease.",
+    B: "Ipratropium is second-line, primarily used in COPD and acute asthma exacerbations.",
+    D: "Montelukast is an add-on, not monotherapy; also carries boxed warning for neuropsychiatric effects.",
+    E: "SABA monotherapy without controller actually INCREASES mortality — abandoned by GINA 2019."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 683 (Asthma)"
+},
+{
+  id: "RESP-003",
+  category: "Respiratory System",
+  subcategory: "Infectious, immunologic, inflammatory disorders of lower airways",
+  topic: "pneumonia",
+  vignette: "A previously healthy 34-year-old man presents with 4 days of productive cough with rust-colored sputum, fever to 39.4°C, pleuritic chest pain, and shortness of breath. Pulse is 104/min, respirations are 24/min, SpO2 90% on room air. Lung exam shows dullness to percussion and bronchial breath sounds in the right lower lobe. Chest radiography shows right lower lobe consolidation. Sputum Gram stain shows gram-positive diplococci in chains.",
+  stem: "Which of the following is the most likely causative organism?",
+  choices: [
+    "Haemophilus influenzae",
+    "Klebsiella pneumoniae",
+    "Mycoplasma pneumoniae",
+    "Pseudomonas aeruginosa",
+    "Streptococcus pneumoniae"
+  ],
+  correct: "E",
+  explanations: {
+    correct: "Streptococcus pneumoniae is the most common cause of community-acquired pneumonia. Classic features: lobar consolidation, rust-colored sputum, gram-positive lancet-shaped diplococci. Optochin-sensitive and bile-soluble on lab.",
+    A: "H. influenzae — gram-negative coccobacilli; more common in COPD patients.",
+    B: "Klebsiella — gram-negative rod with thick mucoid capsule; currant-jelly sputum in alcoholics and aspiration; not chains.",
+    C: "Mycoplasma — walking pneumonia in young adults; no cell wall so not seen on Gram stain; interstitial pattern on CXR.",
+    D: "Pseudomonas — gram-negative rod; hospital-acquired, cystic fibrosis, neutropenic patients."
+  },
+  ptc: "Diagnosis: Formulating the Diagnosis",
+  faRef: "First Aid 2023 p. 137 (Streptococcus pneumoniae)"
+},
+{
+  id: "RESP-004",
+  category: "Respiratory System",
+  subcategory: "Obstructive airway disease",
+  topic: "copd",
+  vignette: "A 67-year-old man with a 50-pack-year smoking history reports 3 years of progressive dyspnea on exertion and chronic productive cough. He has been hospitalized twice in the past year for respiratory exacerbations. He takes albuterol as needed. Examination shows a barrel-shaped chest, distant breath sounds, and prolonged expiratory phase with wheezes. Spirometry shows FEV1/FVC 0.56 (post-bronchodilator), with FEV1 48% of predicted.",
+  stem: "Which of the following interventions will most reduce mortality in this patient?",
+  choices: [
+    "Daily inhaled corticosteroid monotherapy",
+    "Home oxygen therapy if resting SpO2 <88%",
+    "Influenza vaccine annually",
+    "Long-term azithromycin",
+    "Lung volume reduction surgery"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "In COPD, only three interventions have been shown to reduce mortality: (1) smoking cessation, (2) long-term supplemental oxygen in patients with chronic resting hypoxemia (SpO2 ≤88% or PaO2 ≤55 mm Hg), and (3) lung volume reduction in carefully selected patients with upper-lobe emphysema. Home O2 in chronic hypoxemia reduces mortality substantially (NOTT trial).",
+    A: "ICS monotherapy is NOT recommended in COPD (unlike asthma); ICS-LABA-LAMA triple therapy may reduce exacerbations in specific phenotypes.",
+    C: "Annual flu vaccine reduces hospitalizations but has modest direct mortality benefit compared to oxygen.",
+    D: "Azithromycin prophylaxis reduces exacerbations in select patients but carries QT prolongation/hearing loss risk and no proven mortality benefit.",
+    E: "LVRS only helps a narrow subset (upper-lobe predominant emphysema + poor exercise capacity); mortality benefit is more limited and population-specific."
+  },
+  ptc: "Management: Clinical Interventions/Treatment",
+  faRef: "First Aid 2023 p. 684 (COPD)"
+},
+
+/* =========== GASTROINTESTINAL =========== */
+{
+  id: "GI-001",
+  category: "Gastrointestinal System",
+  subcategory: "Disorders of stomach, small intestine, colon, rectum, anus",
+  topic: "peptic ulcer",
+  vignette: "A 48-year-old man presents with a 3-month history of epigastric burning pain that awakens him at night and is relieved by eating. He drinks 2 cups of coffee daily and takes ibuprofen several times a week for back pain. Upper endoscopy shows a clean-based 1.5-cm ulcer in the duodenal bulb. Rapid urease test performed on a biopsy specimen is positive.",
+  stem: "Which of the following is the most appropriate initial therapy?",
+  choices: [
+    "Amoxicillin, clarithromycin, and omeprazole for 14 days",
+    "Bismuth subsalicylate monotherapy",
+    "H2 receptor antagonist for 8 weeks",
+    "Misoprostol for 4 weeks",
+    "Proton pump inhibitor monotherapy for 4 weeks"
+  ],
+  correct: "A",
+  explanations: {
+    correct: "Helicobacter pylori-positive duodenal ulcer requires eradication therapy. Standard triple therapy = PPI + clarithromycin + amoxicillin x 14 days. If local clarithromycin resistance >15%, use bismuth quadruple therapy (PPI + bismuth + metronidazole + tetracycline). Eradication heals the ulcer AND prevents recurrence (>80% reduction).",
+    B: "Bismuth monotherapy is inadequate against H. pylori.",
+    C: "H2 blockers alone heal the ulcer but do not eradicate H. pylori → high recurrence.",
+    D: "Misoprostol prevents NSAID-induced ulcers but doesn't treat active H. pylori.",
+    E: "PPI alone — same issue as H2: heals but doesn't prevent recurrence without eradication."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 394 (Peptic ulcer disease)"
+},
+{
+  id: "GI-002",
+  category: "Gastrointestinal System",
+  subcategory: "Disorders of liver and biliary system",
+  topic: "acute pancreatitis",
+  vignette: "A 52-year-old man is admitted for severe epigastric pain radiating to the back, with nausea and vomiting that began 6 hours ago. He has a history of alcohol use disorder. Examination shows tachycardia, tender epigastrium, and hypoactive bowel sounds. Serum lipase is 6× upper limit of normal. Serum triglycerides are normal. Abdominal ultrasound shows no gallstones. CT shows a diffusely enlarged, inflamed pancreas without necrosis.",
+  stem: "Which of the following is the most appropriate initial step in management?",
+  choices: [
+    "Broad-spectrum IV antibiotics",
+    "Emergent ERCP",
+    "IV fluid resuscitation with lactated Ringer solution",
+    "Octreotide infusion",
+    "Total parenteral nutrition"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "Early aggressive isotonic IV fluid resuscitation (preferably lactated Ringer) in the first 24 hours is the cornerstone of acute pancreatitis management. It reduces SIRS, organ failure, and mortality. Pain control, antiemetics, and early (within 24-72h) enteral feeding when tolerated are also standard.",
+    A: "Prophylactic antibiotics are NOT indicated in sterile acute pancreatitis — reserved for confirmed infected necrosis.",
+    B: "ERCP is indicated only for gallstone pancreatitis with cholangitis or ongoing biliary obstruction.",
+    D: "Octreotide has no established benefit in acute pancreatitis.",
+    E: "TPN has been supplanted by early enteral feeding, which lowers infections and mortality."
+  },
+  ptc: "Management: Clinical Interventions/Treatment",
+  faRef: "First Aid 2023 p. 404 (Acute pancreatitis)"
+},
+{
+  id: "GI-003",
+  category: "Gastrointestinal System",
+  subcategory: "Infectious, immunologic, and inflammatory disorders",
+  topic: "crohn disease",
+  vignette: "A 26-year-old woman has a 6-month history of intermittent crampy right lower quadrant abdominal pain, nonbloody diarrhea, 8-kg weight loss, and low-grade fevers. She also reports a painful red nodule on her shin. Colonoscopy shows patchy areas of cobblestoning and deep linear ulcers in the terminal ileum and cecum, with skip areas of normal mucosa. Biopsy shows transmural inflammation with non-caseating granulomas.",
+  stem: "This patient is at greatest risk for which of the following complications?",
+  choices: [
+    "Colorectal adenocarcinoma within 2 years",
+    "Enterocutaneous fistula",
+    "Megacolon with perforation",
+    "Primary sclerosing cholangitis",
+    "Pseudopolyps in rectum"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "Crohn disease is a transmural inflammatory process → frequently complicated by fistulas (enterocutaneous, perianal, entero-entero), strictures, and abscesses. Skip lesions, cobblestoning, and non-caseating granulomas are classic.",
+    A: "Colorectal cancer risk is elevated in long-standing disease (>10 yrs), not within 2 years.",
+    C: "Toxic megacolon is more characteristic of ulcerative colitis (mucosal inflammation involving entire colon).",
+    D: "PSC is classically associated with ulcerative colitis (70-80% of PSC patients have UC).",
+    E: "Pseudopolyps and rectal involvement are hallmarks of ulcerative colitis, not Crohn (rectum usually spared in CD)."
+  },
+  ptc: "Diagnosis: Determining Prognosis/Outcome",
+  faRef: "First Aid 2023 p. 396 (Crohn disease vs ulcerative colitis)"
+},
+{
+  id: "GI-004",
+  category: "Gastrointestinal System",
+  subcategory: "Disorders of liver and biliary system",
+  topic: "cirrhosis",
+  vignette: "A 58-year-old man with a long history of heavy alcohol use presents with progressive abdominal distension and leg swelling. Examination reveals scleral icterus, spider angiomas on the chest, palmar erythema, gynecomastia, and a fluid wave. Labs: AST 98, ALT 42, total bilirubin 4.8 mg/dL, albumin 2.6 g/dL, INR 1.9, platelets 78,000/mm³. Abdominal paracentesis yields cloudy fluid. Ascitic fluid analysis: neutrophil count 450/mm³, serum-ascites albumin gradient 1.4.",
+  stem: "Which of the following is the most appropriate initial therapy?",
+  choices: [
+    "Intravenous cefotaxime",
+    "Intravenous vancomycin plus metronidazole",
+    "Oral ciprofloxacin for 5 days only",
+    "Serial large-volume paracentesis without antibiotics",
+    "TIPS procedure"
+  ],
+  correct: "A",
+  explanations: {
+    correct: "This patient has spontaneous bacterial peritonitis (SBP): cirrhotic ascites with ascitic neutrophil count ≥250/mm³. SAAG >1.1 confirms portal HTN source. Empiric IV third-generation cephalosporin (cefotaxime or ceftriaxone) is first-line. Adjunct IV albumin (1.5 g/kg day 1, 1 g/kg day 3) reduces hepatorenal syndrome and mortality. Most common organism: E. coli.",
+    B: "Vanc + metronidazole covers Gram-positive and anaerobes but misses the Gram-negative enteric organisms (E. coli, Klebsiella) that cause most SBP.",
+    C: "Oral ciprofloxacin is used for SBP prophylaxis, not acute treatment.",
+    D: "Paracentesis without antibiotics is inadequate — SBP mortality is 20-30% if untreated.",
+    E: "TIPS treats refractory ascites/variceal bleeding but is not acute SBP therapy."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 402 (Cirrhosis / SBP)"
+},
+
+/* =========== RENAL & URINARY =========== */
+{
+  id: "RENAL-001",
+  category: "Renal & Urinary System",
+  subcategory: "Metabolic and regulatory disorders",
+  topic: "acute tubular necrosis",
+  vignette: "A 64-year-old man is hospitalized with sepsis from a urinary tract infection. He receives IV antibiotics including gentamicin for 5 days and high-dose IV contrast for CT imaging. On hospital day 7, his urine output decreases to 250 mL/24 hr. Serum creatinine has risen from baseline 1.0 to 3.6 mg/dL. Urinalysis shows granular \"muddy brown\" casts. FeNa is 4%, urine osmolality 320 mOsm/kg.",
+  stem: "Which of the following is the most likely diagnosis?",
+  choices: [
+    "Acute interstitial nephritis",
+    "Acute tubular necrosis",
+    "Prerenal azotemia",
+    "Postrenal obstruction",
+    "Rapidly progressive glomerulonephritis"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "Acute tubular necrosis (ATN) is the most common cause of intrinsic AKI. Classic findings: muddy brown (granular) casts, FeNa >2%, urine osmolality near plasma (~300 mOsm/kg, kidneys can't concentrate). Causes: ischemia (sepsis, hypotension), nephrotoxins (aminoglycosides, contrast, cisplatin, rhabdo).",
+    A: "AIN: usually drug-induced (NSAIDs, PPIs, beta-lactams); WBC casts and eosinophils on urinalysis; often fever, rash, eosinophilia.",
+    C: "Prerenal: FeNa <1%, concentrated urine (osm >500), BUN:Cr >20:1 — kidney is intact and conserving.",
+    D: "Postrenal: hydronephrosis on ultrasound; more commonly elderly men (BPH), obstructing stones.",
+    E: "RPGN: hematuria with dysmorphic RBCs and RBC casts, not muddy brown."
+  },
+  ptc: "Diagnosis: Formulating the Diagnosis",
+  faRef: "First Aid 2023 p. 620 (ATN)"
+},
+{
+  id: "RENAL-002",
+  category: "Renal & Urinary System",
+  subcategory: "Infectious, immunologic, and inflammatory disorders",
+  topic: "iga nephropathy",
+  vignette: "A 24-year-old man presents with painless gross hematuria that began 2 days ago, about 48 hours after onset of a viral upper respiratory tract infection. He had a similar episode 1 year ago that resolved spontaneously. Blood pressure is 128/82 mm Hg. Urinalysis shows 3+ blood with dysmorphic RBCs and mild proteinuria. Complement levels (C3, C4) are normal.",
+  stem: "Which of the following is the most likely diagnosis?",
+  choices: [
+    "Alport syndrome",
+    "IgA nephropathy (Berger disease)",
+    "Minimal change disease",
+    "Post-streptococcal glomerulonephritis",
+    "Thin basement membrane disease"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "IgA nephropathy is the most common glomerulonephritis worldwide. Classic presentation: synpharyngitic hematuria (gross hematuria 1-2 days after URI or exercise), normal complements, mesangial IgA deposition on biopsy. Contrast with post-strep GN which occurs 2-4 weeks AFTER infection with LOW C3.",
+    A: "Alport: X-linked hereditary type IV collagen defect → hematuria + sensorineural hearing loss + ocular abnormalities.",
+    C: "Minimal change: nephrotic syndrome in children; presents with proteinuria, edema, not hematuria.",
+    D: "Post-strep GN: 2-4 weeks after strep infection, LOW C3, often hypertension and edema.",
+    E: "Thin basement membrane (benign familial hematuria): persistent microscopic hematuria, benign course, no gross episodes typically."
+  },
+  ptc: "Diagnosis: Formulating the Diagnosis",
+  faRef: "First Aid 2023 p. 616 (IgA nephropathy)"
+},
+{
+  id: "RENAL-003",
+  category: "Renal & Urinary System",
+  subcategory: "Metabolic and regulatory disorders",
+  topic: "nephrolithiasis",
+  vignette: "A 38-year-old man presents with a 2-hour history of severe right flank pain radiating to the groin, nausea, and hematuria. Vital signs are normal except pulse 110/min. Urinalysis shows gross hematuria and hexagonal crystals. Non-contrast CT shows a 5-mm radiopaque stone in the right ureter. Urinary pH is 5.2.",
+  stem: "Which of the following is the most likely composition of this patient's stone?",
+  choices: [
+    "Calcium oxalate",
+    "Cystine",
+    "Struvite (magnesium ammonium phosphate)",
+    "Uric acid",
+    "Xanthine"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "Hexagonal crystals are pathognomonic for cystine stones. Cystinuria is an autosomal recessive defect in renal tubular reabsorption of COLA amino acids (Cysteine, Ornithine, Lysine, Arginine). Stones are poorly radiopaque on X-ray (faint) but visible on CT; form in acidic urine. Positive urinary sodium nitroprusside (cyanide) test.",
+    A: "Calcium oxalate (most common, ~80%): envelope- or dumbbell-shaped crystals; radiopaque.",
+    C: "Struvite: coffin-lid crystals; alkaline urine (pH >7) from urease-producing bacteria (Proteus, Klebsiella); stag-horn calculi.",
+    D: "Uric acid: rhomboid/rosette crystals, radiolucent on X-ray, acidic urine.",
+    E: "Xanthine: extremely rare, associated with xanthine oxidase deficiency."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 622 (Kidney stones)"
+},
+
+/* =========== NERVOUS SYSTEM =========== */
+{
+  id: "NEURO-001",
+  category: "Nervous System & Special Senses",
+  subcategory: "Cerebrovascular disease",
+  topic: "stroke mca",
+  vignette: "A 72-year-old right-handed woman with atrial fibrillation (not anticoagulated) is brought to the emergency department within 90 minutes of sudden-onset right-sided weakness and difficulty speaking. Blood pressure is 172/96 mm Hg. Examination shows non-fluent, effortful speech with preserved comprehension, right facial droop sparing the forehead, right upper extremity plegia, and moderate right lower extremity weakness. Non-contrast head CT shows no hemorrhage.",
+  stem: "Which of the following is the most likely site of vascular occlusion?",
+  choices: [
+    "Left anterior cerebral artery",
+    "Left middle cerebral artery",
+    "Left posterior cerebral artery",
+    "Right middle cerebral artery",
+    "Vertebrobasilar artery"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "Contralateral weakness (R-sided), non-fluent (Broca) aphasia with preserved comprehension, and face + arm > leg deficits localize to the LEFT MCA (dominant hemisphere in right-handed patients; Broca area is in inferior frontal gyrus). MCA supplies lateral frontal/parietal/temporal lobes; motor/sensory homunculus for face and arm is in the MCA territory (leg in ACA).",
+    A: "ACA stroke: contralateral LEG > arm weakness, urinary incontinence — not this pattern.",
+    C: "PCA: contralateral homonymous hemianopia with macular sparing, not motor hemiparesis.",
+    D: "Right MCA: would cause LEFT-sided deficits + neglect (non-dominant), not right-sided weakness and aphasia.",
+    E: "Vertebrobasilar: crossed signs (ipsilateral cranial nerve + contralateral body), vertigo, ataxia, visual changes."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 505 (Stroke — MCA syndrome)"
+},
+{
+  id: "NEURO-002",
+  category: "Nervous System & Special Senses",
+  subcategory: "Movement disorders",
+  topic: "parkinson disease",
+  vignette: "A 68-year-old man has a 2-year history of progressive tremor in his right hand that is worse at rest and improves with purposeful movement. He reports stiffness, slowing of his walking, and difficulty with fine motor tasks such as buttoning his shirt. Examination shows masked facies, decreased blink rate, a 4-6 Hz pill-rolling tremor at rest, cogwheel rigidity, bradykinesia, and shuffling gait with decreased arm swing.",
+  stem: "This patient's motor symptoms are most directly caused by loss of neurons in which of the following structures?",
+  choices: [
+    "Caudate nucleus",
+    "Cerebellar Purkinje cells",
+    "Locus coeruleus",
+    "Nucleus basalis of Meynert",
+    "Substantia nigra pars compacta"
+  ],
+  correct: "E",
+  explanations: {
+    correct: "Parkinson disease is caused by degeneration of dopaminergic neurons in the substantia nigra pars compacta → depleted dopamine in the nigrostriatal pathway → disinhibition of indirect pathway → decreased thalamocortical drive → hypokinesia. Lewy bodies (α-synuclein aggregates) are the pathological hallmark.",
+    A: "Caudate degeneration (with GABAergic/ACh neuron loss) → Huntington disease (chorea, dementia, psychiatric, AD with anticipation).",
+    B: "Purkinje cell loss (cerebellar degeneration) → intention tremor, ataxia, dysmetria — not resting tremor.",
+    C: "Locus coeruleus (noradrenergic) degeneration occurs in PD but is responsible for non-motor symptoms (mood, autonomic), not core motor features.",
+    D: "Nucleus basalis of Meynert (cholinergic) degenerates in Alzheimer disease; dementia, not movement."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 524 (Parkinson disease)"
+},
+{
+  id: "NEURO-003",
+  category: "Nervous System & Special Senses",
+  subcategory: "Infectious, immunologic, and inflammatory disorders",
+  topic: "bacterial meningitis",
+  vignette: "A 19-year-old college freshman presents to the emergency department with 12 hours of severe headache, fever, stiff neck, and confusion. Temperature is 39.5°C, pulse 120/min, blood pressure 98/58 mm Hg. He has photophobia and positive Kernig and Brudzinski signs. A petechial rash is noted on his trunk and extremities. Lumbar puncture reveals opening pressure 300 mm H2O, CSF glucose 22 mg/dL (serum 110), protein 260 mg/dL, WBC 4,200/mm³ (98% neutrophils), and Gram stain showing gram-negative diplococci.",
+  stem: "Which of the following organisms is most likely responsible for this patient's infection?",
+  choices: [
+    "Haemophilus influenzae type b",
+    "Listeria monocytogenes",
+    "Neisseria meningitidis",
+    "Streptococcus agalactiae",
+    "Streptococcus pneumoniae"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "Gram-negative diplococci + petechial rash + young adult in close quarters (dormitory) → Neisseria meningitidis. It is the leading cause of bacterial meningitis in adolescents and young adults; can progress to Waterhouse-Friderichsen syndrome (adrenal hemorrhage + DIC). Vaccine recommended for college students and military recruits.",
+    A: "Hib: gram-negative coccobacilli; used to be common in unvaccinated children.",
+    B: "Listeria: gram-positive rod; neonates, elderly, immunocompromised, pregnant women.",
+    D: "Group B strep (S. agalactiae): gram-positive cocci in chains; neonates.",
+    E: "S. pneumoniae: gram-positive lancet-shaped diplococci; most common in adults but no petechial rash typical."
+  },
+  ptc: "Diagnosis: Formulating the Diagnosis",
+  faRef: "First Aid 2023 p. 523 (Meningitis)"
+},
+{
+  id: "NEURO-004",
+  category: "Nervous System & Special Senses",
+  subcategory: "Paroxysmal disorders (headache, seizures)",
+  topic: "migraine",
+  vignette: "A 28-year-old woman reports a 10-year history of severe unilateral throbbing headaches occurring 3-4 times per month, each lasting 4-24 hours. Headaches are accompanied by nausea and photophobia, and she must lie in a dark room until they resolve. Some attacks are preceded by zigzag visual disturbances. Neurologic examination and imaging are unremarkable. Lifestyle modifications and over-the-counter analgesics no longer provide relief.",
+  stem: "Which of the following is the most appropriate abortive therapy for her acute attacks?",
+  choices: [
+    "Amitriptyline",
+    "High-dose oral prednisone",
+    "Propranolol",
+    "Sumatriptan",
+    "Topiramate"
+  ],
+  correct: "D",
+  explanations: {
+    correct: "Triptans (sumatriptan, rizatriptan, etc.) are selective serotonin (5-HT1B/1D) receptor agonists that cause cranial vasoconstriction and inhibit release of vasoactive/pro-inflammatory peptides — the most effective abortive therapy for moderate-to-severe migraine. Contraindicated in coronary artery disease and uncontrolled hypertension.",
+    A: "Amitriptyline is a PROPHYLACTIC medication, not abortive.",
+    B: "Corticosteroids have no role as first-line abortive in routine migraine (sometimes used in status migrainosus).",
+    C: "Propranolol is a PROPHYLACTIC agent (beta-blocker, first-line prevention).",
+    E: "Topiramate is another first-line PROPHYLACTIC agent, not abortive."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 521 (Migraine)"
+},
+
+/* =========== BLOOD & LYMPHORETICULAR =========== */
+{
+  id: "BLOOD-001",
+  category: "Blood & Lymphoreticular System",
+  subcategory: "Anemia, cytopenias, and polycythemia",
+  topic: "iron deficiency anemia",
+  vignette: "A 34-year-old woman presents with 3 months of progressive fatigue and exertional dyspnea. She reports heavy menstrual periods. Examination shows conjunctival pallor, smooth tongue, and brittle nails with concave (spoon-shaped) appearance. Labs: Hgb 8.4 g/dL, MCV 68 fL, RDW 18%, reticulocyte count 0.5%, ferritin 6 ng/mL, serum iron 22 µg/dL, TIBC 480 µg/dL (elevated), transferrin saturation 5%.",
+  stem: "Which of the following is the most likely diagnosis?",
+  choices: [
+    "Anemia of chronic disease",
+    "Folate deficiency",
+    "Iron deficiency anemia",
+    "Sideroblastic anemia",
+    "Thalassemia minor"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "Microcytic anemia (MCV <80) + low ferritin + low serum iron + HIGH TIBC + low transferrin saturation is diagnostic of iron deficiency anemia. Clinical clues: koilonychia (spoon nails), glossitis, pica. Etiology in a menstruating woman: menorrhagia. Treatment: oral ferrous sulfate; identify and treat underlying cause.",
+    A: "ACD: ferritin is NORMAL or HIGH (acute phase); TIBC is LOW; iron is sequestered by hepcidin.",
+    B: "Folate deficiency → macrocytic (MCV >100) anemia with hypersegmented neutrophils, not microcytic.",
+    D: "Sideroblastic: iron is elevated, ferritin elevated, ringed sideroblasts on marrow.",
+    E: "Thalassemia minor: low MCV but normal/high ferritin, normal RDW, elevated HbA2 on electrophoresis."
+  },
+  ptc: "Diagnosis: Laboratory and Diagnostic Studies",
+  faRef: "First Aid 2023 p. 424 (Iron deficiency anemia)"
+},
+{
+  id: "BLOOD-002",
+  category: "Blood & Lymphoreticular System",
+  subcategory: "Coagulation disorders",
+  topic: "vte factor v leiden",
+  vignette: "A 27-year-old woman with a 2-hour history of severe shortness of breath arrives at the emergency department. She just returned from a cross-country flight. She takes an oral contraceptive. Temperature is 36.9°C, pulse 113/min, respirations 28/min, blood pressure 138/85 mm Hg, SpO2 89%. Right calf circumference is increased compared to the left, with tenderness behind the right knee. Her mother had an unprovoked DVT at age 40, and her uncle died of a PE at age 38.",
+  stem: "Which of the following is the most likely underlying predisposing condition?",
+  choices: [
+    "Antithrombin III deficiency",
+    "Factor V Leiden mutation",
+    "Glanzmann thrombasthenia",
+    "Protein C deficiency",
+    "Von Willebrand disease"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "Factor V Leiden is the MOST COMMON inherited thrombophilia (3-8% of European descent). A point mutation in Factor V (R506Q) renders it resistant to cleavage by activated protein C → unchecked coagulation → VTE risk. Risk is synergistic with OCPs and immobilization. Strong family history of VTE supports autosomal dominant inheritance.",
+    A: "Antithrombin III deficiency: rare; unusually resistant to heparin (since heparin works via ATIII).",
+    C: "Glanzmann: qualitative platelet disorder (GpIIb/IIIa defect) → bleeding, NOT clotting.",
+    D: "Protein C deficiency: much less common than FVL; risk of warfarin-induced skin necrosis.",
+    E: "VWD: bleeding disorder (mucosal bleeding, menorrhagia), not thrombosis."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 436 (Hypercoagulable states)"
+},
+{
+  id: "BLOOD-003",
+  category: "Blood & Lymphoreticular System",
+  subcategory: "Neoplasms (leukemia, lymphoma, myeloma)",
+  topic: "aml",
+  vignette: "A 58-year-old man presents with 3 weeks of fatigue, easy bruising, and fevers. Examination shows pallor, petechiae, and gingival hyperplasia. Labs: Hgb 6.8 g/dL, platelets 28,000/mm³, WBC 42,000/mm³ with 78% blasts. Peripheral blood smear shows large blasts with Auer rods. Bone marrow biopsy shows >30% myeloblasts. Cytogenetics show t(15;17).",
+  stem: "Which of the following is the most appropriate induction therapy for this patient's leukemia?",
+  choices: [
+    "All-trans retinoic acid (ATRA) with arsenic trioxide",
+    "Allogeneic bone marrow transplant urgently",
+    "Cyclophosphamide plus hydroxychloroquine",
+    "Imatinib",
+    "Rituximab monotherapy"
+  ],
+  correct: "A",
+  explanations: {
+    correct: "t(15;17) is pathognomonic for acute promyelocytic leukemia (APL, AML-M3) — fusion of PML-RARα blocks myeloid differentiation. ATRA induces differentiation of promyelocytes and, combined with arsenic trioxide, cures most APL without traditional cytotoxic chemotherapy. APL has a high risk of DIC — prompt treatment is essential. Auer rods and gingival hyperplasia also support AML.",
+    B: "BMT is reserved for relapsed/refractory disease; initial treatment is differentiation therapy.",
+    C: "This is not a standard AML regimen.",
+    D: "Imatinib (BCR-ABL tyrosine kinase inhibitor) treats CML and Ph+ ALL, not APL.",
+    E: "Rituximab (anti-CD20) treats B-cell lymphomas, not AML."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 433 (AML / APL)"
+},
+
+/* =========== IMMUNE SYSTEM =========== */
+{
+  id: "IMM-001",
+  category: "Immune System",
+  subcategory: "Disorders associated with immunodeficiency",
+  topic: "x-linked agammaglobulinemia",
+  vignette: "A 9-month-old boy is brought in for evaluation of recurrent bacterial infections. He has had 3 episodes of otitis media, 2 episodes of sinusitis, and 1 episode of pneumococcal pneumonia since age 6 months. His mother's brother died of pneumonia in childhood. Examination shows absent palpable tonsils and lymph nodes. Labs: very low IgG, IgA, IgM; T-cell counts and response normal; CD19+ B cells in blood <1%.",
+  stem: "This patient's disorder is caused by a defect in which of the following?",
+  choices: [
+    "ATM gene (DNA repair)",
+    "Bruton tyrosine kinase (BTK)",
+    "CD40 ligand on T cells",
+    "NADPH oxidase in phagocytes",
+    "WASP protein"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "X-linked (Bruton) agammaglobulinemia is caused by defective Bruton tyrosine kinase (BTK) → pre-B cells cannot mature to B cells → panhypogammaglobulinemia with absent/low B cells, absent lymphoid tissue (no tonsils/LNs). Recurrent encapsulated bacterial infections begin after 6 months (maternal IgG wanes). T-cell function is normal. Treat with IVIG.",
+    A: "ATM defect → ataxia-telangiectasia (cerebellar ataxia, spider telangiectasias, IgA deficiency, lymphoma risk).",
+    C: "CD40L defect → hyper-IgM syndrome (elevated IgM, low IgG/A/E; can't class-switch).",
+    D: "NADPH oxidase defect → chronic granulomatous disease (catalase+ organism infections, abnormal DHR/NBT test).",
+    E: "WASP → Wiskott-Aldrich syndrome (thrombocytopenia + eczema + immunodeficiency)."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 117 (Primary immunodeficiencies)"
+},
+{
+  id: "IMM-002",
+  category: "Immune System",
+  subcategory: "Hypersensitivity reactions",
+  topic: "anaphylaxis",
+  vignette: "A 25-year-old woman develops diffuse urticaria, swelling of her lips and tongue, severe dyspnea with wheezing, and a feeling of impending doom within 10 minutes of receiving an intravenous dose of penicillin in the ED for strep throat. Pulse is 140/min, blood pressure is 72/40 mm Hg, respiratory rate 30/min, oxygen saturation 88%.",
+  stem: "Which of the following is the most appropriate first pharmacologic intervention?",
+  choices: [
+    "Intravenous diphenhydramine",
+    "Intravenous hydrocortisone",
+    "Intramuscular epinephrine",
+    "Intravenous normal saline bolus alone",
+    "Subcutaneous terbutaline"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "Anaphylaxis is a type I (IgE-mediated) hypersensitivity reaction. First-line treatment is IM epinephrine (0.3-0.5 mg 1:1000 in the lateral thigh) — reverses airway edema, bronchospasm, and vascular collapse via α1 (vasoconstriction), β1 (inotropy), β2 (bronchodilation) agonism. Repeat every 5-15 min as needed.",
+    A: "Antihistamines (H1 blockers) are ADJUNCTS only — too slow to reverse life-threatening airway or cardiovascular compromise.",
+    B: "Corticosteroids are also ADJUNCTIVE; onset is 4-6 hours, may help prevent biphasic reactions.",
+    D: "IV fluids are also necessary adjuncts for hypotension but epinephrine is the primary life-saving drug.",
+    E: "Terbutaline (β2 agonist) treats bronchospasm but doesn't address airway edema or hypotension."
+  },
+  ptc: "Management: Clinical Interventions/Treatment",
+  faRef: "First Aid 2023 p. 113 (Type I hypersensitivity)"
+},
+
+/* =========== MUSCULOSKELETAL =========== */
+{
+  id: "MSK-001",
+  category: "Musculoskeletal System",
+  subcategory: "Infectious, inflammatory, and immunologic disorders",
+  topic: "rheumatoid arthritis",
+  vignette: "A 48-year-old woman presents with a 4-month history of morning stiffness in her hands and wrists lasting 2 hours, and bilateral symmetric joint pain and swelling. Examination shows tender, swollen MCP and PIP joints bilaterally with ulnar deviation, and subcutaneous nodules on her elbow. She has difficulty making a fist. Labs: ESR 68 mm/hr, CRP elevated, anti-CCP positive, rheumatoid factor positive.",
+  stem: "Which of the following is the most appropriate initial disease-modifying therapy?",
+  choices: [
+    "Acetaminophen",
+    "Chronic prednisone monotherapy",
+    "Intra-articular triamcinolone only",
+    "Methotrexate",
+    "Opioid analgesics"
+  ],
+  correct: "D",
+  explanations: {
+    correct: "Methotrexate is first-line DMARD for rheumatoid arthritis — slows joint destruction and induces remission in many patients. Often combined with folic acid to mitigate side effects. Biologics (TNF-α inhibitors, JAK inhibitors) are added if MTX alone is insufficient. Anti-CCP is highly specific for RA.",
+    A: "Acetaminophen is analgesic but does NOT modify disease progression.",
+    B: "Chronic oral steroids are used as bridging therapy but cause major toxicity with long-term use.",
+    C: "Intra-articular steroids provide symptomatic relief only for isolated joints, not systemic disease.",
+    E: "Opioids don't address the underlying autoimmune inflammation."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 470 (Rheumatoid arthritis)"
+},
+{
+  id: "MSK-002",
+  category: "Musculoskeletal System",
+  subcategory: "Degenerative and metabolic disorders",
+  topic: "osteoporosis",
+  vignette: "A 68-year-old postmenopausal woman sustains a left hip fracture after a ground-level fall. She has no prior fracture history. Height has decreased 4 cm since her 40s. She does not smoke and has no known bone disease. Her DEXA scan shows a T-score of -2.8 at the lumbar spine and femoral neck. Labs (including Ca²⁺, PTH, TSH, 25-OH vitamin D) are within normal limits.",
+  stem: "Which of the following is the most appropriate first-line pharmacologic therapy to reduce fracture risk?",
+  choices: [
+    "Calcitonin nasal spray",
+    "Denosumab",
+    "Oral alendronate",
+    "Raloxifene",
+    "Teriparatide"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "Bisphosphonates (alendronate, risedronate, zoledronic acid) are first-line for postmenopausal osteoporosis. They inhibit osteoclast-mediated bone resorption by binding hydroxyapatite. Reduce vertebral, hip, and non-vertebral fracture risk by ~30-50%. Take on an empty stomach with water, remain upright 30 min (esophagitis risk).",
+    A: "Calcitonin provides weak fracture reduction (only vertebral); reserved for those who cannot tolerate other agents.",
+    B: "Denosumab is effective but typically second-line (often used in renal impairment when bisphosphonates contraindicated).",
+    D: "Raloxifene (SERM) reduces vertebral fracture risk only; increases VTE risk.",
+    E: "Teriparatide (recombinant PTH) is anabolic and reserved for severe osteoporosis after bisphosphonate failure."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 476 (Osteoporosis)"
+},
+
+/* =========== BEHAVIORAL HEALTH =========== */
+{
+  id: "BEH-001",
+  category: "Behavioral Health",
+  subcategory: "Mood disorders",
+  topic: "major depression",
+  vignette: "A 42-year-old man presents with a 6-week history of persistently depressed mood, loss of interest in hobbies, a 5-kg weight loss, early morning awakening, fatigue, feelings of worthlessness, difficulty concentrating, and recurrent thoughts of death. He denies hallucinations or prior manic episodes. He has no medical conditions and takes no medications. Mental status examination shows psychomotor retardation and a flat affect.",
+  stem: "Which of the following is the most appropriate initial pharmacologic therapy?",
+  choices: [
+    "Bupropion plus monoamine oxidase inhibitor",
+    "Lithium monotherapy",
+    "Lorazepam",
+    "Sertraline",
+    "Tricyclic antidepressant"
+  ],
+  correct: "D",
+  explanations: {
+    correct: "SSRIs (sertraline, fluoxetine, escitalopram, etc.) are first-line for major depressive disorder — selective serotonin reuptake inhibition; favorable side effect profile compared to older antidepressants. Onset of action is 2-6 weeks. Monitor for increased suicidality in young patients when starting.",
+    A: "MAOI + bupropion is not standard; MAOIs have many drug/food interactions (tyramine hypertensive crisis) and are reserved for treatment-resistant depression.",
+    B: "Lithium is first-line for bipolar disorder, not unipolar MDD. Also used as SSRI augmentation.",
+    C: "Benzodiazepines don't treat depression and carry dependence risk.",
+    E: "TCAs work but have more anticholinergic side effects and cardiac toxicity in overdose; typically second-line."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 578 (MDD)"
+},
+{
+  id: "BEH-002",
+  category: "Behavioral Health",
+  subcategory: "Psychotic disorders",
+  topic: "schizophrenia",
+  vignette: "A 22-year-old man is brought in by his family because of a 10-month history of progressive social withdrawal, flattened affect, and auditory hallucinations (voices commenting on his actions). He believes the government has implanted a tracking device in his brain. He has also shown decline in personal hygiene and academic performance. Urine drug screen is negative. Medical workup is unrevealing.",
+  stem: "Which of the following is the most likely diagnosis?",
+  choices: [
+    "Bipolar I disorder with psychotic features",
+    "Brief psychotic disorder",
+    "Delusional disorder",
+    "Schizoaffective disorder",
+    "Schizophrenia"
+  ],
+  correct: "E",
+  explanations: {
+    correct: "Schizophrenia requires ≥2 symptoms for ≥1 month (with ≥6 months total impairment): delusions, hallucinations, disorganized speech, grossly disorganized behavior, negative symptoms. This patient has delusions (tracking device), hallucinations (voices), negative symptoms (withdrawal, flat affect), and >6 months duration.",
+    A: "Bipolar requires episodes of mania and depression; no mood episodes described.",
+    B: "Brief psychotic disorder: <1 month of psychotic symptoms, often stress-related, full recovery.",
+    C: "Delusional disorder: only non-bizarre delusions (no hallucinations or negative symptoms).",
+    D: "Schizoaffective: requires meeting criteria for schizophrenia AND a mood disorder; no mood episodes described here."
+  },
+  ptc: "Diagnosis: Formulating the Diagnosis",
+  faRef: "First Aid 2023 p. 574 (Schizophrenia)"
+},
+{
+  id: "BEH-003",
+  category: "Behavioral Health",
+  subcategory: "Substance use disorders",
+  topic: "alcohol withdrawal",
+  vignette: "A 55-year-old man with a long history of daily alcohol use is admitted for cholecystectomy. His last drink was 36 hours ago. He becomes increasingly agitated, tremulous, diaphoretic, tachycardic, and disoriented. Temperature is 38.1°C, pulse 128/min, blood pressure 172/98 mm Hg. He reports seeing insects on the wall that aren't there.",
+  stem: "Which of the following medications is most appropriate to administer?",
+  choices: [
+    "Disulfiram",
+    "Haloperidol",
+    "Lorazepam",
+    "Naltrexone",
+    "Propranolol alone"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "This is severe alcohol withdrawal — likely progressing to delirium tremens (DTs, 48-96 hrs after last drink; mortality up to 15% untreated). Benzodiazepines (lorazepam, diazepam, chlordiazepoxide) are first-line — they enhance GABA (the inhibitory neurotransmitter that is downregulated in chronic alcohol use). Use CIWA-Ar protocol for symptom-triggered dosing. Lorazepam preferred in liver disease.",
+    A: "Disulfiram causes disulfiram reaction if alcohol is consumed (aversion therapy); no role in acute withdrawal.",
+    B: "Haloperidol lowers seizure threshold and can worsen agitation; can be used cautiously for persistent agitation despite benzos.",
+    D: "Naltrexone reduces cravings for alcohol maintenance — not for acute withdrawal.",
+    E: "Beta-blockers mask hyperadrenergic signs but don't prevent seizures or DTs; can be adjunctive."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 590 (Alcohol withdrawal)"
+},
+
+/* =========== MULTISYSTEM =========== */
+{
+  id: "MS-001",
+  category: "Multisystem Processes & Disorders",
+  subcategory: "Fluid, electrolyte, and acid-base disorders",
+  topic: "hyponatremia siadh",
+  vignette: "A 64-year-old man with small cell lung cancer is evaluated for confusion and seizure. Physical examination shows euvolemia. Labs: serum Na⁺ 118 mEq/L, serum osmolality 248 mOsm/kg (N 275-295), urine osmolality 520 mOsm/kg, urine Na⁺ 68 mEq/L, normal TSH and cortisol.",
+  stem: "Which of the following is the most likely underlying mechanism?",
+  choices: [
+    "Aldosterone deficiency",
+    "Ectopic production of antidiuretic hormone",
+    "Excess free water intake (primary polydipsia)",
+    "Osmotic diuresis from hyperglycemia",
+    "Reset osmostat"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "SIADH: euvolemic hyponatremia with LOW serum osm + INAPPROPRIATELY CONCENTRATED urine (urine osm >100) + elevated urine Na⁺ (>20-40) + normal thyroid/adrenal. Small cell lung cancer is a classic paraneoplastic source of ectopic ADH. Excess ADH → free water retention → dilutional hyponatremia.",
+    A: "Aldosterone deficiency (Addison): HYPOvolemia, hyperkalemia, hyponatremia, hypotension, elevated urine Na.",
+    C: "Primary polydipsia: urine osm would be LOW (<100) as kidneys dilute maximally.",
+    D: "Osmotic diuresis (DKA): urine Na variable, but serum glucose would explain the drop and serum osm would be near-normal or high.",
+    E: "Reset osmostat: chronic mild hyponatremia with appropriate regulation around a lower set point; typically not symptomatic and Na is stable ~125-135."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 616 (SIADH)"
+},
+{
+  id: "MS-002",
+  category: "Multisystem Processes & Disorders",
+  subcategory: "Shock",
+  topic: "septic shock",
+  vignette: "A 72-year-old woman with diabetes presents with 2 days of fever, dysuria, and flank pain. Temperature 39.6°C, pulse 128/min, respirations 24/min, blood pressure 76/42 mm Hg. She is confused. Skin is warm and flushed. Labs: WBC 22,000/mm³ with 12% bands, lactate 4.8 mmol/L, creatinine 2.4 mg/dL. After 30 mL/kg crystalloid, blood pressure remains 82/48 mm Hg.",
+  stem: "Which of the following vasopressors is most appropriate first-line?",
+  choices: [
+    "Dobutamine",
+    "Dopamine",
+    "Epinephrine",
+    "Norepinephrine",
+    "Vasopressin monotherapy"
+  ],
+  correct: "D",
+  explanations: {
+    correct: "Norepinephrine is the first-line vasopressor in septic shock per Surviving Sepsis guidelines. It is a potent α1-adrenergic agonist with modest β1 activity → powerful vasoconstriction with some inotropy, less tachycardia/arrhythmia than dopamine. Target MAP ≥65 mm Hg.",
+    A: "Dobutamine is an inotrope (β1) for low cardiac output states (cardiogenic shock) — does not maintain blood pressure.",
+    B: "Dopamine was traditionally used but increases arrhythmias and mortality compared to norepinephrine (SOAP II trial).",
+    C: "Epinephrine is second-line as an add-on or for shock refractory to norepinephrine.",
+    E: "Vasopressin is often added as an adjunct to NE but not used alone; helps decrease NE dose."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 306 (Shock / Sepsis)"
+},
+{
+  id: "MS-003",
+  category: "Multisystem Processes & Disorders",
+  subcategory: "Infectious, immunologic, inflammatory disorders",
+  topic: "sle",
+  vignette: "A 28-year-old Black woman presents with 4 months of fatigue, arthralgias, a malar rash that worsens with sun exposure, and recurrent oral ulcers. Labs: Hgb 9.2, WBC 3,100/mm³, platelets 98,000/mm³. Urinalysis shows 2+ proteinuria and RBC casts. Serologic studies: ANA 1:1280, anti-dsDNA positive, anti-Smith positive, low C3 and C4, anti-phospholipid antibody positive.",
+  stem: "Which of the following renal findings is most likely on kidney biopsy?",
+  choices: [
+    "Crescents with linear IgG deposition",
+    "Diffuse global subendothelial immune complex deposition (wire-loop lesions)",
+    "Podocyte foot process effacement without immune deposits",
+    "Splitting of the glomerular basement membrane",
+    "Thickening of the GBM with spike-and-dome pattern"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "Class IV lupus nephritis (diffuse proliferative GN) is the most common and severe pattern, with subendothelial immune complex deposition creating the \"wire-loop\" appearance on light microscopy and \"full-house\" staining (IgG, IgA, IgM, C3, C4, C1q) on immunofluorescence. Most aggressive; requires immunosuppression.",
+    A: "Linear IgG = Goodpasture syndrome (anti-GBM disease).",
+    C: "Foot process effacement without immune deposits = minimal change disease.",
+    D: "GBM splitting = Alport syndrome (hereditary type IV collagen defect).",
+    E: "Spike-and-dome pattern with subepithelial deposits = membranous nephropathy (can be secondary to lupus class V but \"wire-loop\" is classic for class IV)."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 468 (SLE / Lupus nephritis)"
+},
+
+/* =========== BIOSTATISTICS =========== */
+{
+  id: "BIO-001",
+  category: "Biostatistics, Epidemiology, & Medical Literature",
+  subcategory: "Principles of testing and screening",
+  topic: "sensitivity specificity",
+  vignette: "A new rapid antigen test is being evaluated for detecting a viral respiratory infection. Among 1,000 patients tested, 200 have the disease (as confirmed by PCR gold standard). The new test identifies 180 of the diseased patients as positive and identifies 720 of the disease-free patients as negative.",
+  stem: "What is the sensitivity of this new test?",
+  choices: [
+    "72%",
+    "80%",
+    "85%",
+    "90%",
+    "95%"
+  ],
+  correct: "D",
+  explanations: {
+    correct: "Sensitivity = TP / (TP + FN) = 180 / 200 = 90%. Sensitivity answers: \"Of those who have the disease, how many does the test correctly identify as positive?\" A sensitive test Rules OUT disease when negative (SnNOut).",
+    A: "72% = 720/1000 (overall negatives correctly identified / total, incorrect calculation).",
+    B: "80% = 800/1000 (not a standard test metric).",
+    C: "85% = approximate NPV (720/(720+20)) or other mis-calculation.",
+    E: "95% calculation doesn't match the data."
+  },
+  ptc: "Applied Biostatistics and Clinical Epidemiology",
+  faRef: "First Aid 2023 p. 259 (Sensitivity and specificity)"
+},
+{
+  id: "BIO-002",
+  category: "Biostatistics, Epidemiology, & Medical Literature",
+  subcategory: "Study design",
+  topic: "case-control study",
+  vignette: "Investigators want to evaluate the association between a rare form of liver cancer and past exposure to a specific industrial chemical. They identify 80 patients with the cancer and 160 matched controls without the cancer, then review each person's occupational history and prior exposure to the chemical.",
+  stem: "Which of the following measures of association is most appropriate for this study?",
+  choices: [
+    "Absolute risk",
+    "Attributable risk",
+    "Hazard ratio",
+    "Odds ratio",
+    "Relative risk"
+  ],
+  correct: "D",
+  explanations: {
+    correct: "This is a case-control study — cases (disease+) and controls (disease−) are selected and exposure is assessed retrospectively. Odds ratio (OR) = (a·d)/(b·c) is the appropriate measure because cases and controls are sampled based on disease status, so incidence cannot be calculated. OR approximates relative risk when the disease is rare.",
+    A: "Absolute risk requires knowing disease incidence in the exposed population (cohort/RCT).",
+    B: "Attributable risk (AR = incidence exposed − incidence unexposed) also requires cohort-derived incidence rates.",
+    C: "Hazard ratio is used in time-to-event analyses (survival / Kaplan-Meier / Cox regression).",
+    E: "Relative risk requires prospective cohort or RCT, not case-control."
+  },
+  ptc: "Applied Biostatistics and Clinical Epidemiology",
+  faRef: "First Aid 2023 p. 255 (Study types)"
+},
+{
+  id: "BIO-003",
+  category: "Biostatistics, Epidemiology, & Medical Literature",
+  subcategory: "Study interpretation (bias, confounding, validity)",
+  topic: "confounding",
+  vignette: "A study finds that patients who carry lighters have a higher incidence of lung cancer than those who do not. Further analysis reveals that people who carry lighters are much more likely to smoke cigarettes than those who do not.",
+  stem: "Which of the following best explains the observed association?",
+  choices: [
+    "Effect modification",
+    "Lead-time bias",
+    "Recall bias",
+    "Selection bias",
+    "Confounding"
+  ],
+  correct: "E",
+  explanations: {
+    correct: "Smoking is a CONFOUNDER — it is associated with the exposure (carrying a lighter) AND it independently causes the outcome (lung cancer), and it is not on the causal pathway. Control for confounding by stratification, matching, randomization, restriction, or multivariate regression.",
+    A: "Effect modification: the effect of the exposure differs across strata of a third variable (interaction), not just an alternative explanation.",
+    B: "Lead-time bias: screening detects disease earlier → apparent survival improvement without true mortality benefit.",
+    C: "Recall bias: cases remember exposures differently from controls.",
+    D: "Selection bias: non-random enrollment/loss — the sample doesn't represent the target population."
+  },
+  ptc: "Applied Biostatistics and Clinical Epidemiology",
+  faRef: "First Aid 2023 p. 261 (Bias and study validity)"
+},
+
+/* =========== SOCIAL SCIENCES =========== */
+{
+  id: "SOC-001",
+  category: "Social Sciences",
+  subcategory: "Medical ethics and jurisprudence",
+  topic: "informed consent",
+  vignette: "A 45-year-old woman is about to undergo elective laparoscopic cholecystectomy for symptomatic cholelithiasis. While reviewing the consent form, she asks, \"Doctor, what exactly are the chances of this going wrong?\" She appears anxious and has several specific questions about operative complications.",
+  stem: "Which of the following is the most appropriate response?",
+  choices: [
+    "\"Complications are extremely rare — you have nothing to worry about.\"",
+    "\"Don't worry about the statistics; just trust your surgeon.\"",
+    "\"Let me review the specific risks, benefits, and alternatives so you can make an informed decision.\"",
+    "\"The hospital requires this form — we can discuss risks later.\"",
+    "\"You should have already read this on the consent form.\""
+  ],
+  correct: "C",
+  explanations: {
+    correct: "Informed consent requires disclosure of (1) the nature of the procedure, (2) material risks, (3) alternatives including non-treatment, and (4) expected benefits in language the patient can understand. The patient must demonstrate capacity and voluntary decision-making. Answering her question openly fulfills these ethical and legal obligations.",
+    A: "False reassurance violates the truth-telling principle and fails the disclosure requirement.",
+    B: "Dismissive paternalism undermines patient autonomy.",
+    D: "Consent should not be rushed; discussion BEFORE signing is required.",
+    E: "Blames the patient and fails the communication/disclosure obligations."
+  },
+  ptc: "Professionalism, Legal, and Ethical Issues",
+  faRef: "First Aid 2023 p. 272 (Informed consent)"
+},
+{
+  id: "SOC-002",
+  category: "Social Sciences",
+  subcategory: "Communication and interpersonal skills",
+  topic: "motivational interviewing",
+  vignette: "A 58-year-old man with COPD smokes 1 pack of cigarettes daily. His physician asks about smoking cessation, but the patient states he is not ready to quit. His wife states that his smoking triggers her chronic cough and chest tightness.",
+  stem: "Which of the following is the most appropriate physician response?",
+  choices: [
+    "\"Are there any reasons why you might want to quit smoking?\"",
+    "\"I'm sure you don't want your wife to suffer as a result of your smoking.\"",
+    "\"The majority of your health issues would improve if you quit smoking.\"",
+    "\"Why haven't you been able to stay off cigarettes?\"",
+    "\"You need to quit now or you'll be dead within 5 years.\""
+  ],
+  correct: "A",
+  explanations: {
+    correct: "Motivational interviewing uses open-ended, non-judgmental questions to help the patient identify their OWN reasons for change (\"evoke change talk\"). This respects patient autonomy and is more effective than confrontation, guilt-induction, or threats.",
+    B: "Using guilt/family pressure is coercive and undermines autonomy.",
+    C: "Lecturing doesn't elicit the patient's own motivation; feels paternalistic.",
+    D: "\"Why\" questions are often heard as accusatory and put the patient on the defensive.",
+    E: "Threats damage rapport and evidence shows they're no more effective than MI."
+  },
+  ptc: "Communication",
+  faRef: "First Aid 2023 p. 574 (Motivational interviewing / Stages of change)"
+},
+
+/* =========== HUMAN DEVELOPMENT =========== */
+{
+  id: "DEV-001",
+  category: "Human Development",
+  subcategory: "Infancy and childhood (0–12 years)",
+  topic: "developmental milestones",
+  vignette: "A mother brings her 9-month-old son for a well-child visit. She reports no concerns. On examination, he sits without support, transfers objects hand to hand, says \"mama\" non-specifically, and waves bye-bye. He does NOT pull to stand, say specific \"mama/dada,\" or use a pincer grasp.",
+  stem: "This child's development is most consistent with which of the following?",
+  choices: [
+    "Appropriate for a 6-month-old",
+    "Appropriate for a 9-month-old",
+    "Appropriate for a 12-month-old",
+    "Delayed — refer to early intervention",
+    "Regression — evaluate for metabolic disease"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "At 9 months, expected milestones: sits without support (acquired at 6 mo), stands holding on, transfers objects hand to hand, raking grasp or emerging pincer, non-specific \"mama/dada,\" waves bye-bye, stranger anxiety. Specific \"mama/dada\" and pincer grasp are expected by 12 months, and pulling to stand often around 9-10 months (range 8-12).",
+    A: "6-month milestones: sits with support, rolls both ways, no specific babble.",
+    C: "12-month: walks, specific mama/dada, pincer grasp, 1-2 other words — not yet seen in this baby.",
+    D: "He's meeting 9-month milestones appropriately; no delay.",
+    E: "Regression (loss of previously-acquired skills) suggests Rett syndrome, leukodystrophies — not seen here."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 566 (Developmental milestones)"
+},
+
+/* =========== SKIN =========== */
+{
+  id: "SKIN-001",
+  category: "Skin & Subcutaneous Tissue",
+  subcategory: "Neoplasms (benign and malignant)",
+  topic: "melanoma",
+  vignette: "A 55-year-old fair-skinned man with a history of significant sun exposure notices a pigmented skin lesion on his upper back. Over the past 6 months, it has grown and changed in appearance. Examination shows an 8-mm asymmetric lesion with irregular borders and variable coloration (black, brown, and blue-gray areas).",
+  stem: "Which of the following is the most appropriate next step in management?",
+  choices: [
+    "Cryotherapy with liquid nitrogen",
+    "Excisional biopsy with 1-2 mm margins",
+    "Punch biopsy of the center of the lesion",
+    "Reassurance and re-examine in 6 months",
+    "Shave biopsy of the most pigmented area"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "Suspicious pigmented lesions (ABCDE: Asymmetry, Border irregularity, Color variation, Diameter >6 mm, Evolution) require EXCISIONAL biopsy with narrow 1-2 mm margins to obtain the full depth of the lesion. Depth (Breslow thickness) determines staging and prognosis — partial biopsies underestimate depth.",
+    A: "Cryotherapy destroys the lesion, preventing histologic diagnosis; never for suspected melanoma.",
+    C: "Punch/shave biopsies can underestimate Breslow depth; acceptable only if excisional biopsy is impractical (very large lesion).",
+    D: "Reassurance misses a potentially curable melanoma.",
+    E: "Shave biopsy may not capture full depth; partial sampling misses worst area."
+  },
+  ptc: "Management: Clinical Interventions/Treatment",
+  faRef: "First Aid 2023 p. 484 (Melanoma)"
+},
+
+/* =========== FEMALE REPRODUCTIVE =========== */
+{
+  id: "GYN-001",
+  category: "Female Reproductive System & Breast",
+  subcategory: "Menstrual and endocrine disorders",
+  topic: "pcos",
+  vignette: "A 24-year-old woman presents with 2 years of irregular menstrual cycles (every 45-90 days), facial hair growth, and acne. BMI is 31 kg/m². Examination shows coarse dark hair on the upper lip and chin, and acanthosis nigricans at the neck. Pelvic ultrasound reveals multiple peripheral small follicles in both ovaries. Labs: elevated LH/FSH ratio, elevated free testosterone, normal prolactin, normal TSH, normal 17-OH progesterone.",
+  stem: "Which of the following is the most likely underlying pathophysiologic mechanism?",
+  choices: [
+    "Androgen-secreting adrenal adenoma",
+    "Congenital adrenal hyperplasia (21-hydroxylase deficiency)",
+    "Insulin resistance and hyperinsulinemia driving ovarian androgen production",
+    "Primary ovarian failure with elevated gonadotropins",
+    "Prolactin-secreting pituitary adenoma"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "Polycystic ovary syndrome (PCOS) — Rotterdam criteria require 2 of 3: (1) oligo/anovulation, (2) clinical or biochemical hyperandrogenism, (3) polycystic ovaries on US. Insulin resistance + hyperinsulinemia stimulate ovarian theca cells to increase androgen production, while suppressing SHBG → more free testosterone. Metabolic syndrome risk is high. First-line management: weight loss, OCPs for cycle regulation/antiandrogen, metformin for insulin resistance, letrozole for fertility.",
+    A: "Androgen-secreting adenoma typically presents with rapid virilization, very high testosterone (>200 ng/dL), and DHEA-S elevation — not this picture.",
+    B: "CAH (non-classic): elevated 17-OH progesterone; she's normal.",
+    D: "Premature ovarian failure: elevated FSH, low estrogen, menopausal symptoms (hot flashes) — not this picture.",
+    E: "Prolactinoma: elevated prolactin, galactorrhea — she's normal."
+  },
+  ptc: "Medical Knowledge: Applying Foundational Science Concepts",
+  faRef: "First Aid 2023 p. 647 (PCOS)"
+},
+{
+  id: "GYN-002",
+  category: "Female Reproductive System & Breast",
+  subcategory: "Neoplasms of the vulva, vagina, cervix, uterus, ovaries",
+  topic: "cervical cancer screening",
+  vignette: "A 30-year-old woman presents for her routine health maintenance visit. She has no gynecologic complaints and has had normal Pap smears every 3 years since age 21. She has one sexual partner and uses combined oral contraceptives. Pelvic examination is unremarkable.",
+  stem: "Which of the following is the most appropriate screening recommendation?",
+  choices: [
+    "Discontinue cervical cancer screening",
+    "Pap smear alone every 3 years",
+    "Pap smear plus high-risk HPV co-testing every 5 years",
+    "Pap smear every year",
+    "Repeat Pap smear in 1 year"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "USPSTF and ACOG (2020) recommend: Ages 21-29 → Pap alone every 3 years. Ages 30-65 → either (a) Pap + high-risk HPV co-testing every 5 years (PREFERRED) OR (b) primary HPV testing every 5 years OR (c) Pap alone every 3 years. Ages >65: may discontinue if adequate prior screening. Annual screening is NOT recommended in any group.",
+    A: "Screening continues to age 65 with adequate prior screening.",
+    B: "Acceptable alternative but less preferred than co-testing in 30-65 age range.",
+    D: "Annual screening is over-screening and is NOT recommended at any age.",
+    E: "No 1-year interval — she just had a normal Pap."
+  },
+  ptc: "Management: Health Maintenance and Disease Prevention",
+  faRef: "First Aid 2023 p. 648 (Cervical cancer screening)"
+},
+
+/* =========== MALE REPRODUCTIVE =========== */
+{
+  id: "MALE-001",
+  category: "Male Reproductive System",
+  subcategory: "Traumatic and mechanical disorders",
+  topic: "testicular torsion",
+  vignette: "A 16-year-old boy presents to the emergency department with sudden-onset severe left testicular pain that began 3 hours ago, associated with nausea and vomiting. He denies trauma. Examination shows a tender, swollen, high-riding left testicle with a horizontal lie. The left cremasteric reflex is absent. The right testicle is normal. Urinalysis is unremarkable.",
+  stem: "Which of the following is the most appropriate immediate next step?",
+  choices: [
+    "Antibiotics and NSAIDs for epididymitis",
+    "CT scan of the abdomen and pelvis",
+    "Immediate urologic consultation for surgical exploration",
+    "Observation with scrotal elevation",
+    "Outpatient Doppler ultrasound in 24 hours"
+  ],
+  correct: "C",
+  explanations: {
+    correct: "Testicular torsion is a urologic emergency — testicular viability drops sharply after 6 hours of ischemia (salvage ~90% at <6 hrs, ~50% at 6-12 hrs, <10% after 24 hrs). Diagnosis is clinical (sudden severe pain, high-riding testicle, absent cremasteric reflex, no urinary symptoms). Proceed directly to surgical exploration — don't delay for imaging.",
+    A: "Epididymitis: usually gradual pain, relieved by testicular elevation (Prehn sign), urinary symptoms, positive cremasteric reflex, WBCs in urine.",
+    B: "CT has no role; imaging wastes time.",
+    D: "Observation loses salvage window.",
+    E: "Doppler US can be obtained if diagnosis is uncertain, but clinical diagnosis + immediate surgery is preferred when presentation is classic and timing is critical."
+  },
+  ptc: "Management: Clinical Interventions/Treatment",
+  faRef: "First Aid 2023 p. 657 (Testicular torsion)"
+},
+{
+  id: "MALE-002",
+  category: "Male Reproductive System",
+  subcategory: "Traumatic and mechanical disorders",
+  topic: "bph",
+  vignette: "A 68-year-old man complains of progressively worsening urinary symptoms over 2 years: weak stream, hesitancy, post-void dribbling, and nocturia 3-4 times per night. He has no fever or hematuria. Digital rectal examination reveals a smoothly enlarged, symmetric prostate gland without nodules. Urinalysis is normal. Post-void residual is 60 mL. PSA is 2.8 ng/mL.",
+  stem: "Which of the following medications would most directly relieve his bladder outlet obstruction?",
+  choices: [
+    "Finasteride",
+    "Leuprolide",
+    "Oxybutynin",
+    "Sildenafil",
+    "Tamsulosin"
+  ],
+  correct: "E",
+  explanations: {
+    correct: "Tamsulosin is a selective α1A-adrenergic antagonist that relaxes smooth muscle in the prostatic capsule and bladder neck → immediate relief of outflow obstruction. Onset of benefit is within days. Side effects: orthostatic hypotension, retrograde ejaculation. First-line for BPH symptom relief.",
+    A: "Finasteride (5α-reductase inhibitor) reduces prostate size by 20-30% over MONTHS — helpful for large glands but slow onset; combined with α1 blocker for severe symptoms.",
+    B: "Leuprolide is used for prostate cancer (androgen deprivation), not BPH.",
+    C: "Oxybutynin (anticholinergic) treats overactive bladder (urge incontinence), not obstruction; actually risks urinary retention in BPH.",
+    D: "Sildenafil (PDE5 inhibitor) treats erectile dysfunction — secondary benefit for BPH but not first-line."
+  },
+  ptc: "Management: Pharmacotherapy",
+  faRef: "First Aid 2023 p. 656 (BPH)"
+},
+
+/* =========== PREGNANCY =========== */
+{
+  id: "PREG-001",
+  category: "Pregnancy, Childbirth, & Puerperium",
+  subcategory: "Obstetric complications",
+  topic: "preeclampsia",
+  vignette: "A 34-year-old primigravida at 34 weeks' gestation is seen for a routine prenatal visit. She reports a 2-day history of headache, blurred vision, and upper abdominal pain. Blood pressure is 162/108 mm Hg (baseline 112/70 before pregnancy). Examination shows 3+ pitting edema and brisk deep tendon reflexes. Labs: platelets 85,000/mm³, AST 180 U/L, ALT 210 U/L, creatinine 1.1 mg/dL, urine protein:creatinine ratio 1.8.",
+  stem: "Which of the following is the most appropriate next step in management?",
+  choices: [
+    "Administer betamethasone and plan delivery",
+    "Initiate IV magnesium sulfate and plan delivery",
+    "Observation and repeat labs in 1 week",
+    "Oral hydrochlorothiazide",
+    "Weekly nonstress tests and amniocentesis at 39 weeks"
+  ],
+  correct: "B",
+  explanations: {
+    correct: "This patient has severe preeclampsia with features (BP ≥160/110, platelets <100K, AST/ALT >2× normal, RUQ pain, visual symptoms) + HELLP syndrome features. Management = IV magnesium sulfate (seizure prophylaxis) + antihypertensives (labetalol or hydralazine) + DELIVERY. Preeclampsia with severe features at ≥34 weeks warrants delivery. Betamethasone is also given if <34 weeks (this patient is exactly 34 weeks — delivery is still recommended).",
+    A: "Corticosteroids for fetal lung maturity are given <34 weeks; she doesn't need to wait beyond one dose equivalent timing.",
+    C: "Observation is inappropriate — severe features → risk of stroke, eclampsia, HELLP, abruption, fetal death.",
+    D: "HCTZ is inappropriate antihypertensive in pregnancy; IV labetalol or hydralazine are preferred acute agents.",
+    E: "Waiting 5 weeks at this severity risks catastrophe."
+  },
+  ptc: "Management: Clinical Interventions/Treatment",
+  faRef: "First Aid 2023 p. 637 (Preeclampsia)"
+},
+{
+  id: "PREG-002",
+  category: "Pregnancy, Childbirth, & Puerperium",
+  subcategory: "Obstetric complications",
+  topic: "gestational diabetes",
+  vignette: "A 29-year-old woman at 26 weeks' gestation undergoes routine 1-hour 50-g oral glucose challenge test; her glucose is 168 mg/dL (abnormal >140). She then has a 3-hour 100-g oral glucose tolerance test (OGTT) with: fasting 102 mg/dL, 1 hr 198, 2 hr 172, 3 hr 152 mg/dL. Three of four values exceed the thresholds. Pre-pregnancy BMI was 28 kg/m².",
+  stem: "Which of the following is the most likely long-term risk for this patient?",
+  choices: [
+    "Autoimmune type 1 diabetes mellitus",
+    "Chronic kidney disease regardless of intervention",
+    "Graves disease",
+    "Type 2 diabetes mellitus within 10 years",
+    "Primary hyperparathyroidism"
+  ],
+  correct: "D",
+  explanations: {
+    correct: "Women with gestational diabetes have a 35-60% lifetime risk of developing type 2 DM — highest in the first 10 years postpartum. Screen with fasting glucose or 75-g OGTT at 4-12 weeks postpartum, then every 1-3 years. Lifestyle (weight loss, exercise) significantly reduces conversion risk.",
+    A: "GDM is typically associated with insulin resistance (like T2DM), not autoimmune destruction of β-cells.",
+    B: "CKD is a complication of long-standing diabetes, not a direct risk of GDM alone.",
+    C: "Graves disease is not associated with GDM.",
+    E: "No direct association between GDM and hyperparathyroidism."
+  },
+  ptc: "Diagnosis: Determining Prognosis/Outcome",
+  faRef: "First Aid 2023 p. 640 (Gestational diabetes)"
+}
+
+]; /* end of questions array */
+} /* end of QUESTION_BANK_DATA */
+
+/* ================================================================
+   APP STATE & DOM REFERENCES
+   ================================================================ */
+const state = {
+  quizQuestions: [],
+  currentIndex: 0,
+  answers: [],  // array of {questionId, selected, correct}
+  usingAPI: false,
+  apiKey: ""
+};
+
+const $ = id => document.getElementById(id);
+
+function populateCategories() {
+  const catSelect = $("category");
+  Object.keys(USMLE_OUTLINE).forEach(cat => {
+    const opt = document.createElement("option");
+    opt.value = cat;
+    opt.textContent = cat;
+    catSelect.appendChild(opt);
+  });
+}
+
+function populateSubcategories() {
+  const cat = $("category").value;
+  const subSelect = $("subcategory");
+  subSelect.innerHTML = '<option value="">— Any subcategory —</option>';
+  if (cat && USMLE_OUTLINE[cat]) {
+    USMLE_OUTLINE[cat].forEach(sub => {
+      const opt = document.createElement("option");
+      opt.value = sub;
+      opt.textContent = sub;
+      subSelect.appendChild(opt);
+    });
+    subSelect.disabled = false;
+  } else {
+    subSelect.disabled = true;
+  }
+}
+
+function populateInHouseLectures() {
+  const subject = $("inhouse-subject").value;
+  const lecSelect = $("inhouse-lecture");
+  lecSelect.innerHTML = '<option value="">— None —</option>';
+  if (subject && LECTURE_MAP[subject]) {
+    LECTURE_MAP[subject].forEach(lecture => {
+      const opt = document.createElement("option");
+      opt.value = lecture;
+      opt.textContent = lecture;
+      lecSelect.appendChild(opt);
+    });
+    lecSelect.disabled = false;
+  } else {
+    lecSelect.disabled = true;
+  }
+}
+
+function filterBank(category, subcategory, topic, inhouseLecture) {
+  // Build a combined keyword needle: topic + lecture (loose OR-match on the vignette)
+  return QUESTION_BANK.filter(q => {
+    if (category && q.category !== category) return false;
+    if (subcategory && q.subcategory !== subcategory) return false;
+    const haystack = (q.topic + " " + q.vignette + " " + q.stem).toLowerCase();
+    if (topic) {
+      if (!haystack.includes(topic.toLowerCase())) return false;
+    }
+    if (inhouseLecture) {
+      // Extract content words from lecture title (ignore roman numerals, connectors)
+      const words = inhouseLecture.toLowerCase()
+        .replace(/[—\-\/&]/g, " ")
+        .split(/\s+/)
+        .filter(w => w.length > 3 && !/^(and|the|with|into|from|ii|iii|iv|vi)$/.test(w));
+      // Require at least one meaningful word to appear in the question
+      if (words.length > 0 && !words.some(w => haystack.includes(w))) return false;
+    }
+    return true;
+  });
+}
+
+function previewCount() {
+  const cat = $("category").value;
+  const sub = $("subcategory").value;
+  const topic = $("topic").value.trim();
+  const inhouseLecture = $("inhouse-lecture").value;
+  const matches = filterBank(cat, sub, topic, inhouseLecture);
+  const msg = $("preview-result");
+  if (matches.length === 0) {
+    msg.textContent = "No matching questions in the curated bank. Narrow the topic, broaden the category, or use AI generation.";
+    msg.style.color = "var(--danger)";
+    $("ai-preview-area").innerHTML = "";
+  } else {
+    msg.textContent = `Found ${matches.length} matching question${matches.length===1?"":"s"} in the bank.`;
+    msg.style.color = "var(--accent)";
+    renderAIPreview(matches, { source: "Bank" });
+  }
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+async function startQuiz() {
+  const n = Math.max(1, Math.min(40, parseInt($("num-questions").value) || 10));
+  const cat = $("category").value;
+  const sub = $("subcategory").value;
+  const topic = $("topic").value.trim();
+  const inhouseSubject = $("inhouse-subject").value;
+  const inhouseLecture = $("inhouse-lecture").value;
+  const useAPI = $("use-api").checked;
+  const apiKey = $("api-key").value.trim();
+
+  state.apiKey = apiKey;
+  state.usingAPI = useAPI && apiKey.length > 0;
+
+  let pool = filterBank(cat, sub, topic, inhouseLecture);
+
+  if (pool.length === 0 && !state.usingAPI) {
+    alert("No matching questions in the bank. Broaden filters or enable AI generation.");
+    return;
+  }
+
+  // Get N questions — use bank, supplement with API if needed
+  let chosen = shuffle(pool).slice(0, n);
+
+  if (chosen.length < n && state.usingAPI) {
+    const btn = $("start-quiz");
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Generating AI questions…';
+    try {
+      const needed = n - chosen.length;
+      const generated = await generateQuestionsViaAPI(needed, cat, sub, topic, inhouseSubject, inhouseLecture);
+      chosen = chosen.concat(generated);
+    } catch (err) {
+      alert("API generation failed: " + err.message + "\nProceeding with bank questions only.");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Quiz Mode";
+    }
+  }
+
+  if (chosen.length === 0) {
+    alert("No questions available. Please adjust filters.");
+    return;
+  }
+
+  state.quizQuestions = chosen;
+  state.currentIndex = 0;
+  state.answers = new Array(chosen.length).fill(null);
+
+  $("setup-screen").classList.add("hidden");
+  $("quiz-screen").classList.remove("hidden");
+  $("results-screen").classList.add("hidden");
+  $("q-total").textContent = chosen.length;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = state.quizQuestions[state.currentIndex];
+  $("q-current").textContent = state.currentIndex + 1;
+  $("progress-fill").style.width = ((state.currentIndex + 1) / state.quizQuestions.length * 100) + "%";
+
+  const letters = ["A","B","C","D","E","F","G","H"];
+  let choicesHtml = '<ul class="choices">';
+  q.choices.forEach((choice, i) => {
+    choicesHtml += `
+      <li class="choice" data-letter="${letters[i]}">
+        <input type="radio" name="choice" id="choice-${letters[i]}" value="${letters[i]}">
+        <span class="choice-letter">${letters[i]}</span>
+        <span>${escapeHtml(choice)}</span>
+      </li>`;
+  });
+  choicesHtml += '</ul>';
+
+  $("question-content").innerHTML = `
+    <div class="vignette">${escapeHtml(q.vignette)}</div>
+    <div class="stem">${escapeHtml(q.stem)}</div>
+    ${choicesHtml}
+  `;
+
+  $("post-answer").classList.add("hidden");
+  $("post-answer").innerHTML = "";
+  $("submit-answer").classList.remove("hidden");
+  $("submit-answer").disabled = true;
+  $("next-question").classList.add("hidden");
+  $("finish-quiz").classList.add("hidden");
+
+  // choice click handlers
+  document.querySelectorAll(".choice").forEach(el => {
+    el.addEventListener("click", () => {
+      if (el.classList.contains("disabled")) return;
+      document.querySelectorAll(".choice").forEach(c => c.classList.remove("selected"));
+      el.classList.add("selected");
+      const radio = el.querySelector("input[type=radio]");
+      if (radio) radio.checked = true;
+      $("submit-answer").disabled = false;
+    });
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function submitAnswer() {
+  const q = state.quizQuestions[state.currentIndex];
+  const selected = document.querySelector("input[name=choice]:checked");
+  if (!selected) return;
+  const letter = selected.value;
+  const isCorrect = (letter === q.correct);
+
+  state.answers[state.currentIndex] = {
+    questionId: q.id,
+    selected: letter,
+    correct: isCorrect,
+    question: q
+  };
+
+  // reveal correct/incorrect styling
+  document.querySelectorAll(".choice").forEach(el => {
+    el.classList.add("disabled");
+    const l = el.dataset.letter;
+    if (l === q.correct) el.classList.add("reveal-correct");
+    else if (l === letter) el.classList.add("reveal-incorrect");
+    else el.classList.add("reveal-other");
+  });
+
+  // build explanation panel
+  const letters = ["A","B","C","D","E","F","G","H"];
+  let distractorHtml = '';
+  q.choices.forEach((choice, i) => {
+    const l = letters[i];
+    if (l === q.correct) return;
+    const reason = q.explanations[l] || "Not the best answer.";
+    distractorHtml += `
+      <div class="distractor-item">
+        <strong>${l}:</strong> ${escapeHtml(reason)}
+      </div>`;
+  });
+
+  const expHtml = `
+    <div class="explanation">
+      <h3>${isCorrect ? "✓ Correct" : "✗ Incorrect"} — Answer: ${q.correct}</h3>
+      <div class="correct-block">
+        <strong>${q.correct} — ${escapeHtml(q.choices[letters.indexOf(q.correct)])}</strong><br>
+        ${escapeHtml(q.explanations.correct)}
+      </div>
+      <h3 style="font-size:0.95rem; margin-top:12px;">Why the other choices are wrong</h3>
+      <div class="distractor-list">${distractorHtml}</div>
+      <div class="meta-tags">
+        <span class="tag"><strong>Category:</strong> ${escapeHtml(q.category)}</span>
+        <span class="tag"><strong>Subcategory:</strong> ${escapeHtml(q.subcategory)}</span>
+        <span class="tag"><strong>Competency:</strong> ${escapeHtml(q.ptc)}</span>
+        <span class="tag"><strong>Reference:</strong> ${escapeHtml(q.faRef)}</span>
+      </div>
+    </div>`;
+
+  $("post-answer").innerHTML = expHtml;
+  $("post-answer").classList.remove("hidden");
+  $("submit-answer").classList.add("hidden");
+
+  const isLast = (state.currentIndex === state.quizQuestions.length - 1);
+  if (isLast) {
+    $("finish-quiz").classList.remove("hidden");
+  } else {
+    $("next-question").classList.remove("hidden");
+  }
+}
+
+function nextQuestion() {
+  if (state.currentIndex < state.quizQuestions.length - 1) {
+    state.currentIndex++;
+    renderQuestion();
+  }
+}
+
+function finishQuiz() {
+  $("quiz-screen").classList.add("hidden");
+  $("results-screen").classList.remove("hidden");
+  renderResults();
+}
+
+function renderResults() {
+  const correct = state.answers.filter(a => a && a.correct).length;
+  const total = state.answers.length;
+  const pct = Math.round((correct / total) * 100);
+  $("final-correct").textContent = correct;
+  $("final-total").textContent = total;
+  $("final-pct").textContent = pct + "%";
+  let msg = "Quiz Complete";
+  if (pct >= 80) msg = "Excellent — at or above Step 1 passing level!";
+  else if (pct >= 65) msg = "Solid performance — keep reviewing.";
+  else msg = "Review the explanations carefully.";
+  $("results-message").textContent = msg;
+
+  const letters = ["A","B","C","D","E","F","G","H"];
+  const reviewList = $("review-list");
+  reviewList.innerHTML = "";
+  state.answers.forEach((a, i) => {
+    if (!a) return;
+    const q = a.question;
+    const item = document.createElement("div");
+    item.className = "review-item " + (a.correct ? "correct" : "incorrect");
+    item.innerHTML = `
+      <div class="review-item-header">
+        <div class="review-item-title">Q${i+1}: ${escapeHtml(q.topic.charAt(0).toUpperCase() + q.topic.slice(1))}</div>
+        <span class="review-badge ${a.correct?'correct':'incorrect'}">${a.correct ? "Correct" : "Incorrect"}</span>
+      </div>
+      <div style="font-size:0.88rem; color:var(--text-muted); margin-bottom:6px;">
+        ${escapeHtml(q.category)} › ${escapeHtml(q.subcategory)}
+      </div>
+      <details>
+        <summary>View full question &amp; explanation</summary>
+        <div style="margin-top:10px;">
+          <div class="vignette" style="font-size:0.92rem;">${escapeHtml(q.vignette)}</div>
+          <div class="stem" style="font-size:0.92rem;">${escapeHtml(q.stem)}</div>
+          <div style="font-size:0.88rem; margin-top:8px;">
+            Your answer: <strong>${a.selected}</strong> · Correct: <strong>${q.correct}</strong>
+          </div>
+          <div class="correct-block" style="margin-top:10px; font-size:0.9rem;">
+            <strong>${q.correct}:</strong> ${escapeHtml(q.explanations.correct)}
+          </div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:8px;">
+            ${escapeHtml(q.faRef)} · ${escapeHtml(q.ptc)}
+          </div>
+        </div>
+      </details>`;
+    reviewList.appendChild(item);
+  });
+}
+
+function newQuiz() {
+  state.quizQuestions = [];
+  state.currentIndex = 0;
+  state.answers = [];
+  $("results-screen").classList.add("hidden");
+  $("setup-screen").classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function exitQuiz() {
+  if (confirm("Exit quiz? Progress will be lost.")) {
+    newQuiz();
+  }
+}
+
+/* ================================================================
+   AI QUESTION GENERATION (Optional)
+   Uses the Anthropic Messages API as the provider.
+   ================================================================ */
+const AI_CONFIG = {
+  endpoint: "https://api.anthropic.com/v1/messages",
+  model: "claude-sonnet-4-6",
+  apiVersion: "2023-06-01"
+};
+
+async function generateQuestionsViaAPI(count, category, subcategory, topic, inhouseSubject, inhouseLecture) {
+  if (!state.apiKey) throw new Error("No API key provided");
+
+  const examples = QUESTION_BANK.slice(0, 2).map(q => ({
+    category: q.category,
+    subcategory: q.subcategory,
+    vignette: q.vignette,
+    stem: q.stem,
+    choices: q.choices,
+    correct: q.correct,
+    explanations: q.explanations,
+    ptc: q.ptc,
+    faRef: q.faRef
+  }));
+
+  const prompt = `You are an expert USMLE Step 1 question writer. Generate ${count} high-quality NBME-style multiple-choice questions.
+
+REQUIREMENTS:
+- Clinical vignette with demographics, history, exam, labs (when relevant)
+- Single best-answer stem phrased like "Which of the following is the most likely [diagnosis / mechanism / next step]?"
+- Exactly 5 answer choices (A-E)
+- Correct letter identified
+- Full explanation of why the correct answer is correct AND why each distractor is wrong
+- Tag to USMLE Content Outline: category="${category || "any Step 1 category"}", subcategory="${subcategory || "any relevant subcategory"}"
+${topic ? `- Focus specifically on: "${topic}"` : ""}
+${inhouseSubject && inhouseLecture ? `- CONSTRAIN content to the HoyaDocs ${inhouseSubject} block lecture titled: "${inhouseLecture}". Questions should reflect the physiology, pathology, pharmacology, or clinical concepts covered in that specific lecture.` : (inhouseSubject ? `- General topical area: HoyaDocs ${inhouseSubject} block` : "")}
+- Tag to Physician Task/Competency from: Medical Knowledge, Diagnosis (H&P, Labs, Formulating, Prognosis), Management (Prevention, Pharmacotherapy, Interventions, Mixed), Communication, Professionalism, Systems-based Practice, Biostatistics
+- Provide a First Aid 2023 page reference (educated estimate acceptable)
+
+EXAMPLE FORMAT (2 curated items):
+${JSON.stringify(examples, null, 2)}
+
+Return ONLY a valid JSON array of ${count} question objects with exactly these keys: id (string like "API-001"), category, subcategory, topic, vignette, stem, choices (array of 5 strings), correct (letter), explanations (object with "correct" key + letter keys for distractors), ptc, faRef${inhouseLecture ? ', inhouseLecture (the lecture title provided)' : ''}. No markdown, no commentary — only the JSON array.`;
+
+  const response = await fetch(AI_CONFIG.endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": state.apiKey,
+      "anthropic-version": AI_CONFIG.apiVersion,
+      "anthropic-dangerous-direct-browser-access": "true"
+    },
+    body: JSON.stringify({
+      model: AI_CONFIG.model,
+      max_tokens: 16000,
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`API ${response.status}: ${err.slice(0,200)}`);
+  }
+
+  const data = await response.json();
+  const text = data.content[0].text.trim();
+  // strip any code fence
+  const cleaned = text.replace(/^```json\s*/,"").replace(/^```\s*/,"").replace(/```\s*$/,"");
+  const parsed = JSON.parse(cleaned);
+  return parsed;
+}
+
+
+/* ================================================================
+   AI QUESTION GENERATION & DISPLAY
+   Generates N questions (based on Number of Questions input) with
+   current filters and renders them ALL in a read-only preview
+   (answer + explanation revealed upfront for quality review).
+   ================================================================ */
+async function previewAIQuestion() {
+  const apiKey = $("api-key").value.trim();
+  const useAI = $("use-api").checked;
+  const area = $("ai-preview-area");
+  const btn = $("preview-ai");
+
+  if (!useAI) {
+    area.innerHTML = `<div class="warn-banner">Check the <strong>Use AI</strong> box above to enable AI question generation.</div>`;
+    return;
+  }
+  if (!apiKey) {
+    area.innerHTML = `<div class="warn-banner">Enter an API key above to generate AI questions.</div>`;
+    return;
+  }
+
+  state.apiKey = apiKey;
+  const n = Math.max(1, Math.min(40, parseInt($("num-questions").value) || 10));
+  const cat = $("category").value;
+  const sub = $("subcategory").value;
+  const topic = $("topic").value.trim();
+  const inhouseSubject = $("inhouse-subject").value;
+  const inhouseLecture = $("inhouse-lecture").value;
+
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner" style="border-top-color:#1e40af;border-color:rgba(30,64,175,0.3) rgba(30,64,175,0.3) rgba(30,64,175,0.3) #1e40af;"></span>Generating ${n}…`;
+  const ctxLine = inhouseLecture
+    ? ` (focused on <strong>${escapeHtml(inhouseSubject)} › ${escapeHtml(inhouseLecture)}</strong>)`
+    : (inhouseSubject ? ` (focused on <strong>${escapeHtml(inhouseSubject)}</strong>)` : "");
+  area.innerHTML = `<div class="info-banner">Generating ${n} AI question${n===1?"":"s"}${ctxLine}… this may take 20-60 seconds.</div>`;
+
+  try {
+    // Batch in groups of 8 to stay within per-request token limits
+    const BATCH = 8;
+    let all = [];
+    const batches = Math.ceil(n / BATCH);
+    for (let i = 0; i < batches; i++) {
+      const batchSize = Math.min(BATCH, n - all.length);
+      area.innerHTML = `<div class="info-banner">Generating AI questions… (batch ${i+1}/${batches})${ctxLine}</div>`;
+      const chunk = await generateQuestionsViaAPI(batchSize, cat, sub, topic, inhouseSubject, inhouseLecture);
+      all = all.concat(chunk);
+    }
+    if (!all || all.length === 0) {
+      throw new Error("No questions returned by the API.");
+    }
+    renderAIPreview(all, { source: "AI-generated", regenerateFn: previewAIQuestion });
+  } catch (err) {
+    area.innerHTML = `
+      <div class="warn-banner">
+        <strong>Generation failed:</strong> ${escapeHtml(err.message || "Unknown error")}<br>
+        <span style="font-size:0.85rem;">Check that your API key is valid and that you have available credits. Try reducing the Number of Questions if the request timed out.</span>
+      </div>`;
+  } finally {
+    btn.disabled = !$("use-api").checked;
+    btn.textContent = "Generate AI USMLE Qs";
+  }
+}
+
+function renderAIPreview(questions, options = {}) {
+  const {
+    source = "AI-generated",       // badge label per card
+    headerLabel = null,            // custom top-bar label (defaults from source)
+    regenerateFn = null            // if provided, show Regenerate button
+  } = options;
+  const letters = ["A","B","C","D","E","F","G","H"];
+  const area = $("ai-preview-area");
+
+  const cards = questions.map((q, idx) => {
+    let choicesHtml = '<ul class="choices" style="margin-top:10px;">';
+    (q.choices || []).forEach((choice, i) => {
+      const l = letters[i];
+      const isCorrect = (l === q.correct);
+      const cls = isCorrect ? "choice reveal-correct disabled" : "choice reveal-other disabled";
+      choicesHtml += `
+        <li class="${cls}">
+          <span class="choice-letter">${l}</span>
+          <span>${escapeHtml(choice)}${isCorrect ? ' <strong class="correct-badge" style="color:#065f46;">✓ Correct answer</strong>' : ''}</span>
+        </li>`;
+    });
+    choicesHtml += '</ul>';
+
+    let distractorHtml = '';
+    (q.choices || []).forEach((_, i) => {
+      const l = letters[i];
+      if (l === q.correct) return;
+      const reason = (q.explanations && q.explanations[l]) || "No rationale provided.";
+      distractorHtml += `
+        <div class="distractor-item">
+          <strong>${l}:</strong> ${escapeHtml(reason)}
+        </div>`;
+    });
+
+    const correctIdx = letters.indexOf(q.correct);
+    const correctChoice = q.choices && correctIdx >= 0 ? q.choices[correctIdx] : "";
+
+    return `
+      <div class="card ai-question-card" data-card-idx="${idx}" style="margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border); gap:10px; flex-wrap:wrap;">
+          <h3 style="color:var(--primary-dark); margin:0;">Question ${idx+1} of ${questions.length}</h3>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <span class="tag" style="font-size:0.75rem;"><strong>${escapeHtml(source)}</strong></span>
+            <button class="toggle-answer-btn" data-toggle-idx="${idx}">Show Answer</button>
+          </div>
+        </div>
+        <div class="vignette">${escapeHtml(q.vignette || "")}</div>
+        <div class="stem">${escapeHtml(q.stem || "")}</div>
+        ${choicesHtml}
+        <div class="explanation ai-explanation" style="margin-top:18px;">
+          <h3>Answer: ${q.correct || "?"}</h3>
+          <div class="correct-block">
+            <strong>${q.correct || "?"} — ${escapeHtml(correctChoice)}</strong><br>
+            ${escapeHtml((q.explanations && q.explanations.correct) || "No rationale provided.")}
+          </div>
+          <h3 style="font-size:0.95rem; margin-top:12px;">Why the other choices are wrong</h3>
+          <div class="distractor-list">${distractorHtml}</div>
+          <div class="meta-tags">
+            <span class="tag"><strong>Category:</strong> ${escapeHtml(q.category || "—")}</span>
+            <span class="tag"><strong>Subcategory:</strong> ${escapeHtml(q.subcategory || "—")}</span>
+            <span class="tag"><strong>Competency:</strong> ${escapeHtml(q.ptc || "—")}</span>
+            <span class="tag"><strong>Reference:</strong> ${escapeHtml(q.faRef || "—")}</span>
+            ${q.inhouseLecture ? `<span class="tag"><strong>In House Lecture:</strong> ${escapeHtml(q.inhouseLecture)}</span>` : ""}
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+
+  const defaultHeader = source === "AI-generated"
+    ? `${questions.length} AI-generated question${questions.length===1?"":"s"}`
+    : `${questions.length} matching question${questions.length===1?"":"s"} from the curated bank`;
+  const topLabel = headerLabel || defaultHeader;
+  const regenBtn = regenerateFn
+    ? `<button class="btn-secondary" id="preview-regenerate" style="padding:6px 12px; font-size:0.85rem;">Regenerate</button>`
+    : "";
+
+  area.innerHTML = `
+    <div class="card" style="margin-bottom:14px; padding:16px 20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <strong>${escapeHtml(topLabel)}</strong>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-top:2px;">
+            Answers are collapsed by default — click <em>Show Answer</em> on a question to reveal its explanation.
+          </p>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn-secondary" id="preview-toggle-all" style="padding:6px 12px; font-size:0.85rem;">Show All Answers</button>
+          ${regenBtn}
+          <button class="btn-secondary" id="preview-clear" style="padding:6px 12px; font-size:0.85rem;">Clear</button>
+        </div>
+      </div>
+    </div>
+    ${cards}`;
+
+  // Per-card Show/Hide Answer toggle
+  document.querySelectorAll(".toggle-answer-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const idx = btn.dataset.toggleIdx;
+      const card = document.querySelector(`.ai-question-card[data-card-idx="${idx}"]`);
+      if (!card) return;
+      card.classList.toggle("answer-shown");
+      btn.textContent = card.classList.contains("answer-shown") ? "Hide Answer" : "Show Answer";
+    });
+  });
+
+  // Show/Hide all
+  $("preview-toggle-all").addEventListener("click", () => {
+    const cards = document.querySelectorAll(".ai-question-card");
+    const anyHidden = Array.from(cards).some(c => !c.classList.contains("answer-shown"));
+    cards.forEach(c => {
+      if (anyHidden) c.classList.add("answer-shown");
+      else c.classList.remove("answer-shown");
+      const tb = c.querySelector(".toggle-answer-btn");
+      if (tb) tb.textContent = anyHidden ? "Hide Answer" : "Show Answer";
+    });
+    $("preview-toggle-all").textContent = anyHidden ? "Hide All Answers" : "Show All Answers";
+  });
+
+  if (regenerateFn && $("preview-regenerate")) {
+    $("preview-regenerate").addEventListener("click", regenerateFn);
+  }
+  $("preview-clear").addEventListener("click", () => { area.innerHTML = ""; });
+
+  area.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* Toggle "Generate AI USMLE Qs" button enabled state based on the Use AI checkbox */
+function syncAIButtonState() {
+  const useAI = $("use-api").checked;
+  const btn = $("preview-ai");
+  btn.disabled = !useAI;
+  btn.title = useAI ? "" : "Check 'Use AI' above to enable";
+}
+
+/* ================================================================
+   INIT
+   ================================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  populateCategories();
+  syncAIButtonState();
+  $("category").addEventListener("change", populateSubcategories);
+  $("inhouse-subject").addEventListener("change", populateInHouseLectures);
+  $("use-api").addEventListener("change", syncAIButtonState);
+  // Auto-check "Use AI" the moment an API key is entered
+  $("api-key").addEventListener("input", () => {
+    const hasKey = $("api-key").value.trim().length > 0;
+    if (hasKey && !$("use-api").checked) {
+      $("use-api").checked = true;
+    }
+    syncAIButtonState();
+  });
+  $("preview-count").addEventListener("click", previewCount);
+  $("preview-ai").addEventListener("click", previewAIQuestion);
+  $("start-quiz").addEventListener("click", startQuiz);
+  $("submit-answer").addEventListener("click", submitAnswer);
+  $("next-question").addEventListener("click", nextQuestion);
+  $("finish-quiz").addEventListener("click", finishQuiz);
+  $("new-quiz").addEventListener("click", newQuiz);
+  $("exit-quiz").addEventListener("click", exitQuiz);
+});
+
+</script>
+</body>
+</html>
