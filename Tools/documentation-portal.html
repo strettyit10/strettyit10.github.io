@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HoyaDocs | Command Center</title>
+  <title>HoyaDocs | Documentation Portal</title>
 
   <!-- Prevents flash of wrong theme on load -->
   <script>(function(){const t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
@@ -255,10 +255,10 @@
     .filter-btn.is-active.filter-endo  { background: var(--bc-amb-tx); border-color: var(--bc-amb-tx); color: #fff; }
     .filter-btn.is-active.filter-repro { background: var(--bc-ros-tx); border-color: var(--bc-ros-tx); color: #fff; }
 
-    /* Hide columns that don't match the active filter; data-col="all" always shows */
-    .main-inner[data-active-filter="gi"]    .bento-col:not([data-col="gi"]):not([data-col="all"])    { display: none; }
-    .main-inner[data-active-filter="endo"]  .bento-col:not([data-col="endo"]):not([data-col="all"])  { display: none; }
-    .main-inner[data-active-filter="repro"] .bento-col:not([data-col="repro"]):not([data-col="all"]) { display: none; }
+    /* Hide cards that don't match the active filter; data-block="all" always shows */
+    .main-inner[data-active-filter="gi"]    .bcard:not([data-block="gi"]):not([data-block="all"])    { display: none; }
+    .main-inner[data-active-filter="endo"]  .bcard:not([data-block="endo"]):not([data-block="all"])  { display: none; }
+    .main-inner[data-active-filter="repro"] .bcard:not([data-block="repro"]):not([data-block="all"]) { display: none; }
 
     /* Hero-level filter bar — larger, centered, prominent */
     .hero-filter {
@@ -292,97 +292,70 @@
     /* ══════════════════════════════════════
        BENTO DOCUMENT CARDS
     ══════════════════════════════════════ */
-    /* ── COLUMN-BASED BLOCK LAYOUT ── */
-    .bento-cols {
-      display: flex; flex-wrap: wrap;
-      gap: 14px; align-items: flex-start;
+    .bento {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
     }
-    .bento-col {
-      flex: 0 0 calc((100% - 42px) / 4);  /* 4 columns, 3 × 14px gaps */
-      min-width: 200px;
-      display: flex; flex-direction: column; gap: 10px;
-    }
-    .bento-col-head {
-      font-size: 0.62rem; font-weight: 800;
-      letter-spacing: 0.16em; text-transform: uppercase;
-      padding: 6px 10px; border-radius: 7px;
-      text-align: center;
-      border: 1px solid var(--rule);
-      background: var(--surface); color: var(--ink-2);
-    }
-    .col-all   { background: var(--bc-blue-bg); border-color: var(--bc-blue-br); color: var(--bc-blue-tx); }
-    .col-gi    { background: var(--bc-grn-bg);  border-color: var(--bc-grn-br);  color: var(--bc-grn-tx); }
-    .col-endo  { background: var(--bc-amb-bg);  border-color: var(--bc-amb-br);  color: var(--bc-amb-tx); }
-    .col-repro { background: var(--bc-ros-bg);  border-color: var(--bc-ros-br);  color: var(--bc-ros-tx); }
-
-    @media (max-width: 1100px) {
-      .bento-col { flex: 0 0 calc((100% - 28px) / 3); }  /* 3 cols */
-    }
-    @media (max-width: 820px) {
-      .bento-col { flex: 0 0 calc((100% - 14px) / 2); }  /* 2 cols */
-    }
-    @media (max-width: 520px) {
-      .bento-col { flex: 0 0 100%; }
-    }
+    .bento-3 { grid-template-columns: repeat(3, 1fr); }
 
     .bcard {
-      border-radius: 11px; padding: 12px 13px 10px;
+      border-radius: 14px; padding: 16px 16px 14px;
       display: flex; flex-direction: column;
       border: 1px solid transparent;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       position: relative; overflow: hidden;
+      min-height: 180px;
     }
     .bcard:hover { transform: translateY(-2px); }
 
     .bcard-watermark {
-      position: absolute; bottom: -8px; right: -4px;
-      font-size: 3.4rem; opacity: 0.06;
+      position: absolute; bottom: -10px; right: -6px;
+      font-size: 4.8rem; opacity: 0.06;
       pointer-events: none; user-select: none; line-height: 1;
     }
 
-    .bcard-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .bcard-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 
     .bcard-icon {
-      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
       background: rgba(255,255,255,0.75);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.10);
-      display: flex; align-items: center; justify-content: center; font-size: 0.92rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
     }
 
     .bcard-header-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 
     .bcard-label {
-      font-size: 0.54rem; font-weight: 700;
+      font-size: 0.58rem; font-weight: 700;
       letter-spacing: 0.10em; text-transform: uppercase; opacity: 0.75;
     }
 
     .bcard h3 {
-      font-size: 0.84rem; font-weight: 800;
+      font-size: 0.95rem; font-weight: 800;
       letter-spacing: -0.02em; color: var(--ink); margin: 0; line-height: 1.22;
     }
 
     .bcard p {
-      font-size: 0.72rem; color: var(--ink-2);
-      line-height: 1.45; flex: 1; margin-bottom: 6px;
+      font-size: 0.78rem; color: var(--ink-2);
+      line-height: 1.55; flex: 1; margin-bottom: 10px;
     }
 
     .bcard-footer {
       display: flex; align-items: center; justify-content: space-between;
-      margin-top: auto; padding-top: 7px;
+      margin-top: auto; padding-top: 10px;
       border-top: 1px solid currentColor;
       border-top-color: rgba(0,0,0,0.08);
     }
 
     .bcard-cta {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 0.66rem; font-weight: 800;
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.72rem; font-weight: 800;
       letter-spacing: 0.06em; text-transform: uppercase;
       transition: gap 0.14s;
     }
-    .bcard:hover .bcard-cta { gap: 8px; }
+    .bcard:hover .bcard-cta { gap: 10px; }
 
     .bcard-format {
-      font-size: 0.56rem; color: var(--ink-3);
+      font-size: 0.62rem; color: var(--ink-3);
       letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;
     }
 
@@ -406,27 +379,6 @@
     .bc-purple { background: var(--bc-pur-bg); border-color: var(--bc-pur-br); }
     .bc-purple:hover { box-shadow: 0 12px 40px rgba(109,40,217,0.14), 0 3px 10px rgba(109,40,217,0.07); }
     .bc-purple .bcard-cta, .bc-purple .bcard-label { color: var(--bc-pur-tx); }
-
-    /* ── API-required indicator (top-right chip) ── */
-    .api-badge {
-      position: absolute;
-      top: 7px; right: 7px;
-      display: inline-flex; align-items: center; gap: 3px;
-      font-size: 0.50rem; font-weight: 800;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      padding: 2px 7px 2px 6px;
-      border-radius: 999px;
-      background: #0f172a; color: #fbbf24;
-      border: 1px solid rgba(251,191,36,0.40);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.22);
-      z-index: 2; pointer-events: none;
-    }
-    .api-badge::before {
-      content: "⚡"; font-size: 0.58rem; line-height: 1;
-      color: #fbbf24;
-    }
-    /* Reserve space in the card header so the h3 doesn't wrap under the badge */
-    .bcard:has(.api-badge) .bcard-header { padding-right: 38px; }
 
     /* ══════════════════════════════════════
        FOOTER
@@ -492,10 +444,15 @@
       .mobile-nav { display: block; }
     }
 
+    @media (max-width: 900px) {
+      .bento-3 { grid-template-columns: 1fr 1fr; }
+    }
+
     @media (max-width: 680px) {
-      .bcard { padding: 11px 12px; border-radius: 10px; }
-      .bcard h3 { font-size: 0.84rem; }
-      .bcard-icon { width: 26px; height: 26px; font-size: 0.88rem; }
+      .bento, .bento-3 { grid-template-columns: 1fr; }
+      .bcard { padding: 14px; border-radius: 12px; }
+      .bcard h3 { font-size: 0.9rem; }
+      .bcard-icon { width: 32px; height: 32px; font-size: 1rem; }
       .hero-title { font-size: 2.4rem; }
       .section-divider-text { font-size: 1.1rem; }
       .footer { flex-direction: column; align-items: flex-start; gap: 6px; }
@@ -510,7 +467,7 @@
     <div class="sb-brand">
       <a href="https://hoyadocs.com/" class="sb-name">HoyaDocs↗</a>
     </div>
-    <div class="sb-block">Command Center</div>
+    <div class="sb-block">Documentation · Portal</div>
     <a class="sb-text-link" href="https://hoyadocs.com/">Return to Home Page</a>
 
     <div class="sb-rule"></div>
@@ -536,7 +493,7 @@
       <!-- HERO -->
       <section class="hero" id="hero">
         <div class="hero-eyebrow">Integration &amp; Operations</div>
-        <h1 class="hero-title">Command <em>Center.</em></h1>
+        <h1 class="hero-title">Documentation <em>Portal.</em></h1>
         <p class="hero-sub">
           <strong>A central registry for hub operations, mapping sources, and status reports.</strong>
           Consolidated access to the integration tools, resource-mapping documentation, and hub status
@@ -563,85 +520,75 @@
           objectives with external study materials, and audits of hub content coverage.
         </p>
 
-        <div class="bento-cols">
+        <div class="bento bento-3">
 
-          <div class="bento-col" data-col="all">
-            <div class="bento-col-head col-all">All Blocks</div>
+          <a class="bcard bc-blue" href="../Documentation/HoyaDocs-101.html" data-block="all">
+            <span class="bcard-watermark">📘</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">📘</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">Orientation · All Blocks</span>
+                <h3>HoyaDocs 101 — Hub Orientation</h3>
+              </div>
+            </div>
+            <p>Structured introduction to HoyaDocs — organization of each Study Hub, the three-tier progression from lecture foundation to USMLE Step 1 practice, and methodology for integrating hub materials into existing coursework.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">Open reference →</span>
+              <span class="bcard-format">HTML · 68 KB</span>
+            </div>
+          </a>
 
-            <a class="bcard bc-blue" href="../Documentation/HoyaDocs-101.html" data-block="all">
-              <span class="bcard-watermark">📘</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">📘</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Orientation</span>
-                  <h3>HoyaDocs 101 — Hub Orientation</h3>
-                </div>
+          <a class="bcard bc-amber" href="Resource-Mapping-Tool.html" data-block="endo">
+            <span class="bcard-watermark">🗂</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">🗂</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">Endocrine · Interactive</span>
+                <h3>Resource Mapping Tool</h3>
               </div>
-              <p>How each Study Hub is organized and how the three hub tiers build toward Step 1.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Open reference →</span>
-                <span class="bcard-format">HTML · 68 KB</span>
-              </div>
-            </a>
+            </div>
+            <p>Interactive matrix aligning lecture learning objectives with coverage across Boards &amp; Beyond, Bootcamp, Pathoma, Physeo, and First Aid. Each objective resolves to chapter, page, or timestamp.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">Launch tool →</span>
+              <span class="bcard-format">HTML · 277 KB</span>
+            </div>
+          </a>
 
-            <a class="bcard bc-purple" href="USMLE-Question-Generator.html" data-block="all">
-              <span class="api-badge">API</span>
-              <span class="bcard-watermark">🧠</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">🧠</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Interactive</span>
-                  <h3>USMLE Question Generator</h3>
-                </div>
+          <a class="bcard bc-purple" href="USMLE-Question-Generator.html" data-block="all">
+            <span class="bcard-watermark">🧠</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">🧠</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">All Blocks · Interactive</span>
+                <h3>USMLE Question Generator</h3>
               </div>
-              <p>Generates Step 1–style vignettes from lecture learning objectives, with configurable difficulty.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Launch tool →</span>
-                <span class="bcard-format">HTML · 128 KB</span>
-              </div>
-            </a>
-          </div>
+            </div>
+            <p>Produces USMLE Step 1–style practice questions from lecture learning objectives, with configurable difficulty, clinical vignette format, and answer-choice distractors modeled on common Step 1 traps.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">Launch tool →</span>
+              <span class="bcard-format">HTML · 128 KB</span>
+            </div>
+          </a>
 
-          <div class="bento-col" data-col="endo">
-            <div class="bento-col-head col-endo">Endocrine</div>
+          <a class="bcard bc-amber" href="Endocrine-Hub-Mapping-Tool.html" data-block="endo">
+            <span class="bcard-watermark">🔍</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">🔍</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">Endocrine · Content Audit</span>
+                <h3>Endocrine Hub Content Audit</h3>
+              </div>
+            </div>
+            <p>Per-lecture audit examining learning-objective coverage, flashcard and item-bank density, and any divergence between lecture materials and corresponding hub content.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">Open audit →</span>
+              <span class="bcard-format">HTML · 865 KB</span>
+            </div>
+          </a>
 
-            <a class="bcard bc-amber" href="Resource-Mapping-Tool.html" data-block="endo">
-              <span class="api-badge">API</span>
-              <span class="bcard-watermark">🗂</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">🗂</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Interactive</span>
-                  <h3>Resource Mapping Tool</h3>
-                </div>
-              </div>
-              <p>Interactive matrix aligning each lecture's learning objectives to Boards &amp; Beyond, Bootcamp, Pathoma, Physeo, and First Aid.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Launch tool →</span>
-                <span class="bcard-format">HTML · 277 KB</span>
-              </div>
-            </a>
-
-            <a class="bcard bc-amber" href="Endocrine-Hub-Mapping-Tool.html" data-block="endo">
-              <span class="api-badge">API</span>
-              <span class="bcard-watermark">🔍</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">🔍</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Content Audit</span>
-                  <h3>Endocrine Hub Content Audit</h3>
-                </div>
-              </div>
-              <p>Per-lecture audit of learning-objective coverage across the Endocrine Hub.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Open audit →</span>
-                <span class="bcard-format">HTML · 865 KB</span>
-              </div>
-            </a>
-          </div>
+          <div class="empty-state">No tools available for this block yet.</div>
 
         </div>
-        <div class="empty-state">No tools available for this block yet.</div>
       </div>
 
       <!-- ══ PART II · RESOURCE MAPPING DOCS ══ -->
@@ -655,102 +602,91 @@
           alignment between learning objectives, third-party resources, and the resulting hub architecture.
         </p>
 
-        <div class="bento-cols">
+        <div class="bento bento-3">
 
-          <div class="bento-col" data-col="gi">
-            <div class="bento-col-head col-gi">GI</div>
+          <a class="bcard bc-green" href="../Resource-Mapping/GI_Resource_Mapping.xlsx" data-block="gi">
+            <span class="bcard-watermark">📊</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">📊</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">GI · Master File</span>
+                <h3>GI Resource Mapping</h3>
+              </div>
+            </div>
+            <p>Block-level master workbook documenting the alignment of Gastrointestinal learning objectives with all mapped third-party resources. Canonical source for subsequent hub builds.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">Download ↓</span>
+              <span class="bcard-format">XLSX · 65 KB</span>
+            </div>
+          </a>
 
-            <a class="bcard bc-green" href="../Resource-Mapping/GI_Resource_Mapping.xlsx" data-block="gi">
-              <span class="bcard-watermark">📊</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">📊</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Master File</span>
-                  <h3>GI Resource Mapping</h3>
-                </div>
+          <a class="bcard bc-amber" href="../Resource-Mapping/Endocrine_Resource_Mapping.xlsx" data-block="endo">
+            <span class="bcard-watermark">📊</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">📊</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">Endocrine · Master File</span>
+                <h3>Endocrine Resource Mapping</h3>
               </div>
-              <p>Master workbook aligning every GI learning objective to its mapped third-party resources.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Download ↓</span>
-                <span class="bcard-format">XLSX · 65 KB</span>
-              </div>
-            </a>
-          </div>
+            </div>
+            <p>Block-level master workbook documenting the alignment of Endocrine learning objectives with all mapped third-party resources, including chapter, page, and timestamp references.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">Download ↓</span>
+              <span class="bcard-format">XLSX · 72 KB</span>
+            </div>
+          </a>
 
-          <div class="bento-col" data-col="endo">
-            <div class="bento-col-head col-endo">Endocrine</div>
+          <a class="bcard bc-rose" href="../Resource-Mapping/Repro_Resource_Mapping.xlsx" data-block="repro">
+            <span class="bcard-watermark">📊</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">📊</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">Reproduction · Master File</span>
+                <h3>Reproduction Resource Mapping</h3>
+              </div>
+            </div>
+            <p>Block-level master workbook documenting the alignment of Reproduction learning objectives with all mapped third-party resources, including chapter, page, and timestamp references.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">Download ↓</span>
+              <span class="bcard-format">XLSX · 60 KB</span>
+            </div>
+          </a>
 
-            <a class="bcard bc-amber" href="../Resource-Mapping/Endocrine_Resource_Mapping.xlsx" data-block="endo">
-              <span class="bcard-watermark">📊</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">📊</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Master File</span>
-                  <h3>Endocrine Resource Mapping</h3>
-                </div>
+          <a class="bcard bc-amber" href="../Documentation/Endocrine-Hub-Map.html" data-block="endo">
+            <span class="bcard-watermark">🗺️</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">🗺️</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">Endocrine · Hub Map</span>
+                <h3>Endocrine Hub Map</h3>
               </div>
-              <p>Master workbook aligning every Endocrine learning objective to its mapped third-party resources.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Download ↓</span>
-                <span class="bcard-format">XLSX · 72 KB</span>
-              </div>
-            </a>
+            </div>
+            <p>Structural map of the Endocrine Study Hub — every lecture, associated resources, and inter-module links. Authoritative reference for assessing completed content against outstanding material.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">View map →</span>
+              <span class="bcard-format">HTML · 114 KB</span>
+            </div>
+          </a>
 
-            <a class="bcard bc-amber" href="../Documentation/Endocrine-Hub-Map.html" data-block="endo">
-              <span class="bcard-watermark">🗺️</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">🗺️</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Hub Map</span>
-                  <h3>Endocrine Hub Map</h3>
-                </div>
+          <a class="bcard bc-rose" href="../Documentation/Repro-Hub-Map.html" data-block="repro">
+            <span class="bcard-watermark">🗺️</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">🗺️</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">Reproduction · Hub Map</span>
+                <h3>Reproduction Hub Map</h3>
               </div>
-              <p>Structural map of the Endocrine Hub — lectures, linked resources, and inter-module connections.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">View map →</span>
-                <span class="bcard-format">HTML · 114 KB</span>
-              </div>
-            </a>
-          </div>
+            </div>
+            <p>Structural map of the Reproduction Study Hub — lecture catalogue, Hub 1–3 coverage, and resource linkage for each module.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">View map →</span>
+              <span class="bcard-format">HTML · 121 KB</span>
+            </div>
+          </a>
 
-          <div class="bento-col" data-col="repro">
-            <div class="bento-col-head col-repro">Reproduction</div>
-
-            <a class="bcard bc-rose" href="../Resource-Mapping/Repro_Resource_Mapping.xlsx" data-block="repro">
-              <span class="bcard-watermark">📊</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">📊</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Master File</span>
-                  <h3>Reproduction Resource Mapping</h3>
-                </div>
-              </div>
-              <p>Master workbook aligning every Reproduction learning objective to its mapped third-party resources.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Download ↓</span>
-                <span class="bcard-format">XLSX · 60 KB</span>
-              </div>
-            </a>
-
-            <a class="bcard bc-rose" href="../Documentation/Repro-Hub-Map.html" data-block="repro">
-              <span class="bcard-watermark">🗺️</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">🗺️</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Hub Map</span>
-                  <h3>Reproduction Hub Map</h3>
-                </div>
-              </div>
-              <p>Structural map of the Reproduction Hub — lectures, linked resources, and Hub 1–3 coverage.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">View map →</span>
-                <span class="bcard-format">HTML · 121 KB</span>
-              </div>
-            </a>
-          </div>
+          <div class="empty-state">No resource-mapping documentation available for this block yet.</div>
 
         </div>
-        <div class="empty-state">No resource-mapping documentation available for this block yet.</div>
       </div>
 
       <!-- ══ PART III · HUB STATUSES ══ -->
@@ -764,55 +700,48 @@
           progression, alongside any outstanding revisions under review.
         </p>
 
-        <div class="bento-cols">
+        <div class="bento bento-3">
 
-          <div class="bento-col" data-col="endo">
-            <div class="bento-col-head col-endo">Endocrine</div>
+          <a class="bcard bc-amber" href="../Documentation/Endocrine-Status-Report.html" data-block="endo">
+            <span class="bcard-watermark">📋</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">📋</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">Endocrine · Build Report</span>
+                <h3>Endocrine Hub Update Tracker</h3>
+              </div>
+            </div>
+            <p>Progress report documenting completion status across Hub 1, Hub 2, and Hub 3 for each Endocrine lecture, alongside a record of outstanding revisions.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">Open report →</span>
+              <span class="bcard-format">HTML · 39 KB</span>
+            </div>
+          </a>
 
-            <a class="bcard bc-amber" href="../Documentation/Endocrine-Status-Report.html" data-block="endo">
-              <span class="bcard-watermark">📋</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">📋</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Build Report</span>
-                  <h3>Endocrine Hub Update Tracker</h3>
-                </div>
+          <a class="bcard bc-rose" href="../Documentation/Repro-Status-Report.html" data-block="repro">
+            <span class="bcard-watermark">📋</span>
+            <div class="bcard-header">
+              <div class="bcard-icon">📋</div>
+              <div class="bcard-header-text">
+                <span class="bcard-label">Reproduction · Build Report</span>
+                <h3>Reproduction Hub Update Tracker</h3>
               </div>
-              <p>Build-progress status across Hub 1, Hub 2, and Hub 3 for every Endocrine lecture.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Open report →</span>
-                <span class="bcard-format">HTML · 39 KB</span>
-              </div>
-            </a>
-          </div>
+            </div>
+            <p>Progress report documenting completion status across Hub 1, Hub 2, and Hub 3 for each Reproduction lecture, alongside a record of outstanding revisions.</p>
+            <div class="bcard-footer">
+              <span class="bcard-cta">Open report →</span>
+              <span class="bcard-format">HTML · 45 KB</span>
+            </div>
+          </a>
 
-          <div class="bento-col" data-col="repro">
-            <div class="bento-col-head col-repro">Reproduction</div>
-
-            <a class="bcard bc-rose" href="../Documentation/Repro-Status-Report.html" data-block="repro">
-              <span class="bcard-watermark">📋</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">📋</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Build Report</span>
-                  <h3>Reproduction Hub Update Tracker</h3>
-                </div>
-              </div>
-              <p>Build-progress status across Hub 1, Hub 2, and Hub 3 for every Reproduction lecture.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Open report →</span>
-                <span class="bcard-format">HTML · 45 KB</span>
-              </div>
-            </a>
-          </div>
+          <div class="empty-state">No hub status reports available for this block yet.</div>
 
         </div>
-        <div class="empty-state">No hub status reports available for this block yet.</div>
       </div>
 
       <!-- FOOTER -->
       <footer class="footer">
-        <span>Command Center for the HoyaDocs Study Hub Network.</span>
+        <span>Central reference library for the HoyaDocs Study Hub Network.</span>
         <span><strong>Last updated: <span id="last-updated">—</span> · <span id="build-version">—</span></strong></span>
       </footer>
 
@@ -858,15 +787,15 @@
       buttons.forEach(function (btn) {
         btn.classList.toggle('is-active', btn.getAttribute('data-filter') === filter);
       });
-      // Show/hide empty-state per section (counts visible block columns)
+      // Show/hide empty-state per section
       sections.forEach(function (section) {
         var emptyState = section.querySelector('.empty-state');
         if (!emptyState) return;
-        var cols = section.querySelectorAll('.bento-col');
+        var cards = section.querySelectorAll('.bcard');
         var visible = 0;
-        cols.forEach(function (col) {
-          var dataCol = col.getAttribute('data-col');
-          if (filter === 'all' || dataCol === 'all' || dataCol === filter) visible++;
+        cards.forEach(function (card) {
+          var block = card.getAttribute('data-block');
+          if (filter === 'all' || block === 'all' || block === filter) visible++;
         });
         emptyState.style.display = visible === 0 ? 'block' : 'none';
       });
