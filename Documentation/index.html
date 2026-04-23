@@ -168,10 +168,20 @@
        MAIN CONTENT
     ══════════════════════════════════════ */
     .main { flex: 1; min-width: 0; background: var(--bg); transition: background 0.2s; }
-    .main-inner { max-width: 1400px; padding: 52px 48px 80px; }
+    .main-inner { max-width: 1680px; margin: 0 auto; padding: 52px 48px 80px; }
 
     /* ── HERO ── */
     .hero { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+
+    .hero-brand {
+      display: inline-block;
+      font-size: 1.1rem; font-weight: 900;
+      letter-spacing: -0.01em;
+      color: var(--ink); margin-bottom: 10px;
+      text-decoration: none;
+      transition: color 0.13s;
+    }
+    .hero-brand:hover { color: var(--hero-em); }
 
     .hero-eyebrow {
       font-size: 0.68rem; font-weight: 700;
@@ -223,6 +233,26 @@
       line-height: 1.6; margin-bottom: 16px;
     }
     .section-block { margin-bottom: 48px; }
+
+    /* ══════════════════════════════════════
+       PARTS GRID — 3 columns on wide screens (one per Part)
+    ══════════════════════════════════════ */
+    .parts-grid { display: block; }
+
+    @media (min-width: 1200px) {
+      .parts-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 32px;
+        align-items: start;
+      }
+      .parts-grid > .section-block { margin-bottom: 0; min-width: 0; }
+      /* Inside the narrower outer column, stack each part's block-columns vertically */
+      .parts-grid .bento-col {
+        flex: 0 0 100% !important;
+        min-width: 0;
+      }
+    }
 
     /* ══════════════════════════════════════
        FILTER BAR
@@ -505,43 +535,14 @@
 <body>
 <div class="shell">
 
-  <!-- ══ SIDEBAR ══ -->
-  <aside class="sidebar">
-    <div class="sb-brand">
-      <a href="https://hoyadocs.com/" class="sb-name">HoyaDocs↗</a>
-    </div>
-    <div class="sb-block">Command Center</div>
-    <a class="sb-text-link" href="https://hoyadocs.com/">Return to Home Page</a>
-
-    <div class="sb-rule"></div>
-
-    <div class="sb-spacer"></div>
-
-    <div class="sb-ext-label">Quick Access</div>
-    <a class="sb-ext-link" href="https://www.uworld.com/" target="_blank" rel="noopener">
-      <span>UWorld</span><span class="sb-ext-arrow">↗</span>
-    </a>
-    <a class="sb-ext-link" href="https://drive.google.com/" target="_blank" rel="noopener">
-      <span>Class Drive</span><span class="sb-ext-arrow">↗</span>
-    </a>
-    <a class="sb-ext-link" href="https://docs.google.com/spreadsheets/d/14WyUf7nLK21R5drauE0qpBrFZ-gNnyo6d4O1ymhvj4Y/edit?usp=sharing" target="_blank" rel="noopener">
-      <span>Work In Progress</span><span class="sb-ext-arrow">↗</span>
-    </a>
-  </aside>
-
   <!-- ══ MAIN ══ -->
   <main class="main">
     <div class="main-inner" data-active-filter="all">
 
       <!-- HERO -->
       <section class="hero" id="hero">
-        <div class="hero-eyebrow">Integration &amp; Operations</div>
+        <a class="hero-brand" href="https://hoyadocs.com/">HoyaDocs↗</a>
         <h1 class="hero-title">Command <em>Center.</em></h1>
-        <p class="hero-sub">
-          <strong>A central registry for hub operations, mapping sources, and status reports.</strong>
-          Consolidated access to the integration tools, resource-mapping documentation, and hub status
-          boards that support the development and maintenance of each block.
-        </p>
 
         <div class="hero-filter" role="tablist" aria-label="Filter documents by block">
           <span class="filter-label">Filter by block</span>
@@ -552,16 +553,15 @@
         </div>
       </section>
 
+      <!-- ══ PARTS GRID: I · II · III ══ -->
+      <div class="parts-grid">
+
       <!-- ══ PART I · TOOLS ══ -->
       <div class="section-block" id="tools">
         <div class="section-divider">
           <span class="section-divider-text"><span class="sec-part">Part I</span>Tools</span>
           <div class="section-divider-line"></div>
         </div>
-        <p class="section-sub-text">
-          Interactive resources supporting orientation to HoyaDocs, the alignment of lecture learning
-          objectives with external study materials, and audits of hub content coverage.
-        </p>
 
         <div class="bento-cols">
 
@@ -612,7 +612,7 @@
                 <div class="bcard-icon">🗂</div>
                 <div class="bcard-header-text">
                   <span class="bcard-label">Interactive</span>
-                  <h3>Resource Mapping Tool</h3>
+                  <h3>Mapping to Updating 3rd Party Mapping Tool</h3>
                 </div>
               </div>
               <p>Interactive matrix aligning each lecture's learning objectives to Boards &amp; Beyond, Bootcamp, Pathoma, Physeo, and First Aid.</p>
@@ -623,13 +623,12 @@
             </a>
 
             <a class="bcard bc-amber" href="Tools/Endocrine-Hub-Mapping-Tool.html" data-block="endo">
-              <span class="api-badge">API</span>
               <span class="bcard-watermark">🔍</span>
               <div class="bcard-header">
                 <div class="bcard-icon">🔍</div>
                 <div class="bcard-header-text">
                   <span class="bcard-label">Content Audit</span>
-                  <h3>Endocrine Hub Content Audit</h3>
+                  <h3>Mapping to HoyaDocs Tool</h3>
                 </div>
               </div>
               <p>Per-lecture audit of learning-objective coverage across the Endocrine Hub.</p>
@@ -650,17 +649,18 @@
           <span class="section-divider-text"><span class="sec-part">Part II</span>Resource Mapping Documentation</span>
           <div class="section-divider-line"></div>
         </div>
-        <p class="section-sub-text">
-          Source workbooks and hub maps that inform all Study Hub content. These files provide the canonical
-          alignment between learning objectives, third-party resources, and the resulting hub architecture.
-        </p>
 
         <div class="bento-cols">
 
           <div class="bento-col" data-col="gi">
             <div class="bento-col-head col-gi">GI</div>
 
-            <a class="bcard bc-green" href="Resource-Mapping/GI_Resource_Mapping.xlsx" data-block="gi">
+            <a class="bcard bc-green"
+               href="https://hoyadocs.com/Block4-GI/resource-mapping/gi_resource-hub.html"
+               target="_blank" rel="noopener"
+               data-download="https://hoyadocs.com/Block4-GI/GI_Resource_Mapping.xlsx"
+               data-download-filename="GI_Resource_Mapping.xlsx"
+               data-block="gi">
               <span class="bcard-watermark">📊</span>
               <div class="bcard-header">
                 <div class="bcard-icon">📊</div>
@@ -669,10 +669,10 @@
                   <h3>GI Resource Mapping</h3>
                 </div>
               </div>
-              <p>Master workbook aligning every GI learning objective to its mapped third-party resources.</p>
+              <p>Master workbook aligning every GI learning objective to its mapped third-party resources. Opens the Resource Mapping Hub and auto-downloads the 3rd Party Resource × Lecture workbook.</p>
               <div class="bcard-footer">
-                <span class="bcard-cta">Download ↓</span>
-                <span class="bcard-format">XLSX · 65 KB</span>
+                <span class="bcard-cta">Open hub ↗ &amp; download ↓</span>
+                <span class="bcard-format">HTML + XLSX</span>
               </div>
             </a>
           </div>
@@ -700,6 +700,64 @@
                 <span class="bcard-format">HTML + XLSX</span>
               </div>
             </a>
+          </div>
+
+          <div class="bento-col" data-col="repro">
+            <div class="bento-col-head col-repro">Reproduction</div>
+
+            <a class="bcard bc-rose"
+               href="https://hoyadocs.com/Block4-Repro/resource-mapping/rpd_resource-hub.html"
+               target="_blank" rel="noopener"
+               data-download="https://hoyadocs.com/Block4-Repro/rpd_Resource_Mapping.xlsx"
+               data-download-filename="rpd_Resource_Mapping.xlsx"
+               data-block="repro">
+              <span class="bcard-watermark">📊</span>
+              <div class="bcard-header">
+                <div class="bcard-icon">📊</div>
+                <div class="bcard-header-text">
+                  <span class="bcard-label">Master File</span>
+                  <h3>Reproduction Resource Mapping</h3>
+                </div>
+              </div>
+              <p>Master workbook aligning every Reproduction learning objective to its mapped third-party resources. Opens the Resource Mapping Hub and auto-downloads the 3rd Party Resource × Lecture workbook.</p>
+              <div class="bcard-footer">
+                <span class="bcard-cta">Open hub ↗ &amp; download ↓</span>
+                <span class="bcard-format">HTML + XLSX</span>
+              </div>
+            </a>
+          </div>
+
+        </div>
+        <div class="empty-state">No resource-mapping documentation available for this block yet.</div>
+      </div>
+
+      <!-- ══ PART III · HUB AUDITS & DATA DOCS ══ -->
+      <div class="section-block" id="statuses">
+        <div class="section-divider">
+          <span class="section-divider-text"><span class="sec-part">Part III</span>Hub Audits &amp; Data Documentation</span>
+          <div class="section-divider-line"></div>
+        </div>
+
+        <div class="bento-cols">
+
+          <div class="bento-col" data-col="endo">
+            <div class="bento-col-head col-endo">Endocrine</div>
+
+            <a class="bcard bc-amber" href="Endocrine-Status-Report.html" data-block="endo">
+              <span class="bcard-watermark">📋</span>
+              <div class="bcard-header">
+                <div class="bcard-icon">📋</div>
+                <div class="bcard-header-text">
+                  <span class="bcard-label">Build Report</span>
+                  <h3>Endocrine Hub Audit Tracker</h3>
+                </div>
+              </div>
+              <p>Build-progress status across Hub 1, Hub 2, and Hub 3 for every Endocrine lecture.</p>
+              <div class="bcard-footer">
+                <span class="bcard-cta">Open report →</span>
+                <span class="bcard-format">HTML · 39 KB</span>
+              </div>
+            </a>
 
             <a class="bcard bc-amber" href="Resource-Mapping/Endocrine-Hub-Map.html" data-block="endo">
               <span class="bcard-watermark">🗺️</span>
@@ -707,7 +765,7 @@
                 <div class="bcard-icon">🗺️</div>
                 <div class="bcard-header-text">
                   <span class="bcard-label">Hub Map</span>
-                  <h3>Endocrine Hub Map</h3>
+                  <h3>Endocrine Hub Source Data Map</h3>
                 </div>
               </div>
               <p>Structural map of the Endocrine Hub — lectures, linked resources, and inter-module connections.</p>
@@ -721,19 +779,19 @@
           <div class="bento-col" data-col="repro">
             <div class="bento-col-head col-repro">Reproduction</div>
 
-            <a class="bcard bc-rose" href="Resource-Mapping/Repro_Resource_Mapping.xlsx" data-block="repro">
-              <span class="bcard-watermark">📊</span>
+            <a class="bcard bc-rose" href="Repro-Status-Report.html" data-block="repro">
+              <span class="bcard-watermark">📋</span>
               <div class="bcard-header">
-                <div class="bcard-icon">📊</div>
+                <div class="bcard-icon">📋</div>
                 <div class="bcard-header-text">
-                  <span class="bcard-label">Master File</span>
-                  <h3>Reproduction Resource Mapping</h3>
+                  <span class="bcard-label">Build Report</span>
+                  <h3>Repro Hub Audit Tracker</h3>
                 </div>
               </div>
-              <p>Master workbook aligning every Reproduction learning objective to its mapped third-party resources.</p>
+              <p>Build-progress status across Hub 1, Hub 2, and Hub 3 for every Reproduction lecture.</p>
               <div class="bcard-footer">
-                <span class="bcard-cta">Download ↓</span>
-                <span class="bcard-format">XLSX · 60 KB</span>
+                <span class="bcard-cta">Open report →</span>
+                <span class="bcard-format">HTML · 45 KB</span>
               </div>
             </a>
 
@@ -743,7 +801,7 @@
                 <div class="bcard-icon">🗺️</div>
                 <div class="bcard-header-text">
                   <span class="bcard-label">Hub Map</span>
-                  <h3>Reproduction Hub Map</h3>
+                  <h3>Repro Hub Source Data Map</h3>
                 </div>
               </div>
               <p>Structural map of the Reproduction Hub — lectures, linked resources, and Hub 1–3 coverage.</p>
@@ -755,69 +813,13 @@
           </div>
 
         </div>
-        <div class="empty-state">No resource-mapping documentation available for this block yet.</div>
-      </div>
-
-      <!-- ══ PART III · HUB STATUSES ══ -->
-      <div class="section-block" id="statuses">
-        <div class="section-divider">
-          <span class="section-divider-text"><span class="sec-part">Part III</span>Hub Status Reports</span>
-          <div class="section-divider-line"></div>
-        </div>
-        <p class="section-sub-text">
-          Progress reports recording completion status for each Study Hub across the three-tier hub
-          progression, alongside any outstanding revisions under review.
-        </p>
-
-        <div class="bento-cols">
-
-          <div class="bento-col" data-col="endo">
-            <div class="bento-col-head col-endo">Endocrine</div>
-
-            <a class="bcard bc-amber" href="Endocrine-Status-Report.html" data-block="endo">
-              <span class="bcard-watermark">📋</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">📋</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Build Report</span>
-                  <h3>Endocrine Hub Update Tracker</h3>
-                </div>
-              </div>
-              <p>Build-progress status across Hub 1, Hub 2, and Hub 3 for every Endocrine lecture.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Open report →</span>
-                <span class="bcard-format">HTML · 39 KB</span>
-              </div>
-            </a>
-          </div>
-
-          <div class="bento-col" data-col="repro">
-            <div class="bento-col-head col-repro">Reproduction</div>
-
-            <a class="bcard bc-rose" href="Repro-Status-Report.html" data-block="repro">
-              <span class="bcard-watermark">📋</span>
-              <div class="bcard-header">
-                <div class="bcard-icon">📋</div>
-                <div class="bcard-header-text">
-                  <span class="bcard-label">Build Report</span>
-                  <h3>Reproduction Hub Update Tracker</h3>
-                </div>
-              </div>
-              <p>Build-progress status across Hub 1, Hub 2, and Hub 3 for every Reproduction lecture.</p>
-              <div class="bcard-footer">
-                <span class="bcard-cta">Open report →</span>
-                <span class="bcard-format">HTML · 45 KB</span>
-              </div>
-            </a>
-          </div>
-
-        </div>
         <div class="empty-state">No hub status reports available for this block yet.</div>
       </div>
 
+      </div><!-- /.parts-grid -->
+
       <!-- FOOTER -->
       <footer class="footer">
-        <span>Command Center for the HoyaDocs Study Hub Network.</span>
         <span><strong>Last updated: <span id="last-updated">—</span> · <span id="build-version">—</span></strong></span>
       </footer>
 
