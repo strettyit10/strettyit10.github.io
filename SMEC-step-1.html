@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HoyaDocs · SMEC x STEP 1 — Session #1</title>
+<style>
+  :root{
+    --ink:#16181d;
+    --ink-soft:#4a4f5a;
+    --paper:#f5f6f7;
+    --surface:#ffffff;
+    --rule:#d8dbe0;
+    --rule-soft:#e7e9ec;
+    --oxblood:#8c1d2f;
+    --oxblood-deep:#5e1220;
+    --oxblood-wash:#fbf1f2;
+    --band-early:#e9eef4;
+    --band-acute:#fbeae6;
+    --band-sub:#fdf3e3;
+    --band-heal:#eef5ec;
+    --band-scar:#f0f0f2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#e8eaee; --ink-soft:#9aa1ad; --paper:#101216; --surface:#181b21;
+      --rule:#2c313a; --rule-soft:#23272e; --oxblood:#e8677f; --oxblood-deep:#f2a3b1;
+      --oxblood-wash:#25161a;
+      --band-early:#1a1f27; --band-acute:#2a1a1a; --band-sub:#272016;
+      --band-heal:#18231b; --band-scar:#1e1f23;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:15px; line-height:1.5;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:40px 24px 96px}
+
+  header.mast{
+    border-bottom:2px solid var(--oxblood);
+    padding-bottom:18px; margin-bottom:8px;
+    display:flex; flex-wrap:wrap; align-items:baseline; gap:14px;
+  }
+  .mast h1{
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    font-size:31px; font-weight:600; letter-spacing:-.01em; margin:0;
+  }
+  .mast .sub{color:var(--ink-soft); font-size:14px; margin-top:3px}
+
+  .runsheet{
+    font-size:13px; color:var(--ink-soft);
+    border-bottom:1px solid var(--rule-soft);
+    padding:10px 0 20px; margin-bottom:34px;
+  }
+
+  section.q{margin-bottom:52px; scroll-margin-top:16px}
+  .qhead{display:flex; align-items:baseline; gap:12px; margin-bottom:4px}
+  .qnum{
+    font-family:"Iowan Old Style",Georgia,serif;
+    font-size:13px; font-weight:700; color:var(--surface);
+    background:var(--oxblood); border-radius:3px;
+    padding:3px 9px; letter-spacing:.02em; flex:none;
+  }
+  .qtitle{
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    font-size:21px; font-weight:600; margin:0;
+  }
+  .qmeta{
+    font-size:13px; color:var(--ink-soft);
+    margin:4px 0 16px; padding-left:2px;
+  }
+  .qmeta b{color:var(--oxblood); font-weight:650}
+  .topic{
+    font-size:12px; color:var(--ink-soft); font-weight:600;
+    border:1px solid var(--rule); border-radius:3px;
+    padding:2px 7px; flex:none;
+  }
+
+  .tablecard{
+    background:var(--surface); border:1px solid var(--rule);
+    border-radius:6px; overflow-x:auto;
+  }
+  table{border-collapse:collapse; width:100%; min-width:660px}
+  caption{
+    text-align:left; font-size:12.5px; color:var(--ink-soft);
+    padding:11px 16px; border-bottom:1px solid var(--rule-soft);
+  }
+  th,td{
+    text-align:left; vertical-align:top;
+    padding:10px 16px; border-bottom:1px solid var(--rule-soft);
+    font-size:14px;
+  }
+  thead th{
+    font-size:12.5px; font-weight:650; color:var(--ink-soft);
+    background:var(--rule-soft); border-bottom:1px solid var(--rule);
+    white-space:nowrap;
+  }
+  tbody tr:last-child td{border-bottom:none}
+  td.k{font-weight:600; white-space:nowrap}
+  .choice{
+    display:inline-block; min-width:19px; text-align:center;
+    font-weight:700; font-size:12.5px; border-radius:3px;
+    padding:1px 5px; border:1px solid var(--rule);
+    color:var(--ink-soft); background:var(--paper);
+  }
+  .choice.hit{background:var(--oxblood); border-color:var(--oxblood); color:#fff}
+  tr.answer{background:var(--oxblood-wash)}
+  tr.answer td{border-bottom-color:var(--rule)}
+  tr.answer td.k{color:var(--oxblood-deep)}
+  .band td:first-child{border-left:4px solid transparent}
+  .b1 td:first-child{border-left-color:#8c9bb0; background:var(--band-early)}
+  .b2 td:first-child{border-left-color:#c9553f; background:var(--band-acute)}
+  .b3 td:first-child{border-left-color:#c98b1f; background:var(--band-sub)}
+  .b4 td:first-child{border-left-color:#5f9160; background:var(--band-heal)}
+  .b5 td:first-child{border-left-color:#8a8d96; background:var(--band-scar)}
+
+  .eo{
+    margin-top:14px; border:1px solid var(--rule);
+    border-left:4px solid var(--oxblood); border-radius:6px;
+    background:var(--oxblood-wash); padding:13px 16px;
+    font-size:14px; line-height:1.55;
+  }
+  .eo .eohead{
+    display:flex; align-items:baseline; gap:9px; margin-bottom:5px;
+  }
+  .eo .eolabel{font-weight:650; font-size:12.5px; color:var(--oxblood-deep)}
+  .qid{
+    font-size:11.5px; font-weight:600; color:var(--ink-soft);
+    border:1px solid var(--rule); border-radius:3px; padding:1px 6px;
+  }
+  .pending{
+    border:1px dashed var(--rule); border-radius:6px;
+    padding:22px 20px; color:var(--ink-soft); font-size:14px;
+    background:transparent;
+  }
+  footer{
+    margin-top:20px; padding-top:16px; border-top:1px solid var(--rule-soft);
+    font-size:12.5px; color:var(--ink-soft);
+  }
+  @media print{
+    body{background:#fff}
+    .wrap{padding:0}
+    section.q{break-inside:avoid}
+    .tablecard{border-color:#bbb}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div>
+      <h1>HoyaDocs</h1>
+      <div class="sub">SMEC x STEP 1 — Session #1</div>
+    </div>
+  </header>
+  <div class="runsheet">09-07-2026 · UWorld QIDs: 37, 40, 193, 195, 11525, 557, 761, 14921, 1004</div>
+
+  <div class="tablecard" style="margin-bottom:44px">
+    <table>
+      <caption>Index — 9 questions, 20 charts.</caption>
+      <thead>
+        <tr><th>#</th><th>QID</th><th>Question</th><th>Topic</th><th>Answer</th><th>Educational objective</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k"><a href="#q1">Q1</a></td><td><span class="qid">37</span></td><td>Coronary lesion at catheterization</td><td>Cardio</td><td><span class="choice hit">C</span></td><td>STEMI involves transmural (full-thickness) infarction of the myocardial wall, and usually results from acute atherosclerotic plaque rupture with the development of overlying thrombus that fully occludes the coronary artery lumen. It classically presents with sudden-onset substernal chest pain that is not relieved by rest or short-acting nitrates. ECG demonstrates ST elevation in the affected leads with subsequent development of Q waves.</td></tr>
+        <tr><td class="k"><a href="#q2">Q2</a></td><td><span class="qid">40</span></td><td>MI histology at 2 hours</td><td>Cardio path</td><td><span class="choice hit">G</span></td><td>After the onset of severe ischemia leading to MI, early signs of coagulative necrosis do not become apparent on light microscopy until 4 hours after the onset of MI.</td></tr>
+        <tr><td class="k"><a href="#q3">Q3</a></td><td><span class="qid">193</span></td><td>Predisposing exposure for gross finding</td><td>Cardio path</td><td><span class="choice hit">A</span></td><td>LV free wall rupture is an uncommon but devastating mechanical complication of transmural MI that occurs within 5 days or up to 2 weeks following the event. Rupture leads to cardiac tamponade that causes hypotension and shock with rapid progression to cardiac arrest. Autopsy typically reveals a slit-like tear at the site of infarction in the LV wall.</td></tr>
+        <tr><td class="k"><a href="#q4">Q4</a></td><td><span class="qid">195</span></td><td>Post-MI shock on day 5</td><td>Cardio</td><td><span class="choice hit">A</span></td><td>Rupture of the LV free wall is a catastrophic mechanical complication of anterior wall MI that usually occurs within the first 5–14 days after MI. Rupture leads to hemopericardium and cardiac tamponade, causing profound hypotension and shock with rapid progression to PEA and death.</td></tr>
+        <tr><td class="k"><a href="#q5">Q5</a></td><td><span class="qid">11525</span></td><td>Source of IFN-γ in an IGRA</td><td>Immuno</td><td><span class="choice hit">D</span></td><td>IGRAs test for latent TB infection by measuring the amount of IFN-γ released by T lymphocytes when exposed to antigens unique to <i>M. tuberculosis</i>.</td></tr>
+        <tr><td class="k"><a href="#q6">Q6</a></td><td><span class="qid">557</span></td><td>Virulence factor in CGD</td><td>Immuno · micro</td><td><span class="choice hit">A</span></td><td>Chronic granulomatous disease is an X-linked disorder resulting from deficiency of NADPH oxidase, the enzyme responsible for formation of reactive oxygen species in phagosomes. Neutrophils affected by this disorder are unable to kill catalase-producing organisms, resulting in recurrent bacterial and fungal infections that frequently involve the lungs, skin, and lymph nodes.</td></tr>
+        <tr><td class="k"><a href="#q7">Q7</a></td><td><span class="qid">761</span></td><td>Confirmatory test in SLE</td><td>Rheum</td><td><span class="choice hit">A</span></td><td>ANAs are found in almost all patients with SLE but are also found in many other autoimmune disorders and have low specificity. Anti-dsDNA antibodies and anti-Smith antibodies have lower sensitivity but higher specificity.</td></tr>
+        <tr><td class="k"><a href="#q8">Q8</a></td><td><span class="qid">14921</span></td><td>Elevated marker in bacterial pneumonia</td><td>Pulm · labs</td><td><span class="choice hit">D</span></td><td>Acute phase reactants are proteins whose serum concentrations change by ≥25% during periods of inflammation. Procalcitonin is a unique acute phase reactant that can rise or fall depending on the etiology of the infection; elevated levels correlate with a bacterial source, whereas low levels indicate a viral source.</td></tr>
+        <tr><td class="k"><a href="#q9">Q9</a></td><td><span class="qid">1004</span></td><td>Meningococcal contact prophylaxis</td><td>ID</td><td><span class="choice hit">D</span></td><td>Rifampin is the most frequently used agent for chemoprophylaxis of meningococcal disease. Persons with exposure to the respiratory secretions of a patient with meningococcal disease require chemoprophylaxis. Vaccination is an important public health strategy but is not useful for post-exposure prophylaxis.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==================== Q1 ==================== -->
+  <section class="q" id="q1">
+    <div class="qhead">
+      <span class="qnum">Q1</span>
+      <h2 class="qtitle">Coronary lesion morphology at catheterization</h2>
+    </div>
+    <p class="qmeta">55M, ST elevation in I, aVL, V1–V4 with deep Q waves, nitrate-unresponsive → <b>answer C</b></p>
+
+    <div class="tablecard">
+      <table>
+        <caption>Lesion → syndrome → ECG. Degree of thrombotic occlusion sets the depth of injury, and depth of injury sets the ECG.</caption>
+        <thead>
+          <tr>
+            <th>Lesion at cath</th>
+            <th>Flow</th>
+            <th>Depth of injury</th>
+            <th>Syndrome</th>
+            <th>ECG</th>
+            <th>Choice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="k">Plaque ~50%, no thrombus</td>
+            <td>Preserved</td>
+            <td>None</td>
+            <td>Asymptomatic / subclinical CAD</td>
+            <td>Normal, normal stress test</td>
+            <td><span class="choice">A</span></td>
+          </tr>
+          <tr>
+            <td class="k">Plaque ≥70–80%, no thrombus</td>
+            <td>Limited on demand</td>
+            <td>Reversible subendocardial ischemia</td>
+            <td>Stable angina — exertional, relieved by rest/nitrates</td>
+            <td>ST depression with exertion only</td>
+            <td><span class="choice">B</span></td>
+          </tr>
+          <tr>
+            <td class="k">Ulcerated plaque + partial thrombus</td>
+            <td>Reduced, not absent</td>
+            <td>Subendocardial (watershed zone)</td>
+            <td>Unstable angina (troponin −) / NSTEMI (troponin +)</td>
+            <td>ST depression, T-wave inversion</td>
+            <td><span class="choice">E</span></td>
+          </tr>
+          <tr class="answer">
+            <td class="k">Ruptured plaque + fully occlusive thrombus</td>
+            <td>Absent</td>
+            <td>Transmural</td>
+            <td>STEMI</td>
+            <td>ST elevation → deep Q waves</td>
+            <td><span class="choice hit">C</span></td>
+          </tr>
+          <tr>
+            <td class="k">Vasospasm, minimal/no plaque</td>
+            <td>Transiently absent</td>
+            <td>Transmural but reversible</td>
+            <td>Prinzmetal — rest pain, young, smokers, cocaine</td>
+            <td>Transient ST elevation, resolves with nitrates</td>
+            <td><span class="choice">D</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecard" style="margin-top:14px">
+      <table>
+        <caption>ST-elevation lead groups → culprit vessel.</caption>
+        <thead>
+          <tr><th>Leads</th><th>Territory</th><th>Vessel</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="k">V1–V2</td><td>Anteroseptal</td><td>Proximal LAD</td></tr>
+          <tr class="answer"><td class="k">V3–V4 (+ I, aVL)</td><td>Anteroapical / anterolateral</td><td>LAD, proximal if I &amp; aVL involved</td></tr>
+          <tr><td class="k">V5–V6, I, aVL</td><td>Lateral</td><td>LCX</td></tr>
+          <tr><td class="k">II, III, aVF</td><td>Inferior</td><td>RCA (~80%)</td></tr>
+          <tr><td class="k">V1–V2 ST depression, tall R</td><td>Posterior</td><td>PDA / RCA or LCX</td></tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="eo">
+      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 37</span></div>
+      STEMI involves transmural (full-thickness) infarction of the myocardial wall, and usually results from acute atherosclerotic plaque rupture with the development of overlying thrombus that fully occludes the coronary artery lumen. It classically presents with sudden-onset substernal chest pain that is not relieved by rest or short-acting nitrates. ECG demonstrates ST elevation in the affected leads with subsequent development of Q waves.
+    </div>
+  </section>
+
+  <!-- ==================== Q2 ==================== -->
+  <section class="q" id="q2">
+    <div class="qhead">
+      <span class="qnum">Q2</span>
+      <h2 class="qtitle">Histologic evolution of myocardial infarction</h2>
+    </div>
+    <p class="qmeta">45M, death 2 h after symptom onset, 100% LAD occlusion → <b>answer G</b></p>
+
+    <div class="tablecard">
+      <table>
+        <caption>MI timeline. Every distractor in this stem is a real stage — the only question is which window the clock is in.</caption>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Light microscopy</th>
+            <th>Gross</th>
+            <th>Complication at risk</th>
+            <th>Choice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="band b1 answer">
+            <td class="k">0–4 h</td>
+            <td>None. EM only: mitochondrial vacuolization, amorphous densities</td>
+            <td>None</td>
+            <td>Ventricular fibrillation — sudden cardiac death, cardiogenic shock</td>
+            <td><span class="choice hit">G</span></td>
+          </tr>
+          <tr class="band b2">
+            <td class="k">4–12 h</td>
+            <td>Early coagulative necrosis, <b>edema, hemorrhage</b>, wavy fibers, contraction bands</td>
+            <td>Dark mottling</td>
+            <td>Arrhythmia</td>
+            <td><span class="choice">A</span></td>
+          </tr>
+          <tr class="band b2">
+            <td class="k">12–24 h</td>
+            <td>Coagulative necrosis, <b>myocyte hypereosinophilia</b>, pyknotic nuclei, early neutrophils</td>
+            <td>Dark mottling</td>
+            <td>Arrhythmia</td>
+            <td><span class="choice">B</span></td>
+          </tr>
+          <tr class="band b3">
+            <td class="k">1–3 d</td>
+            <td><b>Dense neutrophil infiltrate</b>, loss of nuclei and striations</td>
+            <td>Yellow-tan center, hyperemic border</td>
+            <td>Fibrinous pericarditis (anterior MI)</td>
+            <td><span class="choice">C</span></td>
+          </tr>
+          <tr class="band b3">
+            <td class="k">3–7 d</td>
+            <td><b>Macrophages</b> phagocytosing debris — wall at its weakest</td>
+            <td>Central yellow softening</td>
+            <td>Free wall rupture → tamponade (risk extends to 2 wk); papillary muscle rupture → acute MR; septal rupture → VSD</td>
+            <td><span class="choice">D</span></td>
+          </tr>
+          <tr class="band b4">
+            <td class="k">7–14 d</td>
+            <td><b>Granulation tissue</b>, neovascularization, type III collagen</td>
+            <td>Red-tan border, depressed center</td>
+            <td>Rupture risk falling but not gone</td>
+            <td><span class="choice">E</span></td>
+          </tr>
+          <tr class="band b5">
+            <td class="k">2 wk – 2 mo</td>
+            <td>Type I collagen increasing, cellularity decreasing</td>
+            <td>Gray-white, contracting</td>
+            <td>Dressler syndrome (autoimmune pericarditis)</td>
+            <td>—</td>
+          </tr>
+          <tr class="band b5">
+            <td class="k">&gt; 2 mo</td>
+            <td><b>Dense collagen scar</b>, acellular</td>
+            <td>Firm white scar</td>
+            <td>True aneurysm — persistent ST elevation, mural thrombus, heart failure</td>
+            <td><span class="choice">F</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="eo">
+      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 40</span></div>
+      After the onset of severe ischemia leading to MI, early signs of coagulative necrosis do not become apparent on light microscopy until 4 hours after the onset of MI.
+    </div>
+  </section>
+
+  <!-- ==================== Q3 ==================== -->
+  <section class="q" id="q3">
+    <div class="qhead">
+      <span class="qnum">Q3</span>
+      <h2 class="qtitle">Predisposing exposure behind a gross myocardial finding</h2>
+    </div>
+    <p class="qmeta">64F, discharged 4 days ago, arrest with no ROSC; anterior transmural infarct in LAD territory → <b>answer A</b></p>
+
+    <div class="tablecard">
+      <table>
+        <caption>Each distractor is a different myocardial disease. Sort them by the gross heart they produce — regional versus global is the discriminator.</caption>
+        <thead>
+          <tr>
+            <th>Exposure</th>
+            <th>Disease</th>
+            <th>Mechanism</th>
+            <th>Gross heart</th>
+            <th>Choice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="answer">
+            <td class="k">Coronary atherosclerosis</td>
+            <td>MI → transmural necrosis</td>
+            <td>Plaque rupture, occlusive thrombus</td>
+            <td><b>Regional</b> yellow-tan pallor in one vascular territory, hyperemic border</td>
+            <td><span class="choice hit">A</span></td>
+          </tr>
+          <tr>
+            <td class="k">Prolonged alcohol use</td>
+            <td>Dilated cardiomyopathy</td>
+            <td>Direct myocyte toxicity, thiamine deficiency</td>
+            <td><b>Global</b> four-chamber dilation, eccentric hypertrophy, no regional pallor</td>
+            <td><span class="choice">B</span></td>
+          </tr>
+          <tr>
+            <td class="k">Recent viral infection</td>
+            <td>Myocarditis (Coxsackie B, parvo B19, adenovirus, HHV-6)</td>
+            <td>Lymphocytic infiltrate with myocyte necrosis</td>
+            <td>Flabby, dilated, sometimes patchy — not territorial</td>
+            <td><span class="choice">C</span></td>
+          </tr>
+          <tr>
+            <td class="k">Recurrent strep pharyngitis</td>
+            <td>Rheumatic heart disease</td>
+            <td>Molecular mimicry, anti-M protein antibodies</td>
+            <td><b>Valvular</b>: mitral stenosis, fish-mouth valve, Aschoff bodies</td>
+            <td><span class="choice">D</span></td>
+          </tr>
+          <tr>
+            <td class="k">Repeated transfusions</td>
+            <td>Secondary hemochromatosis</td>
+            <td>Iron overload → restrictive then dilated pattern</td>
+            <td>Global, rust-brown myocardium, Prussian blue positive</td>
+            <td><span class="choice">E</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecard" style="margin-top:14px">
+      <table>
+        <caption>Sudden death days after an MI — mechanical complications by peak day and presenting sign.</caption>
+        <thead>
+          <tr><th>Peak day</th><th>Complication</th><th>Presentation</th><th>Key sign</th></tr>
+        </thead>
+        <tbody>
+          <tr class="band b2"><td class="k">0–1</td><td>Ventricular fibrillation</td><td>Instant collapse</td><td>Shockable rhythm</td></tr>
+          <tr class="band b3"><td class="k">1–3</td><td>Fibrinous pericarditis</td><td>Positional, pleuritic pain</td><td>Friction rub, diffuse ST elevation</td></tr>
+          <tr class="band b3 answer"><td class="k">3–14<br><span style="font-weight:400;font-size:12px">most &lt;5 d</span></td><td><b>Free wall rupture</b> → tamponade</td><td>Chest pain, dyspnea, arrest with no ROSC</td><td>PEA, JVD, distant heart sounds, pulsus paradoxus</td></tr>
+          <tr class="band b3"><td class="k">3–7</td><td>Papillary muscle rupture</td><td>Flash pulmonary edema</td><td>New holosystolic murmur at apex, posteromedial muscle (single RCA supply)</td></tr>
+          <tr class="band b3"><td class="k">3–7</td><td>Septal rupture → VSD</td><td>Shock, right heart strain</td><td>Harsh holosystolic murmur, O₂ step-up in RV</td></tr>
+          <tr class="band b5"><td class="k">&gt; 14</td><td>True aneurysm</td><td>Heart failure, emboli</td><td>Persistent ST elevation, mural thrombus</td></tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="eo">
+      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 193</span></div>
+      LV free wall rupture is an uncommon but devastating mechanical complication of transmural MI that occurs within 5 days or up to 2 weeks following the event. Rupture leads to cardiac tamponade that causes hypotension and shock with rapid progression to cardiac arrest. Autopsy typically reveals a slit-like tear at the site of infarction in the LV wall.
+    </div>
+  </section>
+
+  <!-- ==================== Q4 ==================== -->
+  <section class="q" id="q4">
+    <div class="qhead">
+      <span class="qnum">Q4</span>
+      <h2 class="qtitle">Post-MI shock — bedside discriminators</h2>
+    </div>
+    <p class="qmeta">78F, day 5 after anterior MI, no PCI; hypotension + raised JVP + no murmur + clear lungs → <b>answer A</b></p>
+
+    <div class="tablecard">
+      <table>
+        <caption>Three bedside findings separate every post-MI catastrophe: is there a murmur, are the lungs wet, is the JVP up.</caption>
+        <thead>
+          <tr>
+            <th>Complication</th>
+            <th>Murmur</th>
+            <th>Lungs</th>
+            <th>JVP</th>
+            <th>Confirmatory finding</th>
+            <th>Choice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="answer">
+            <td class="k">Free wall rupture → tamponade</td>
+            <td><b>None</b></td>
+            <td><b>Clear</b></td>
+            <td><b>Raised</b></td>
+            <td>Echo: pericardial effusion, RA/RV diastolic collapse; pulsus paradoxus, PEA arrest</td>
+            <td><span class="choice hit">A</span></td>
+          </tr>
+          <tr>
+            <td class="k">Papillary muscle rupture → acute MR</td>
+            <td>New holosystolic, apex → axilla</td>
+            <td><b>Wet</b> — flash pulmonary edema</td>
+            <td>Normal or raised</td>
+            <td>Large v waves on PCWP tracing; posteromedial muscle, single PDA supply</td>
+            <td><span class="choice">B</span></td>
+          </tr>
+          <tr>
+            <td class="k">Interventricular septal rupture → VSD</td>
+            <td>Harsh holosystolic, left sternal border, ± thrill</td>
+            <td>Wet</td>
+            <td>Raised</td>
+            <td><b>O₂ saturation step-up</b> from RA to RV on right heart cath</td>
+            <td><span class="choice">D</span></td>
+          </tr>
+          <tr>
+            <td class="k">Reperfusion injury</td>
+            <td>None</td>
+            <td>Variable</td>
+            <td>Normal</td>
+            <td>Requires PCI or lysis to have happened; contraction band necrosis, arrhythmia</td>
+            <td><span class="choice">C</span></td>
+          </tr>
+          <tr>
+            <td class="k">True aneurysm</td>
+            <td>None</td>
+            <td>Wet if failing</td>
+            <td>Raised if failing</td>
+            <td>Weeks–months out; persistent ST elevation, mural thrombus, all 3 layers intact</td>
+            <td><span class="choice">E</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecard" style="margin-top:14px">
+      <table>
+        <caption>True versus pseudoaneurysm versus rupture — a spectrum of the same weakened wall.</caption>
+        <thead>
+          <tr><th></th><th>True aneurysm</th><th>Pseudoaneurysm</th><th>Free wall rupture</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="k">Wall layers</td><td>All 3, thinned and scarred</td><td>Myocardium breached; contained by pericardium/thrombus</td><td>Full-thickness, uncontained</td></tr>
+          <tr><td class="k">Timing</td><td>Weeks to months</td><td>Days to weeks</td><td>Days 3–14, most within 5</td></tr>
+          <tr><td class="k">Neck on imaging</td><td>Wide</td><td>Narrow</td><td>—</td></tr>
+          <tr><td class="k">Rupture risk</td><td>Low</td><td><b>High</b></td><td>Already ruptured</td></tr>
+          <tr><td class="k">Outcome</td><td>Heart failure, arrhythmia, emboli</td><td>Urgent surgery</td><td>Tamponade, usually fatal</td></tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="eo">
+      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 195</span></div>
+      Rupture of the LV free wall is a catastrophic mechanical complication of anterior wall MI that usually occurs within the first 5–14 days after MI. Rupture leads to hemopericardium and cardiac tamponade, causing profound hypotension and shock with rapid progression to PEA and death.
+    </div>
+  </section>
+
+  <!-- ==================== Q5 ==================== -->
+  <section class="q" id="q5">
+    <div class="qhead">
+      <span class="qnum">Q5</span>
+      <h2 class="qtitle">Interferon-gamma release assay</h2>
+      <span class="topic">Immunology · TB</span>
+    </div>
+    <p class="qmeta">58F, pre-employment screen; WBCs + mycobacterial antigens → high IFN-γ → <b>answer D</b></p>
+
+    <div class="tablecard">
+      <table>
+        <caption>Who makes IFN-γ and who receives it. The assay reads the T-cell output, not the macrophage response.</caption>
+        <thead>
+          <tr>
+            <th>Cell</th>
+            <th>Role in mycobacterial immunity</th>
+            <th>Signature cytokines</th>
+            <th>Makes IFN-γ?</th>
+            <th>Choice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="answer">
+            <td class="k">T lymphocytes</td>
+            <td>Memory CD4⁺ Th1 recognizes antigen on MHC II and licenses the macrophage; CD8⁺ kills infected cells</td>
+            <td><b>IFN-γ</b>, IL-2, TNF</td>
+            <td><b>Yes — principal source</b></td>
+            <td><span class="choice hit">D</span></td>
+          </tr>
+          <tr>
+            <td class="k">Monocytes / macrophages</td>
+            <td>Ingest bacilli, present antigen, drive Th1 polarization, then <b>receive</b> IFN-γ and form granulomas</td>
+            <td>IL-12, TNF, IL-1</td>
+            <td>No — target, not source</td>
+            <td><span class="choice">B</span></td>
+          </tr>
+          <tr>
+            <td class="k">B lymphocytes</td>
+            <td>Antibody production; minor role, TB control is cell-mediated</td>
+            <td>IL-6, antibody</td>
+            <td>No</td>
+            <td><span class="choice">A</span></td>
+          </tr>
+          <tr>
+            <td class="k">Neutrophils</td>
+            <td>Acute pyogenic response; not the effector of granulomatous immunity</td>
+            <td>IL-8 responsive</td>
+            <td>No</td>
+            <td><span class="choice">C</span></td>
+          </tr>
+          <tr>
+            <td class="k">NK cells</td>
+            <td>Innate; respond to IL-12 early, before adaptive priming</td>
+            <td>IFN-γ, perforin</td>
+            <td>Yes, but antigen-<b>non</b>specific — cannot explain an antigen-specific assay</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecard" style="margin-top:14px">
+      <table>
+        <caption>IGRA versus tuberculin skin test.</caption>
+        <thead>
+          <tr><th></th><th>IGRA (QuantiFERON, T-SPOT)</th><th>TST / PPD</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="k">Mechanism</td><td>In vitro IFN-γ release from sensitized T cells</td><td>In vivo type IV delayed hypersensitivity, 48–72 h induration</td></tr>
+          <tr><td class="k">Antigens</td><td>ESAT-6, CFP-10, TB7.7 — <b>absent from BCG</b></td><td>Purified protein derivative, shared with BCG</td></tr>
+          <tr><td class="k">Prior BCG</td><td>No false positive</td><td><b>False positive</b></td></tr>
+          <tr><td class="k">Visits required</td><td>One</td><td>Two</td></tr>
+          <tr><td class="k">False negative</td><td>HIV with low CD4, immunosuppression, anti-TNF therapy</td><td>Same, plus anergy and recent infection &lt;8 weeks</td></tr>
+          <tr><td class="k">Distinguishes latent from active?</td><td colspan="2"><b>Neither does.</b> A positive result means infection — confirm with chest x-ray and sputum</td></tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="eo">
+      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 11525</span></div>
+      IGRAs test for latent TB infection by measuring the amount of IFN-γ released by T lymphocytes when exposed to antigens unique to <i>M. tuberculosis</i>.
+    </div>
+  </section>
+
+  <!-- ==================== Q6 ==================== -->
+  <section class="q" id="q6">
+    <div class="qhead">
+      <span class="qnum">Q6</span>
+      <h2 class="qtitle">Virulence factor in chronic granulomatous disease</h2>
+      <span class="topic">Immunology · micro</span>
+    </div>
+    <p class="qmeta">18-month-old, recurrent pneumonia + skin infections, <b>intact</b> gram-positive cocci inside neutrophils → <b>answer A</b></p>
+
+    <div class="tablecard">
+      <table>
+        <caption>Ingested but not killed = respiratory burst failure. Only one listed factor explains survival inside the phagolysosome.</caption>
+        <thead>
+          <tr>
+            <th>Virulence factor</th>
+            <th>Organism</th>
+            <th>What it does</th>
+            <th>Explains this stem?</th>
+            <th>Choice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="answer">
+            <td class="k">Catalase</td>
+            <td>S. aureus, Serratia, Burkholderia, Nocardia, Aspergillus, Candida</td>
+            <td>Degrades the organism's own H₂O₂, denying the CGD neutrophil its only borrowed oxidant</td>
+            <td><b>Yes</b> — organisms survive intracellularly</td>
+            <td><span class="choice hit">A</span></td>
+          </tr>
+          <tr>
+            <td class="k">Coagulase</td>
+            <td>S. aureus</td>
+            <td>Fibrin clot formation, abscess walling-off</td>
+            <td>No — extracellular; doesn't explain intracellular survival or fungal infection</td>
+            <td><span class="choice">B</span></td>
+          </tr>
+          <tr>
+            <td class="k">Lecithinase (alpha toxin)</td>
+            <td>Clostridium perfringens</td>
+            <td>Phospholipase C degrades membranes → myonecrosis, gas gangrene</td>
+            <td>No — anaerobic gram-positive <b>rod</b></td>
+            <td><span class="choice">C</span></td>
+          </tr>
+          <tr>
+            <td class="k">Lipopolysaccharide</td>
+            <td>Gram-negatives</td>
+            <td>Endotoxin → TLR4, septic shock</td>
+            <td>No — gram-<b>negative</b> only, stem says gram-positive</td>
+            <td><span class="choice">D</span></td>
+          </tr>
+          <tr>
+            <td class="k">Polysaccharide capsule</td>
+            <td>S. pneumoniae, H. influenzae, N. meningitidis, Klebsiella</td>
+            <td>Blocks <b>phagocytosis</b> — the defect of asplenia and complement deficiency</td>
+            <td>No — here phagocytosis clearly succeeded</td>
+            <td><span class="choice">E</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecard" style="margin-top:14px">
+      <table>
+        <caption>Phagocyte defects — sorted by which step of neutrophil function fails.</caption>
+        <thead>
+          <tr><th>Disorder</th><th>Defect</th><th>Step that fails</th><th>Distinguishing feature</th><th>Test</th></tr>
+        </thead>
+        <tbody>
+          <tr class="answer">
+            <td class="k">Chronic granulomatous disease</td><td>NADPH oxidase (<i>CYBB</i>, XR)</td><td><b>Killing</b> after ingestion</td>
+            <td>Catalase-positive organisms; granulomas</td><td><b>DHR flow cytometry</b> (↓ green fluorescence); nitroblue tetrazolium fails to turn blue</td>
+          </tr>
+          <tr>
+            <td class="k">Myeloperoxidase deficiency</td><td>MPO</td><td>Bleach production only</td>
+            <td>Usually asymptomatic; Candida risk</td><td>Normal DHR (superoxide still made)</td>
+          </tr>
+          <tr>
+            <td class="k">Leukocyte adhesion deficiency 1</td><td>CD18 / LFA-1 integrin</td><td><b>Adhesion and migration</b></td>
+            <td>Delayed umbilical cord separation, <b>no pus</b>, ↑↑ WBC</td><td>Flow cytometry for CD18</td>
+          </tr>
+          <tr>
+            <td class="k">Chédiak-Higashi</td><td>LYST, lysosomal trafficking</td><td><b>Phagolysosome fusion</b></td>
+            <td>Albinism, neuropathy, giant granules</td><td>Peripheral smear</td>
+          </tr>
+          <tr>
+            <td class="k">Hyper-IgE (Job)</td><td>STAT3, ↓ Th17</td><td>Neutrophil recruitment</td>
+            <td>Coarse facies, retained teeth, eczema, <b>cold</b> abscesses</td><td>↑ IgE, ↑ eosinophils</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="eo">
+      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 557</span></div>
+      Chronic granulomatous disease is an X-linked disorder resulting from deficiency of NADPH oxidase, the enzyme responsible for formation of reactive oxygen species in phagosomes. Neutrophils affected by this disorder are unable to kill catalase-producing organisms, resulting in recurrent bacterial and fungal infections that frequently involve the lungs, skin, and lymph nodes.
+    </div>
+  </section>
+
+  <!-- ==================== Q7 ==================== -->
+  <section class="q" id="q7">
+    <div class="qhead">
+      <span class="qnum">Q7</span>
+      <h2 class="qtitle">Confirming the diagnosis in suspected SLE</h2>
+      <span class="topic">Rheumatology</span>
+    </div>
+    <p class="qmeta">23F, malar erythema, 6 months of arthralgias, fever, pleural friction rub → <b>answer A</b></p>
+
+    <div class="tablecard">
+      <table>
+        <caption>Each distractor is the confirmatory test for a different cause of chest pain, fever, and joint symptoms in a young woman.</caption>
+        <thead>
+          <tr>
+            <th>Test</th>
+            <th>Diagnosis it confirms</th>
+            <th>Findings that would point there instead</th>
+            <th>Choice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="answer">
+            <td class="k">Anti-dsDNA antibodies</td>
+            <td><b>SLE</b></td>
+            <td>Malar rash, serositis, arthralgia without deformity, cytopenias, young woman</td>
+            <td><span class="choice hit">A</span></td>
+          </tr>
+          <tr>
+            <td class="k">Antistreptolysin O titer</td>
+            <td>Acute rheumatic fever</td>
+            <td>Recent strep pharyngitis, migratory <b>polyarthritis with swelling</b>, carditis with murmur, erythema marginatum, chorea</td>
+            <td><span class="choice">B</span></td>
+          </tr>
+          <tr>
+            <td class="k">NAAT of cervical swab</td>
+            <td>Gonococcal / chlamydial infection → disseminated gonococcemia or Fitz-Hugh–Curtis</td>
+            <td>Purulent discharge, pustular rash, tenosynovitis, <b>right upper quadrant</b> pain not pleuritic chest pain</td>
+            <td><span class="choice">C</span></td>
+          </tr>
+          <tr>
+            <td class="k">Rheumatoid factor</td>
+            <td>Rheumatoid arthritis</td>
+            <td>Symmetric <b>swollen</b> MCP/PIP joints, morning stiffness &gt;1 h, erosions; no malar rash. Also nonspecific — positive in SLE, Sjögren, hepatitis C</td>
+            <td><span class="choice">D</span></td>
+          </tr>
+          <tr>
+            <td class="k">Syphilis serology (RPR/VDRL)</td>
+            <td>Syphilis — <b>but</b> lupus causes a false positive via antiphospholipid cross-reactivity with cardiolipin</td>
+            <td>Chancre, palmar-plantar rash, condyloma lata</td>
+            <td><span class="choice">E</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecard" style="margin-top:14px">
+      <table>
+        <caption>Lupus autoantibodies — screen with the sensitive one, confirm with the specific one.</caption>
+        <thead>
+          <tr><th>Antibody</th><th>Sensitivity</th><th>Specificity</th><th>Role / association</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="k">ANA</td><td><b>~95%</b></td><td>Low</td><td><b>Screen.</b> Positive in RA, scleroderma, thyroid disease, healthy elderly. A negative ANA effectively excludes SLE</td></tr>
+          <tr class="answer"><td class="k">Anti-dsDNA</td><td>~70%</td><td><b>High</b></td><td><b>Confirm.</b> Titer tracks disease activity; correlates with <b>lupus nephritis</b></td></tr>
+          <tr><td class="k">Anti-Smith</td><td>~30%</td><td><b>Highest</b></td><td>Confirm. Does not track activity</td></tr>
+          <tr><td class="k">Antihistone</td><td>&gt;95% in drug-induced</td><td>—</td><td><b>Drug-induced lupus</b>: hydralazine, procainamide, isoniazid, minocycline. Spares kidney and CNS</td></tr>
+          <tr><td class="k">Antiphospholipid (anticardiolipin, lupus anticoagulant, anti-β2GPI)</td><td>~30–40%</td><td>—</td><td>Thrombosis, recurrent miscarriage, <b>false-positive syphilis test</b>, paradoxically prolonged PTT</td></tr>
+          <tr><td class="k">Anti-Ro / SSA</td><td>~30%</td><td>—</td><td>Neonatal lupus with <b>congenital heart block</b>, subacute cutaneous lupus, ANA-negative lupus</td></tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="eo">
+      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 761</span></div>
+      ANAs are found in almost all patients with SLE but are also found in many other autoimmune disorders and have low specificity. Anti-dsDNA antibodies and anti-Smith antibodies have lower sensitivity but higher specificity.
+    </div>
+  </section>
+
+  <!-- ==================== Q8 ==================== -->
+  <section class="q" id="q8">
+    <div class="qhead">
+      <span class="qnum">Q8</span>
+      <h2 class="qtitle">Serum marker elevated in bacterial pneumonia</h2>
+      <span class="topic">Pulm · lab medicine</span>
+    </div>
+    <p class="qmeta">73F, rust-colored sputum, lobar consolidation, neutrophilia with bands → <b>answer D</b></p>
+
+    <div class="tablecard">
+      <table>
+        <caption>Direction matters as much as identity — two distractors are negative acute-phase reactants and should be low, not high.</caption>
+        <thead>
+          <tr>
+            <th>Marker</th>
+            <th>Rises with</th>
+            <th>In this patient</th>
+            <th>Choice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="answer">
+            <td class="k">Procalcitonin</td>
+            <td><b>Bacterial</b> infection — IL-1β, TNF-α, IL-6 induce it in all tissues; <b>IFN-γ from viral infection suppresses it</b></td>
+            <td><b>Elevated.</b> Used to start and stop antibiotics</td>
+            <td><span class="choice hit">D</span></td>
+          </tr>
+          <tr>
+            <td class="k">B-type natriuretic peptide</td>
+            <td>Ventricular wall stretch — heart failure, volume overload</td>
+            <td>Normal — JVP normal, no edema, no murmur (stem excludes it deliberately)</td>
+            <td><span class="choice">A</span></td>
+          </tr>
+          <tr>
+            <td class="k">Cold agglutinins</td>
+            <td><b>Mycoplasma pneumoniae</b>, EBV — IgM against RBC I antigen</td>
+            <td>Normal — that's a young patient, dry cough, diffuse interstitial pattern, not lobar</td>
+            <td><span class="choice">B</span></td>
+          </tr>
+          <tr>
+            <td class="k">Prealbumin</td>
+            <td>Nothing here — <b>negative</b> acute-phase reactant, also a nutrition marker</td>
+            <td><b>Decreased</b></td>
+            <td><span class="choice">C</span></td>
+          </tr>
+          <tr>
+            <td class="k">Transferrin</td>
+            <td>Iron <b>deficiency</b> — <b>negative</b> acute-phase reactant</td>
+            <td><b>Decreased</b></td>
+            <td><span class="choice">E</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecard" style="margin-top:14px">
+      <table>
+        <caption>Acute-phase reactants. IL-6 is the master hepatic signal; the liver trades one protein set for the other.</caption>
+        <thead>
+          <tr><th>Direction</th><th>Proteins</th><th>Function / exam hook</th></tr>
+        </thead>
+        <tbody>
+          <tr class="answer">
+            <td class="k">Positive (↑)</td>
+            <td>CRP, procalcitonin, fibrinogen, ferritin, hepcidin, serum amyloid A, complement, α1-antitrypsin</td>
+            <td>Fibrinogen → <b>↑ ESR</b> via rouleaux. Hepcidin → anemia of chronic disease. Serum amyloid A → <b>AA amyloidosis</b> if chronic</td>
+          </tr>
+          <tr>
+            <td class="k">Negative (↓)</td>
+            <td><b>Albumin, prealbumin (transthyretin), transferrin</b>, retinol-binding protein</td>
+            <td>Synthesis diverted away. Falsely suggests malnutrition or iron deficiency during acute illness</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecard" style="margin-top:14px">
+      <table>
+        <caption>Sputum and radiographic pattern → likely organism.</caption>
+        <thead>
+          <tr><th>Clue</th><th>Organism</th><th>Setting</th></tr>
+        </thead>
+        <tbody>
+          <tr class="answer"><td class="k">Rust-colored sputum, lobar consolidation</td><td><b>S. pneumoniae</b></td><td>Most common CAP; lancet-shaped gram-positive diplococci</td></tr>
+          <tr><td class="k">Currant-jelly sputum</td><td>Klebsiella pneumoniae</td><td>Alcohol use, aspiration, diabetes; upper lobe cavitation</td></tr>
+          <tr><td class="k">Dry cough, diffuse interstitial, cold agglutinins</td><td>Mycoplasma</td><td>Young adults, dormitories, military</td></tr>
+          <tr><td class="k">Hyponatremia, diarrhea, GI symptoms</td><td>Legionella</td><td>Water systems, air conditioning; urine antigen</td></tr>
+          <tr><td class="k">Foul-smelling sputum, cavitation</td><td>Anaerobes</td><td>Aspiration, poor dentition; dependent lobes</td></tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="eo">
+      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 14921</span></div>
+      Acute phase reactants are proteins whose serum concentrations change by ≥25% during periods of inflammation. Procalcitonin is a unique acute phase reactant that can rise or fall depending on the etiology of the infection; elevated levels correlate with a bacterial source, whereas low levels indicate a viral source.
+    </div>
+  </section>
+
+  <!-- ==================== Q9 ==================== -->
+  <section class="q" id="q9">
+    <div class="qhead">
+      <span class="qnum">Q9</span>
+      <h2 class="qtitle">Post-exposure prophylaxis for meningococcal contacts</h2>
+      <span class="topic">ID · public health</span>
+    </div>
+    <p class="qmeta">12M, fever, neck stiffness, CSF gram-negative diplococci; brother shares a bedroom → <b>answer D</b></p>
+
+    <div class="tablecard">
+      <table>
+        <caption>The goal of prophylaxis is eradicating nasopharyngeal carriage, not treating disease — that single distinction sorts every choice.</caption>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Eradicates carriage?</th>
+            <th>Problem</th>
+            <th>Choice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="answer">
+            <td class="k">Rifampin</td>
+            <td><b>Yes</b></td>
+            <td>None — first-line. Warn about orange body fluids, contact lens staining, OCP failure via CYP450 induction</td>
+            <td><span class="choice hit">D</span></td>
+          </tr>
+          <tr>
+            <td class="k">Immediate vaccination</td>
+            <td>No</td>
+            <td>Takes <b>7–10 days</b> for protection; adjunct in outbreaks, not post-exposure management</td>
+            <td><span class="choice">A</span></td>
+          </tr>
+          <tr>
+            <td class="k">Observation only</td>
+            <td>—</td>
+            <td>Household contacts carry <b>hundreds of times</b> the baseline risk; disease can be fulminant within hours</td>
+            <td><span class="choice">B</span></td>
+          </tr>
+          <tr>
+            <td class="k">Penicillin</td>
+            <td><b>No</b></td>
+            <td>Treats invasive disease but leaves carriage intact — the index patient also needs rifampin before discharge if treated with penicillin</td>
+            <td><span class="choice">C</span></td>
+          </tr>
+          <tr>
+            <td class="k">Sulfamethoxazole</td>
+            <td>Historically</td>
+            <td>Widespread resistance; abandoned</td>
+            <td><span class="choice">E</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecard" style="margin-top:14px">
+      <table>
+        <caption>Accepted regimens and who counts as a close contact.</caption>
+        <thead>
+          <tr><th>Regimen</th><th>Dose</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr class="answer"><td class="k">Rifampin</td><td>600 mg BID × 2 days (adult); 10 mg/kg BID (child)</td><td>First-line; avoid in pregnancy</td></tr>
+          <tr><td class="k">Ceftriaxone</td><td>250 mg IM × 1</td><td><b>Preferred in pregnancy</b>; good for children at 125 mg</td></tr>
+          <tr><td class="k">Ciprofloxacin</td><td>500 mg PO × 1</td><td>Adults only; check local resistance</td></tr>
+          <tr><td class="k" colspan="3" style="background:var(--rule-soft)">Close contact = household, roommate, childcare, or direct exposure to oral secretions (kissing, shared utensils, intubation, mouth-to-mouth) within <b>7 days</b> before symptom onset. Give within 24 h. Casual classroom or workplace contact does <b>not</b> qualify.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablecard" style="margin-top:14px">
+      <table>
+        <caption>CSF Gram stain morphology → organism → who else needs prophylaxis.</caption>
+        <thead>
+          <tr><th>Gram stain</th><th>Organism</th><th>Typical age</th><th>Contact prophylaxis</th></tr>
+        </thead>
+        <tbody>
+          <tr class="answer"><td class="k">Gram-negative <b>diplococci</b></td><td>N. meningitidis</td><td>Teens, young adults, dormitories</td><td><b>Yes</b> — rifampin, ceftriaxone, or ciprofloxacin</td></tr>
+          <tr><td class="k">Gram-positive lancet diplococci</td><td>S. pneumoniae</td><td>Any age; most common overall in adults</td><td>No</td></tr>
+          <tr><td class="k">Gram-negative coccobacilli</td><td>H. influenzae type b</td><td>Unvaccinated children</td><td><b>Yes</b> — rifampin</td></tr>
+          <tr><td class="k">Gram-positive rods</td><td>Listeria monocytogenes</td><td>Neonates, &gt;60, pregnancy, immunosuppressed</td><td>No</td></tr>
+          <tr><td class="k">No organisms, lymphocytic, normal glucose</td><td>Viral (enterovirus)</td><td>Any</td><td>No</td></tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="eo">
+      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 1004</span></div>
+      Rifampin is the most frequently used agent for chemoprophylaxis of meningococcal disease. Persons with exposure to the respiratory secretions of a patient with meningococcal disease require chemoprophylaxis. Vaccination is an important public health strategy but is not useful for post-exposure prophylaxis.
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
