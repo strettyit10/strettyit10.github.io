@@ -56,6 +56,10 @@
   }
 
   section.q{margin-bottom:52px; scroll-margin-top:16px}
+  section.q + section.q{
+    border-top:1px solid var(--rule);
+    padding-top:44px;
+  }
   .qhead{display:flex; align-items:baseline; gap:12px; margin-bottom:4px}
   .qnum{
     font-family:"Iowan Old Style",Georgia,serif;
@@ -98,6 +102,11 @@
     white-space:nowrap;
   }
   tbody tr:last-child td{border-bottom:none}
+  .tablecard.fit{overflow-x:visible}
+  .tablecard.fit table{min-width:0; width:100%; table-layout:fixed}
+  .tablecard.fit td,.tablecard.fit th{white-space:normal; overflow-wrap:break-word; hyphens:auto}
+  .tablecard.fit td.k{white-space:normal}
+  .tablecard.fit table.index td:nth-child(4){white-space:nowrap}
   td.k{font-weight:600; white-space:nowrap}
   .choice{
     display:inline-block; min-width:19px; text-align:center;
@@ -116,16 +125,6 @@
   .b4 td:first-child{border-left-color:#5f9160; background:var(--band-heal)}
   .b5 td:first-child{border-left-color:#8a8d96; background:var(--band-scar)}
 
-  .eo{
-    margin-top:14px; border:1px solid var(--rule);
-    border-left:4px solid var(--oxblood); border-radius:6px;
-    background:var(--oxblood-wash); padding:13px 16px;
-    font-size:14px; line-height:1.55;
-  }
-  .eo .eohead{
-    display:flex; align-items:baseline; gap:9px; margin-bottom:5px;
-  }
-  .eo .eolabel{font-weight:650; font-size:12.5px; color:var(--oxblood-deep)}
   .qid{
     font-size:11.5px; font-weight:600; color:var(--ink-soft);
     border:1px solid var(--rule); border-radius:3px; padding:1px 6px;
@@ -158,8 +157,16 @@
   </header>
   <div class="runsheet">09-07-2026 · UWorld QIDs: 37, 40, 193, 195, 11525, 557, 761, 14921, 1004</div>
 
-  <div class="tablecard" style="margin-bottom:44px">
-    <table>
+  <div class="tablecard fit" style="margin-bottom:44px">
+    <table class="index">
+      <colgroup>
+        <col style="width:5%">
+        <col style="width:7%">
+        <col style="width:21%">
+        <col style="width:12%">
+        <col style="width:8%">
+        <col style="width:47%">
+      </colgroup>
       <caption>Index — 9 questions, 20 charts.</caption>
       <thead>
         <tr><th>#</th><th>QID</th><th>Question</th><th>Topic</th><th>Answer</th><th>Educational objective</th></tr>
@@ -259,10 +266,6 @@
         </tbody>
       </table>
     </div>
-      <div class="eo">
-      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 37</span></div>
-      STEMI involves transmural (full-thickness) infarction of the myocardial wall, and usually results from acute atherosclerotic plaque rupture with the development of overlying thrombus that fully occludes the coronary artery lumen. It classically presents with sudden-onset substernal chest pain that is not relieved by rest or short-acting nitrates. ECG demonstrates ST elevation in the affected leads with subsequent development of Q waves.
-    </div>
   </section>
 
   <!-- ==================== Q2 ==================== -->
@@ -345,10 +348,6 @@
         </tbody>
       </table>
     </div>
-      <div class="eo">
-      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 40</span></div>
-      After the onset of severe ischemia leading to MI, early signs of coagulative necrosis do not become apparent on light microscopy until 4 hours after the onset of MI.
-    </div>
   </section>
 
   <!-- ==================== Q3 ==================== -->
@@ -426,10 +425,6 @@
           <tr class="band b5"><td class="k">&gt; 14</td><td>True aneurysm</td><td>Heart failure, emboli</td><td>Persistent ST elevation, mural thrombus</td></tr>
         </tbody>
       </table>
-    </div>
-      <div class="eo">
-      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 193</span></div>
-      LV free wall rupture is an uncommon but devastating mechanical complication of transmural MI that occurs within 5 days or up to 2 weeks following the event. Rupture leads to cardiac tamponade that causes hypotension and shock with rapid progression to cardiac arrest. Autopsy typically reveals a slit-like tear at the site of infarction in the LV wall.
     </div>
   </section>
 
@@ -514,10 +509,6 @@
         </tbody>
       </table>
     </div>
-      <div class="eo">
-      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 195</span></div>
-      Rupture of the LV free wall is a catastrophic mechanical complication of anterior wall MI that usually occurs within the first 5–14 days after MI. Rupture leads to hemopericardium and cardiac tamponade, causing profound hypotension and shock with rapid progression to PEA and death.
-    </div>
   </section>
 
   <!-- ==================== Q5 ==================== -->
@@ -596,10 +587,6 @@
           <tr><td class="k">Distinguishes latent from active?</td><td colspan="2"><b>Neither does.</b> A positive result means infection — confirm with chest x-ray and sputum</td></tr>
         </tbody>
       </table>
-    </div>
-      <div class="eo">
-      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 11525</span></div>
-      IGRAs test for latent TB infection by measuring the amount of IFN-γ released by T lymphocytes when exposed to antigens unique to <i>M. tuberculosis</i>.
     </div>
   </section>
 
@@ -694,10 +681,6 @@
         </tbody>
       </table>
     </div>
-      <div class="eo">
-      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 557</span></div>
-      Chronic granulomatous disease is an X-linked disorder resulting from deficiency of NADPH oxidase, the enzyme responsible for formation of reactive oxygen species in phagosomes. Neutrophils affected by this disorder are unable to kill catalase-producing organisms, resulting in recurrent bacterial and fungal infections that frequently involve the lungs, skin, and lymph nodes.
-    </div>
   </section>
 
   <!-- ==================== Q7 ==================== -->
@@ -755,8 +738,14 @@
       </table>
     </div>
 
-    <div class="tablecard" style="margin-top:14px">
+    <div class="tablecard fit" style="margin-top:14px">
       <table>
+        <colgroup>
+          <col style="width:26%">
+          <col style="width:13%">
+          <col style="width:13%">
+          <col style="width:48%">
+        </colgroup>
         <caption>Lupus autoantibodies — screen with the sensitive one, confirm with the specific one.</caption>
         <thead>
           <tr><th>Antibody</th><th>Sensitivity</th><th>Specificity</th><th>Role / association</th></tr>
@@ -770,10 +759,6 @@
           <tr><td class="k">Anti-Ro / SSA</td><td>~30%</td><td>—</td><td>Neonatal lupus with <b>congenital heart block</b>, subacute cutaneous lupus, ANA-negative lupus</td></tr>
         </tbody>
       </table>
-    </div>
-      <div class="eo">
-      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 761</span></div>
-      ANAs are found in almost all patients with SLE but are also found in many other autoimmune disorders and have low specificity. Anti-dsDNA antibodies and anti-Smith antibodies have lower sensitivity but higher specificity.
     </div>
   </section>
 
@@ -868,10 +853,6 @@
         </tbody>
       </table>
     </div>
-      <div class="eo">
-      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 14921</span></div>
-      Acute phase reactants are proteins whose serum concentrations change by ≥25% during periods of inflammation. Procalcitonin is a unique acute phase reactant that can rise or fall depending on the etiology of the infection; elevated levels correlate with a bacterial source, whereas low levels indicate a viral source.
-    </div>
   </section>
 
   <!-- ==================== Q9 ==================== -->
@@ -929,8 +910,13 @@
       </table>
     </div>
 
-    <div class="tablecard" style="margin-top:14px">
+    <div class="tablecard fit" style="margin-top:14px">
       <table>
+        <colgroup>
+          <col style="width:22%">
+          <col style="width:34%">
+          <col style="width:44%">
+        </colgroup>
         <caption>Accepted regimens and who counts as a close contact.</caption>
         <thead>
           <tr><th>Regimen</th><th>Dose</th><th>Notes</th></tr>
@@ -958,10 +944,6 @@
           <tr><td class="k">No organisms, lymphocytic, normal glucose</td><td>Viral (enterovirus)</td><td>Any</td><td>No</td></tr>
         </tbody>
       </table>
-    </div>
-      <div class="eo">
-      <div class="eohead"><span class="eolabel">Educational objective</span><span class="qid">QID 1004</span></div>
-      Rifampin is the most frequently used agent for chemoprophylaxis of meningococcal disease. Persons with exposure to the respiratory secretions of a patient with meningococcal disease require chemoprophylaxis. Vaccination is an important public health strategy but is not useful for post-exposure prophylaxis.
     </div>
   </section>
 
