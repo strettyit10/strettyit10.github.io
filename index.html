@@ -69,9 +69,10 @@
        Callouts use % positioning so they stay locked to anatomy at any size. */
     .body-frame {
       position: relative;
-      height: min(85vh, 85dvh);
+      /* width-driven so the frame always matches the image (no letterboxing) */
+      width: min(92vw, calc(85vh * 2 / 3));
+      width: min(92vw, calc(85dvh * 2 / 3));
       aspect-ratio: 1024 / 1536;
-      max-width: 92vw;
     }
 
     .body-img {
@@ -173,6 +174,11 @@
 
     /* ── Per-region placement (tuned to 1024×1536 portrait) ── */
 
+    /* HNSS — head / face, pill to the LEFT (extended to clear the hand) */
+    .callout-hnss  { top: 9%; left: 50%; }
+    .callout-hnss  .line { width: 240px; transform: rotate(180deg); }
+    .callout-hnss  .pill { right: 250px; }
+
     /* ENDO — thyroid, pill to the RIGHT (extended to clear the hand) */
     .callout-endo  { top: 17%; left: 50%; }
     .callout-endo  .line { width: 240px; transform: rotate(0deg); }
@@ -199,6 +205,9 @@
       .brand { font-size: 2rem; top: 22px; left: 24px; }
       .readme-link { top: 64px; left: 26px; font-size: 0.82rem; }
 
+      .callout-hnss  .line { width: 120px; }
+      .callout-hnss  .pill { right: 130px; }
+
       .callout-endo  .line { width: 120px; }
       .callout-endo  .pill { left: 130px; }
 
@@ -217,7 +226,10 @@
       .brand { font-size: 1.5rem; top: 16px; left: 18px; }
       .readme-link { top: 48px; left: 20px; font-size: 0.75rem; }
 
-      .body-frame { max-width: 78vw; height: min(72vh, 72dvh); }
+      .body-frame { width: min(78vw, calc(72vh * 2 / 3)); width: min(78vw, calc(72dvh * 2 / 3)); }
+
+      .callout-hnss  .line { width: 28px; }
+      .callout-hnss  .pill { right: 34px; }
 
       .callout-endo  .line { width: 28px; }
       .callout-endo  .pill { left: 34px; }
@@ -233,7 +245,7 @@
         padding: 9px 13px;           /* ≥44px tap-height w/ line-height */
         border-width: 1.25px;
       }
-      .pill small { display: none; } /* hide "Block 4" prefix to save space */
+      .pill small { display: none; } /* hide "Block" prefix to save space */
 
       .dot  { width: 14px; height: 14px; top: 3px; left: 3px; }
       .line { height: 1.25px; }
@@ -242,7 +254,10 @@
 
     /* ── Very small phones (≤ iPhone SE width) ── */
     @media (max-width: 380px) {
-      .body-frame { max-width: 72vw; }
+      .body-frame { width: min(72vw, calc(72vh * 2 / 3)); width: min(72vw, calc(72dvh * 2 / 3)); }
+
+      .callout-hnss  .line { width: 20px; }
+      .callout-hnss  .pill { right: 26px; }
 
       .callout-endo  .line { width: 20px; }
       .callout-endo  .pill { left: 26px; }
@@ -259,7 +274,7 @@
     /* ── Landscape phones: body image gets short on height — shrink and keep callouts on sides ── */
     @media (max-height: 480px) and (orientation: landscape) {
       .stage { padding: 50px 0 40px; }
-      .body-frame { height: min(85vh, 85dvh); max-width: 46vw; }
+      .body-frame { width: min(46vw, calc(85vh * 2 / 3)); width: min(46vw, calc(85dvh * 2 / 3)); }
       .brand { font-size: 1.4rem; top: 14px; left: 16px; }
       .readme-link { top: 42px; left: 18px; font-size: 0.72rem; }
       .caption { display: none; }
@@ -287,6 +302,13 @@
   <div class="stage">
     <div class="body-frame">
       <img class="body-img" src="body-atlas.jpg" alt="Human body atlas" />
+
+      <!-- HNSS — head / face -->
+      <a class="callout callout-hnss" href="https://www.hoyadocs.com/Block5-HNSS" aria-label="HNSS Hub">
+        <span class="dot"></span>
+        <span class="line"></span>
+        <span class="pill"><small>Block 5</small>HNSS</span>
+      </a>
 
       <!-- ENDO — neck / thyroid -->
       <a class="callout callout-endo" href="https://strettyit10.github.io/Block4-Endocrine/" aria-label="Endocrine Hub">
