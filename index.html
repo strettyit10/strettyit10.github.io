@@ -194,6 +194,38 @@
     .callout-repro .line { width: 240px; transform: rotate(0deg); }
     .callout-repro .pill { left: 250px; }
 
+    /* ── Placeholders: units coming soon. To launch one, delete the word "soon" from its class. ── */
+    .callout.soon { pointer-events: none; }
+    .callout.soon .pill { border-style: dashed; border-color: rgba(255,255,255,0.45); color: rgba(255,255,255,0.6); background: rgba(0,0,0,0.45); }
+    .callout.soon .dot { background: rgba(255,255,255,0.55); box-shadow: 0 0 0 3px rgba(255,255,255,0.08); }
+    .callout.soon .dot::after { display: none; }
+    .callout.soon .line { background: rgba(255,255,255,0.35); }
+
+    /* IMMUNO — axillary lymph nodes */
+    .callout-immuno { top: 18%; left: 38%; }
+    .callout-immuno .line { width: 179px; transform: rotate(180deg); }
+    .callout-immuno .pill { right: 189px; }
+
+    /* MICRO — lower leg */
+    .callout-micro { top: 76%; left: 39%; }
+    .callout-micro .line { width: 184px; transform: rotate(180deg); }
+    .callout-micro .pill { right: 194px; }
+
+    /* CARDIO — heart */
+    .callout-cardio { top: 26%; left: 52%; }
+    .callout-cardio .line { width: 230px; transform: rotate(0deg); }
+    .callout-cardio .pill { left: 240px; }
+
+    /* PULMONARY — lung */
+    .callout-pulm { top: 28%; left: 43%; }
+    .callout-pulm .line { width: 204px; transform: rotate(180deg); }
+    .callout-pulm .pill { right: 214px; }
+
+    /* RENAL — kidney */
+    .callout-renal { top: 35%; left: 56%; }
+    .callout-renal .line { width: 209px; transform: rotate(0deg); }
+    .callout-renal .pill { left: 219px; }
+
     /* HEME — femur / bone marrow, pill to the RIGHT */
     .callout-heme  { top: 56%; left: 60%; }
     .callout-heme  .line { width: 190px; transform: rotate(0deg); }
@@ -227,6 +259,21 @@
       .callout-repro .line { width: 120px; }
       .callout-repro .pill { left: 130px; }
 
+      .callout-immuno .line { width: 52px; }
+      .callout-immuno .pill { right: 62px; }
+
+      .callout-micro .line { width: 58px; }
+      .callout-micro .pill { right: 68px; }
+
+      .callout-cardio .line { width: 109px; }
+      .callout-cardio .pill { left: 119px; }
+
+      .callout-pulm .line { width: 80px; }
+      .callout-pulm .pill { right: 90px; }
+
+      .callout-renal .line { width: 86px; }
+      .callout-renal .pill { left: 96px; }
+
       .callout-heme  .line { width: 80px; }
       .callout-heme  .pill { left: 90px; }
 
@@ -235,6 +282,12 @@
 
       .pill { font-size: 0.85rem; padding: 9px 15px; }
       .pill small { font-size: 0.58rem; }
+    }
+
+    /* ── Short screens (laptops): slimmer pills so stacked callouts don't touch ── */
+    @media (min-width: 641px) and (max-height: 820px) {
+      .pill { font-size: 0.8rem; padding: 6px 14px; }
+      .pill small { font-size: 0.55rem; margin-bottom: 1px; }
     }
 
     /* ── Phone ── */
@@ -255,6 +308,21 @@
 
       .callout-repro .line { width: 28px; }
       .callout-repro .pill { left: 34px; }
+
+      .callout-immuno .line { width: 22px; }
+      .callout-immuno .pill { right: 28px; }
+
+      .callout-micro .line { width: 22px; }
+      .callout-micro .pill { right: 28px; }
+
+      .callout-cardio .line { width: 22px; }
+      .callout-cardio .pill { left: 28px; }
+
+      .callout-pulm .line { width: 22px; }
+      .callout-pulm .pill { right: 28px; }
+
+      .callout-renal .line { width: 22px; }
+      .callout-renal .pill { left: 28px; }
 
       .callout-heme  .line { width: 22px; }
       .callout-heme  .pill { left: 28px; }
@@ -289,6 +357,21 @@
 
       .callout-repro .line { width: 20px; }
       .callout-repro .pill { left: 26px; }
+
+      .callout-immuno .line { width: 16px; }
+      .callout-immuno .pill { right: 22px; }
+
+      .callout-micro .line { width: 16px; }
+      .callout-micro .pill { right: 22px; }
+
+      .callout-cardio .line { width: 16px; }
+      .callout-cardio .pill { left: 22px; }
+
+      .callout-pulm .line { width: 16px; }
+      .callout-pulm .pill { right: 22px; }
+
+      .callout-renal .line { width: 16px; }
+      .callout-renal .pill { left: 22px; }
 
       .callout-heme  .line { width: 16px; }
       .callout-heme  .pill { left: 22px; }
@@ -371,6 +454,43 @@
         <span class="dot"></span>
         <span class="line"></span>
         <span class="pill"><small>Block 5</small>MSK</span>
+      </a>
+
+      <!-- ── Coming soon: delete "soon" from the class to launch ── -->
+
+      <!-- IMMUNO — axillary lymph nodes -->
+      <a class="callout callout-immuno soon" href="https://www.hoyadocs.com/Block2-Immuno" aria-label="Immuno Hub (coming soon)" tabindex="-1">
+        <span class="dot"></span>
+        <span class="line"></span>
+        <span class="pill"><small>Block 2 · Soon</small>Immuno</span>
+      </a>
+
+      <!-- MICRO — lower leg -->
+      <a class="callout callout-micro soon" href="https://www.hoyadocs.com/Block2-Micro" aria-label="Micro Hub (coming soon)" tabindex="-1">
+        <span class="dot"></span>
+        <span class="line"></span>
+        <span class="pill"><small>Block 2 · Soon</small>Micro</span>
+      </a>
+
+      <!-- CARDIO — heart -->
+      <a class="callout callout-cardio soon" href="https://www.hoyadocs.com/Block3-Cardio" aria-label="Cardio Hub (coming soon)" tabindex="-1">
+        <span class="dot"></span>
+        <span class="line"></span>
+        <span class="pill"><small>Block 3 · Soon</small>Cardio</span>
+      </a>
+
+      <!-- PULMONARY — lung -->
+      <a class="callout callout-pulm soon" href="https://www.hoyadocs.com/Block3-Pulm" aria-label="Pulmonary Hub (coming soon)" tabindex="-1">
+        <span class="dot"></span>
+        <span class="line"></span>
+        <span class="pill"><small>Block 3 · Soon</small>Pulmonary</span>
+      </a>
+
+      <!-- RENAL — kidney -->
+      <a class="callout callout-renal soon" href="https://www.hoyadocs.com/Block3-Renal" aria-label="Renal Hub (coming soon)" tabindex="-1">
+        <span class="dot"></span>
+        <span class="line"></span>
+        <span class="pill"><small>Block 3 · Soon</small>Renal</span>
       </a>
     </div>
   </div>
