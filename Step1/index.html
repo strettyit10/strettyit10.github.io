@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HoyaDocs &middot; Step 1 Home</title>
 <meta name="description" content="HoyaDocs USMLE Step 1 Tutor Series: high-yield study sessions by organ system, with explorers, DDx tables, practice MCQs and lab drills.">
@@ -22,28 +23,6 @@
   --cond:"Barlow Condensed","Arial Narrow",sans-serif;
   --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ground:#0B1424; --panel:#13203A; --sunk:#0F1A30; --line:#26365A;
-    --ink:#E8E4DA; --muted:#9BA5B9;
-    --navy:#060D1A; --navy-2:#13254A; --navy-ink:#EEE9DE;
-    --tan:#6FD3A4; --tan-ink:#8EE0B9;
-    --g:#9B8DE0; --g-ink:#BDB2F0; --g-soft:#262043; --g-wash:#171A36;
-    --s:#F0914A; --s-ink:#F6B07A; --s-soft:#3A2515; --s-wash:#1B1C2B;
-    --d:#4FC1B6; --d-ink:#7FD6CD; --d-soft:#13332F; --d-wash:#112130;
-    --a:#6FD3A4; --a-ink:#8EE0B9; --a-soft:#14332A; --a-wash:#112620;
-  }
-}
-:root[data-theme="dark"]{
-    --ground:#0B1424; --panel:#13203A; --sunk:#0F1A30; --line:#26365A;
-    --ink:#E8E4DA; --muted:#9BA5B9;
-    --navy:#060D1A; --navy-2:#13254A; --navy-ink:#EEE9DE;
-    --tan:#6FD3A4; --tan-ink:#8EE0B9;
-    --g:#9B8DE0; --g-ink:#BDB2F0; --g-soft:#262043; --g-wash:#171A36;
-    --s:#F0914A; --s-ink:#F6B07A; --s-soft:#3A2515; --s-wash:#1B1C2B;
-    --d:#4FC1B6; --d-ink:#7FD6CD; --d-soft:#13332F; --d-wash:#112130;
-    --a:#6FD3A4; --a-ink:#8EE0B9; --a-soft:#14332A; --a-wash:#112620;
-}
 *{box-sizing:border-box}
 html,body{background:var(--ground);color:var(--ink)}
 body{font:16px/1.5 var(--body);margin:0;padding:0 16px 56px}
@@ -58,8 +37,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 .word span{color:var(--tan-ink)}
 .rev{font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .topr{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.themebtn{background:transparent;border:1.5px solid var(--line);border-radius:999px;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:5px 14px}
-.themebtn:hover{color:var(--ink);border-color:var(--ink)}
 
 /* nav grouped by type */
 .nav{display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:none;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
@@ -156,7 +133,6 @@ button{font:inherit;color:inherit;cursor:pointer}
     <a class="word" href="index.html">HOYA<span>DOCS</span></a>
     <div class="topr">
       <div class="rev">USMLE Step 1 &middot; Rev 1 &middot; Updated Oct 19, 2026</div>
-      <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
     </div>
   </header>
 
@@ -230,15 +206,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 </div>
 
 <script>
-(function(){
-  var btn=document.getElementById('theme'), root=document.documentElement;
-  try{var s=localStorage.getItem('hoyadocs-theme'); if(s==='light'||s==='dark') root.setAttribute('data-theme',s);}catch(e){}
-  btn.addEventListener('click',function(){
-    var dark=root.getAttribute('data-theme')==='dark'||(!root.hasAttribute('data-theme')&&window.matchMedia('(prefers-color-scheme: dark)').matches);
-    var n=dark?'light':'dark'; root.setAttribute('data-theme',n);
-    try{localStorage.setItem('hoyadocs-theme',n);}catch(e){}
-  });
-})();
 (function(){
   var dds=[].slice.call(document.querySelectorAll('.dd'));
   dds.forEach(function(d){ d.addEventListener('toggle',function(){ if(d.open) dds.forEach(function(x){ if(x!==d) x.open=false; }); }); });
