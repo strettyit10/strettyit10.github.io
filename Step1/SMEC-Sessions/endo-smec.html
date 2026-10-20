@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HoyaDocs &middot; Endocrine Session I</title>
+<meta name="description" content="HoyaDocs SMEC Endocrine Session I — biochem and pathophys high-yield: insulin, fed vs fasting and DKA, steroids and CAH, feedback labs, calcium and ADH, with UWorld QIDs, Bootcamp videos and First Aid pages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Graduate&family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#EEF0F3; --panel:#FFFFFF; --sunk:#E6E9EE; --line:#D3D8E0;
+  --ink:#1A3363; --muted:#5B6274;
+  --silver:#6E7787; --silver-hi:#C5CBD6;
+  --navy:#0F2244; --navy-2:#1A3363; --navy-ink:#F4F1EA; --navy-muted:#A9B3C7;
+  --acc:#7B3FD1; --acc-ink:#5A2A9E; --acc-soft:#EEE6FB; --acc-hi:#B99CF6;
+  --endo:#C99A06; --endo-soft:#FBF1D2;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#1A3363;
+  --up:#1F8A5B; --up-soft:#DDF3E8; --dn:#B8324A; --dn-soft:#F9E0E5; --blk:#C0392B;
+  --s1:#FFF2CC; --s2:#C9DAF8; --sb:#D9EAD3; --nc:#F4CCCC;
+  --varsity:"Graduate","Rockwell","Georgia",serif;
+  --cond:"Barlow Condensed","Arial Narrow",sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground);color:var(--ink)}
+body{font:16px/1.55 var(--body);margin:0;padding:0 clamp(16px,2.5vw,40px) 56px}
+.wrap{width:100%;max-width:none;margin:0 auto}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+html{scroll-behavior:smooth}
+b,strong{font-weight:700}
+
+/* top + nav */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 0 12px}
+.word{font-family:var(--varsity);font-size:24px;letter-spacing:.04em;text-decoration:none;color:var(--ink);line-height:1}
+.word span{color:var(--silver)}
+.rev{font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.topr{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.themebtn{background:transparent;border:1.5px solid var(--line);border-radius:999px;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:5px 14px}
+.themebtn:hover{color:var(--ink);border-color:var(--ink)}
+.nav{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;text-decoration:none;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:11px 12px 9px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:7px}
+.nav a:hover{color:var(--ink)}
+.nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--acc)}
+.nav a i{width:9px;height:9px;border-radius:2px;flex:none}
+.nav .sep{flex:none;width:1px;background:var(--line);margin:9px 6px}
+
+/* hero */
+.hero{margin-top:22px;background:var(--navy);color:var(--navy-ink);border-radius:14px;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1fr;gap:clamp(18px,3vw,36px);align-items:end;padding:clamp(20px,2.8vw,30px) clamp(20px,3.5vw,40px)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),rgba(255,255,255,.045) calc(10% - 1px) 10%),
+  radial-gradient(ellipse at 90% 115%,rgba(140,80,230,.40),transparent 55%),radial-gradient(ellipse at 0% -20%,rgba(201,154,6,.18),transparent 50%)}
+.hero>*{position:relative}
+.eyebrow{font-family:var(--cond);font-weight:700;font-size:17px;letter-spacing:.22em;text-transform:uppercase;color:var(--acc-hi);display:flex;align-items:center;gap:9px}
+.eyebrow i{width:10px;height:10px;border-radius:2px;background:#E8C14A}
+.hero h1{font-family:var(--varsity);font-weight:400;font-size:clamp(46px,7.6vw,96px);line-height:.9;margin:10px 0 8px;letter-spacing:.02em;color:var(--navy-ink);text-shadow:3px 3px 0 var(--navy-2),5px 5px 0 #7B3FD1}
+.hero p.sub{margin:0;max-width:560px;color:var(--navy-muted);font-size:16px}
+.stats{display:flex;flex-wrap:wrap;gap:clamp(14px,2.6vw,28px);margin-top:16px}
+.stats div{display:flex;align-items:baseline;gap:7px}
+.stats b{font-family:var(--varsity);font-weight:400;font-size:clamp(24px,3vw,32px);line-height:1}
+.stats small{font-family:var(--cond);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--navy-muted)}
+.prog{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:14px 16px}
+.prog h3{margin:0 0 10px;font-family:var(--cond);font-weight:800;font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--navy-muted)}
+.pbar{margin:0 0 10px}
+.pbar .lbl{display:flex;justify-content:space-between;font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase}
+.pbar .trk{height:8px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:4px}
+.pbar .fil{height:100%;width:0;background:linear-gradient(90deg,#7B3FD1,#B99CF6);border-radius:99px;transition:width .3s}
+.pbar.v .fil{background:linear-gradient(90deg,#C99A06,#E8C14A)}
+.prog .note{font-size:12.5px;color:var(--navy-muted);margin:4px 0 0}
+
+/* tabs */
+.tabs{position:sticky;top:0;z-index:30;background:var(--ground);margin-top:18px;border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-top:6px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;padding:9px 12px 8px;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:7px;white-space:nowrap}
+.tab .n{display:inline-grid;place-items:center;width:21px;height:21px;border-radius:5px;background:var(--sunk);border:1px solid var(--line);font-size:13px;color:var(--ink)}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--acc)}
+.tab[aria-selected="true"] .n{background:var(--acc);border-color:var(--acc);color:#fff}
+.view{display:none;padding-top:20px}
+.view.on{display:block}
+
+/* section header */
+.sh{display:flex;align-items:center;gap:14px;margin:26px 0 12px}
+.sh:first-child{margin-top:4px}
+.sh h2{font-family:var(--varsity);font-weight:400;font-size:24px;letter-spacing:.04em;margin:0}
+.sh::after{content:"";flex:1;border-top:2px dashed var(--line)}
+.kick{font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
+
+/* overview cards */
+.map{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.mc{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--endo);border-radius:10px;padding:13px 14px;text-align:left;display:flex;flex-direction:column;gap:6px;transition:transform .12s,box-shadow .12s}
+.mc:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(14,27,51,.14)}
+.mc .num{font-family:var(--varsity);font-size:30px;line-height:1;color:var(--endo)}
+.mc strong{font-family:var(--cond);font-weight:800;font-size:19px;line-height:1.05;text-transform:uppercase}
+.mc p{margin:0;font-size:14px;color:var(--muted);line-height:1.4}
+.mc .meta{margin-top:auto;display:flex;gap:6px;flex-wrap:wrap;padding-top:6px}
+.pill{font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.04em;background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:1px 7px;white-space:nowrap}
+.mc .done{font-family:var(--cond);font-weight:700;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ovgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h3{margin:0 0 8px;font-family:var(--cond);font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:.02em;line-height:1.1}
+.card p{margin:0 0 8px}
+.cov{display:flex;flex-direction:column;gap:7px;margin-top:6px}
+.cov .r{display:grid;grid-template-columns:130px 1fr 40px;gap:10px;align-items:center;font-size:15px}
+.cov .bar{height:20px;border-radius:5px;border:1px solid var(--line)}
+.cov .r b{font-family:var(--cond);font-weight:800;text-align:right}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:3px;border:1px solid var(--line)}
+.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:6px 0 6px 36px;border-bottom:1px dashed var(--line)}
+.steps li:last-child{border-bottom:0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:24px;height:24px;border-radius:6px;background:var(--acc-soft);color:var(--acc-ink);font-family:var(--cond);font-weight:800;display:grid;place-items:center;font-size:14px}
+
+/* block layout */
+.bhead{display:flex;gap:16px;align-items:flex-start;margin-bottom:14px}
+.bhead .big{font-family:var(--varsity);font-size:64px;line-height:.85;color:var(--endo)}
+.bhead h2{margin:2px 0 4px;font-family:var(--cond);font-weight:800;font-size:clamp(26px,3.4vw,36px);line-height:1;text-transform:uppercase;letter-spacing:.01em}
+.bhead p{margin:0;font-size:17px;color:var(--muted);max-width:760px}
+.bgrid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;align-items:start}
+.main{display:flex;flex-direction:column;gap:14px;min-width:0}
+.side{display:flex;flex-direction:column;gap:12px;position:sticky;top:56px}
+.core ul{margin:0;padding-left:20px}
+.core li{margin:4px 0}
+.core li::marker{color:var(--endo)}
+.core .em{font-style:italic;color:var(--muted)}
+table.t{width:100%;border-collapse:collapse;font-size:15px}
+.tw{overflow-x:auto;margin:8px 0 4px}
+table.t th{font-family:var(--cond);font-weight:800;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;text-align:left;color:var(--muted);border-bottom:2px solid var(--line);padding:6px 8px;white-space:nowrap}
+table.t td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+table.t tr:last-child td{border-bottom:0}
+table.t td:first-child{font-weight:600}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:10px;padding:12px 16px;color:var(--hy-ink)}
+.hy .tag{font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--hy-line);display:flex;align-items:center;gap:6px;margin-bottom:3px}
+.hy p{margin:0}
+.tool{border:1.5px solid var(--acc);background:linear-gradient(180deg,var(--acc-soft),var(--panel) 120px)}
+.tool .kick{display:flex;align-items:center;gap:7px}
+
+
+/* block overview + toggles */
+#blocks .view>.card,#blocks .view>.duo{margin-bottom:14px}
+.ovw .rgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:8px;align-items:start}
+.ovw .sp{background:var(--ground)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+details.tg{border-radius:10px;padding:0}
+details.tg summary{list-style:none;cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 16px}
+details.tg summary::-webkit-details-marker{display:none}
+details.tg summary .tag{margin:0;font-family:var(--cond);font-weight:800;font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+details.tg .chev{width:16px;height:16px;flex:none;transition:transform .15s}
+details.tg[open] .chev{transform:rotate(180deg)}
+details.tg>p,details.tg>ul{margin:0;padding:0 16px 14px}
+details.tg.hy summary .tag,details.tg.hy .chev{color:#8A6A00}
+.traps{background:#FCE4E7;border:2px solid #C8384F;color:#4A1020}
+.traps summary .tag,.traps .chev{color:#A51F36}
+.traps ul{list-style:none}
+.traps li{padding:7px 0 7px 28px;position:relative;border-bottom:1px dashed rgba(200,56,79,.35)}
+.traps li:last-child{border-bottom:0}
+.traps li::before{content:"!";position:absolute;left:0;top:8px;width:19px;height:19px;border-radius:50%;background:#C8384F;color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center}
+@media (max-width:1060px){.ovw .rgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.duo{grid-template-columns:1fr}}
+@media (max-width:620px){.ovw .rgrid{grid-template-columns:1fr}}
+
+
+/* overview tab */
+.ovnote{display:flex;gap:14px;align-items:center;background:var(--acc-soft);border:1.5px solid var(--acc);border-radius:12px;padding:13px 16px;margin-bottom:12px}
+.ovnote .oi{flex:none;width:36px;height:36px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center}
+.ovnote .oi svg{width:20px;height:20px}
+.ovnote p{margin:0;font-size:16px}
+.dbcta{display:flex;align-items:center;gap:16px;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-left:6px solid #1F7F78;border-radius:12px;padding:14px 18px;transition:transform .12s,box-shadow .12s}
+.dbcta:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(14,27,51,.14)}
+.dbcta .li{flex:none;width:44px;height:44px;border-radius:10px;background:#DCF1EE;color:#0F5F59;display:grid;place-items:center}
+.dbcta .li svg{width:22px;height:22px}
+.dbcta .lt{flex:1;min-width:0}
+.dbcta small{display:block;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.dbcta strong{display:block;font-family:var(--cond);font-weight:800;font-size:22px;line-height:1.05;text-transform:uppercase}
+.dbcta span{display:block;color:var(--muted);font-size:15px}
+.dbcta .ext{flex:none;width:16px;height:16px;color:var(--muted)}
+.vtop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.vall{columns:260px;column-gap:24px}
+.vg{break-inside:avoid;margin-bottom:14px}
+.vg h4{margin:0 0 4px;font-family:var(--cond);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--line);padding-bottom:4px}
+.vg h4 .n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:5px;background:var(--endo);color:#fff;font-size:12.5px}
+.vg h4 .m{margin-left:auto;color:var(--muted);font-size:13px}
+.ovduo{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:clamp(16px,2vw,28px);align-items:start}
+.ovcol{min-width:0}
+#ovtests{grid-template-columns:1fr}
+@media (max-width:1000px){.ovduo{grid-template-columns:1fr}}
+
+/* side panels */
+.sp{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.sp h4{margin:0 0 8px;font-family:var(--cond);font-weight:800;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sp h4 .cnt{color:var(--acc)}
+.vid{display:flex;gap:9px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line);cursor:pointer;font-size:15px;line-height:1.3}
+.vid:last-child{border-bottom:0}
+.vid input{margin:2px 0 0;accent-color:var(--endo);width:16px;height:16px;flex:none}
+.vid .vm{font-family:var(--cond);font-weight:700;color:var(--muted);margin-left:auto;white-space:nowrap;font-size:14px}
+.vid small{display:block;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.vid.ck .vt{text-decoration:line-through;color:var(--muted)}
+.fa{display:flex;flex-direction:column}
+.fa div{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.fa div:last-child{border-bottom:0}
+.fa b{font-family:var(--cond);font-weight:800;color:var(--acc-ink);white-space:nowrap}
+.qids{display:flex;flex-wrap:wrap;gap:6px}
+.qid{display:inline-flex;align-items:center;gap:5px;background:var(--sunk);border:1.5px solid var(--line);border-radius:7px;padding:3px 8px;font-family:var(--cond);font-weight:700;font-size:15px;line-height:1.15;text-align:left}
+.qid.key{border-color:var(--acc);background:var(--acc-soft)}
+.qid.key::before{content:"\2605";color:var(--acc);font-size:12px}
+.qid small{font-weight:600;font-size:12.5px;color:var(--muted)}
+.qid.done{background:var(--up-soft);border-color:var(--up);color:var(--up)}
+.qid.done small{color:var(--up)}
+.qid.done::after{content:"\2713";font-weight:800}
+.sbtns{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.sbtn{background:var(--panel);border:1.5px solid var(--line);border-radius:6px;padding:4px 10px;font-family:var(--cond);font-weight:700;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sbtn:hover{border-color:var(--acc);color:var(--ink)}
+.sbtn.ok{border-color:var(--up);color:var(--up)}
+.hint{font-size:12.5px;color:var(--muted);margin:6px 0 0}
+.dbl{display:flex;flex-direction:column;gap:6px}
+.dbl a{display:flex;align-items:center;justify-content:space-between;gap:8px;text-decoration:none;background:var(--sunk);border:1px solid var(--line);border-left:4px solid var(--endo);border-radius:7px;padding:6px 10px;font-weight:600;font-size:15px}
+.dbl a:hover{background:var(--panel);border-color:var(--endo)}
+.dbl a small{font-family:var(--cond);font-weight:700;font-size:12.5px;color:var(--muted);white-space:nowrap}
+
+/* quiz */
+.qz{display:flex;flex-direction:column;gap:12px}
+.q{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:var(--panel)}
+.q .stem{margin:0 0 9px}
+.q .stem b.qn{font-family:var(--cond);font-weight:800;color:var(--acc);margin-right:6px}
+.opts{display:grid;gap:6px}
+.opt{text-align:left;background:var(--sunk);border:1.5px solid var(--line);border-radius:7px;padding:7px 11px;font-size:15px;display:flex;gap:8px}
+.opt b{font-family:var(--cond);font-weight:800;color:var(--muted)}
+.opt:hover:not([disabled]){border-color:var(--acc)}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--up-soft);border-color:var(--up)}
+.opt.wrong{background:var(--dn-soft);border-color:var(--dn)}
+.exp{display:none;margin-top:9px;padding:10px 12px;border-left:4px solid var(--acc);background:var(--acc-soft);border-radius:0 8px 8px 0;font-size:15px}
+.exp.on{display:block}
+.exp .v{font-family:var(--cond);font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-right:6px}
+
+/* generic tool controls */
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.seg button{background:var(--panel);border:1.5px solid var(--line);border-radius:999px;padding:5px 13px;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.seg button:hover{color:var(--ink);border-color:var(--muted)}
+.seg.nocase button{text-transform:none}
+.seg button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.out{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.out h5{margin:0 0 4px;font-family:var(--cond);font-weight:800;font-size:20px;text-transform:uppercase;line-height:1.1}
+.out p{margin:4px 0 0}
+.out .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:4px 12px;font-size:15px}
+.kv dt{font-family:var(--cond);font-weight:800;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.kv dd{margin:0}
+.ctrlrow{display:flex;flex-wrap:wrap;gap:18px}
+.ctrlrow .lab{font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dblink{font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.04em;text-decoration:none;border:1.5px solid var(--endo);border-radius:6px;padding:2px 9px;display:inline-flex;align-items:center;gap:5px;background:var(--endo-soft)}
+.dblink:hover{background:var(--panel)}
+
+/* beta cell stepper */
+.bstep{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.bstep button{background:var(--panel);border:1.5px solid var(--line);border-radius:8px;padding:6px 10px;font-family:var(--cond);font-weight:700;font-size:15px;line-height:1.1;text-align:left;color:var(--ink)}
+.bstep button small{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.bstep button[aria-pressed="true"]{border-color:var(--acc);background:var(--acc-soft);box-shadow:0 3px 0 var(--acc)}
+.bstep .ar{color:var(--muted);font-weight:800}
+
+/* steroid map */
+.smap{overflow-x:auto;padding:4px 0 6px}
+.sgrid{display:grid;grid-template-columns:96px repeat(4,minmax(80px,1fr) 56px) minmax(80px,1fr);grid-template-rows:auto 40px auto 40px auto;min-width:724px;align-items:center}
+.zl{font-family:var(--cond);font-weight:800;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);line-height:1.15;padding-right:8px}
+.zl b{display:block;color:var(--ink);font-size:13px;hyphens:manual}
+.nd{border:1.5px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 4px;text-align:center;font-weight:600;font-size:13px;hyphens:manual;line-height:1.15;position:relative;transition:background .15s,border-color .15s}
+.nd .st{display:block;font-family:var(--cond);font-weight:800;font-size:12px;letter-spacing:.1em;height:14px}
+.nd.up{background:var(--up-soft);border-color:var(--up)}
+.nd.up .st{color:var(--up)}
+.nd.dn{background:var(--dn-soft);border-color:var(--dn);color:var(--muted)}
+.nd.dn .st{color:var(--dn)}
+.ed{display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--cond);font-weight:700;font-size:11.5px;letter-spacing:.02em;color:var(--muted);text-align:center;line-height:1.05}
+.ed svg{width:100%;height:12px;color:var(--silver)}
+.ed.v{flex-direction:row;gap:5px;justify-content:flex-start;padding-left:8px}
+.ed.v svg{width:12px;height:30px}
+.ed.x{color:var(--blk)}
+.ed.x svg{color:var(--blk)}
+.ed.x::after{content:"\2715 blocked";font-weight:800;font-size:11px;color:var(--blk)}
+.ed.v.x::after{content:"\2715"}
+
+/* sorter + quiz cards */
+.sorter{display:flex;flex-direction:column;gap:10px}
+.sorter .hormone{font-family:var(--varsity);font-size:30px;line-height:1}
+.sorter .fb{min-height:22px;font-weight:600}
+.sorter .fb.ok{color:var(--up)} .sorter .fb.no{color:var(--dn)}
+.score{font-family:var(--cond);font-weight:800;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* tests */
+.tests{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.tc{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--acc);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.tc h3{margin:0;font-family:var(--varsity);font-weight:400;font-size:26px;line-height:1}
+.tc .ql{font-family:var(--cond);font-weight:700;font-size:16px;letter-spacing:.03em;background:var(--sunk);border:1px dashed var(--line);border-radius:7px;padding:8px 10px;word-spacing:2px;user-select:all}
+.tc .row2{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tc label{display:flex;align-items:center;gap:6px;font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer}
+.tc input[type=checkbox]{accent-color:var(--up);width:16px;height:16px}
+.tc input[type=number]{width:70px;background:var(--sunk);border:1.5px solid var(--line);border-radius:6px;padding:3px 7px}
+.tc.done{border-top-color:var(--up)}
+
+/* helpful links */
+.bench{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lk{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--navy-2);border-radius:10px;padding:13px 16px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}
+.lk:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(14,27,51,.14)}
+.lk .li{flex:none;width:38px;height:38px;border-radius:8px;background:var(--sunk);color:var(--silver);display:grid;place-items:center}
+.lk .li svg{width:19px;height:19px}
+.lk .lt{flex:1;min-width:0}
+.lk small{display:block;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lk strong{display:block;font-family:var(--cond);font-weight:800;font-size:19px;line-height:1.05;text-transform:uppercase;letter-spacing:.02em}
+.lk .ext{flex:none;width:15px;height:15px;color:var(--muted)}
+.lk.feat{background:#C9B6F4;border-color:#C9B6F4;border-left-color:var(--navy);color:#0F2244;box-shadow:0 4px 0 #8A6CD0}
+.lk.feat .li{background:#0F2244;color:#C9B6F4}
+.lk.feat small,.lk.feat .ext{color:#0F2244}
+.foot{margin-top:44px;padding-top:14px;border-top:3px solid var(--ink);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--navy);color:var(--navy-ink);font-family:var(--cond);font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;border-radius:8px;transition:.2s;pointer-events:none;z-index:50}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+@media (max-width:1060px){
+  .map{grid-template-columns:repeat(3,1fr)}
+  .bgrid{grid-template-columns:1fr}
+  .side{position:static;display:grid;grid-template-columns:1fr 1fr}
+}
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .ovgrid{grid-template-columns:1fr}
+  .bench{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .map{grid-template-columns:1fr 1fr}
+  .side{grid-template-columns:1fr}
+  .kv{grid-template-columns:1fr}
+  .kv dt{padding-top:6px}
+  .bhead .big{font-size:48px}
+  .cov .r{grid-template-columns:105px 1fr 34px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <a class="word" href="../index.html">HOYA<span>DOCS</span></a>
+    <div class="topr">
+      <span class="rev">Rev 4 &middot; Updated Oct 20, 2026</span>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="Step 1 sections">
+    <a href="../index.html">Home</a>
+    <span class="sep"></span>
+    <a href="index.html"><i style="background:var(--acc)"></i>SMEC Sessions</a>
+    <a href="endo-smec.html" aria-current="page"><i style="background:var(--endo)"></i>Endocrine Session I</a>
+    <span class="sep"></span>
+    <a href="https://hoyadocs.com/Step1/Path-Databases/endo-step1.html"><i style="background:#1F7F78"></i>Endo Path Database</a>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow"><i></i>SMEC Session &middot; Endocrine I</div>
+      <h1>Endocrine<br>Session I</h1>
+    </div>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Session blocks" id="tabs">
+    <button class="tab" role="tab" data-v="overview">Overview</button>
+    <button class="tab" role="tab" data-v="b1"><span class="n">1</span>Insulin</button>
+    <button class="tab" role="tab" data-v="b2"><span class="n">2</span>Fed / Fast &amp; DKA</button>
+    <button class="tab" role="tab" data-v="b3"><span class="n">3</span>Steroids &amp; CAH</button>
+    <button class="tab" role="tab" data-v="b4"><span class="n">4</span>Feedback &amp; Labs</button>
+    <button class="tab" role="tab" data-v="b5"><span class="n">5</span>Ca&sup2;&#8314; &amp; ADH</button>
+    <button class="tab" role="tab" data-v="tests">UWorld Tests</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section class="view" id="v-overview" role="tabpanel">
+    <div class="ovnote">
+      <div class="oi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></div>
+      <p><b>Each tab has its own practice.</b> Tabs 1&ndash;5 each include Step 1-style practice questions and the UWorld QIDs specific to that tab's content.</p>
+    </div>
+    <a class="dbcta" href="https://hoyadocs.com/Step1/Path-Databases/endo-step1.html" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+      <div class="lt"><small>HoyaDocs &middot; Step 1</small><strong>Endocrine Pathology Database</strong><span>Path-specific disease details and DDx practice questions</span></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+
+    <div class="ovduo">
+      <div class="ovcol">
+        <div class="sh"><h2>Bootcamp Videos</h2></div>
+        <div class="card"><div class="vtop"><span class="kick">All blocks</span><span class="score" id="vtot"></span></div><div class="vall" id="vall"></div></div>
+      </div>
+      <div class="ovcol">
+        <div class="sh"><h2>UWorld QID Tests</h2></div>
+        <p style="margin:0 0 12px">Three 15-question mixed tests covering all five blocks. Copy a list into UWorld's custom test by QID.</p>
+        <div class="tests" id="ovtests"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCK VIEWS (rendered) -->
+  <div id="blocks"></div>
+
+  <!-- TESTS -->
+  <section class="view" id="v-tests" role="tabpanel">
+    <div class="sh"><h2>After the Session: UWorld Tests</h2></div>
+    <p style="margin:0 0 14px;max-width:820px">Each test is a 15-question mixed block covering all five session topics. Related QIDs are split across tests for spaced retrieval, and the most direct matches come first. Copy a list into UWorld's custom test by QID.</p>
+    <div class="tests" id="tests"></div>
+    <div class="sh"><h2>QIDs by Topic</h2></div>
+    <div class="card tw" style="padding:6px 10px">
+      <table class="t" id="ttable"></table>
+    </div>
+    <p class="hint">&#9733; = most direct match for that block.</p>
+  </section>
+
+  <div class="sh" id="helpful-links"><h2>Helpful Links</h2></div>
+  <section class="bench" aria-label="Helpful links">
+    <a class="lk feat" href="https://drive.google.com/drive/folders/1u1427xFAO-WKz4yGHGaEiWB6G_DUGiHK?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>SMEC Step Session Docs</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+    <a class="lk" href="https://drive.google.com/drive/folders/1766jOFGsqKQlMvUS8S9qkPPjxx_8Jb-9?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="7" y="3" width="13" height="15" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h10"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>HoyaDocs Step 1 Anki Decks</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+    <a class="lk" href="https://drive.google.com/drive/folders/1O9xVoGSbHczVQQZoV01jublBKpGJ8RhH?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>HoyaDocs UWorld QIDs</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+  </section>
+
+  <footer class="foot">
+    <div class="rev">HoyaDocs &middot; USMLE Step 1 &middot; SMEC Sessions &middot; Endocrine Session I</div>
+    <div class="rev">Rev 4 &middot; Updated Oct 20, 2026</div>
+  </footer>
+</div>
+<div class="toast" id="toast">Copied</div>
+
+<script>
+/* ---------- storage ---------- */
+var KEY='hoyadocs-smec-endo1';
+var S=(function(){var d={q:{},v:{},t:{},sc:{}};try{var x=JSON.parse(localStorage.getItem(KEY)||'null');if(x)for(var k in d)d[k]=x[k]||{};}catch(e){}return d;})();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+var DB='https://hoyadocs.com/Step1/Path-Databases/endo-step1.html';
+var EXT='<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>';
+function dbChip(name){return '<a class="dblink" href="'+DB+'#explorer" target="_blank" rel="noopener" title="Open the Endo Path Database explorer and search '+name+'">'+name+' '+EXT+'</a>';}
+
+/* ---------- content ---------- */
+var BLOCKS=[
+{id:'b1',n:1,short:'Insulin',title:'Insulin secretion and signaling',
+ line:'Every diabetes drug and hypoglycemia workup on Step 1 traces back to one β-cell pathway.',
+ core:'<ul>'+
+  '<li>Glucose enters via <b>GLUT2</b> → <b>glucokinase</b> phosphorylates it <span class="em">(the β-cell glucose sensor; mutation = MODY)</span></li>'+
+  '<li>Glycolysis + oxidative phosphorylation → ↑ ATP/ADP</li>'+
+  '<li>ATP closes the <b>K-ATP channel</b> → depolarization <span class="em">(sulfonylureas act here, independent of glucose)</span></li>'+
+  '<li>L-type Ca²⁺ channels open → Ca²⁺ influx → insulin exocytosis</li>'+
+  '<li><b>Proinsulin → insulin + C-peptide</b>, released 1:1 → C-peptide marks endogenous insulin (↑ insulin + low C-peptide = injected insulin)</li>'+
+  '<li><b>Insulin receptor = tyrosine kinase</b> → PI3K/AKT → GLUT4 to the membrane (muscle, fat) + glycogen synthesis; Ras/MAPK → growth</li>'+
+  '<li><b>Insulin resistance:</b> serine/threonine phosphorylation of IRS, driven by TNF-α, catecholamines, cortisol, glucagon</li>'+
+  '<li><b>Incretin effect:</b> oral glucose releases more insulin than IV (GLP-1, GIP)</li>'+
+  '<li><b>Exercise:</b> contraction moves GLUT4 without insulin → hypoglycemia risk in insulin users</li></ul>',
+ hy:'<b>C-peptide is the tie-breaker.</b> ↑ insulin + ↑ C-peptide = the β-cell is making it (insulinoma or sulfonylurea; check a sulfonylurea screen). ↑ insulin + ↓ C-peptide = someone injected it.',
+ traps:['GLUT4 (muscle, fat) is insulin-dependent; GLUT2 (β-cell, liver) is not. Brain and RBCs take up glucose without insulin.',
+  'Sulfonylureas and meglitinides cause hypoglycemia at any glucose level. GLP-1 agonists and DPP-4 inhibitors are glucose-dependent, so they rarely do on their own.',
+  'Glucokinase has a high Km, so it senses glucose. Hexokinase (most tissues) has a low Km and is inhibited by G6P.',
+  'Insulin moves K⁺ into cells (Na⁺/K⁺-ATPase). That is why insulin treats hyperkalemia and why it can drop K⁺ in DKA.'],
+ tool:'beta',
+ vids:[['Pancreas','Insulin Physiology',10],['Pancreas','Diabetes Mellitus',9],['Pancreas','Diabetes Type 1 and 2',11]],
+ fa:[['Insulin','~338'],['Glucagon','~337'],['Signaling pathways of endocrine hormones','341'],['Diabetes mellitus','350'],['Type 1 vs type 2 DM','351'],['Pancreatic islet cell tumors (insulinoma)','357'],['Diabetes mellitus therapy','359']],
+ q:[[1009,1,'K-ATP'],[1010,1,'Glucokinase / MODY'],[1768,1,'C-peptide'],[1121,1,'Insulin receptor'],[847,0,'GLUT4'],[1325,0,'GLUT4'],[1326,0,'Insulin resistance'],[6803,0,'Incretins'],[1655,0,''],[606,0,''],[8531,0,'']],
+ db:[['Hypoglycemia','Insulinoma vs sulfonylurea vs exogenous insulin'],['Type 1 Diabetes Mellitus','Autoimmune β-cell loss'],['Type 2 Diabetes Mellitus','Insulin resistance + β-cell failure']],
+ quiz:[
+  {s:'A 52-year-old woman has episodes of sweating, tremor and confusion that resolve after eating. During an episode, glucose is 38 mg/dL with elevated insulin and elevated C-peptide. A sulfonylurea screen is negative. What is the most likely cause?',o:['Surreptitious insulin injection','Insulinoma','Sulfonylurea ingestion','Primary adrenal insufficiency','Alcohol-induced hypoglycemia'],a:1,e:'↑ insulin with ↑ C-peptide means the β-cell is the source. With a negative sulfonylurea screen, an autonomous β-cell tumor (insulinoma) is left. Injected insulin would have low C-peptide.'},
+  {s:'A new oral agent lowers glucose by binding SUR1 on pancreatic β-cells. It causes hypoglycemia even when plasma glucose is low. Which step does it mimic?',o:['Activation of the GLP-1 receptor','Inhibition of DPP-4','A rise in the β-cell ATP/ADP ratio closing K-ATP channels','Activation of PPAR-γ','Translocation of GLUT4 to the membrane'],a:2,e:'Sulfonylureas close the K-ATP channel directly, doing what a high ATP/ADP ratio normally does. This bypasses glucose sensing, so insulin is released even when glucose is low.'},
+  {s:'A 24-year-old lean man has mild, stable fasting hyperglycemia (fasting glucose 118 mg/dL) without ketosis. His mother and grandmother have the same finding. Islet autoantibodies are negative. A defect in which protein is most likely?',o:['Insulin receptor tyrosine kinase','Glucokinase','GLUT4','Proinsulin convertase','Islet amyloid polypeptide'],a:1,e:'Autosomal dominant, mild, non-progressive fasting hyperglycemia in a young non-obese patient = MODY. Glucokinase (MODY2) mutations raise the glucose set-point for insulin release.'}]
+},
+{id:'b2',n:2,short:'Fed / Fast & DKA',title:'Fed vs. fasting metabolism and DKA',
+ line:'The insulin:glucagon ratio decides which fuel pathway runs; DKA is the fasting state with no insulin brake.',
+ core:'<div class="tw"><table class="t"><thead><tr><th>State</th><th>Dominant hormone</th><th>Main glucose source</th><th>Fat</th></tr></thead><tbody>'+
+  '<tr><td>Fed</td><td>Insulin</td><td>Dietary glucose; glycogen and FA synthesis</td><td>Stored (lipogenesis)</td></tr>'+
+  '<tr><td>Early fast (&lt; 12–18 h)</td><td>Glucagon, epinephrine</td><td>Hepatic glycogenolysis</td><td>Lipolysis begins</td></tr>'+
+  '<tr><td>Prolonged fast (&gt; 12–18 h)</td><td>Glucagon, cortisol</td><td><b>Gluconeogenesis</b> (lactate, alanine, glycerol)</td><td>FFA → β-oxidation → ketones for brain</td></tr></tbody></table></div>'+
+  '<ul><li><b>Fructose-2,6-bisphosphate:</b> activates PFK-1, inhibits F-1,6-BPase. Insulin raises it (glycolysis); glucagon/PKA lowers it (gluconeogenesis)</li>'+
+  '<li><b>Gluconeogenesis bypass enzymes:</b> pyruvate carboxylase (activated by acetyl-CoA), PEPCK (uses GTP), F-1,6-BPase, glucose-6-phosphatase</li>'+
+  '<li><b>Hormone-sensitive lipase:</b> ↑ by glucagon/epinephrine, ↓ by insulin → FFA + glycerol (glycerol → glucose via hepatic glycerol kinase)</li>'+
+  '<li><b>MCAD deficiency:</b> fasting hypoglycemia with <i>low</i> ketones</li>'+
+  '<li><b>Ethanol:</b> ↑ NADH/NAD⁺ blocks gluconeogenesis → hypoglycemia once glycogen runs out</li>'+
+  '<li><b>DKA:</b> no insulin → unchecked lipolysis → ketones → anion-gap acidosis. Hyperosmolality + insulin deficiency push K⁺ out of cells, so serum K⁺ is normal/high despite a total-body deficit → insulin drops K⁺, replace it</li></ul>',
+ hy:'<b>DKA potassium:</b> serum K⁺ looks normal or high, but total-body K⁺ is depleted. Insulin drives K⁺ back into cells, so check and replace K⁺ before and during the insulin drip.',
+ traps:['Hypoglycemia with LOW ketones points to a fatty-acid oxidation defect (MCAD) or hyperinsulinism, not starvation.',
+  'Acetyl-CoA from β-oxidation activates pyruvate carboxylase. Fat burning powers gluconeogenesis, but even-chain fatty acids cannot become net glucose.',
+  'Muscle lacks glucose-6-phosphatase, so muscle glycogen cannot raise blood glucose. Only the liver (and kidney) can export glucose.',
+  'Glucagon acts on the liver, not on muscle. Epinephrine acts on both.',
+  'The brain never uses fatty acids directly. It switches to ketones only in prolonged starvation.'],
+ tool:'fast',
+ vids:[['Pancreas','Diabetes Complications',11]],
+ fa:[['Ethanol metabolism','70'],['Glycolysis regulation & F-2,6-BP','~74'],['Gluconeogenesis, irreversible enzymes','76'],['Glycogen regulation by insulin & glucagon','84'],['Fatty acid metabolism (MCAD)','87'],['Ketone bodies','88'],['Diabetic ketoacidosis','351'],['Hyperosmolar hyperglycemic state','~352']],
+ q:[[997,1,'Gluconeogenesis'],[1031,1,'F-2,6-BP'],[1887,1,'Ketones'],[1540,1,'Insulin vs glucagon'],[985,1,'DKA K⁺'],[989,0,''],[1034,0,'Pyruvate carboxylase'],[11917,0,'HSL'],[1889,0,'Glycerol'],[1888,0,'MCAD'],[1866,0,'Ethanol']],
+ db:[['Diabetic Ketoacidosis','Labs, K⁺ and treatment'],['Hyperosmolar Hyperglycemic State','Compare with DKA'],['Type 1 Diabetes Mellitus','DKA-prone']],
+ quiz:[
+  {s:'A healthy volunteer fasts for 36 hours. Which process supplies most of his blood glucose at this point?',o:['Hepatic glycogenolysis','Muscle glycogenolysis','Hepatic gluconeogenesis','Dietary glucose absorption','Ketone body conversion to glucose'],a:2,e:'Hepatic glycogen runs out after roughly 12–18 hours (or sooner). After that, gluconeogenesis from lactate, alanine and glycerol keeps glucose up. Ketones cannot be converted back to glucose.'},
+  {s:'A 48-year-old man is found confused after a 2-day alcohol binge with little food. Glucose is 41 mg/dL. Which mechanism best explains his hypoglycemia?',o:['Increased hepatic glycogen breakdown','Decreased NADH/NAD⁺ ratio','Increased NADH/NAD⁺ ratio diverting pyruvate and oxaloacetate','Ethanol-induced insulin secretion','Increased glucagon resistance in muscle'],a:2,e:'Ethanol metabolism generates NADH. High NADH pushes pyruvate → lactate and OAA → malate, starving gluconeogenesis of substrate. Once glycogen is gone (poor intake), glucose falls.'},
+  {s:'An 18-month-old becomes lethargic after a day of vomiting and poor intake. Glucose is 35 mg/dL and urine ketones are absent. Plasma shows elevated C8–C10 acylcarnitines. Which enzyme is deficient?',o:['Glucose-6-phosphatase','Medium-chain acyl-CoA dehydrogenase','Carnitine palmitoyltransferase I','Pyruvate carboxylase','HMG-CoA lyase'],a:1,e:'Hypoketotic hypoglycemia with fasting and ↑ medium-chain (C8–C10) acylcarnitines = MCAD deficiency. Without β-oxidation there is no acetyl-CoA for ketones or to activate pyruvate carboxylase.'},
+  {s:'A 16-year-old with type 1 DM presents with DKA. Serum K⁺ is 5.6 mEq/L. An IV insulin infusion is started without other electrolytes. Which complication is most likely over the next several hours?',o:['Worsening hyperkalemia','Hypokalemia','Hypernatremia','Hypercalcemia','Hypermagnesemia'],a:1,e:'Despite the high serum value, total-body K⁺ is depleted by osmotic diuresis. Insulin shifts K⁺ into cells and serum K⁺ can drop sharply, risking arrhythmia. Replace K⁺.'}]
+},
+{id:'b3',n:3,short:'Steroids & CAH',title:'Steroid synthesis and CAH',
+ line:'Draw the pathway once and every CAH vignette becomes “which branch is blocked, and where does the backup go?”',
+ core:'<ul><li><b>Rate-limiting step:</b> cholesterol → pregnenolone (side-chain cleavage, mitochondria), stimulated by ACTH</li>'+
+  '<li><b>Zones:</b> glomerulosa → aldosterone (angiotensin II); fasciculata → cortisol (ACTH); reticularis → androgens (ACTH)</li>'+
+  '<li><b>Low cortisol → ↑ ACTH</b> → adrenal hyperplasia, with substrate shunted into the open branch</li></ul>'+
+  '<div class="tw"><table class="t"><thead><tr><th>Enzyme blocked</th><th>BP / K⁺</th><th>Androgens</th><th>Classic presentation</th></tr></thead><tbody>'+
+  '<tr><td>21-hydroxylase</td><td>↓ BP, ↑ K⁺</td><td>↑</td><td>Virilized XX; salt-wasting XY at 1–2 wk; ↑ 17-OH progesterone</td></tr>'+
+  '<tr><td>11β-hydroxylase</td><td>↑ BP, ↓ K⁺</td><td>↑</td><td>Virilization + HTN (↑ 11-deoxycorticosterone)</td></tr>'+
+  '<tr><td>17α-hydroxylase</td><td>↑ BP, ↓ K⁺</td><td>↓</td><td>XY phenotypic female; XX no puberty</td></tr></tbody></table></div>'+
+  '<ul><li><b>Metyrapone</b> blocks 11β-hydroxylase → ↑ 11-deoxycortisol and ACTH if the HPA axis is intact</li>'+
+  '<li><b>Cortisol → PNMT:</b> cortisol flowing from cortex to medulla drives NE → epinephrine</li></ul>',
+ hy:'<b>Memory aid:</b> enzyme <i>starts</i> with 1 (11β, 17α) → hypertension. Enzyme <i>ends</i> with 1 (21, 11β) → virilization. 11β does both.',
+ traps:['All three CAH forms have ↓ cortisol and ↑ ACTH, so all cause bilateral adrenal hyperplasia. Use BP, K⁺ and androgens to tell them apart.',
+  '11β-hydroxylase: HTN with LOW aldosterone and low renin. 11-deoxycorticosterone is the mineralocorticoid causing it.',
+  'Salt-wasting 21-OH deficiency is easy to miss in boys (normal genitalia). They present at 1–2 weeks with vomiting, ↓ Na⁺ and ↑ K⁺.',
+  'Exogenous steroids → ↓ ACTH → atrophy of fasciculata and reticularis. The glomerulosa is spared because it runs on angiotensin II.',
+  'Ketoconazole blocks side-chain cleavage (desmolase) and 17,20-lyase, so it lowers both cortisol and androgens.'],
+ tool:'cah',
+ vids:[['Adrenal Glands','Adrenal Glands Physiology',12],['Adrenal Glands','Adrenal Cortex Pathways Overview',10],['Adrenal Glands','21-hydroxylase deficiency',11],['Adrenal Glands','17-alpha-hydroxylase deficiency',10],['Adrenal Glands','11-beta-hydroxylase deficiency',9]],
+ fa:[['Adrenal cortex & medulla','~332'],['Adrenal steroids & CAH','339'],['Cortisol','340'],['Signaling pathway of steroid hormones','341'],['Catecholamine synthesis (PNMT)','~81']],
+ q:[[2016,1,'Cholesterol → pregnenolone'],[930,1,'21-OH'],[611,1,'11β-OH'],[610,1,'17α-OH'],[608,0,'Metyrapone'],[1163,0,'ACTH & zones'],[602,0,'PNMT']],
+ db:[['Congenital Adrenal Hyperplasia (21-Hydroxylase Deficiency)','Full disease entry'],['Primary Hyperaldosteronism (Conn Syndrome)','HTN + ↓ K⁺ differential'],['Primary Adrenal Insufficiency (Addison Disease)','↓ cortisol, ↑ ACTH'],['Cushing Syndrome (Exogenous Corticosteroids)','Bilateral atrophy'],['Pheochromocytoma','Medulla / PNMT']],
+ quiz:[
+  {s:'A 2-week-old boy with normal genitalia has vomiting and poor feeding. Na⁺ is 126 mEq/L, K⁺ is 6.8 mEq/L, and BP is low. Which lab finding is most likely?',o:['↓ ACTH','↑ 17-hydroxyprogesterone','↑ 11-deoxycorticosterone','↓ DHEA-S','↑ aldosterone'],a:1,e:'Salt-wasting 21-hydroxylase deficiency: no aldosterone (hyponatremia, hyperkalemia, hypotension), and 17-OH progesterone backs up behind the block. ACTH is high.'},
+  {s:'A 16-year-old phenotypic female has primary amenorrhea, no breast development, BP 160/100 mm Hg and K⁺ 3.0 mEq/L. Karyotype is 46,XY. Which enzyme is deficient?',o:['21-hydroxylase','11β-hydroxylase','17α-hydroxylase','5α-reductase','Aromatase'],a:2,e:'17α-hydroxylase deficiency blocks cortisol and all sex steroids. Mineralocorticoid precursors (11-deoxycorticosterone) pile up → HTN and hypokalemia. XY patients look female; XX patients have no puberty.'},
+  {s:'Metyrapone is given to a patient with a normal hypothalamic-pituitary-adrenal axis. Which pattern is expected 8 hours later?',o:['↓ cortisol, ↓ ACTH, ↓ 11-deoxycortisol','↓ cortisol, ↑ ACTH, ↑ 11-deoxycortisol','↑ cortisol, ↓ ACTH, ↓ 11-deoxycortisol','↓ cortisol, ↑ ACTH, ↓ 11-deoxycortisol','No change'],a:1,e:'Metyrapone blocks 11β-hydroxylase. Cortisol falls, the intact pituitary raises ACTH, and 11-deoxycortisol accumulates behind the block. No rise in ACTH or 11-deoxycortisol = pituitary or hypothalamic failure.'}]
+},
+{id:'b4',n:4,short:'Feedback & Labs',title:'Feedback loops and lab interpretation',
+ line:'One rule reads almost every endocrine lab: tropic and target hormone moving in opposite directions means the gland itself; moving in the same direction means the problem is upstream.',
+ core:'<div class="tw"><table class="t"><thead><tr><th>Pattern</th><th>Tropic</th><th>Target</th><th>Read it as</th></tr></thead><tbody>'+
+  '<tr><td>Primary hypothyroidism (Hashimoto)</td><td>↑ TSH</td><td>↓ T4</td><td>Thyroid failing</td></tr>'+
+  '<tr><td>Central hypothyroidism (Sheehan)</td><td>↓/normal TSH</td><td>↓ T4</td><td>Pituitary failing</td></tr>'+
+  '<tr><td>Graves</td><td>↓ TSH</td><td>↑ T4</td><td>Gland driven by TSH-receptor Ab</td></tr>'+
+  '<tr><td>Exogenous T4</td><td>↓ TSH</td><td>↑ T4</td><td><b>Low thyroglobulin</b></td></tr>'+
+  '<tr><td>↑ TBG (pregnancy, estrogen)</td><td>Normal TSH</td><td>↑ total, normal free T4</td><td>Binding change, not disease</td></tr>'+
+  '<tr><td>Cushing disease</td><td>↑ ACTH</td><td>↑ cortisol</td><td>Suppresses on high-dose dex</td></tr>'+
+  '<tr><td>Ectopic ACTH (small cell lung)</td><td>↑ ACTH</td><td>↑ cortisol</td><td>No suppression</td></tr>'+
+  '<tr><td>Adrenal tumor / exogenous steroids</td><td>↓ ACTH</td><td>↑ cortisol</td><td>Adrenal or pill source; exogenous → bilateral atrophy</td></tr></tbody></table></div>'+
+  '<ul><li><b>Thyroid synthesis:</b> TPO oxidizes iodide, iodinates thyroglobulin, couples MIT/DIT (thionamides block TPO). 5′-deiodinase makes T4 → T3 (blocked by PTU, propranolol, glucocorticoids)</li>'+
+  '<li><b>Second messengers:</b> cAMP (TSH, ACTH, PTH, glucagon, LH/FSH, ADH-V2) · IP3/Ca²⁺ (TRH, GnRH, ADH-V1, oxytocin) · receptor tyrosine kinase (insulin, IGF-1) · JAK/STAT (GH, prolactin) · nuclear receptor (steroids, thyroid hormone)</li></ul>',
+ hy:'<b>Opposite directions = the gland. Same direction = upstream.</b> ↑ TSH with ↓ T4 is the thyroid; ↓ TSH with ↓ T4 is the pituitary. The same rule reads ACTH/cortisol, PTH/Ca²⁺, LH/testosterone and GH/IGF-1.',
+ traps:['Total T4 tracks TBG; free T4 does not. Pregnancy and OCPs raise total T4 with normal TSH and free T4.',
+  'Low-dose dexamethasone is the screen (no Cushing cause suppresses). High-dose dexamethasone separates pituitary (suppresses) from ectopic (does not).',
+  'Primary hypothyroidism → ↑ TRH → ↑ prolactin. This can cause galactorrhea or amenorrhea.',
+  'Factitious thyrotoxicosis: ↓ TSH, ↑ T4, LOW thyroglobulin and low radioiodine uptake. Graves has ↑ uptake.',
+  'PTU blocks both TPO and peripheral 5′-deiodinase; methimazole blocks only TPO.'],
+ tool:'feedback',
+ vids:[['Anterior & Posterior Pituitary','Anterior Pituitary function',14],['Thyroid','T3/T4 synthesis and Pharm',15],['Adrenal Glands','Hypercortisolism Review',6]],
+ fa:[['Hypothalamic-pituitary hormones','~332'],['Thyroid hormones','335'],['Signaling pathways of endocrine hormones','341'],['Hypopituitarism','343'],['Hypo- vs hyperthyroidism','~344'],['Hypothyroidism','345'],['Hyperthyroidism','~346'],['Cushing syndrome','352'],['Thioamides','~359']],
+ q:[[764,1,'TRH/TSH/T4 feedback'],[772,1,'TBG'],[612,1,'Dexamethasone test'],[1615,0,'T4 → T3'],[770,0,'TPO'],[983,0,''],[928,0,'HPA suppression'],[994,0,'cAMP/PKA']],
+ db:[['Hashimoto Thyroiditis','Primary hypothyroidism'],['Graves Disease','TSH-receptor antibody'],['Pituitary Adenoma (Hypopituitarism)','Sheehan, central patterns'],['Cushing Disease','Pituitary ACTH'],['Cushing Syndrome (Exogenous Corticosteroids)','↓ ACTH pattern'],['Hyperprolactinemia','↑ TRH in hypothyroidism']],
+ quiz:[
+  {s:'A 29-year-old woman on oral contraceptives has a routine panel: TSH normal, total T4 elevated, free T4 normal. She feels well. What explains these results?',o:['Graves disease','Subclinical hypothyroidism','Increased thyroxine-binding globulin','TSH-secreting pituitary adenoma','Exogenous levothyroxine'],a:2,e:'Estrogen raises TBG, so more T4 is bound and total T4 rises. Free T4 and TSH stay normal because the axis senses free hormone. This is a binding change, not disease.'},
+  {s:'A nurse has palpitations and weight loss. TSH is suppressed, free T4 is high, serum thyroglobulin is low and radioiodine uptake is diffusely low. What is the most likely diagnosis?',o:['Graves disease','Toxic multinodular goiter','Exogenous thyroid hormone use','Subacute granulomatous thyroiditis','TSH-secreting adenoma'],a:2,e:'Low thyroglobulin means the gland is not releasing hormone. The T4 comes from a pill. Thyroiditis also has low uptake but releases stored thyroglobulin (↑).'},
+  {s:'A 61-year-old smoker has hypertension, hypokalemia and new hyperglycemia. Cortisol and ACTH are both elevated, and cortisol does not suppress with high-dose dexamethasone. What is the most likely source?',o:['Pituitary corticotroph adenoma','Adrenal cortical adenoma','Small cell lung carcinoma','Exogenous prednisone','Bilateral adrenal atrophy'],a:2,e:'↑ ACTH + ↑ cortisol (same direction) = upstream. Non-suppression on high-dose dex points to ectopic ACTH, classically small cell lung cancer in a smoker.'},
+  {s:'Which hormone acts through a receptor that signals via the JAK/STAT pathway?',o:['TSH','Insulin','Growth hormone','ADH at V2 receptors','Cortisol'],a:2,e:'GH and prolactin (plus cytokines and EPO) use JAK/STAT. TSH and ADH-V2 use cAMP, insulin uses an intrinsic receptor tyrosine kinase, and cortisol uses an intracellular receptor.'}]
+},
+{id:'b5',n:5,short:'Ca²⁺ & ADH',title:'Calcium/PTH/vitamin D and ADH',
+ line:'PTH and vitamin D both raise calcium but move phosphate in opposite directions; ADH is a water-only hormone.',
+ core:'<ul><li><b>Vitamin D:</b> 7-dehydrocholesterol → D3 (skin, UV) → 25-OH D (liver) → 1,25-(OH)₂ D (kidney 1α-hydroxylase, stimulated by PTH)</li>'+
+  '<li><b>PTH:</b> ↑ bone resorption (via osteoblast RANKL), ↑ distal Ca²⁺ reabsorption, ↓ proximal PO₄ reabsorption, ↑ 1α-hydroxylase. Intermittent PTH (teriparatide) is anabolic</li>'+
+  '<li><b>Calcium-sensing receptor (GPCR):</b> loss of function = FHH (mild ↑ Ca²⁺, low urine Ca²⁺)</li></ul>'+
+  '<div class="tw"><table class="t"><thead><tr><th>Pattern</th><th>Ca²⁺</th><th>PO₄</th><th>PTH</th></tr></thead><tbody>'+
+  '<tr><td>Primary hyperparathyroidism</td><td>↑</td><td>↓</td><td>↑</td></tr>'+
+  '<tr><td>Vitamin D deficiency</td><td>↓/normal</td><td>↓</td><td>↑</td></tr>'+
+  '<tr><td>CKD (secondary HPT)</td><td>↓</td><td>↑</td><td>↑</td></tr>'+
+  '<tr><td>Hypoparathyroidism (post-thyroidectomy)</td><td>↓</td><td>↑</td><td>↓</td></tr>'+
+  '<tr><td>FHH</td><td>↑</td><td>normal</td><td>normal/↑</td></tr></tbody></table></div>'+
+  '<ul><li><b>ADH:</b> made in supraoptic/paraventricular nuclei, carried by neurophysin II to the posterior pituitary. V2 (cAMP) → aquaporin-2 + urea permeability in the collecting duct; V1 (IP3) → vasoconstriction</li>'+
+  '<li><b>Central DI</b> (no ADH, responds to desmopressin) vs. <b>nephrogenic DI</b> (no response) vs. <b>SIADH</b> (euvolemic ↓ Na⁺, concentrated urine)</li></ul>',
+ hy:'<b>PTH dumps phosphate; vitamin D keeps it.</b> Primary HPT = ↑ Ca²⁺, ↓ PO₄. CKD = ↑ PO₄ (can\'t excrete) with ↓ 1,25-D → ↓ Ca²⁺ → ↑ PTH. Mild ↑ Ca²⁺ with low urine Ca²⁺ = FHH: don\'t operate.',
+ traps:['PTH acts on osteoblasts (RANKL), not directly on osteoclasts.',
+  'FHH looks like primary HPT on serum labs. The urine calcium/creatinine clearance ratio (< 0.01) gives it away.',
+  'Lithium and demeclocycline cause nephrogenic DI. No response to desmopressin.',
+  'SIADH is euvolemic, with ↓ serum osm and inappropriately concentrated urine. Classic causes: small cell lung cancer, CNS injury, SSRIs, carbamazepine, cyclophosphamide.',
+  'Correct chronic hyponatremia slowly. Too fast risks osmotic demyelination.'],
+ tool:'calcium',
+ vids:[['Parathyroids','Parathyroid Location and Function',14],['Parathyroids','Vitamin D Deficiency',8],['Anterior & Posterior Pituitary','Posterior Pituitary function',8]],
+ fa:[['Vitamin D','68'],['Antidiuretic hormone','333'],['Parathyroid hormone','335'],['Calcium homeostasis','~336'],['SIADH · Diabetes insipidus','~342'],['Diagnosing parathyroid disease','~348'],['Lab values in hypocalcemia','348'],['Hyperparathyroidism · FHH','349'],['Cinacalcet','361']],
+ q:[[990,1,'Vitamin D synthesis'],[992,1,'CaSR / FHH'],[1562,1,'Neurophysins'],[641,0,'PTH & bone'],[991,0,'CKD'],[2012,0,'ADH & urea'],[206,0,'Central DI'],[226,0,'SIADH']],
+ db:[['Primary Hyperparathyroidism','↑ Ca²⁺, ↓ PO₄, ↑ PTH'],['Hypoparathyroidism','Post-surgical, DiGeorge'],['Pseudohypoparathyroidism','PTH resistance'],['Central Diabetes Insipidus','Desmopressin responds'],['SIADH','Euvolemic hyponatremia']],
+ quiz:[
+  {s:'A 45-year-old man has asymptomatic Ca²⁺ of 10.9 mg/dL found on routine labs. PTH is high-normal and phosphate is normal. His father had the same finding after a "negative" neck exploration. The 24-hour urine calcium/creatinine clearance ratio is 0.006. What is the best next step?',o:['Parathyroidectomy','Sestamibi scan','Reassurance; no surgery','Start cinacalcet','Start calcitriol'],a:2,e:'Mild ↑ Ca²⁺, inappropriately normal PTH, very low urine Ca²⁺ and family history = familial hypocalciuric hypercalcemia (inactivating CaSR mutation). It is benign; surgery does not help.'},
+  {s:'A 62-year-old with stage 4 CKD has bone pain. Which set of labs is expected?',o:['↑ Ca²⁺, ↓ PO₄, ↑ PTH','↓ Ca²⁺, ↑ PO₄, ↑ PTH','↓ Ca²⁺, ↑ PO₄, ↓ PTH','↑ Ca²⁺, normal PO₄, normal PTH','↓ Ca²⁺, ↓ PO₄, ↑ PTH'],a:1,e:'Failing kidneys retain phosphate and make less 1,25-D. Both lower Ca²⁺ and drive secondary hyperparathyroidism.'},
+  {s:'After a motorcycle crash with skull-base fracture, a man produces 8 L/day of dilute urine. Urine osm stays low with water deprivation but rises 70% after desmopressin. What is the diagnosis?',o:['Primary polydipsia','Nephrogenic DI','Central DI','SIADH','Osmotic diuresis'],a:2,e:'No concentration with water deprivation means there is no ADH effect. A big rise after desmopressin means the kidney works, so ADH production failed: central DI.'},
+  {s:'A 66-year-old smoker has Na⁺ of 122 mEq/L, serum osm 255 mOsm/kg, urine osm 520 mOsm/kg, and is clinically euvolemic. Chest CT shows a central hilar mass. What is the mechanism of his hyponatremia?',o:['Aldosterone deficiency','Ectopic ADH causing free water retention','Excess free water intake','Renal salt wasting from cisplatin','Ectopic PTHrP'],a:1,e:'Euvolemic hyponatremia with inappropriately concentrated urine = SIADH. Small cell lung cancer secretes ADH ectopically.'}]
+}];
+
+var COV=[['Pathophysiology',52,'var(--s1)'],['Biochemistry',46,'var(--s2)'],['Pharmacology',40,'var(--nc)'],['Pathology',31,'var(--sb)'],['Physiology',22,'var(--s2)']];
+var TESTS=[[1009,1768,847,6803,997,1887,985,11917,2016,930,764,612,770,990,1562],[1010,1121,1655,606,1031,1540,989,1888,611,608,772,1615,928,992,641],[1325,1326,8531,1034,1889,1866,610,1163,602,983,994,991,2012,206,226]];
+
+/* ---------- render helpers ---------- */
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return [].slice.call((r||document).querySelectorAll(s));}
+function vkey(b,i){return b.id+'-'+i;}
+function mins(b){return b.vids.reduce(function(a,v){return a+v[2];},0);}
+function qidInfo(q){for(var i=0;i<BLOCKS.length;i++)for(var j=0;j<BLOCKS[i].q.length;j++)if(BLOCKS[i].q[j][0]===q)return [BLOCKS[i],BLOCKS[i].q[j]];return null;}
+
+function renderOv(){
+  var tot=0;
+  $('#vall').innerHTML=BLOCKS.map(function(b){tot+=mins(b);
+    return '<div class="vg"><h4><span class="n">'+b.n+'</span>'+b.short+'<span class="m">'+mins(b)+' min</span></h4>'+
+      b.vids.map(function(v,i){var k=vkey(b,i);return '<label class="vid'+(S.v[k]?' ck':'')+'"><input type="checkbox" data-v="'+k+'"'+(S.v[k]?' checked':'')+'><span class="vt"><small>'+v[0]+'</small>'+v[1]+'</span><span class="vm">'+v[2]+' min</span></label>';}).join('')+'</div>';}).join('');
+  $('#vtot').textContent='15 videos · '+Math.floor(tot/60)+' h '+(tot%60)+' min';
+  $('#ovtests').innerHTML=testCards();
+}
+function renderMap(){
+  $('#map').innerHTML=BLOCKS.map(function(b){
+    var d=b.q.filter(function(x){return S.q[x[0]];}).length;
+    return '<button class="mc" data-go="'+b.id+'"><span class="num">'+b.n+'</span><strong>'+b.title+'</strong><p>'+b.line+'</p>'+
+      '<span class="meta"><span class="pill">'+b.q.length+' QIDs</span><span class="pill">'+b.vids.length+' videos · '+mins(b)+' min</span><span class="pill">FA '+faRange(b)+'</span></span>'+
+      '<span class="done">'+d+' / '+b.q.length+' QIDs done</span></button>';
+  }).join('');
+}
+function faRange(b){
+  var ps=b.fa.map(function(f){return parseInt(String(f[1]).replace(/[^0-9]/g,''),10);}).filter(function(x){return x>200;});
+  if(!ps.length)ps=b.fa.map(function(f){return parseInt(String(f[1]).replace(/[^0-9]/g,''),10);});
+  var mn=Math.min.apply(null,ps),mx=Math.max.apply(null,ps);return mn===mx?mn:mn+'–'+mx;
+}
+function renderCov(){
+  var max=52;
+  $('#cov').innerHTML=COV.map(function(c){return '<div class="r"><span>'+c[0]+'</span><span class="bar" style="width:'+(c[1]/max*100)+'%;background:'+c[2]+'"></span><b>'+c[1]+'</b></div>';}).join('');
+}
+function qidBtn(x){return '<button class="qid'+(x[1]?' key':'')+(S.q[x[0]]?' done':'')+'" data-q="'+x[0]+'" aria-pressed="'+(S.q[x[0]]?'true':'false')+'" title="Tap to mark done">'+x[0]+(x[2]?'<small>'+x[2]+'</small>':'')+'</button>';}
+
+function renderBlocks(){
+  $('#blocks').innerHTML=BLOCKS.map(function(b){
+    var vids=b.vids.map(function(v,i){var k=vkey(b,i);return '<label class="vid'+(S.v[k]?' ck':'')+'"><input type="checkbox" data-v="'+k+'"'+(S.v[k]?' checked':'')+'><span class="vt"><small>'+v[0]+'</small>'+v[1]+'</span><span class="vm">'+v[2]+' min</span></label>';}).join('');
+    var fa=b.fa.map(function(f){return '<div><span>'+f[0]+'</span><b>p. '+f[1]+'</b></div>';}).join('');
+    var qs=b.q.map(qidBtn).join('');
+    var db=b.db.map(function(d){return '<a href="'+DB+'#explorer" target="_blank" rel="noopener"><span>'+d[0]+'<br><small>'+d[1]+'</small></span>'+EXT+'</a>';}).join('');
+    var quiz=b.quiz.map(function(q,qi){return '<div class="q" data-b="'+b.id+'" data-qi="'+qi+'"><p class="stem"><b class="qn">Q'+(qi+1)+'</b>'+q.s+'</p><div class="opts">'+
+      q.o.map(function(o,oi){return '<button class="opt" data-oi="'+oi+'"><b>'+'ABCDE'[oi]+'</b><span>'+o+'</span></button>';}).join('')+
+      '</div><div class="exp"></div></div>';}).join('');
+    return '<section class="view" id="v-'+b.id+'" role="tabpanel">'+
+      '<div class="bhead"><span class="big">'+b.n+'</span><div><div class="kick">Block '+b.n+' of 5</div><h2>'+b.title+'</h2><p>'+b.line+'</p></div></div>'+
+      '<div class="card ovw"><div class="kick">Overview</div><div class="rgrid">'+
+        '<div class="sp"><h4>UWorld QIDs <span class="cnt" data-cnt="'+b.id+'"></span></h4><div class="qids">'+qs+'</div>'+
+          '<div class="sbtns"><button class="sbtn" data-copy="'+b.q.map(function(x){return x[0];}).join(', ')+'">Copy all</button><button class="sbtn" data-copy="'+b.q.filter(function(x){return x[1];}).map(function(x){return x[0];}).join(', ')+'">Copy &#9733; only</button></div>'+
+          '<p class="hint">&#9733; = most direct match. Tap a QID to mark it done.</p></div>'+
+        '<div class="sp"><h4>Bootcamp videos <span class="cnt">'+mins(b)+' min</span></h4>'+vids+'</div>'+
+        '<div class="sp"><h4>First Aid 2026</h4><div class="fa">'+fa+'</div></div>'+
+        '<div class="sp"><h4>Endo Path Database</h4><div class="dbl">'+db+'</div><p class="hint">Opens the database explorer. Search the disease name for the full entry.</p></div>'+
+      '</div></div>'+
+      '<div class="duo">'+
+        '<details class="tg hy" open><summary><span class="tag">&#9733; Step 1 high yield</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>'+b.hy+'</p></details>'+
+        '<details class="tg traps" open><summary><span class="tag">! Step 1 traps</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><ul>'+b.traps.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></details>'+
+      '</div>'+
+      '<div class="card tool" id="tool-'+b.id+'"></div>'+
+      '<div class="card"><div class="kick">Quick check</div><p style="color:var(--muted);font-size:15px;margin:2px 0 10px">Step 1-style vignettes. Pick an answer to see the explanation.</p><div class="qz">'+quiz+'</div></div>'+
+      '</section>';
+  }).join('');
+}
+
+/* ---------- interactive tools ---------- */
+function toolBeta(el){
+  var ST=[
+   ['GLUT2','Glucose enters','Glucose enters the β-cell through GLUT2 (insulin-independent, high capacity). Uptake follows the plasma level.','GLUT2 is also the liver transporter, so hepatocytes sense portal glucose too.'],
+   ['Glucokinase','Glucose sensor','Glucokinase phosphorylates glucose → G6P. High Km, not inhibited by G6P, so the rate tracks plasma glucose.','Loss-of-function mutation = MODY2 (mild, stable fasting hyperglycemia, autosomal dominant).'],
+   ['↑ ATP/ADP','Metabolism','Glycolysis + TCA + oxidative phosphorylation raise the ATP/ADP ratio.','Mitochondrial disease can impair insulin secretion.'],
+   ['K-ATP closes','Depolarize','ATP closes the K-ATP channel (Kir6.2 + SUR1). K⁺ efflux stops → membrane depolarizes.','Sulfonylureas and meglitinides close it directly, regardless of glucose → hypoglycemia. Diazoxide opens it (treats insulinoma). Activating KCNJ11 mutations → neonatal diabetes, treated with sulfonylureas.'],
+   ['Ca²⁺ influx','L-type channel','Depolarization opens voltage-gated L-type Ca²⁺ channels → Ca²⁺ influx.','The same Ca²⁺-triggered exocytosis logic as neurotransmitter release.'],
+   ['Exocytosis','Insulin + C-peptide','Granules release insulin and C-peptide 1:1 (cleaved from proinsulin). Insulin binds its receptor tyrosine kinase → PI3K/AKT → GLUT4.','C-peptide = endogenous insulin marker. GLP-1/GIP (incretins) amplify this step via cAMP, only when glucose is high.']];
+  var cur=3;
+  el.innerHTML='<div class="kick">&#9881; Interactive · β-cell stepper</div><h3 style="margin-top:4px">Walk the insulin secretion pathway</h3><p style="color:var(--muted);font-size:15px">Tap a step to see what happens there and which drugs or defects act at that point.</p>'+
+   '<div class="bstep">'+ST.map(function(s,i){return (i?'<span class="ar">→</span>':'')+'<button data-i="'+i+'"><small>Step '+(i+1)+'</small>'+s[0]+'</button>';}).join('')+'</div>'+
+   '<div class="out" style="margin-top:10px" id="bout"></div>'+
+   '<div style="margin-top:16px"><div class="kick">Hypoglycemia decoder</div><p style="color:var(--muted);font-size:15px;margin:2px 0 6px">Set the labs drawn during the episode.</p>'+
+   '<div class="ctrlrow"><div><div class="lab">Insulin</div><div class="seg" data-k="ins"><button data-x="up">↑ High</button><button data-x="dn">↓ Low</button></div></div>'+
+   '<div><div class="lab">C-peptide</div><div class="seg" data-k="cp"><button data-x="up">↑ High</button><button data-x="dn">↓ Low</button></div></div>'+
+   '<div><div class="lab">Sulfonylurea screen</div><div class="seg" data-k="su"><button data-x="pos">Positive</button><button data-x="neg">Negative</button></div></div></div>'+
+   '<div class="out" id="hout"></div></div>';
+  function show(i){cur=i;$$('.bstep button',el).forEach(function(b,j){b.setAttribute('aria-pressed',j===i?'true':'false');});var s=ST[i];
+    $('#bout',el).innerHTML='<h5>'+(i+1)+' · '+s[0]+' <span style="color:var(--muted);font-size:15px">'+s[1]+'</span></h5><p>'+s[2]+'</p><p><b style="color:var(--acc-ink)">Drugs / defects here:</b> '+s[3]+'</p>';}
+  $$('.bstep button',el).forEach(function(b){b.onclick=function(){show(+b.dataset.i);};});
+  show(cur);
+  var h={ins:'up',cp:'up',su:'neg'};
+  function hy(){
+    $$('.seg',el).forEach(function(sg){var k=sg.dataset.k;if(!k)return;$$('button',sg).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.x===h[k]?'true':'false');});});
+    var r;
+    if(h.ins==='up'&&h.cp==='dn')r=['Exogenous insulin','Insulin without C-peptide was injected. Think factitious disorder, a caregiver with access to insulin, or a dosing error. The sulfonylurea screen does not change this.',['Hypoglycemia']];
+    else if(h.ins==='up'&&h.cp==='up'&&h.su==='pos')r=['Sulfonylurea / meglitinide ingestion','The β-cell is releasing insulin because a drug closed its K-ATP channels. Accidental (pharmacy error) or factitious.',['Hypoglycemia']];
+    else if(h.ins==='up'&&h.cp==='up')r=['Insulinoma','Autonomous β-cell tumor: Whipple triad, ↑ insulin, ↑ C-peptide, ↑ proinsulin, negative screen. Associated with MEN1. FA p. 357.',['Hypoglycemia','Multiple Endocrine Neoplasia Type 1']];
+    else if(h.ins==='dn'&&h.cp==='dn')r=['Non-insulin-mediated hypoglycemia','Insulin is appropriately suppressed. Think alcohol, starvation, adrenal insufficiency, liver failure, or inborn errors (MCAD, glycogen storage disease). Check ketones next.',['Primary Adrenal Insufficiency (Addison Disease)']];
+    else r=['Recheck the labs','Low insulin with high C-peptide is not a classic Step 1 pattern. C-peptide has a longer half-life, but on exams insulin and C-peptide move together when the source is the β-cell.',[]];
+    $('#hout',el).innerHTML='<h5>'+r[0]+'</h5><p>'+r[1]+'</p>'+(r[2].length?'<div class="chips">'+r[2].map(dbChip).join('')+'</div>':'');
+  }
+  $$('.seg',el).forEach(function(sg){$$('button',sg).forEach(function(b){b.onclick=function(){h[sg.dataset.k]=b.dataset.x;hy();};});});
+  hy();
+}
+
+function toolFast(el){
+  var ST={
+   fed:{t:'Fed (0–4 h)',h:'Insulin ↑, glucagon ↓',f26:'↑ → PFK-1 on, F-1,6-BPase off',g:'Dietary glucose. Liver and muscle store glycogen; liver makes fatty acids.',fat:'Lipoprotein lipase stores TG in adipose; HSL off',on:'Glucokinase, PFK-1, glycogen synthase, acetyl-CoA carboxylase, PDH',br:'Glucose',k:'None'},
+   early:{t:'Early fast (4–18 h)',h:'Glucagon + epinephrine ↑, insulin ↓',f26:'↓ (glucagon → cAMP → PKA)',g:'Hepatic glycogenolysis (glycogen phosphorylase). Gluconeogenesis starting.',fat:'HSL on → FFA + glycerol',on:'Glycogen phosphorylase, HSL, F-1,6-BPase',br:'Glucose',k:'Minimal'},
+   late:{t:'Prolonged fast (> 18 h)',h:'Glucagon + cortisol ↑, insulin ↓↓',f26:'↓↓',g:'Gluconeogenesis from lactate (Cori), alanine (muscle), glycerol (fat). Liver glycogen gone.',fat:'FFA → hepatic β-oxidation → acetyl-CoA → ketones',on:'Pyruvate carboxylase (acetyl-CoA-activated), PEPCK, F-1,6-BPase, G6Pase, HMG-CoA synthase',br:'Glucose + increasing ketones (days), sparing muscle protein',k:'↑ (physiologic, no acidosis)'},
+   dka:{t:'No insulin (DKA)',h:'Insulin absent; glucagon, cortisol, catecholamines ↑',f26:'↓↓',g:'Gluconeogenesis + glycogenolysis run unopposed, and muscle/fat cannot take up glucose → hyperglycemia, osmotic diuresis.',fat:'Unchecked lipolysis → flood of FFA → ketones (β-hydroxybutyrate, acetoacetate)',on:'Every fasting enzyme, maximally',br:'—',k:'↑↑↑ → anion-gap metabolic acidosis, Kussmaul breathing, fruity breath. Serum K⁺ normal/↑ but total-body K⁺ ↓'}};
+  var cur='fed';
+  el.innerHTML='<div class="kick">&#9881; Interactive · fuel switch</div><h3 style="margin-top:4px">What is running right now?</h3><p style="color:var(--muted);font-size:15px">Pick a metabolic state to see the hormones, F-2,6-BP, active enzymes and fuel.</p>'+
+   '<div class="seg" id="fseg">'+Object.keys(ST).map(function(k){return '<button data-k="'+k+'">'+ST[k].t+'</button>';}).join('')+'</div><div class="out" id="fout"></div>';
+  function show(k){cur=k;$$('#fseg button',el).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.k===k?'true':'false');});var s=ST[k];
+    $('#fout',el).innerHTML='<h5>'+s.t+'</h5><dl class="kv"><dt>Hormones</dt><dd>'+s.h+'</dd><dt>F-2,6-BP</dt><dd>'+s.f26+'</dd><dt>Glucose source</dt><dd>'+s.g+'</dd><dt>Fat</dt><dd>'+s.fat+'</dd><dt>Enzymes on</dt><dd>'+s.on+'</dd><dt>Brain fuel</dt><dd>'+s.br+'</dd><dt>Ketones</dt><dd>'+s.k+'</dd></dl>'+
+      (k==='dka'?'<div class="chips">'+dbChip('Diabetic Ketoacidosis')+dbChip('Hyperosmolar Hyperglycemic State')+'</div>':'');}
+  $$('#fseg button',el).forEach(function(b){b.onclick=function(){show(b.dataset.k);};});
+  show(cur);
+}
+
+function toolCah(el){
+  var A='<svg viewBox="0 0 60 12" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6h52M48 2l6 4-6 4"/></svg>';
+  var AV='<svg viewBox="0 0 12 30" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v24M2 21l4 6 4-6"/></svg>';
+  var N={preg:'Pregnenolone',prog:'Progesterone',doc:'11-Deoxy&shy;corticosterone',cs:'Cortico&shy;sterone',aldo:'Aldosterone',ohpreg:'17-OH preg&shy;nenolone',ohprog:'17-OH progesterone',dc:'11-Deoxycortisol',cort:'Cortisol',dhea:'DHEA',andro:'Andro&shy;stenedione',testo:'Testo&shy;sterone'};
+  // grid: col1 label, then node/edge alternating cols 2..10
+  var cells=[
+   ['zl',1,1,'<b>Mineralo&shy;corticoid</b>Glomerulosa'],['n',1,2,'preg'],['e',1,3,'3β-HSD','preg-prog'],['n',1,4,'prog'],['e',1,5,'21-OH','prog-doc'],['n',1,6,'doc'],['e',1,7,'11β-OH','doc-cs'],['n',1,8,'cs'],['e',1,9,'Aldo&shy;sterone synthase','cs-aldo'],['n',1,10,'aldo'],
+   ['v',2,2,'17α-OH','preg-ohpreg'],['v',2,4,'17α-OH','prog-ohprog'],
+   ['zl',3,1,'<b>Glucocorticoid</b>Fasciculata'],['n',3,2,'ohpreg'],['e',3,3,'3β-HSD','ohpreg-ohprog'],['n',3,4,'ohprog'],['e',3,5,'21-OH','ohprog-dc'],['n',3,6,'dc'],['e',3,7,'11β-OH','dc-cort'],['n',3,8,'cort'],
+   ['v',4,2,'17,20-lyase','ohpreg-dhea'],['v',4,4,'17,20-lyase','ohprog-andro'],
+   ['zl',5,1,'<b>Androgen</b>Reticularis'],['n',5,2,'dhea'],['e',5,3,'3β-HSD','dhea-andro'],['n',5,4,'andro'],['e',5,5,'17β-HSD','andro-testo'],['n',5,6,'testo']];
+  var FX={
+   none:{t:'Normal adrenal',up:[],dn:[],x:[],d:'Cholesterol → pregnenolone (side-chain cleavage, rate-limiting, ACTH-stimulated) feeds all three zones. Pick an enzyme to block it.'},
+   e21:{t:'21-hydroxylase deficiency',up:['prog','ohprog','dhea','andro','testo'],dn:['doc','cs','aldo','dc','cort'],x:['prog-doc','ohprog-dc'],d:'<b>↓ BP, ↑ K⁺, ↑ androgens.</b> No aldosterone or cortisol; 17-OH progesterone backs up and spills into androgens. ↑ ACTH, ↑ renin. Virilized XX; salt-wasting XY at 1–2 weeks. Most common form (> 90%).',db:['Congenital Adrenal Hyperplasia (21-Hydroxylase Deficiency)']},
+   e11:{t:'11β-hydroxylase deficiency',up:['doc','dc','dhea','andro','testo'],dn:['cs','aldo','cort'],x:['doc-cs','dc-cort'],d:'<b>↑ BP, ↓ K⁺, ↑ androgens.</b> 11-deoxycorticosterone (a weak mineralocorticoid) accumulates → HTN with ↓ renin and ↓ aldosterone. ↑ 11-deoxycortisol. Virilization + HTN.',db:['Primary Hyperaldosteronism (Conn Syndrome)']},
+   e17:{t:'17α-hydroxylase deficiency',up:['preg','prog','doc','cs'],dn:['ohpreg','ohprog','dc','cort','dhea','andro','testo','aldo'],x:['preg-ohpreg','prog-ohprog'],d:'<b>↑ BP, ↓ K⁺, ↓ androgens.</b> Everything shunts to the mineralocorticoid line → ↑ 11-DOC → HTN, ↓ renin, so aldosterone itself is ↓. No sex steroids: XY phenotypic female (no uterus), XX with primary amenorrhea and no puberty.',db:[]},
+   met:{t:'Metyrapone (drug)',up:['doc','dc'],dn:['cs','aldo','cort'],x:['doc-cs','dc-cort'],d:'<b>Pharmacologic 11β block.</b> Cortisol falls → intact pituitary raises ACTH → ↑ 11-deoxycortisol. No rise = pituitary or hypothalamic failure. Also used to treat Cushing syndrome.',db:['Cushing Disease']}};
+  el.innerHTML='<div class="kick">&#9881; Interactive · steroid pathway</div><h3 style="margin-top:4px">Block an enzyme, watch the backup</h3><p style="color:var(--muted);font-size:15px">Green = accumulates (↑). Red = deficient (↓). In every CAH form, cortisol is low, so ACTH rises and drives more substrate in.</p>'+
+   '<div class="seg nocase" id="cseg"><button data-k="none">Normal</button><button data-k="e21">21-OH</button><button data-k="e11">11β-OH</button><button data-k="e17">17α-OH</button><button data-k="met">Metyrapone</button></div>'+
+   '<div class="smap"><div class="sgrid" id="sg">'+cells.map(function(c){
+     var pos='grid-row:'+c[1]+';grid-column:'+c[2];
+     if(c[0]==='zl')return '<div class="zl" style="'+pos+'">'+c[3]+'</div>';
+     if(c[0]==='n')return '<div class="nd" data-n="'+c[3]+'" style="'+pos+'"><span class="st"></span>'+N[c[3]]+'</div>';
+     if(c[0]==='e')return '<div class="ed" data-e="'+c[4]+'" style="'+pos+'"><span>'+c[3]+'</span>'+A+'</div>';
+     return '<div class="ed v" data-e="'+c[4]+'" style="'+pos+'">'+AV+'<span>'+c[3]+'</span></div>';
+   }).join('')+'</div></div><div class="out" id="cout"></div>';
+  function show(k){var f=FX[k];$$('#cseg button',el).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.k===k?'true':'false');});
+    $$('.nd',el).forEach(function(n){var id=n.dataset.n,u=f.up.indexOf(id)>-1,d=f.dn.indexOf(id)>-1;n.className='nd'+(u?' up':'')+(d?' dn':'');$('.st',n).textContent=u?'▲ ↑':d?'▼ ↓':'';});
+    $$('.ed',el).forEach(function(e){e.classList.toggle('x',f.x.indexOf(e.dataset.e)>-1);});
+    $('#cout',el).innerHTML='<h5>'+f.t+'</h5><p>'+f.d+'</p>'+(f.db&&f.db.length?'<div class="chips">'+f.db.map(dbChip).join('')+'</div>':'');}
+  $$('#cseg button',el).forEach(function(b){b.onclick=function(){show(b.dataset.k);};});
+  show('e21');
+}
+
+function toolFeedback(el){
+  var R={thy:{
+    'up-dn':['Primary hypothyroidism','Opposite directions → the thyroid itself. Most often Hashimoto (anti-TPO). Also iodine deficiency, post-ablation, thionamides, lithium, amiodarone.',['Hashimoto Thyroiditis']],
+    'n-dn':['Central hypothyroidism','TSH is inappropriately normal for a low T4. Same logic as low TSH: the pituitary or hypothalamus is failing.',['Pituitary Adenoma (Hypopituitarism)']],
+    'dn-dn':['Central hypothyroidism','Same direction → upstream. Sheehan syndrome, pituitary adenoma, apoplexy, craniopharyngioma.',['Pituitary Adenoma (Hypopituitarism)']],
+    'dn-up':['Primary hyperthyroidism (or exogenous)','Opposite → the gland, or a pill. Graves (↑ uptake, TSI), toxic nodule, thyroiditis (↓ uptake, ↑ thyroglobulin), or exogenous T4 (↓ uptake, ↓ thyroglobulin).',['Graves Disease']],
+    'up-up':['TSH-secreting adenoma (or hormone resistance)','Same direction, both high → upstream driver. Rare on Step 1: TSH-oma, or thyroid hormone resistance (THRβ mutation).',['Pituitary Adenoma (Hypopituitarism)']],
+    'n-up':['Check free T4: ↑ TBG','Normal TSH with high total T4 is usually a binding change (pregnancy, OCPs, estrogen). Free T4 will be normal.',[]],
+    'up-n':['Subclinical hypothyroidism','TSH rises before T4 falls. Often early Hashimoto.',['Hashimoto Thyroiditis']],
+    'dn-n':['Subclinical hyperthyroidism','Check T3 (T3 toxicosis) and look for a nodule or early Graves.',['Graves Disease']],
+    'n-n':['Euthyroid','Axis intact. If total T4 alone is off, think binding proteins.',[]]},
+   adr:{
+    'up-up':['ACTH-dependent Cushing','Same direction → upstream. High-dose dex: suppresses = Cushing disease (pituitary); no suppression = ectopic ACTH (small cell lung, carcinoid). CRH test and petrosal sampling also help.',['Cushing Disease']],
+    'n-up':['ACTH-dependent Cushing (likely pituitary)','ACTH should be suppressed by high cortisol. An inappropriately normal ACTH still points upstream, usually a pituitary adenoma.',['Cushing Disease']],
+    'dn-up':['ACTH-independent Cushing','Opposite → adrenal source or a pill. Adrenal adenoma/carcinoma (unilateral mass, contralateral atrophy) or exogenous glucocorticoids (bilateral atrophy; the most common cause overall).',['Cushing Syndrome (Exogenous Corticosteroids)']],
+    'up-dn':['Primary adrenal insufficiency','Opposite → the adrenal. Addison (autoimmune; also TB, metastases, Waterhouse-Friderichsen) or CAH. ↑ ACTH/POMC → hyperpigmentation; ↓ aldosterone → ↑ K⁺, ↓ Na⁺.',['Primary Adrenal Insufficiency (Addison Disease)','Congenital Adrenal Hyperplasia (21-Hydroxylase Deficiency)']],
+    'dn-dn':['Secondary / tertiary adrenal insufficiency','Same direction → upstream. Pituitary failure, or abrupt stop of chronic steroids (HPA suppression). No hyperpigmentation and aldosterone is preserved (K⁺ normal).',['Pituitary Adenoma (Hypopituitarism)']],
+    'n-dn':['Secondary adrenal insufficiency','ACTH should rise with low cortisol. Inappropriately normal ACTH = upstream failure.',['Pituitary Adenoma (Hypopituitarism)']],
+    'up-n':['Compensated primary insufficiency or stress','Early adrenal failure can hold cortisol up with a high ACTH. Do a cosyntropin (ACTH) stimulation test.',['Primary Adrenal Insufficiency (Addison Disease)']],
+    'dn-n':['Unusual pattern','Not a classic Step 1 pattern. Consider recovery from exogenous steroids or a timing artifact, and repeat with dynamic testing.',[]],
+    'n-n':['Normal axis','Cortisol and ACTH within range. If Cushing is suspected clinically, screen with late-night salivary cortisol, 24-h urine free cortisol or low-dose dex.',[]]}};
+  var st={ax:'thy',tr:'up',tg:'dn'};
+  var MS=[['TSH','cAMP'],['ACTH','cAMP'],['PTH','cAMP'],['Glucagon','cAMP'],['LH / FSH','cAMP'],['ADH (V2)','cAMP'],['hCG','cAMP'],['TRH','IP3'],['GnRH','IP3'],['ADH (V1)','IP3'],['Oxytocin','IP3'],['GHRH','cAMP'],['Insulin','RTK'],['IGF-1','RTK'],['GH','JAK'],['Prolactin','JAK'],['Cortisol','NUC'],['Aldosterone','NUC'],['T3 / T4','NUC'],['Estrogen','NUC'],['ANP','cGMP'],['Nitric oxide','cGMP']];
+  var ML={cAMP:'cAMP',IP3:'IP3 / Ca²⁺',RTK:'Receptor TK',JAK:'JAK/STAT',NUC:'Nuclear / intracellular',cGMP:'cGMP'};
+  el.innerHTML='<div class="kick">&#9881; Interactive · lab decoder</div><h3 style="margin-top:4px">Same direction or opposite?</h3><p style="color:var(--muted);font-size:15px">Pick an axis, then set the tropic and target hormone.</p>'+
+   '<div class="seg" data-k="ax"><button data-x="thy">Thyroid · TSH / T4</button><button data-x="adr">Adrenal · ACTH / cortisol</button></div>'+
+   '<div class="ctrlrow"><div><div class="lab" id="trl">TSH</div><div class="seg" data-k="tr"><button data-x="up">↑</button><button data-x="n">Normal</button><button data-x="dn">↓</button></div></div>'+
+   '<div><div class="lab" id="tgl">T4</div><div class="seg" data-k="tg"><button data-x="up">↑</button><button data-x="n">Normal</button><button data-x="dn">↓</button></div></div></div>'+
+   '<div class="out" id="lout"></div>'+
+   '<div class="sorter" style="margin-top:18px"><div class="kick">Second-messenger sorter</div><div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><span class="hormone" id="mh"></span><span class="score" id="msc">0 / 0</span></div>'+
+   '<div class="seg" id="mseg">'+Object.keys(ML).map(function(k){return '<button data-m="'+k+'">'+ML[k]+'</button>';}).join('')+'</div><div class="fb" id="mfb"></div></div>';
+  function draw(){
+    $$('.seg[data-k]',el).forEach(function(sg){$$('button',sg).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.x===st[sg.dataset.k]?'true':'false');});});
+    $('#trl',el).textContent=st.ax==='thy'?'TSH':'ACTH';$('#tgl',el).textContent=st.ax==='thy'?'T4 (free)':'Cortisol';
+    var r=R[st.ax][st.tr+'-'+st.tg];
+    var dir=(st.tr==='n'||st.tg==='n')?'':(st.tr===st.tg?'<span class="pill" style="border-color:var(--acc);color:var(--acc-ink)">Same direction → upstream</span> ':'<span class="pill" style="border-color:var(--endo)">Opposite → the gland</span> ');
+    $('#lout',el).innerHTML='<p style="margin:0 0 4px">'+dir+'</p><h5>'+r[0]+'</h5><p>'+r[1]+'</p>'+(r[2].length?'<div class="chips">'+r[2].map(dbChip).join('')+'</div>':'');
+  }
+  $$('.seg[data-k]',el).forEach(function(sg){$$('button',sg).forEach(function(b){b.onclick=function(){st[sg.dataset.k]=b.dataset.x;draw();};});});
+  draw();
+  var order=MS.slice(),i=0,ok=0,tot=0,locked=false;
+  function shuf(){for(var j=order.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1)),t=order[j];order[j]=order[k];order[k]=t;}}
+  shuf();
+  function next(){locked=false;$('#mh',el).textContent=order[i%order.length][0];$('#mfb',el).textContent='Which pathway?';$('#mfb',el).className='fb';}
+  $$('#mseg button',el).forEach(function(b){b.onclick=function(){if(locked)return;locked=true;var h=order[i%order.length];tot++;
+    if(b.dataset.m===h[1]){ok++;$('#mfb',el).textContent='✓ Correct: '+ML[h[1]];$('#mfb',el).className='fb ok';}
+    else{$('#mfb',el).textContent='✗ '+h[0]+' uses '+ML[h[1]];$('#mfb',el).className='fb no';}
+    $('#msc',el).textContent=ok+' / '+tot;i++;setTimeout(next,1300);};});
+  next();
+}
+
+function toolCalcium(el){
+  var P=[['↑','↓','↑','Primary hyperparathyroidism','Adenoma (most common) secreting PTH: PTH dumps phosphate. Stones, bones, groans, psychiatric overtones. ↑ urine Ca²⁺, ↑ ALP.',['Primary Hyperparathyroidism']],
+         ['↓ / N','↓','↑','Vitamin D deficiency','↓ gut absorption of Ca²⁺ and PO₄ → PTH compensates (holds Ca²⁺ up, dumps PO₄). Rickets / osteomalacia.',[]],
+         ['↓','↑','↑','CKD (secondary HPT)','Kidney retains PO₄ and makes less 1,25-D → ↓ Ca²⁺ → ↑ PTH. Renal osteodystrophy. Treat with sevelamer, calcitriol, cinacalcet.',[]],
+         ['↓','↑','↓','Hypoparathyroidism','Post-thyroidectomy (most common), autoimmune, DiGeorge. Chvostek and Trousseau signs, perioral tingling.',['Hypoparathyroidism']],
+         ['↑','N','N / ↑','FHH','Inactivating CaSR mutation (autosomal dominant). Mild ↑ Ca²⁺, low urine Ca²⁺ (clearance ratio < 0.01). Benign; no surgery.',['Primary Hyperparathyroidism']],
+         ['↓','↑','↑','Pseudohypoparathyroidism','End-organ PTH resistance (Gsα, GNAS). Looks like hypoparathyroidism but PTH is high. Type 1A: short 4th/5th metacarpals, short stature.',['Pseudohypoparathyroidism']],
+         ['↑','↓ / N','↓','Humoral hypercalcemia of malignancy','PTHrP (squamous cell lung, renal, breast) acts on the PTH receptor, so PO₄ falls, but true PTH is suppressed.',[]]];
+  var DX=[0,1,2,3,4];
+  var cur=0,score=0,tot=0,locked=false,order=[0,1,2,3,4,5,6];
+  function shuf(){for(var j=order.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1)),t=order[j];order[j]=order[k];order[k]=t;}}
+  shuf();
+  el.innerHTML='<div class="kick">&#9881; Interactive · pattern drills</div><h3 style="margin-top:4px">Name the calcium pattern</h3><p style="color:var(--muted);font-size:15px">Read the three labs, pick the diagnosis.</p>'+
+   '<div class="out"><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center" id="cpat"></div><div class="seg" id="cdx" style="margin-top:10px"></div><div id="cfb"></div><div class="score" style="margin-top:8px" id="csc"></div></div>'+
+   '<div style="margin-top:18px"><div class="kick">Polyuria decoder · water deprivation test</div><p style="color:var(--muted);font-size:15px;margin:2px 0 6px">Set what the urine osmolality does.</p>'+
+   '<div class="ctrlrow"><div><div class="lab">After water deprivation</div><div class="seg" data-k="wd"><button data-x="up">Concentrates</button><button data-x="no">Stays dilute</button></div></div>'+
+   '<div><div class="lab">After desmopressin</div><div class="seg" data-k="dd"><button data-x="up">Rises &gt; 50%</button><button data-x="no">Little / no change</button></div></div></div><div class="out" id="dout"></div></div>';
+  var names=P.map(function(p){return p[3];});
+  function q(){locked=false;var p=P[order[cur%order.length]];
+    $('#cpat',el).innerHTML=['Ca²⁺','PO₄','PTH'].map(function(l,j){return '<span class="pill" style="font-size:18px;padding:5px 12px">'+l+' <b>'+p[j]+'</b></span>';}).join('');
+    $('#cdx',el).innerHTML=names.map(function(n,j){return '<button data-j="'+j+'">'+n+'</button>';}).join('');
+    $('#cfb',el).innerHTML='';$('#csc',el).textContent=tot?('Score '+score+' / '+tot):'';
+    $$('#cdx button',el).forEach(function(b){b.onclick=function(){if(locked)return;locked=true;tot++;var right=order[cur%order.length],pick=+b.dataset.j;
+      var same=P[pick][0]===p[0]&&P[pick][1]===p[1]&&P[pick][2]===p[2];
+      if(pick===right||same)score++;
+      b.setAttribute('aria-pressed','true');
+      $('#cfb',el).innerHTML='<p style="margin:8px 0 0"><b style="color:'+((pick===right||same)?'var(--up)':'var(--dn)')+'">'+((pick===right||same)?'✓ ':'✗ ')+p[3]+'.</b> '+p[4]+(same&&pick!==right?' <i>(Same lab pattern as '+P[pick][3]+'. Tell them apart clinically.)</i>':'')+'</p>'+(p[5].length?'<div class="chips">'+p[5].map(dbChip).join('')+'</div>':'')+'<div class="sbtns"><button class="sbtn" id="cnext">Next pattern →</button></div>';
+      $('#csc',el).textContent='Score '+score+' / '+tot;
+      $('#cnext',el).onclick=function(){cur++;q();};};});
+  }
+  q();
+  var w={wd:'no',dd:'up'};
+  function dd(){
+    $$('.seg[data-k]',el).forEach(function(sg){$$('button',sg).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.x===w[sg.dataset.k]?'true':'false');});});
+    var r;
+    if(w.wd==='up')r=['Primary (psychogenic) polydipsia','The kidney concentrates once water intake stops, so ADH and the collecting duct both work. Low serum Na⁺ at baseline; common with psychiatric illness.',[]];
+    else if(w.dd==='up')r=['Central DI','No ADH made, but the kidney responds to desmopressin. Head trauma, pituitary surgery, craniopharyngioma, idiopathic. Treat with desmopressin.',['Central Diabetes Insipidus']];
+    else r=['Nephrogenic DI','ADH is present but the collecting duct cannot respond (V2 receptor or aquaporin-2 defect). Lithium, demeclocycline, hypercalcemia, hypokalemia. Treat with thiazides, amiloride (lithium) and NSAIDs.',['Central Diabetes Insipidus']];
+    $('#dout',el).innerHTML='<h5>'+r[0]+'</h5><p>'+r[1]+'</p><p style="color:var(--muted);font-size:14.5px">Opposite problem: <b>SIADH</b>, with euvolemic ↓ Na⁺, ↓ serum osm and inappropriately concentrated urine. Treat with fluid restriction, then demeclocycline or vaptans.</p><div class="chips">'+r[2].map(dbChip).join('')+dbChip('SIADH')+'</div>';
+  }
+  $$('.seg[data-k]',el).forEach(function(sg){$$('button',sg).forEach(function(b){b.onclick=function(){w[sg.dataset.k]=b.dataset.x;dd();};});});
+  dd();
+}
+
+/* ---------- quiz ---------- */
+function bindQuiz(){
+  $$('.q').forEach(function(qe){
+    var b=BLOCKS.filter(function(x){return x.id===qe.dataset.b;})[0],q=b.quiz[+qe.dataset.qi];
+    $$('.opt',qe).forEach(function(o){o.onclick=function(){
+      var oi=+o.dataset.oi;
+      $$('.opt',qe).forEach(function(x){x.disabled=true;if(+x.dataset.oi===q.a)x.classList.add('right');});
+      if(oi!==q.a)o.classList.add('wrong');
+      var ex=$('.exp',qe);ex.innerHTML='<span class="v" style="color:'+(oi===q.a?'var(--up)':'var(--dn)')+'">'+(oi===q.a?'Correct.':'Not quite. Answer: '+'ABCDE'[q.a]+'.')+'</span>'+q.e+' <button class="sbtn" style="margin-left:6px">Retry</button>';ex.classList.add('on');
+      $('.sbtn',ex).onclick=function(){$$('.opt',qe).forEach(function(x){x.disabled=false;x.classList.remove('right','wrong');});ex.classList.remove('on');};
+    };});
+  });
+}
+
+/* ---------- tests ---------- */
+function testCards(){
+  return TESTS.map(function(t,i){var d=S.t[i];
+    return '<div class="tc'+(d?' done':'')+'"><div class="kick">15 questions · mixed</div><h3>Test '+(i+1)+'</h3><div class="ql">'+t.join(', ')+'</div>'+
+     '<div class="row2"><button class="sbtn" data-copy="'+t.join(', ')+'">Copy QIDs</button>'+
+     '<label><input type="checkbox" data-t="'+i+'"'+(d?' checked':'')+'>Done</label>'+
+     '<label>Score % <input type="number" min="0" max="100" data-sc="'+i+'" value="'+(S.sc[i]||'')+'"></label></div></div>';}).join('');
+}
+function renderTests(){
+  $('#tests').innerHTML=testCards();
+  var heads=BLOCKS.map(function(b){return b.short;});
+  var rows=TESTS.map(function(t,i){return '<tr><td>Test '+(i+1)+'</td>'+BLOCKS.map(function(b){return '<td>'+t.filter(function(q){return b.q.some(function(x){return x[0]===q;});}).map(function(q){var x=qidInfo(q)[1];return (x[1]?'<b>&#9733;'+q+'</b>':q);}).join(', ')+'</td>';}).join('')+'</tr>';}).join('');
+  $('#ttable').innerHTML='<thead><tr><th>Test</th>'+heads.map(function(h){return '<th>'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody>';
+}
+
+/* ---------- progress ---------- */
+function allQ(){var a=[];BLOCKS.forEach(function(b){b.q.forEach(function(x){a.push(x[0]);});});return a;}
+function prog(){
+  var q=allQ(),dq=q.filter(function(x){return S.q[x];}).length;
+  var nv=0,dv=0;BLOCKS.forEach(function(b){b.vids.forEach(function(v,i){nv++;if(S.v[vkey(b,i)])dv++;});});
+  var dt=[0,1,2].filter(function(i){return S.t[i];}).length;
+  BLOCKS.forEach(function(b){var c=$('[data-cnt="'+b.id+'"]');if(c)c.textContent=b.q.filter(function(x){return S.q[x[0]];}).length+' / '+b.q.length;});
+}
+
+/* ---------- views ---------- */
+var VIEWS=['overview','b1','b2','b3','b4','b5','tests'];
+function show(v,scroll){
+  if(VIEWS.indexOf(v)<0)v='overview';
+  $$('.view').forEach(function(s){s.classList.toggle('on',s.id==='v-'+v);});
+  $$('.tab').forEach(function(t){t.setAttribute('aria-selected',t.dataset.v===v?'true':'false');});
+  try{history.replaceState(null,'','#'+v);}catch(e){}
+  if(scroll){var tb=$('#tabs');window.scrollTo({top:tb.getBoundingClientRect().top+window.scrollY-2,behavior:'smooth'});}
+}
+
+/* ---------- copy ---------- */
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove('on');},1400);}
+function copy(txt,btn){
+  function ok(){toast('Copied '+txt.split(',').length+' QIDs');if(btn){btn.classList.add('ok');setTimeout(function(){btn.classList.remove('ok');},1200);}}
+  try{navigator.clipboard.writeText(txt).then(ok,fallback);}catch(e){fallback();}
+  function fallback(){var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){toast('Select and copy the list');}document.body.removeChild(ta);}
+}
+
+/* ---------- boot ---------- */
+renderBlocks();renderTests();renderOv();
+toolBeta($('#tool-b1'));toolFast($('#tool-b2'));toolCah($('#tool-b3'));toolFeedback($('#tool-b4'));toolCalcium($('#tool-b5'));
+bindQuiz();prog();
+document.addEventListener('click',function(e){
+  var t=e.target.closest('[data-go]');if(t){e.preventDefault();show(t.dataset.go,true);return;}
+  var tab=e.target.closest('.tab');if(tab){show(tab.dataset.v,false);return;}
+  var q=e.target.closest('.qid');if(q){var id=q.dataset.q;if(S.q[id])delete S.q[id];else S.q[id]=1;save();$$('.qid[data-q="'+id+'"]').forEach(function(x){x.classList.toggle('done',!!S.q[id]);x.setAttribute('aria-pressed',S.q[id]?'true':'false');});prog();return;}
+  var c=e.target.closest('[data-copy]');if(c){copy(c.dataset.copy,c);return;}
+});
+document.addEventListener('change',function(e){
+  var t=e.target;
+  if(t.dataset.v){if(t.checked)S.v[t.dataset.v]=1;else delete S.v[t.dataset.v];$$('[data-v="'+t.dataset.v+'"]').forEach(function(x){x.checked=t.checked;x.closest('.vid').classList.toggle('ck',t.checked);});save();prog();}
+  if(t.dataset.t!==undefined){if(t.checked)S.t[t.dataset.t]=1;else delete S.t[t.dataset.t];$$('[data-t="'+t.dataset.t+'"]').forEach(function(x){x.checked=t.checked;x.closest('.tc').classList.toggle('done',t.checked);});save();prog();}
+  if(t.dataset.sc!==undefined){S.sc[t.dataset.sc]=t.value;$$('[data-sc="'+t.dataset.sc+'"]').forEach(function(x){if(x!==t)x.value=t.value;});save();}
+});
+show((location.hash||'').slice(1)||'overview',false);
+</script>
+</body>
+</html>
