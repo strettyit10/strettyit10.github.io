@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HoyaDocs &middot; SMEC Sessions</title>
+<meta name="description" content="HoyaDocs USMLE Step 1 SMEC Sessions — one session guide each for Endocrine, Cardiovascular, Biochemistry and GI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Graduate&family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#EEF0F3; --panel:#FFFFFF; --sunk:#E6E9EE; --line:#D3D8E0;
+  --ink:#1A3363; --muted:#5B6274;
+  --silver:#6E7787; --silver-hi:#C5CBD6;
+  --navy:#0F2244; --navy-2:#1A3363; --navy-ink:#F4F1EA; --navy-muted:#A9B3C7;
+  --tan:#7B3FD1; --tan-ink:#5A2A9E; --tan-shadow:#4E2391; --feat:#C9B6F4; --feat-shadow:#8A6CD0;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#1A3363;
+  --g:#5B4BC4; --s:#7B3FD1; --d:#1F7F78; --a:#B8324A;
+  --end:#C99A06; --cv:#B8324A; --bio:#1F7F78; --gi:#3E8E3A;
+  --varsity:"Graduate","Rockwell","Georgia",serif;
+  --cond:"Barlow Condensed","Arial Narrow",sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0B1424; --panel:#13203A; --sunk:#0F1A30; --line:#26365A;
+    --ink:#E8E4DA; --muted:#9BA5B9;
+    --navy:#060D1A; --navy-2:#13254A; --navy-ink:#EEE9DE; --navy-muted:#8E98AE;
+    --tan:#A77BF0; --tan-ink:#C4A5F6; --tan-shadow:#4A2A80; --feat:#B59BEE; --feat-shadow:#5E3FA8;
+    --silver:#C3C9D4; --silver-hi:#C5CBD6;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+    --g:#9B8DE0; --s:#A77BF0; --d:#4FC1B6; --a:#F07186;
+    --end:#E8C14A; --cv:#F07186; --bio:#4FC1B6; --gi:#7CC874;
+  }
+}
+:root[data-theme="dark"]{
+    --ground:#0B1424; --panel:#13203A; --sunk:#0F1A30; --line:#26365A;
+    --ink:#E8E4DA; --muted:#9BA5B9;
+    --navy:#060D1A; --navy-2:#13254A; --navy-ink:#EEE9DE; --navy-muted:#8E98AE;
+    --tan:#A77BF0; --tan-ink:#C4A5F6; --tan-shadow:#4A2A80; --feat:#B59BEE; --feat-shadow:#5E3FA8;
+    --silver:#C3C9D4; --silver-hi:#C5CBD6;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+    --g:#9B8DE0; --s:#A77BF0; --d:#4FC1B6; --a:#F07186;
+    --end:#E8C14A; --cv:#F07186; --bio:#4FC1B6; --gi:#7CC874;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground);color:var(--ink)}
+body{font:16px/1.5 var(--body);margin:0;padding:0 16px 56px}
+.wrap{max-width:1180px;margin:0 auto}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--tan);outline-offset:3px}
+html{scroll-behavior:smooth}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 0 12px}
+.word{font-family:var(--varsity);font-size:24px;letter-spacing:.04em;text-decoration:none;color:var(--ink);line-height:1}
+.word span{color:var(--silver)}
+.rev{font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.topr{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.toplink{font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-decoration:none;padding:5px 2px;border-bottom:2px solid transparent}
+.toplink:hover{border-bottom-color:var(--tan)}
+.themebtn{background:transparent;border:1.5px solid var(--line);border-radius:999px;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:5px 14px}
+.themebtn:hover{color:var(--ink);border-color:var(--ink)}
+
+/* nav */
+.nav{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;text-decoration:none;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:11px 12px 9px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:7px}
+.nav a:hover{color:var(--ink)}
+.nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--tan)}
+.nav a i{width:9px;height:9px;border-radius:2px;flex:none}
+.nav .sep{flex:none;width:1px;background:var(--line);margin:9px 6px}
+
+/* hero */
+.hero{margin-top:22px;background:var(--navy);color:var(--navy-ink);border-radius:14px;position:relative;z-index:3;
+  display:grid;grid-template-columns:1fr auto minmax(250px,340px);align-items:center;gap:clamp(18px,3vw,36px);padding:clamp(18px,2.6vw,28px) clamp(20px,3.5vw,40px)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), rgba(255,255,255,.045) calc(10% - 1px) 10%),
+    radial-gradient(ellipse at 85% 110%, rgba(140,80,230,.38), transparent 55%);}
+.hero > *{position:relative}
+.pickcue{display:flex;align-items:center;gap:14px;color:var(--silver-hi);justify-self:end}
+.pickcue span{font-family:var(--cond);font-weight:800;font-size:22px;line-height:1.02;letter-spacing:.12em;text-transform:uppercase;text-align:right}
+.pickcue svg{width:48px;height:24px;flex:none}
+.eyebrow{font-family:var(--cond);font-weight:700;font-size:17px;letter-spacing:.22em;text-transform:uppercase;color:var(--tan)}
+.hero h1{font-family:var(--varsity);font-weight:400;font-size:clamp(60px,10vw,128px);line-height:.88;margin:10px 0 4px;letter-spacing:.02em;
+  color:var(--navy-ink);text-shadow:3px 3px 0 var(--navy-2),5px 5px 0 var(--tan)}
+.ctas{display:grid;grid-template-columns:1fr;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--cond);font-weight:800;font-size:17px;letter-spacing:.06em;text-transform:uppercase;padding:10px 13px;border-radius:6px;white-space:nowrap;transition:transform .12s ease,box-shadow .12s ease,border-color .12s,background .12s}
+.ctas .btn{width:100%}
+.btn svg{width:16px;height:16px;transition:transform .12s;margin-left:auto}
+.btn:hover{transform:translateY(-2px)}
+.btn:hover svg{transform:translateX(3px)}
+.btn.sec{border:2px solid rgba(238,233,222,.5);color:var(--navy-ink)}
+.btn.sec:hover{border-color:var(--tan);background:rgba(140,80,230,.16)}
+.btn i{width:10px;height:10px;border-radius:2px;flex:none}
+
+/* helpful links */
+.bench{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lk{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--navy-2);border-radius:10px;padding:13px 16px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}
+:root[data-theme="dark"] .lk{border-left-color:var(--silver)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lk{border-left-color:var(--silver)}}
+.lk:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(14,27,51,.14)}
+.lk .li{flex:none;width:38px;height:38px;border-radius:8px;background:var(--sunk);color:var(--silver);display:grid;place-items:center}
+.lk .li svg{width:19px;height:19px}
+.lk .lt{flex:1;min-width:0}
+.lk small{display:block;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lk strong{display:block;font-family:var(--cond);font-weight:800;font-size:19px;line-height:1.05;text-transform:uppercase;letter-spacing:.02em}
+.lk .ext{flex:none;width:15px;height:15px;color:var(--muted)}
+.lk.feat{background:var(--feat);border-color:var(--feat);border-left-color:var(--navy);color:var(--navy);box-shadow:0 4px 0 var(--feat-shadow)}
+.lk.feat:hover{box-shadow:0 6px 0 var(--feat-shadow)}
+.lk.feat .li{background:var(--navy);color:var(--feat)}
+.lk.feat small{color:var(--navy);opacity:.8}
+.lk.feat .ext{color:var(--navy)}
+@media (max-width:980px){ .bench{grid-template-columns:1fr} }
+
+/* section header */
+.sh{display:flex;align-items:center;gap:14px;margin:28px 0 12px;scroll-margin-top:16px}
+.sh h2{font-family:var(--varsity);font-weight:400;font-size:24px;letter-spacing:.04em;margin:0;white-space:nowrap}
+.sh::after{content:"";flex:1;border-top:2px dashed var(--line)}
+
+/* toolbar */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:12px 0;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fb{background:var(--panel);border:1.5px solid var(--line);border-radius:999px;padding:5px 14px;font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:15px;letter-spacing:.08em;color:var(--muted);display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.fb i{width:9px;height:9px;border-radius:2px;background:var(--c)}
+.fb:hover{color:var(--ink);border-color:var(--muted)}
+.fb[aria-pressed="true"]{background:var(--c,var(--ink));border-color:var(--c,var(--ink));color:#fff}
+.fb[aria-pressed="true"] i{background:#fff}
+#fall[aria-pressed="true"]{color:var(--ground)}
+:root[data-theme="dark"] .fb[data-d][aria-pressed="true"]{color:#0B1424}
+:root[data-theme="dark"] .fb[data-d][aria-pressed="true"] i{background:#0B1424}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .fb[data-d][aria-pressed="true"]{color:#0B1424}:root:not([data-theme="light"]) .fb[data-d][aria-pressed="true"] i{background:#0B1424}}
+.search{position:relative;flex:0 1 300px;min-width:220px}
+.search input{width:100%;background:var(--panel);border:1.5px solid var(--line);border-radius:7px;padding:9px 12px 9px 34px;font-size:15px}
+.search input:focus{outline:none;border-color:var(--tan)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted)}
+.count{font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+
+/* session list */
+.list{display:flex;flex-direction:column;gap:8px}
+.lhead,.row{display:grid;grid-template-columns:minmax(220px,1.3fr) minmax(260px,2fr) minmax(170px,1fr) 28px;gap:16px;align-items:center}
+.lhead{padding:0 18px 0 24px;font-family:var(--cond);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.row{position:relative;background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:10px;padding:13px 18px;color:var(--ink);transition:transform .12s ease,box-shadow .12s ease,border-color .12s}
+.row:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(14,27,51,.14);border-color:var(--c)}
+.row .stretch{color:inherit;text-decoration:none}
+.row .stretch::after{content:"";position:absolute;inset:0;border-radius:10px}
+.disc-l{display:flex;align-items:center;gap:6px;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.disc-l i{width:8px;height:8px;border-radius:2px;background:var(--c)}
+.c-name strong{display:block;font-family:var(--cond);font-weight:800;font-size:22px;line-height:1.02;text-transform:uppercase;letter-spacing:.02em;margin-top:2px}
+.c-topics{display:flex;flex-wrap:wrap;gap:5px}
+.c-topics span{font-family:var(--cond);font-weight:600;font-size:14px;background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:1px 8px;white-space:nowrap}
+.c-charts{display:flex;flex-wrap:wrap;gap:6px}
+.c-charts a{position:relative;z-index:1;display:inline-flex;align-items:center;gap:5px;font-family:var(--cond);font-weight:600;font-size:14px;color:var(--ink);text-decoration:none;background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:2px 8px}
+.c-charts a:hover{border-color:var(--c);background:var(--panel)}
+.c-charts svg{width:13px;height:13px;color:var(--c);flex:none}
+.c-charts .none{font-family:var(--cond);font-weight:600;font-size:14px;color:var(--muted)}
+.c-go{color:var(--muted);display:grid;place-items:center}
+.c-go svg{width:16px;height:16px;transition:transform .12s}
+.row:hover .c-go{color:var(--c)}
+.row:hover .c-go svg{transform:translateX(3px)}
+.empty{display:none;color:var(--muted);padding:26px;text-align:center;border:1.5px dashed var(--line);border-radius:10px;margin-top:8px}
+
+@media (max-width:1060px){
+  .lhead{display:none}
+  .row{grid-template-columns:1fr auto;gap:8px 12px}
+  .c-name{grid-column:1;grid-row:1}
+  .c-go{grid-column:2;grid-row:1}
+  .c-topics{grid-column:1 / -1;grid-row:2}
+  .c-charts{grid-column:1 / -1;grid-row:3}
+}
+.foot{margin-top:44px;padding-top:14px;border-top:3px solid var(--ink);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;row-gap:12px}
+  .pickcue{justify-self:start;gap:10px}
+  .pickcue span{font-size:17px;text-align:left}
+  .pickcue span br{display:none}
+  .pickcue svg{width:22px;height:22px;transform:rotate(90deg)}
+}
+@media (max-width:480px){
+  .search{flex-basis:100%}
+  .ctas{grid-template-columns:1fr 1fr}
+  .ctas .btn{font-size:15px;padding:9px 10px;gap:7px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <a class="word" href="../index.html">HOYA<span>DOCS</span></a>
+    <div class="topr">
+      <a class="toplink" href="#helpful-links">Helpful Links</a>
+      <a class="toplink" href="#sessions">All Sessions</a>
+      <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="Step 1 sections">
+    <a href="../index.html">Home</a>
+    <span class="sep"></span>
+    <a href="index.html" aria-current="page"><i style="background:var(--tan)"></i>SMEC Sessions</a>
+    <a href="../Path-Databases/cv-step1.html"><i style="background:var(--d)"></i>CV Path Database</a>
+    <a href="../Path-Databases/endo-step1.html"><i style="background:var(--d)"></i>Endo Path Database</a>
+    <span class="sep"></span>
+    <a href="https://www.hoyadocs.com/"><i style="background:var(--g)"></i>All HoyaDocs Blocks</a>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Step 1 &middot; Overview</div>
+      <h1>SMEC<br>Sessions</h1>
+    </div>
+    <div class="pickcue" aria-hidden="true">
+      <span>Select a<br>Session</span>
+      <svg viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h42M34 3l10 9-10 9"/></svg>
+    </div>
+    <nav class="ctas" aria-label="Choose a SMEC session">
+      <a class="btn sec" href="endo-smec.html"><i style="background:var(--end)"></i>Endocrine<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+      <a class="btn sec" href="cv-smec.html"><i style="background:var(--cv)"></i>Cardio<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+      <a class="btn sec" href="biochem-smec.html"><i style="background:var(--bio)"></i>Biochemistry<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+      <a class="btn sec" href="gi-smec.html"><i style="background:var(--gi)"></i>GI<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+    </nav>
+  </section>
+
+  <div class="sh" id="sessions"><h2>All Sessions</h2></div>
+
+  <div class="bar">
+    <div class="filters" role="group" aria-label="Filter sessions">
+      <button type="button" class="fb" id="fall" aria-pressed="true">All</button>
+      <button type="button" class="fb" data-d="end" style="--c:var(--end)" aria-pressed="false"><i></i>Endocrine</button>
+      <button type="button" class="fb" data-d="cv" style="--c:var(--cv)" aria-pressed="false"><i></i>Cardio</button>
+      <button type="button" class="fb" data-d="bio" style="--c:var(--bio)" aria-pressed="false"><i></i>Biochemistry</button>
+      <button type="button" class="fb" data-d="gi" style="--c:var(--gi)" aria-pressed="false"><i></i>GI</button>
+    </div>
+    <label class="search">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="4.8"/><path d="m10.6 10.6 3.6 3.6"/></svg>
+      <input id="q" type="search" placeholder="Search sessions or topics…" aria-label="Search sessions">
+    </label>
+  </div>
+  <div class="count" id="count" aria-live="polite"></div>
+
+  <div class="list" role="list">
+    <div class="lhead" aria-hidden="true"><span>Session</span><span>Topics</span><span>Databases</span><span></span></div>
+
+    <div class="row" role="listitem" data-d="end" data-t="endocrine hypothalamus pituitary thyroid adrenal diabetes insulin calcium PTH MEN" style="--c:var(--end)">
+      <span class="c-name"><span class="disc-l"><i></i>SMEC Session</span><strong><a class="stretch" href="endo-smec.html">Endocrine</a></strong></span>
+      <span class="c-topics"><span>Pituitary</span><span>Thyroid</span><span>Adrenal</span><span>Diabetes</span><span>Calcium &amp; PTH</span></span>
+      <span class="c-charts"><a href="../Path-Databases/endo-step1.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Endo path database</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+
+    <div class="row" role="listitem" data-d="cv" data-t="cardiovascular cardiology heart murmurs ECG heart failure ischemic valvular congenital hypertension" style="--c:var(--cv)">
+      <span class="c-name"><span class="disc-l"><i></i>SMEC Session</span><strong><a class="stretch" href="cv-smec.html">Cardio</a></strong></span>
+      <span class="c-topics"><span>Physiology</span><span>Murmurs</span><span>Ischemic Disease</span><span>Heart Failure</span><span>Congenital</span></span>
+      <span class="c-charts"><a href="../Path-Databases/cv-step1.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>CV path database</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+
+    <div class="row" role="listitem" data-d="bio" data-t="biochemistry metabolism enzymes vitamins lysosomal storage glycogen storage genetics molecular" style="--c:var(--bio)">
+      <span class="c-name"><span class="disc-l"><i></i>SMEC Session</span><strong><a class="stretch" href="biochem-smec.html">Biochemistry</a></strong></span>
+      <span class="c-topics"><span>Metabolism</span><span>Vitamins</span><span>Storage Diseases</span><span>Molecular</span></span>
+      <span class="c-charts"><span class="none">&mdash;</span></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+
+    <div class="row" role="listitem" data-d="gi" data-t="gastrointestinal GI liver hepatology pancreas biliary esophagus stomach bowel IBD" style="--c:var(--gi)">
+      <span class="c-name"><span class="disc-l"><i></i>SMEC Session</span><strong><a class="stretch" href="gi-smec.html">GI</a></strong></span>
+      <span class="c-topics"><span>Esophagus &amp; Stomach</span><span>Bowel</span><span>Liver</span><span>Pancreas &amp; Biliary</span></span>
+      <span class="c-charts"><span class="none">&mdash;</span></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+  </div>
+  <div class="empty" id="empty">No sessions match. Try another subject or clear the search.</div>
+
+  <div class="sh" id="helpful-links"><h2>Helpful Links</h2></div>
+  <section class="bench" aria-label="Helpful links">
+    <a class="lk feat" href="https://drive.google.com/drive/folders/1u1427xFAO-WKz4yGHGaEiWB6G_DUGiHK?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>SMEC Step Session Docs</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+    <a class="lk" href="https://drive.google.com/drive/folders/1766jOFGsqKQlMvUS8S9qkPPjxx_8Jb-9?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="7" y="3" width="13" height="15" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h10"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>HoyaDocs Step 1 Anki Decks</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+    <a class="lk" href="https://drive.google.com/drive/folders/1O9xVoGSbHczVQQZoV01jublBKpGJ8RhH?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>HoyaDocs UWorld QIDs</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+  </section>
+
+  <footer class="foot">
+    <div class="rev">HoyaDocs &middot; USMLE Step 1 &middot; SMEC Sessions</div>
+    <div class="rev">Rev 2 &middot; Updated Oct 20, 2026</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var btn=document.getElementById('theme'), root=document.documentElement;
+  try{ var saved=localStorage.getItem('hoyadocs-theme'); if(saved==='light'||saved==='dark') root.setAttribute('data-theme',saved); }catch(e){}
+  btn.addEventListener('click',function(){
+    var isDark=root.getAttribute('data-theme')==='dark'||(!root.hasAttribute('data-theme')&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var next=isDark?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{ localStorage.setItem('hoyadocs-theme',next); }catch(e){}
+  });
+})();
+(function(){
+  var q=document.getElementById('q'), rows=[].slice.call(document.querySelectorAll('.row')),
+      fbs=[].slice.call(document.querySelectorAll('.fb')), fall=document.getElementById('fall'),
+      count=document.getElementById('count'), empty=document.getElementById('empty'), lhead=document.querySelector('.lhead');
+  var cur='';
+  function apply(){
+    var term=q.value.trim().toLowerCase(), n=0;
+    rows.forEach(function(r){
+      var ok=(!cur||r.dataset.d===cur)&&(!term||(r.textContent+' '+(r.dataset.t||'')).toLowerCase().indexOf(term)>-1);
+      r.style.display=ok?'':'none'; if(ok)n++;
+    });
+    fbs.forEach(function(b){ b.setAttribute('aria-pressed', (b===fall?!cur:b.dataset.d===cur)?'true':'false'); });
+    lhead.style.display=n?'':'none';
+    count.textContent='Showing '+n+' of '+rows.length+' sessions';
+    empty.style.display=n?'none':'block';
+  }
+  fbs.forEach(function(b){ b.addEventListener('click',function(){ cur=b===fall?'':b.dataset.d; apply(); }); });
+  q.addEventListener('input',apply);
+  apply();
+})();
+</script>
+</body>
+</html>
