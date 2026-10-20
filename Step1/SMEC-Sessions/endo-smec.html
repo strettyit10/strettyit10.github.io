@@ -52,7 +52,7 @@ b,strong{font-weight:700}
 
 /* hero */
 .hero{margin-top:22px;background:var(--navy);color:var(--navy-ink);border-radius:14px;position:relative;overflow:hidden;
-  display:grid;grid-template-columns:1fr;gap:clamp(18px,3vw,36px);align-items:end;padding:clamp(20px,2.8vw,30px) clamp(20px,3.5vw,40px)}
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(18px,3vw,36px);align-items:end;padding:clamp(20px,2.8vw,30px) clamp(20px,3.5vw,40px)}
 .hero::before{content:"";position:absolute;inset:0;pointer-events:none;
   background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),rgba(255,255,255,.045) calc(10% - 1px) 10%),
   radial-gradient(ellipse at 90% 115%,rgba(140,80,230,.40),transparent 55%),radial-gradient(ellipse at 0% -20%,rgba(201,154,6,.18),transparent 50%)}
@@ -167,6 +167,13 @@ details.tg.hy summary .tag,details.tg.hy .chev{color:#8A6A00}
 @media (max-width:620px){.ovw .rgrid{grid-template-columns:1fr}}
 
 
+/* hero db link */
+.hcta{align-self:center;max-width:420px;background:rgba(255,255,255,.07)!important;border:1.5px solid rgba(255,255,255,.22)!important;border-left:6px solid #4FC1B6!important;color:var(--navy-ink)!important}
+.hcta small{color:var(--navy-muted)!important}
+.hcta span{color:var(--navy-muted)!important}
+.hcta .ext{color:var(--navy-muted)!important}
+.hcta:hover{background:rgba(255,255,255,.12)!important;box-shadow:0 10px 24px rgba(0,0,0,.3)!important}
+@media (max-width:860px){.hero{grid-template-columns:1fr!important}.hcta{max-width:none;justify-self:stretch}}
 /* overview tab */
 .ovnote{display:flex;gap:14px;align-items:center;background:var(--acc-soft);border:1.5px solid var(--acc);border-radius:12px;padding:13px 16px;margin-bottom:12px}
 .ovnote .oi{flex:none;width:36px;height:36px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center}
@@ -181,13 +188,20 @@ details.tg.hy summary .tag,details.tg.hy .chev{color:#8A6A00}
 .dbcta strong{display:block;font-family:var(--cond);font-weight:800;font-size:22px;line-height:1.05;text-transform:uppercase}
 .dbcta span{display:block;color:var(--muted);font-size:15px}
 .dbcta .ext{flex:none;width:16px;height:16px;color:var(--muted)}
-.vtop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
-.vall{columns:260px;column-gap:24px}
-.vg{break-inside:avoid;margin-bottom:14px}
-.vg h4{margin:0 0 4px;font-family:var(--cond);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--line);padding-bottom:4px}
-.vg h4 .n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:5px;background:var(--endo);color:#fff;font-size:12.5px}
-.vg h4 .m{margin-left:auto;color:var(--muted);font-size:13px}
-.ovduo{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:clamp(16px,2vw,28px);align-items:start}
+.vtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.vall{display:flex;flex-direction:column;gap:8px}
+.vg{border:1px solid var(--line);border-radius:9px;background:var(--ground)}
+.vg summary{list-style:none;cursor:pointer;user-select:none;display:flex;align-items:center;gap:9px;padding:9px 12px;font-family:var(--cond);font-weight:800;font-size:16px;letter-spacing:.03em;text-transform:uppercase;line-height:1.1}
+.vg summary::-webkit-details-marker{display:none}
+.vg summary .n{flex:none;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:5px;background:var(--endo);color:#fff;font-size:13px}
+.vg summary .m{margin-left:auto;color:var(--muted);font-size:13px;letter-spacing:.06em;white-space:nowrap}
+.vg .chev{width:15px;height:15px;flex:none;color:var(--muted);transition:transform .15s}
+.vg[open] .chev{transform:rotate(180deg)}
+.vg .vb{padding:0 12px 6px;border-top:1px dashed var(--line)}
+.vgx h4{margin:0 0 4px;font-family:var(--cond);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--line);padding-bottom:4px}
+.vgx h4 .n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:5px;background:var(--endo);color:#fff;font-size:12.5px}
+.vgx h4 .m{margin-left:auto;color:var(--muted);font-size:13px}
+.ovduo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(16px,2vw,28px);align-items:start}
 .ovcol{min-width:0}
 #ovtests{grid-template-columns:1fr}
 @media (max-width:1000px){.ovduo{grid-template-columns:1fr}}
@@ -346,7 +360,7 @@ details.tg.hy summary .tag,details.tg.hy .chev{color:#8A6A00}
   <header class="top">
     <a class="word" href="../index.html">HOYA<span>DOCS</span></a>
     <div class="topr">
-      <span class="rev">Rev 4 &middot; Updated Oct 20, 2026</span>
+      <span class="rev">Rev 5 &middot; Updated Oct 20, 2026</span>
     </div>
   </header>
 
@@ -364,6 +378,11 @@ details.tg.hy summary .tag,details.tg.hy .chev{color:#8A6A00}
       <div class="eyebrow"><i></i>SMEC Session &middot; Endocrine I</div>
       <h1>Endocrine<br>Session I</h1>
     </div>
+    <a class="dbcta hcta" href="https://hoyadocs.com/Step1/Path-Databases/endo-step1.html" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+      <div class="lt"><small>HoyaDocs &middot; Step 1</small><strong>Endocrine Pathology Database</strong><span>Path-specific disease details and DDx practice questions</span></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
   </section>
 
   <div class="tabs" role="tablist" aria-label="Session blocks" id="tabs">
@@ -382,16 +401,11 @@ details.tg.hy summary .tag,details.tg.hy .chev{color:#8A6A00}
       <div class="oi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></div>
       <p><b>Each tab has its own practice.</b> Tabs 1&ndash;5 each include Step 1-style practice questions and the UWorld QIDs specific to that tab's content.</p>
     </div>
-    <a class="dbcta" href="https://hoyadocs.com/Step1/Path-Databases/endo-step1.html" target="_blank" rel="noopener">
-      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
-      <div class="lt"><small>HoyaDocs &middot; Step 1</small><strong>Endocrine Pathology Database</strong><span>Path-specific disease details and DDx practice questions</span></div>
-      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
-    </a>
 
     <div class="ovduo">
       <div class="ovcol">
         <div class="sh"><h2>Bootcamp Videos</h2></div>
-        <div class="card"><div class="vtop"><span class="kick">All blocks</span><span class="score" id="vtot"></span></div><div class="vall" id="vall"></div></div>
+        <div class="card"><div class="vtop"><span class="score" id="vtot"></span><span class="sbtns" style="margin:0"><button class="sbtn" data-vx="1">Expand all</button><button class="sbtn" data-vx="0">Collapse all</button></span></div><div class="vall" id="vall"></div></div>
       </div>
       <div class="ovcol">
         <div class="sh"><h2>UWorld QID Tests</h2></div>
@@ -437,7 +451,7 @@ details.tg.hy summary .tag,details.tg.hy .chev{color:#8A6A00}
 
   <footer class="foot">
     <div class="rev">HoyaDocs &middot; USMLE Step 1 &middot; SMEC Sessions &middot; Endocrine Session I</div>
-    <div class="rev">Rev 4 &middot; Updated Oct 20, 2026</div>
+    <div class="rev">Rev 5 &middot; Updated Oct 20, 2026</div>
   </footer>
 </div>
 <div class="toast" id="toast">Copied</div>
@@ -611,8 +625,9 @@ function qidInfo(q){for(var i=0;i<BLOCKS.length;i++)for(var j=0;j<BLOCKS[i].q.le
 function renderOv(){
   var tot=0;
   $('#vall').innerHTML=BLOCKS.map(function(b){tot+=mins(b);
-    return '<div class="vg"><h4><span class="n">'+b.n+'</span>'+b.short+'<span class="m">'+mins(b)+' min</span></h4>'+
-      b.vids.map(function(v,i){var k=vkey(b,i);return '<label class="vid'+(S.v[k]?' ck':'')+'"><input type="checkbox" data-v="'+k+'"'+(S.v[k]?' checked':'')+'><span class="vt"><small>'+v[0]+'</small>'+v[1]+'</span><span class="vm">'+v[2]+' min</span></label>';}).join('')+'</div>';}).join('');
+    var dn=b.vids.filter(function(v,i){return S.v[vkey(b,i)];}).length;
+    return '<details class="vg" open><summary><span class="n">'+b.n+'</span>'+b.title+'<span class="m"><span data-vd="'+b.id+'">'+dn+'</span> / '+b.vids.length+' · '+mins(b)+' min</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><div class="vb">'+
+      b.vids.map(function(v,i){var k=vkey(b,i);return '<label class="vid'+(S.v[k]?' ck':'')+'"><input type="checkbox" data-v="'+k+'"'+(S.v[k]?' checked':'')+'><span class="vt"><small>'+v[0]+'</small>'+v[1]+'</span><span class="vm">'+v[2]+' min</span></label>';}).join('')+'</div></details>';}).join('');
   $('#vtot').textContent='15 videos · '+Math.floor(tot/60)+' h '+(tot%60)+' min';
   $('#ovtests').innerHTML=testCards();
 }
@@ -878,6 +893,7 @@ function renderTests(){
 /* ---------- progress ---------- */
 function allQ(){var a=[];BLOCKS.forEach(function(b){b.q.forEach(function(x){a.push(x[0]);});});return a;}
 function prog(){
+  BLOCKS.forEach(function(b){var e=$('[data-vd="'+b.id+'"]');if(e)e.textContent=b.vids.filter(function(v,i){return S.v[vkey(b,i)];}).length;});
   var q=allQ(),dq=q.filter(function(x){return S.q[x];}).length;
   var nv=0,dv=0;BLOCKS.forEach(function(b){b.vids.forEach(function(v,i){nv++;if(S.v[vkey(b,i)])dv++;});});
   var dt=[0,1,2].filter(function(i){return S.t[i];}).length;
@@ -910,6 +926,7 @@ document.addEventListener('click',function(e){
   var t=e.target.closest('[data-go]');if(t){e.preventDefault();show(t.dataset.go,true);return;}
   var tab=e.target.closest('.tab');if(tab){show(tab.dataset.v,false);return;}
   var q=e.target.closest('.qid');if(q){var id=q.dataset.q;if(S.q[id])delete S.q[id];else S.q[id]=1;save();$$('.qid[data-q="'+id+'"]').forEach(function(x){x.classList.toggle('done',!!S.q[id]);x.setAttribute('aria-pressed',S.q[id]?'true':'false');});prog();return;}
+  var vx=e.target.closest('[data-vx]');if(vx){$$('#vall details').forEach(function(d){d.open=vx.dataset.vx==='1';});return;}
   var c=e.target.closest('[data-copy]');if(c){copy(c.dataset.copy,c);return;}
 });
 document.addEventListener('change',function(e){
