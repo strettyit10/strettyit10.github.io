@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HoyaDocs &middot; Cardio Session I</title>
+<meta name="description" content="HoyaDocs SMEC Cardio Session I — physiology and pathophysiology high-yield: PV loops, cardiac output and heart failure, coronary flow, electrophysiology and antiarrhythmics, BP regulation and shock, with UWorld QIDs, Bootcamp references and First Aid pages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Graduate&family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#EEF0F3; --panel:#FFFFFF; --sunk:#E6E9EE; --line:#D3D8E0;
+  --ink:#1A3363; --muted:#5B6274;
+  --silver:#6E7787; --silver-hi:#C5CBD6;
+  --navy:#0F2244; --navy-2:#1A3363; --navy-ink:#F4F1EA; --navy-muted:#A9B3C7;
+  --acc:#7B3FD1; --acc-ink:#5A2A9E; --acc-soft:#EEE6FB; --acc-hi:#B99CF6;
+  --endo:#B8324A; --endo-soft:#F9E0E5;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#1A3363;
+  --up:#1F8A5B; --up-soft:#DDF3E8; --dn:#B8324A; --dn-soft:#F9E0E5; --blk:#C0392B;
+  --s1:#FFF2CC; --s2:#C9DAF8; --sb:#D9EAD3; --nc:#F4CCCC;
+  --varsity:"Graduate","Rockwell","Georgia",serif;
+  --cond:"Barlow Condensed","Arial Narrow",sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground);color:var(--ink)}
+body{font:16px/1.55 var(--body);margin:0;padding:0 clamp(16px,2.5vw,40px) 56px}
+.wrap{width:100%;max-width:none;margin:0 auto}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+html{scroll-behavior:smooth}
+b,strong{font-weight:700}
+
+/* top + nav */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 0 12px}
+.word{font-family:var(--varsity);font-size:24px;letter-spacing:.04em;text-decoration:none;color:var(--ink);line-height:1}
+.word span{color:var(--silver)}
+.rev{font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.topr{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.themebtn{background:transparent;border:1.5px solid var(--line);border-radius:999px;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:5px 14px}
+.themebtn:hover{color:var(--ink);border-color:var(--ink)}
+.nav{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;text-decoration:none;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:11px 12px 9px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:7px}
+.nav a:hover{color:var(--ink)}
+.nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--acc)}
+.nav a i{width:9px;height:9px;border-radius:2px;flex:none}
+.nav .sep{flex:none;width:1px;background:var(--line);margin:9px 6px}
+
+/* hero */
+.hero{margin-top:22px;background:var(--navy);color:var(--navy-ink);border-radius:14px;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(18px,3vw,36px);align-items:end;padding:clamp(20px,2.8vw,30px) clamp(20px,3.5vw,40px)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),rgba(255,255,255,.045) calc(10% - 1px) 10%),
+  radial-gradient(ellipse at 90% 115%,rgba(140,80,230,.40),transparent 55%),radial-gradient(ellipse at 0% -20%,rgba(184,50,74,.24),transparent 50%)}
+.hero>*{position:relative}
+.eyebrow{font-family:var(--cond);font-weight:700;font-size:17px;letter-spacing:.22em;text-transform:uppercase;color:var(--acc-hi);display:flex;align-items:center;gap:9px}
+.eyebrow i{width:10px;height:10px;border-radius:2px;background:#F07186}
+.hero h1{font-family:var(--varsity);font-weight:400;font-size:clamp(46px,7.6vw,96px);line-height:.9;margin:10px 0 8px;letter-spacing:.02em;color:var(--navy-ink);text-shadow:3px 3px 0 var(--navy-2),5px 5px 0 #7B3FD1}
+.hero p.sub{margin:0;max-width:560px;color:var(--navy-muted);font-size:16px}
+.stats{display:flex;flex-wrap:wrap;gap:clamp(14px,2.6vw,28px);margin-top:16px}
+.stats div{display:flex;align-items:baseline;gap:7px}
+.stats b{font-family:var(--varsity);font-weight:400;font-size:clamp(24px,3vw,32px);line-height:1}
+.stats small{font-family:var(--cond);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--navy-muted)}
+.prog{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:14px 16px}
+.prog h3{margin:0 0 10px;font-family:var(--cond);font-weight:800;font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--navy-muted)}
+.pbar{margin:0 0 10px}
+.pbar .lbl{display:flex;justify-content:space-between;font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase}
+.pbar .trk{height:8px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:4px}
+.pbar .fil{height:100%;width:0;background:linear-gradient(90deg,#7B3FD1,#B99CF6);border-radius:99px;transition:width .3s}
+.pbar.v .fil{background:linear-gradient(90deg,#C99A06,#E8C14A)}
+.prog .note{font-size:12.5px;color:var(--navy-muted);margin:4px 0 0}
+
+/* tabs */
+.tabs{position:sticky;top:0;z-index:30;background:var(--ground);margin-top:18px;border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-top:6px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;padding:9px 12px 8px;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:7px;white-space:nowrap}
+.tab .n{display:inline-grid;place-items:center;width:21px;height:21px;border-radius:5px;background:var(--sunk);border:1px solid var(--line);font-size:13px;color:var(--ink)}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--acc)}
+.tab[aria-selected="true"] .n{background:var(--acc);border-color:var(--acc);color:#fff}
+.view{display:none;padding-top:20px}
+.view.on{display:block}
+
+/* section header */
+.sh{display:flex;align-items:center;gap:14px;margin:26px 0 12px}
+.sh:first-child{margin-top:4px}
+.sh h2{font-family:var(--varsity);font-weight:400;font-size:24px;letter-spacing:.04em;margin:0}
+.sh::after{content:"";flex:1;border-top:2px dashed var(--line)}
+.kick{font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
+
+/* overview cards */
+.map{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.mc{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--endo);border-radius:10px;padding:13px 14px;text-align:left;display:flex;flex-direction:column;gap:6px;transition:transform .12s,box-shadow .12s}
+.mc:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(14,27,51,.14)}
+.mc .num{font-family:var(--varsity);font-size:30px;line-height:1;color:var(--endo)}
+.mc strong{font-family:var(--cond);font-weight:800;font-size:19px;line-height:1.05;text-transform:uppercase}
+.mc p{margin:0;font-size:14px;color:var(--muted);line-height:1.4}
+.mc .meta{margin-top:auto;display:flex;gap:6px;flex-wrap:wrap;padding-top:6px}
+.pill{font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.04em;background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:1px 7px;white-space:nowrap}
+.mc .done{font-family:var(--cond);font-weight:700;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ovgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h3{margin:0 0 8px;font-family:var(--cond);font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:.02em;line-height:1.1}
+.card p{margin:0 0 8px}
+.cov{display:flex;flex-direction:column;gap:7px;margin-top:6px}
+.cov .r{display:grid;grid-template-columns:130px 1fr 40px;gap:10px;align-items:center;font-size:15px}
+.cov .bar{height:20px;border-radius:5px;border:1px solid var(--line)}
+.cov .r b{font-family:var(--cond);font-weight:800;text-align:right}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:3px;border:1px solid var(--line)}
+.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:6px 0 6px 36px;border-bottom:1px dashed var(--line)}
+.steps li:last-child{border-bottom:0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:24px;height:24px;border-radius:6px;background:var(--acc-soft);color:var(--acc-ink);font-family:var(--cond);font-weight:800;display:grid;place-items:center;font-size:14px}
+
+/* block layout */
+.bhead{display:flex;gap:16px;align-items:flex-start;margin-bottom:14px}
+.bhead .big{font-family:var(--varsity);font-size:64px;line-height:.85;color:var(--endo)}
+.bhead h2{margin:2px 0 4px;font-family:var(--cond);font-weight:800;font-size:clamp(26px,3.4vw,36px);line-height:1;text-transform:uppercase;letter-spacing:.01em}
+.bhead p{margin:0;font-size:17px;color:var(--muted);max-width:760px}
+.bgrid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;align-items:start}
+.main{display:flex;flex-direction:column;gap:14px;min-width:0}
+.side{display:flex;flex-direction:column;gap:12px;position:sticky;top:56px}
+.core ul{margin:0;padding-left:20px}
+.core li{margin:4px 0}
+.core li::marker{color:var(--endo)}
+.core .em{font-style:italic;color:var(--muted)}
+table.t{width:100%;border-collapse:collapse;font-size:15px}
+.tw{overflow-x:auto;margin:8px 0 4px}
+table.t th{font-family:var(--cond);font-weight:800;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;text-align:left;color:var(--muted);border-bottom:2px solid var(--line);padding:6px 8px;white-space:nowrap}
+table.t td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+table.t tr:last-child td{border-bottom:0}
+table.t td:first-child{font-weight:600}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:10px;padding:12px 16px;color:var(--hy-ink)}
+.hy .tag{font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--hy-line);display:flex;align-items:center;gap:6px;margin-bottom:3px}
+.hy p{margin:0}
+.tool{border:1.5px solid var(--acc);background:linear-gradient(180deg,var(--acc-soft),var(--panel) 120px)}
+.tool .kick{display:flex;align-items:center;gap:7px}
+
+
+/* block overview + toggles */
+#blocks .view>.card,#blocks .view>.duo{margin-bottom:14px}
+.ovw .rgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:8px;align-items:start}
+.ovw .sp{background:var(--ground)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+details.tg{border-radius:10px;padding:0}
+details.tg summary{list-style:none;cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 16px}
+details.tg summary::-webkit-details-marker{display:none}
+details.tg summary .tag{margin:0;font-family:var(--cond);font-weight:800;font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+details.tg .chev{width:16px;height:16px;flex:none;transition:transform .15s}
+details.tg[open] .chev{transform:rotate(180deg)}
+details.tg>p,details.tg>ul{margin:0;padding:0 16px 14px}
+details.tg.hy summary .tag,details.tg.hy .chev{color:#8A6A00}
+.traps{background:#FCE4E7;border:2px solid #C8384F;color:#4A1020}
+.traps summary .tag,.traps .chev{color:#A51F36}
+.traps ul{list-style:none}
+.traps li{padding:7px 0 7px 28px;position:relative;border-bottom:1px dashed rgba(200,56,79,.35)}
+.traps li:last-child{border-bottom:0}
+.traps li::before{content:"!";position:absolute;left:0;top:8px;width:19px;height:19px;border-radius:50%;background:#C8384F;color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center}
+@media (max-width:1060px){.ovw .rgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.duo{grid-template-columns:1fr}}
+@media (max-width:620px){.ovw .rgrid{grid-template-columns:1fr}}
+
+
+/* hero db link */
+.hcta{align-self:center;max-width:420px;background:rgba(255,255,255,.07)!important;border:1.5px solid rgba(255,255,255,.22)!important;border-left:6px solid #4FC1B6!important;color:var(--navy-ink)!important}
+.hcta small{color:var(--navy-muted)!important}
+.hcta span{color:var(--navy-muted)!important}
+.hcta .ext{color:var(--navy-muted)!important}
+.hcta:hover{background:rgba(255,255,255,.12)!important;box-shadow:0 10px 24px rgba(0,0,0,.3)!important}
+@media (max-width:860px){.hero{grid-template-columns:1fr!important}.hcta{max-width:none;justify-self:stretch}}
+/* overview tab */
+.ovnote{display:flex;gap:14px;align-items:center;background:var(--acc-soft);border:1.5px solid var(--acc);border-radius:12px;padding:13px 16px;margin-bottom:12px}
+.ovnote .oi{flex:none;width:36px;height:36px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center}
+.ovnote .oi svg{width:20px;height:20px}
+.ovnote p{margin:0;font-size:16px}
+.dbcta{display:flex;align-items:center;gap:16px;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-left:6px solid #1F7F78;border-radius:12px;padding:14px 18px;transition:transform .12s,box-shadow .12s}
+.dbcta:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(14,27,51,.14)}
+.dbcta .li{flex:none;width:44px;height:44px;border-radius:10px;background:#DCF1EE;color:#0F5F59;display:grid;place-items:center}
+.dbcta .li svg{width:22px;height:22px}
+.dbcta .lt{flex:1;min-width:0}
+.dbcta small{display:block;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.dbcta strong{display:block;font-family:var(--cond);font-weight:800;font-size:22px;line-height:1.05;text-transform:uppercase}
+.dbcta span{display:block;color:var(--muted);font-size:15px}
+.dbcta .ext{flex:none;width:16px;height:16px;color:var(--muted)}
+.vtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.vall{display:flex;flex-direction:column;gap:8px}
+.vg{border:1px solid var(--line);border-radius:9px;background:var(--ground)}
+.vg summary{list-style:none;cursor:pointer;user-select:none;display:flex;align-items:center;gap:9px;padding:9px 12px;font-family:var(--cond);font-weight:800;font-size:16px;letter-spacing:.03em;text-transform:uppercase;line-height:1.1}
+.vg summary::-webkit-details-marker{display:none}
+.vg summary .n{flex:none;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:5px;background:var(--endo);color:#fff;font-size:13px}
+.vg summary .m{margin-left:auto;color:var(--muted);font-size:13px;letter-spacing:.06em;white-space:nowrap}
+.vg .chev{width:15px;height:15px;flex:none;color:var(--muted);transition:transform .15s}
+.vg[open] .chev{transform:rotate(180deg)}
+.vg .vb{padding:0 12px 6px;border-top:1px dashed var(--line)}
+.vgx h4{margin:0 0 4px;font-family:var(--cond);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--line);padding-bottom:4px}
+.vgx h4 .n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:5px;background:var(--endo);color:#fff;font-size:12.5px}
+.vgx h4 .m{margin-left:auto;color:var(--muted);font-size:13px}
+.ovduo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(16px,2vw,28px);align-items:start}
+.ovcol{min-width:0}
+#ovtests{grid-template-columns:1fr}
+@media (max-width:1000px){.ovduo{grid-template-columns:1fr}}
+
+
+/* cardio plots */
+#blocks .out h5{text-transform:none;font-size:21px}
+.split .plotwrap{max-width:540px;width:100%}
+.split{display:grid;grid-template-columns:minmax(0,540px) minmax(0,1fr);gap:14px;align-items:start}
+.plotwrap{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:6px}
+svg.plot{width:100%;height:auto;display:block}
+.plot .ax{stroke:var(--muted);stroke-width:1.5}
+.plot .gr{stroke:var(--line);stroke-width:1}
+.plot .tk{font:600 11px var(--cond);fill:var(--muted)}
+.plot .al{font:700 11.5px var(--cond);letter-spacing:.06em;fill:var(--muted);text-transform:uppercase}
+.plot .pl{font:800 11.5px var(--cond);fill:var(--ink)}
+.plot .loop{fill:rgba(184,50,74,.14);stroke:#B8324A;stroke-width:2.6;stroke-linejoin:round;transition:d .35s}
+.plot .ghost{fill:none;stroke:var(--silver);stroke-width:1.6;stroke-dasharray:5 4}
+.plot .cfl{fill:none;stroke:#B8324A;stroke-width:2.8}
+.plot .vrl{fill:none;stroke:#2F5FB3;stroke-width:2.8}
+.plot .dot{fill:var(--acc);stroke:#fff;stroke-width:2}
+.plot .gdot{fill:var(--silver)}
+.plot .aps{fill:none;stroke:var(--silver);stroke-width:2.4;stroke-linecap:round}
+.plot .aps.on{stroke:#B8324A;stroke-width:4.2}
+.aps2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 10px}
+.apc{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.apc .lab{font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.fick{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.fick label{display:flex;flex-direction:column;gap:3px;font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.fick input{width:110px;background:var(--panel);border:1.5px solid var(--line);border-radius:7px;padding:6px 9px;font-size:16px;color:var(--ink)}
+.fick input:focus{outline:none;border-color:var(--acc)}
+.fick small{font-weight:600;letter-spacing:.04em;text-transform:none}
+.fres{background:var(--acc-soft);border:1.5px solid var(--acc);border-radius:9px;padding:8px 14px}
+.fres b{display:block;font-family:var(--cond);font-weight:800;font-size:22px;color:var(--acc-ink)}
+.fres small{color:var(--muted);font-size:13px}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bars>div{display:grid;grid-template-columns:80px 1fr;gap:10px;align-items:center;font-family:var(--cond);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:14px}
+.bt{height:20px;border-radius:6px;background:var(--sunk);border:1px solid var(--line);overflow:hidden}
+.bf{height:100%;border-radius:6px;transition:width .35s}
+.bf.sup{background:#2F5FB3}.bf.dem{background:#B8324A}
+.tl{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;gap:4px;margin-top:6px}
+.tl>div{padding:9px 12px;font-size:14.5px;line-height:1.3}
+.tl b{display:block;font-family:var(--cond);font-weight:800;font-size:16px}
+.t1{background:#FFF4C2;border-radius:8px 0 0 8px}.t2{background:#FBE0B8}.t3{background:#F7C9CF;border-radius:0 8px 8px 0}
+@media (max-width:900px){.split,.aps2{grid-template-columns:1fr}}
+@media (max-width:560px){.tl{grid-template-columns:1fr}.t1,.t2,.t3{border-radius:8px}}
+
+/* side panels */
+.sp{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.sp h4{margin:0 0 8px;font-family:var(--cond);font-weight:800;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sp h4 .cnt{color:var(--acc)}
+.vid{display:flex;gap:9px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line);cursor:pointer;font-size:15px;line-height:1.3}
+.vid:last-child{border-bottom:0}
+.vid input{margin:2px 0 0;accent-color:var(--endo);width:16px;height:16px;flex:none}
+.vid .vm{font-family:var(--cond);font-weight:700;color:var(--muted);margin-left:auto;white-space:nowrap;font-size:14px}
+.vid small{display:block;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.vid.ck .vt{text-decoration:line-through;color:var(--muted)}
+.fa{display:flex;flex-direction:column}
+.fa div{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.fa div:last-child{border-bottom:0}
+.fa b{font-family:var(--cond);font-weight:800;color:var(--acc-ink);white-space:nowrap}
+.qids{display:flex;flex-wrap:wrap;gap:6px}
+.qid{display:inline-flex;align-items:center;gap:5px;background:var(--sunk);border:1.5px solid var(--line);border-radius:7px;padding:3px 8px;font-family:var(--cond);font-weight:700;font-size:15px;line-height:1.15;text-align:left}
+.qid.key{border-color:var(--acc);background:var(--acc-soft)}
+.qid.key::before{content:"\2605";color:var(--acc);font-size:12px}
+.qid small{font-weight:600;font-size:12.5px;color:var(--muted)}
+.qid.done{background:var(--up-soft);border-color:var(--up);color:var(--up)}
+.qid.done small{color:var(--up)}
+.qid.done::after{content:"\2713";font-weight:800}
+.sbtns{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.sbtn{background:var(--panel);border:1.5px solid var(--line);border-radius:6px;padding:4px 10px;font-family:var(--cond);font-weight:700;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sbtn:hover{border-color:var(--acc);color:var(--ink)}
+.sbtn.ok{border-color:var(--up);color:var(--up)}
+.hint{font-size:12.5px;color:var(--muted);margin:6px 0 0}
+.dbl{display:flex;flex-direction:column;gap:6px}
+.dbl a{display:flex;align-items:center;justify-content:space-between;gap:8px;text-decoration:none;background:var(--sunk);border:1px solid var(--line);border-left:4px solid var(--endo);border-radius:7px;padding:6px 10px;font-weight:600;font-size:15px}
+.dbl a:hover{background:var(--panel);border-color:var(--endo)}
+.dbl a small{font-family:var(--cond);font-weight:700;font-size:12.5px;color:var(--muted);white-space:nowrap}
+
+/* quiz */
+.qz{display:flex;flex-direction:column;gap:12px}
+.q{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:var(--panel)}
+.q .stem{margin:0 0 9px}
+.q .stem b.qn{font-family:var(--cond);font-weight:800;color:var(--acc);margin-right:6px}
+.opts{display:grid;gap:6px}
+.opt{text-align:left;background:var(--sunk);border:1.5px solid var(--line);border-radius:7px;padding:7px 11px;font-size:15px;display:flex;gap:8px}
+.opt b{font-family:var(--cond);font-weight:800;color:var(--muted)}
+.opt:hover:not([disabled]){border-color:var(--acc)}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--up-soft);border-color:var(--up)}
+.opt.wrong{background:var(--dn-soft);border-color:var(--dn)}
+.exp{display:none;margin-top:9px;padding:10px 12px;border-left:4px solid var(--acc);background:var(--acc-soft);border-radius:0 8px 8px 0;font-size:15px}
+.exp.on{display:block}
+.exp .v{font-family:var(--cond);font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-right:6px}
+
+/* generic tool controls */
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.seg button{background:var(--panel);border:1.5px solid var(--line);border-radius:999px;padding:5px 13px;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.seg button:hover{color:var(--ink);border-color:var(--muted)}
+.seg.nocase button{text-transform:none}
+.seg button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.out{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.out h5{margin:0 0 4px;font-family:var(--cond);font-weight:800;font-size:20px;text-transform:uppercase;line-height:1.1}
+.out p{margin:4px 0 0}
+.out .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:4px 12px;font-size:15px}
+.kv dt{font-family:var(--cond);font-weight:800;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.kv dd{margin:0}
+.ctrlrow{display:flex;flex-wrap:wrap;gap:18px}
+.ctrlrow .lab{font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dblink{font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.04em;text-decoration:none;border:1.5px solid var(--endo);border-radius:6px;padding:2px 9px;display:inline-flex;align-items:center;gap:5px;background:var(--endo-soft)}
+.dblink:hover{background:var(--panel)}
+
+/* beta cell stepper */
+.bstep{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.bstep button{background:var(--panel);border:1.5px solid var(--line);border-radius:8px;padding:6px 10px;font-family:var(--cond);font-weight:700;font-size:15px;line-height:1.1;text-align:left;color:var(--ink)}
+.bstep button small{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.bstep button[aria-pressed="true"]{border-color:var(--acc);background:var(--acc-soft);box-shadow:0 3px 0 var(--acc)}
+.bstep .ar{color:var(--muted);font-weight:800}
+
+/* steroid map */
+.smap{overflow-x:auto;padding:4px 0 6px}
+.sgrid{display:grid;grid-template-columns:96px repeat(4,minmax(80px,1fr) 56px) minmax(80px,1fr);grid-template-rows:auto 40px auto 40px auto;min-width:724px;align-items:center}
+.zl{font-family:var(--cond);font-weight:800;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);line-height:1.15;padding-right:8px}
+.zl b{display:block;color:var(--ink);font-size:13px;hyphens:manual}
+.nd{border:1.5px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 4px;text-align:center;font-weight:600;font-size:13px;hyphens:manual;line-height:1.15;position:relative;transition:background .15s,border-color .15s}
+.nd .st{display:block;font-family:var(--cond);font-weight:800;font-size:12px;letter-spacing:.1em;height:14px}
+.nd.up{background:var(--up-soft);border-color:var(--up)}
+.nd.up .st{color:var(--up)}
+.nd.dn{background:var(--dn-soft);border-color:var(--dn);color:var(--muted)}
+.nd.dn .st{color:var(--dn)}
+.ed{display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--cond);font-weight:700;font-size:11.5px;letter-spacing:.02em;color:var(--muted);text-align:center;line-height:1.05}
+.ed svg{width:100%;height:12px;color:var(--silver)}
+.ed.v{flex-direction:row;gap:5px;justify-content:flex-start;padding-left:8px}
+.ed.v svg{width:12px;height:30px}
+.ed.x{color:var(--blk)}
+.ed.x svg{color:var(--blk)}
+.ed.x::after{content:"\2715 blocked";font-weight:800;font-size:11px;color:var(--blk)}
+.ed.v.x::after{content:"\2715"}
+
+/* sorter + quiz cards */
+.sorter{display:flex;flex-direction:column;gap:10px}
+.sorter .hormone{font-family:var(--varsity);font-size:30px;line-height:1}
+.sorter .fb{min-height:22px;font-weight:600}
+.sorter .fb.ok{color:var(--up)} .sorter .fb.no{color:var(--dn)}
+.score{font-family:var(--cond);font-weight:800;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* tests */
+.tests{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.tc{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--acc);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.tc h3{margin:0;font-family:var(--varsity);font-weight:400;font-size:26px;line-height:1}
+.tc .ql{font-family:var(--cond);font-weight:700;font-size:16px;letter-spacing:.03em;background:var(--sunk);border:1px dashed var(--line);border-radius:7px;padding:8px 10px;word-spacing:2px;user-select:all}
+.tc .row2{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tc label{display:flex;align-items:center;gap:6px;font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer}
+.tc input[type=checkbox]{accent-color:var(--up);width:16px;height:16px}
+.tc input[type=number]{width:70px;background:var(--sunk);border:1.5px solid var(--line);border-radius:6px;padding:3px 7px}
+.tc.done{border-top-color:var(--up)}
+
+/* helpful links */
+.bench{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lk{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--navy-2);border-radius:10px;padding:13px 16px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}
+.lk:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(14,27,51,.14)}
+.lk .li{flex:none;width:38px;height:38px;border-radius:8px;background:var(--sunk);color:var(--silver);display:grid;place-items:center}
+.lk .li svg{width:19px;height:19px}
+.lk .lt{flex:1;min-width:0}
+.lk small{display:block;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lk strong{display:block;font-family:var(--cond);font-weight:800;font-size:19px;line-height:1.05;text-transform:uppercase;letter-spacing:.02em}
+.lk .ext{flex:none;width:15px;height:15px;color:var(--muted)}
+.lk.feat{background:#C9B6F4;border-color:#C9B6F4;border-left-color:var(--navy);color:#0F2244;box-shadow:0 4px 0 #8A6CD0}
+.lk.feat .li{background:#0F2244;color:#C9B6F4}
+.lk.feat small,.lk.feat .ext{color:#0F2244}
+.foot{margin-top:44px;padding-top:14px;border-top:3px solid var(--ink);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--navy);color:var(--navy-ink);font-family:var(--cond);font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;border-radius:8px;transition:.2s;pointer-events:none;z-index:50}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+@media (max-width:1060px){
+  .map{grid-template-columns:repeat(3,1fr)}
+  .bgrid{grid-template-columns:1fr}
+  .side{position:static;display:grid;grid-template-columns:1fr 1fr}
+}
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .ovgrid{grid-template-columns:1fr}
+  .bench{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .map{grid-template-columns:1fr 1fr}
+  .side{grid-template-columns:1fr}
+  .kv{grid-template-columns:1fr}
+  .kv dt{padding-top:6px}
+  .bhead .big{font-size:48px}
+  .cov .r{grid-template-columns:105px 1fr 34px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <a class="word" href="../index.html">HOYA<span>DOCS</span></a>
+    <div class="topr">
+      <span class="rev">Rev 1 &middot; Updated Oct 20, 2026</span>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="Step 1 sections">
+    <a href="../index.html">Home</a>
+    <span class="sep"></span>
+    <a href="index.html"><i style="background:var(--acc)"></i>SMEC Sessions</a>
+    <a href="cv-smec.html" aria-current="page"><i style="background:var(--endo)"></i>Cardio Session I</a>
+    <span class="sep"></span>
+    <a href="https://hoyadocs.com/Step1/Path-Databases/cv-step1.html"><i style="background:#1F7F78"></i>CV Path Database</a>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow"><i></i>SMEC Session &middot; Cardio I</div>
+      <h1>Cardio<br>Session I</h1>
+    </div>
+    <a class="dbcta hcta" href="https://hoyadocs.com/Step1/Path-Databases/cv-step1.html" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+      <div class="lt"><small>HoyaDocs &middot; Step 1</small><strong>Cardiovascular Pathology Database</strong><span>Path-specific disease details and DDx practice questions</span></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Session blocks" id="tabs">
+    <button class="tab" role="tab" data-v="overview">Overview</button>
+    <button class="tab" role="tab" data-v="b1"><span class="n">1</span>Cycle &amp; PV Loops</button>
+    <button class="tab" role="tab" data-v="b2"><span class="n">2</span>CO &amp; Heart Failure</button>
+    <button class="tab" role="tab" data-v="b3"><span class="n">3</span>Coronary Flow</button>
+    <button class="tab" role="tab" data-v="b4"><span class="n">4</span>Electrophysiology</button>
+    <button class="tab" role="tab" data-v="b5"><span class="n">5</span>BP &amp; Shock</button>
+    <button class="tab" role="tab" data-v="tests">UWorld Tests</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section class="view" id="v-overview" role="tabpanel">
+    <div class="ovnote">
+      <div class="oi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></div>
+      <p><b>Each tab has its own practice.</b> Tabs 1&ndash;5 each include Step 1-style practice questions and the UWorld QIDs specific to that tab's content.</p>
+    </div>
+
+    <div class="ovduo">
+      <div class="ovcol">
+        <div class="sh"><h2>Bootcamp Videos</h2></div>
+        <div class="card"><div class="vtop"><span class="score" id="vtot"></span><span class="sbtns" style="margin:0"><button class="sbtn" data-vx="1">Expand all</button><button class="sbtn" data-vx="0">Collapse all</button></span></div><div class="vall" id="vall"></div></div>
+      </div>
+      <div class="ovcol">
+        <div class="sh"><h2>UWorld QID Tests</h2></div>
+        <p style="margin:0 0 12px">Three 15-question mixed tests covering all five blocks. Copy a list into UWorld's custom test by QID.</p>
+        <div class="tests" id="ovtests"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCK VIEWS (rendered) -->
+  <div id="blocks"></div>
+
+  <!-- TESTS -->
+  <section class="view" id="v-tests" role="tabpanel">
+    <div class="sh"><h2>After the Session: UWorld Tests</h2></div>
+    <p style="margin:0 0 14px;max-width:820px">Each test is a 15-question mixed block covering all five session topics. Related QIDs are split across tests for spaced retrieval, and the most direct matches come first. Copy a list into UWorld's custom test by QID.</p>
+    <div class="tests" id="tests"></div>
+    <div class="sh"><h2>QIDs by Topic</h2></div>
+    <div class="card tw" style="padding:6px 10px">
+      <table class="t" id="ttable"></table>
+    </div>
+    <p class="hint">&#9733; = most direct match for that block.</p>
+  </section>
+
+  <div class="sh" id="helpful-links"><h2>Helpful Links</h2></div>
+  <section class="bench" aria-label="Helpful links">
+    <a class="lk feat" href="https://drive.google.com/drive/folders/1u1427xFAO-WKz4yGHGaEiWB6G_DUGiHK?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>SMEC Step Session Docs</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+    <a class="lk" href="https://drive.google.com/drive/folders/1766jOFGsqKQlMvUS8S9qkPPjxx_8Jb-9?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="7" y="3" width="13" height="15" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h10"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>HoyaDocs Step 1 Anki Decks</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+    <a class="lk" href="https://drive.google.com/drive/folders/1O9xVoGSbHczVQQZoV01jublBKpGJ8RhH?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>HoyaDocs UWorld QIDs</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+  </section>
+
+  <footer class="foot">
+    <div class="rev">HoyaDocs &middot; USMLE Step 1 &middot; SMEC Sessions &middot; Cardio Session I</div>
+    <div class="rev">Rev 1 &middot; Updated Oct 20, 2026</div>
+  </footer>
+</div>
+<div class="toast" id="toast">Copied</div>
+
+<script>
+/* ---------- storage ---------- */
+var KEY='hoyadocs-smec-cv1';
+var S=(function(){var d={q:{},v:{},t:{},sc:{}};try{var x=JSON.parse(localStorage.getItem(KEY)||'null');if(x)for(var k in d)d[k]=x[k]||{};}catch(e){}return d;})();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+var DB='https://hoyadocs.com/Step1/Path-Databases/cv-step1.html';
+var EXT='<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>';
+function dbChip(name){return '<a class="dblink" href="'+DB+'#explorer" target="_blank" rel="noopener" title="Open the CV Path Database explorer and search '+name+'">'+name+' '+EXT+'</a>';}
+
+/* ---------- content ---------- */
+var BLOCKS=[
+{id:'b1',n:1,short:'Cycle & PV Loops',time:14,title:'Cardiac cycle and pressure-volume loops',
+ line:'Read the PV loop by its edges, and every valve lesion and drug question becomes “which edge moved?”',
+ hy:'<b>Read the loop by its edges.</b> Bottom = passive filling (compliance). Right side = EDV (preload). Left side = ESV (contractility and afterload). Width = stroke volume. Area = stroke work. MR loses isovolumetric <i>contraction</i>; AR loses isovolumetric <i>relaxation</i>.',
+ traps:['Preload ↑ moves only the right edge (EDV). Afterload ↑ and contractility ↓ both move the left edge (ESV) to the right.',
+  'Mitral stenosis: PCWP > LVEDP. PCWP overestimates LV filling pressure only when something sits between the LA and LV.',
+  'Acute MR raises EF (low-pressure LA "afterload" escape) while forward stroke volume falls.',
+  'AS patients depend on the atrial kick. New AF can cause sudden decompensation.',
+  'S3 can be normal in children, athletes and pregnancy. S4 is never normal.',
+  'Absent a wave = AF. Cannon a waves = atrium contracting against a closed tricuspid (AV dissociation, complete heart block, VT).'],
+ tool:'pv',
+ vids:[['Bootcamp p45–51','Pressure-volume loops',null],['Bootcamp p66–70','Heart sounds, cardiac cycle, JVP',null]],
+ fa:[['Pressure-volume loops & cardiac cycle','291'],['PV loops & valvular disease','291'],['Splitting of S2','293'],['Auscultation of the heart','~294'],['Heart murmurs','295'],['Normal cardiac pressures','~299'],['Cardiomyopathies (HCM)','~315']],
+ q:[[1511,1,'PV loop, ↑ volume'],[1530,1,'Pressure/volume curves'],[1591,1,'MS & PCWP'],[11851,1,'Acute MR'],[244,1,'AS & atrial kick'],[1510,0,''],[2107,0,'S4'],[1557,0,'S3'],[2070,0,'JVP'],[237,0,'Chronic AR'],[15516,0,'HCM'],[945,0,'MR v wave']],
+ db:[['Aortic Stenosis','Tall loop, atrial kick'],['Aortic Regurgitation','Wide loop, wide pulse pressure'],['Mitral Regurgitation','No isovolumetric contraction'],['Rheumatic Heart Disease (Mitral Stenosis)','PCWP > LVEDP'],['Hypertrophic Cardiomyopathy','S4, dynamic obstruction'],['Cardiac Tamponade','Blunted y descent']],
+ quiz:[
+  {s:'A 74-year-old man with exertional syncope has a harsh crescendo-decrescendo murmur at the right upper sternal border radiating to the carotids. He develops new atrial fibrillation and rapidly becomes dyspneic with pulmonary edema. What best explains the decompensation?',o:['Loss of isovolumetric relaxation','Loss of atrial contribution to filling of a stiff hypertrophied LV','Acute rise in left ventricular compliance','Sudden fall in afterload','Rupture of a papillary muscle'],a:1,e:'Concentric LVH in aortic stenosis makes the LV stiff, so a large share of filling depends on the atrial kick. AF removes it → ↓ EDV and SV, ↑ LA pressure → pulmonary edema.'},
+  {s:'A PV loop shows a markedly increased end-diastolic volume, and LV volume begins to fall as soon as LV pressure starts to rise, with no vertical isovolumetric contraction segment. Which lesion is most likely?',o:['Aortic stenosis','Aortic regurgitation','Mitral regurgitation','Mitral stenosis','Increased contractility'],a:2,e:'In MR, blood leaks back into the LA as soon as the LV contracts, so there is no true isovolumetric contraction. AR, in contrast, loses isovolumetric relaxation because blood refills the LV from the aorta.'},
+  {s:'A 66-year-old woman with long-standing poorly controlled hypertension has a low-pitched sound just before S1, best heard at the apex in the left lateral decubitus position. What produces this sound?',o:['Rapid passive filling of a dilated LV','Atrial contraction into a stiff, noncompliant LV','Opening of a stenotic mitral valve','Delayed closure of the pulmonic valve','Regurgitant flow through the mitral valve'],a:1,e:'S4 is atrial contraction against a stiff ventricle (LVH from HTN, AS, HCM, diastolic HF). S3 is rapid filling of a volume-overloaded ventricle.'},
+  {s:'A patient with complete heart block has intermittent large pulsations in the jugular veins. What causes them?',o:['Tricuspid regurgitation','Atrial contraction against a closed tricuspid valve','Rapid ventricular filling','Constrictive pericarditis','Pulmonary hypertension'],a:1,e:'Cannon a waves occur when the atria contract while the tricuspid valve is closed. That happens whenever atria and ventricles are dissociated: complete heart block, VT, or ventricular pacing.'}]
+},
+{id:'b2',n:2,short:'CO & Heart Failure',time:12,title:'Cardiac output, Frank-Starling and heart failure',
+ line:'Cardiac output sits where the cardiac function curve meets the venous return curve; every intervention moves one curve or the other.',
+ hy:'<b>Core equations:</b> CO = HR × SV · SV = EDV − ESV · EF = SV / EDV · MAP = CO × TPR · <b>Fick:</b> CO = O₂ consumption ÷ (arterial − venous O₂ content). Volume changes shift the venous return curve; inotropy changes the cardiac function curve; TPR rotates the venous return curve.',
+ traps:['Inotropes ↑ CO and LOWER RAP: the stronger heart empties the venous side.',
+  'Moving along the Frank-Starling curve (↑ EDV) is not a change in contractility. A new curve is.',
+  'A change in TPR rotates the venous return curve without moving its x-intercept (mean systemic filling pressure).',
+  'Sacubitril raises BNP (neprilysin also degrades it). Follow NT-proBNP instead.',
+  'ACEi/ARB/ARNI, β-blockers, MRAs and SGLT2 inhibitors improve survival in HFrEF. Loop diuretics and digoxin improve symptoms only.',
+  'During exercise, the AV O₂ difference widens because extraction rises.'],
+ tool:'covr',
+ vids:[['Bootcamp p30–35','SV, preload/afterload, Frank-Starling, Fick, MAP',null],['Bootcamp p39–42','CO / venous return curves',null],['Bootcamp p74–76','RAAS + natriuretic peptides',null],['Bootcamp p121','HFrEF',null]],
+ fa:[['Cardiac output variables & equations','288'],['Starling curve','289'],['Cardiac & vascular function curves','290'],['Atrial / B-type natriuretic peptide','~297'],['Heart failure','316'],['Sacubitril','~324'],['Response to exercise','688']],
+ q:[[1624,1,'MI on function curve'],[1625,1,'AV shunt on curves'],[1529,1,'Fick'],[8546,1,'SNS / RAAS in HF'],[11745,1,'Neprilysin'],[1518,0,'AV fistula'],[15651,0,'BNP / ANP'],[1978,0,'BNP / ANP'],[157,0,'BNP / ANP'],[1622,0,'Exercise'],[1589,0,'Exercise'],[15650,0,'Acute HF'],[15526,0,'Acute HF'],[1532,0,'RAAS in HF']],
+ db:[['HFrEF, Ischemic','Post-MI systolic failure'],['HFrEF, Nonischemic','Dilated cardiomyopathy'],['HFpEF','Diastolic dysfunction'],['Cor Pulmonale','Right heart failure']],
+ quiz:[
+  {s:'A patient\'s O₂ consumption is 250 mL/min. Arterial O₂ content is 20 mL/dL and mixed venous O₂ content is 15 mL/dL. What is the cardiac output?',o:['1.25 L/min','2.5 L/min','5 L/min','10 L/min','12.5 L/min'],a:2,e:'Fick: CO = 250 mL/min ÷ (200 − 150 mL/L) = 250 ÷ 50 = 5 L/min. Convert mL/dL to mL/L (× 10) before dividing.'},
+  {s:'After a 1.5-L hemorrhage, how do the cardiac function and venous return curves change before any compensation?',o:['Cardiac function curve shifts up; venous return unchanged','Venous return curve shifts left; new intersection at lower CO and lower RAP','Venous return curve rotates clockwise; MSFP unchanged','Both curves shift right','Cardiac function curve shifts down; RAP rises'],a:1,e:'Blood loss lowers mean systemic filling pressure, shifting the venous return curve left in parallel. The new intersection is at a lower CO and lower right atrial pressure.'},
+  {s:'A 63-year-old with HFrEF is started on sacubitril-valsartan. What is the direct effect of sacubitril?',o:['Blocks the AT1 receptor','Inhibits neprilysin, raising natriuretic peptides and cGMP','Blocks aldosterone receptors','Inhibits the funny current in the SA node','Inhibits the Na⁺/K⁺-ATPase'],a:1,e:'Neprilysin degrades ANP, BNP and bradykinin. Inhibiting it raises natriuretic peptides → ↑ cGMP → vasodilation and natriuresis. Valsartan is added because neprilysin also breaks down angiotensin II. Angioedema risk ↑ with ACE inhibitors (36-h washout).'},
+  {s:'A large arteriovenous fistula forms after a femoral catheterization. Which hemodynamic change is expected?',o:['↓ CO with unchanged mean systemic filling pressure','↑ CO from a steeper venous return curve with unchanged mean systemic filling pressure','↑ mean systemic filling pressure and ↓ CO','Downward shift of the cardiac function curve','↑ TPR and ↓ venous return'],a:1,e:'An AV fistula lowers TPR. The venous return curve rotates counterclockwise (steeper) around the same MSFP, and lower afterload lifts the cardiac function curve. CO rises.'}]
+},
+{id:'b3',n:3,short:'Coronary Flow',time:10,title:'Coronary flow and myocardial O₂ balance',
+ line:'The heart already extracts nearly all the O₂ it gets, so the only way to meet more demand is more flow, and LV flow happens mostly in diastole.',
+ hy:'<b>Supply = flow, and flow is diastolic.</b> Coronary sinus blood is the most deoxygenated in the body, so ↑ demand must be met by ↑ flow (adenosine, NO). Tachycardia shortens diastole and cuts LV supply while raising demand.',
+ traps:['LV coronary flow peaks in early diastole. RV flow is more continuous because RV systolic pressure is low.',
+  'Nitrates mainly venodilate → ↓ preload and wall stress. They do not work by dilating fixed stenoses.',
+  'Aortic stenosis causes angina without CAD: ↑ LV mass and pressure raise demand, while ↑ LVEDP and ↓ diastolic pressure cut supply.',
+  'Nitrate + PDE-5 inhibitor (sildenafil) → both ↑ cGMP → profound hypotension.',
+  'Contractility is lost within about 60 s of ischemia. Injury is reversible (stunning) under about 30 min and irreversible after.'],
+ tool:'o2',
+ vids:[['Bootcamp p32, p36','Coronary perfusion',null],['Bootcamp p54–56','NO, excitation-contraction coupling',null]],
+ fa:[['Autoregulation','299'],['Ischemic heart disease manifestations','307'],['Evolution of myocardial infarction','308'],['Nitrates','~323'],['Antianginal therapy','323'],['Ranolazine','324']],
+ q:[[951,1,'LV systolic compression'],[1516,1,'Autoregulation'],[2009,1,'O₂ extraction'],[11836,1,'Nitrates = venodilators'],[42,1,'Ischemia timeline'],[183,0,''],[952,0,'Adenosine / NO'],[14966,0,'AS angina'],[15180,0,'Stable angina'],[136,0,'Nitrate cGMP'],[143,0,'Nitrates + PDE-5']],
+ db:[['Stable Angina','Fixed stenosis'],['Acute Coronary Syndrome: STEMI','Ischemia → infarction'],['Aortic Stenosis','Angina without CAD']],
+ quiz:[
+  {s:'During which part of the cardiac cycle is blood flow through the left anterior descending artery greatest?',o:['Isovolumetric contraction','Rapid ejection','Reduced ejection','Early diastole','Atrial systole'],a:3,e:'LV systole compresses the intramyocardial vessels. LV coronary flow peaks in early diastole, when the aortic pressure is still high and the myocardium has relaxed.'},
+  {s:'A healthy man begins vigorous exercise and myocardial O₂ demand doubles. How is the extra O₂ supplied?',o:['Increased O₂ extraction from coronary blood','Increased coronary blood flow','Increased hemoglobin O₂ affinity','Anaerobic glycolysis','Shunting of blood from the RV'],a:1,e:'Myocardial extraction is near-maximal at rest (coronary sinus PO₂ is very low), so higher demand is met almost entirely by vasodilation and ↑ flow, driven by local adenosine and NO.'},
+  {s:'A 58-year-old has substernal pressure while climbing stairs that resolves with sublingual nitroglycerin. What is the main mechanism of relief?',o:['Dilation of the stenotic epicardial artery','Venodilation with ↓ preload and LV wall stress','Arteriolar dilation with reflex bradycardia','Negative inotropy','Increased diastolic time'],a:1,e:'NO → ↑ cGMP → myosin light-chain dephosphorylation, mostly in veins. Lower preload means lower LV volume and wall stress, so O₂ demand drops.'},
+  {s:'A man taking isosorbide mononitrate takes sildenafil and becomes lightheaded with BP 72/40 mm Hg. Why?',o:['Both drugs block α1 receptors','Both drugs raise cGMP in vascular smooth muscle','Sildenafil inhibits nitrate metabolism','Sildenafil causes bradycardia','Nitrates block PDE-3'],a:1,e:'Nitrates generate NO → guanylyl cyclase → cGMP. PDE-5 inhibitors block cGMP breakdown. Together they cause profound vasodilation and hypotension.'}]
+},
+{id:'b4',n:4,short:'Electrophysiology',time:14,title:'Cardiac electrophysiology and antiarrhythmics',
+ line:'Learn which ion carries each phase, and the antiarrhythmic classes and their ECG changes follow from what they block.',
+ hy:'<b>Ion by phase:</b> myocyte phase 0 = fast Na⁺ (class I), phase 3 = K⁺ out (class III). Pacemaker phase 0 = L-type Ca²⁺ (class IV), phase 4 = funny current, sped up by β1/cAMP (class II). <b>Conduction speed:</b> Purkinje > atria > ventricles > AV node.',
+ traps:['The SA/AV node upstroke is Ca²⁺, not Na⁺. Class I drugs barely affect nodal tissue.',
+  'Use dependence: class IC is strongest (most QRS widening at fast rates). Class III shows reverse use dependence (most QT prolongation at slow rates).',
+  'Class IC is contraindicated in structural or ischemic heart disease.',
+  'Long QT drugs: macrolides, fluoroquinolones, antipsychotics (haloperidol), antiemetics (ondansetron), methadone, class IA and III.',
+  'Digoxin toxicity: nausea, yellow vision, hyperkalemia (acute). Hypokalemia worsens toxicity (less K⁺ competition at the pump).',
+  'Adenosine is blocked by theophylline and caffeine; dipyridamole potentiates it.'],
+ tool:'ap',
+ vids:[['Bootcamp p85–88','Conduction, pacemaker vs myocyte AP, autonomic effects, QT',null],['Bootcamp p91–95','Antiarrhythmic classes',null]],
+ fa:[['Myocardial action potential','296'],['Pacemaker action potential','296'],['Electrocardiogram · Torsades','~296'],['ECG tracings','297'],['Cardiac glycosides','326'],['Antiarrhythmics','~327'],['Ivabradine','~329']],
+ q:[[1974,1,'Myocyte AP'],[1975,1,'Pacemaker phase 4'],[1513,1,'Conduction velocity'],[159,1,'Use dependence'],[15693,1,'Long QT'],[1531,0,'Nodal phase 0 = Ca²⁺'],[1976,0,''],[1509,0,'IA'],[900,0,'IB'],[1508,0,'IC'],[901,0,'III'],[2006,0,'β-blocker PR'],[1973,0,'IV'],[898,0,'Adenosine'],[148,0,'Digoxin']],
+ db:[['Atrial Fibrillation','Rate vs rhythm control'],['Supraventricular Tachycardia (AVNRT)','Adenosine'],['Wolff-Parkinson-White Syndrome','Avoid AV nodal blockers'],['Third-Degree AV Block','Cannon a waves']],
+ quiz:[
+  {s:'Which ion movement is responsible for phase 0 of the SA node action potential?',o:['Fast Na⁺ influx','L-type Ca²⁺ influx','T-type Ca²⁺ influx','K⁺ efflux through delayed rectifier channels','Funny Na⁺ current'],a:1,e:'Pacemaker cells lack functional fast Na⁺ channels at their resting potential, so the slow upstroke is carried by L-type Ca²⁺ (blocked by class IV). The funny current and T-type Ca²⁺ drive phase 4.'},
+  {s:'A drug for paroxysmal AF in a patient with a structurally normal heart strongly blocks Na⁺ channels, dissociates slowly, and markedly widens the QRS at fast heart rates. It is contraindicated after MI. Which drug is it?',o:['Quinidine','Lidocaine','Flecainide','Sotalol','Verapamil'],a:2,e:'Class IC (flecainide, propafenone): strongest use-dependent Na⁺ block, ↑↑ QRS, no effect on QT. Increased mortality in structural or ischemic heart disease.'},
+  {s:'A woman taking azithromycin and ondansetron develops polymorphic VT with a twisting QRS axis. What is the underlying mechanism?',o:['Increased fast Na⁺ current','Reduced delayed-rectifier K⁺ current prolonging phase 3','Increased L-type Ca²⁺ current in the AV node','Accessory pathway conduction','Increased funny current'],a:1,e:'Many drugs block hERG (IKr) channels → slower repolarization → long QT → early afterdepolarizations → torsades de pointes. Treat with IV magnesium.'},
+  {s:'How does digoxin increase myocardial contractility?',o:['β1 receptor agonism','PDE-3 inhibition','Na⁺/K⁺-ATPase inhibition → less Na⁺/Ca²⁺ exchange → ↑ intracellular Ca²⁺','Direct opening of L-type Ca²⁺ channels','Sensitizing troponin C to Ca²⁺'],a:2,e:'Blocking the pump raises intracellular Na⁺, which slows Ca²⁺ extrusion through the Na⁺/Ca²⁺ exchanger. More Ca²⁺ is stored in the SR and released. Digoxin also ↑ vagal tone at the AV node.'}]
+},
+{id:'b5',n:5,short:'BP & Shock',time:10,title:'BP regulation, adrenergic drugs and shock',
+ line:'MAP = CO × TPR; every BP question asks which term moved first and how the baroreceptor reflex answered.',
+ hy:'<b>Find the first mover, then the reflex.</b> ↑ BP (phenylephrine) → baroreceptors → reflex ↓ HR. ↓ BP (hydralazine) → reflex ↑ HR + RAAS fluid retention. Resistance ∝ 1/r⁴: halving the radius raises resistance 16-fold.',
+ traps:['The carotid sinus afferent is CN IX; the aortic arch afferent is CN X. Both efferents run through the vagus and sympathetic outflow.',
+  'Hypoxia constricts pulmonary arterioles but dilates systemic ones.',
+  'Epinephrine after a nonselective β-blocker → unopposed α → BP rises more, with no tachycardia.',
+  'Norepinephrine raises BP so much that reflex bradycardia can override its β1 effect on HR.',
+  'Septic shock is warm with ↑ mixed venous O₂ (poor extraction). Neurogenic shock is hypotension WITH bradycardia.',
+  'Isolated systolic HTN in older adults = stiff, low-compliance aorta (↑ SBP, normal/↓ DBP).'],
+ tool:'shock',
+ vids:[['Bootcamp p60–62','Compliance, Poiseuille, baroreceptors',null],['Bootcamp p57','α1 agonists',null],['Bootcamp p219','Shock table',null]],
+ fa:[['Sympathomimetics','241'],['Resistance, pressure, flow','290'],['Baroreceptors & chemoreceptors','~298'],['Hypertension','~302'],['Shock','317'],['Hydralazine','323'],['Pulmonary circulation','684']],
+ q:[[1621,1,'r⁴'],[1609,1,'Carotid sinus reflex'],[1364,1,'Epinephrine + propranolol'],[15241,1,'Septic hemodynamics'],[1587,1,'Hypoxic vasoconstriction'],[456,0,'Isolated systolic HTN'],[1515,0,'Carotid massage'],[1343,0,'α agonist reflex'],[6811,0,'Phenylephrine'],[1252,0,'Hydralazine reflex'],[13979,0,'Septic'],[15273,0,'Renal artery stenosis RAAS']],
+ db:[['Septic Shock','Warm, ↓ SVR'],['Primary (Essential) Hypertension','MAP = CO × TPR'],['Cardiac Tamponade','Obstructive shock'],['Ruptured Abdominal Aortic Aneurysm','Hypovolemic shock']],
+ quiz:[
+  {s:'A febrile patient with pneumonia has BP 78/40 mm Hg, warm extremities and bounding pulses. A pulmonary artery catheter is placed. Which pattern is expected?',o:['↓ CO, ↑ SVR, ↑ PCWP','↓ CO, ↑ SVR, ↓ PCWP','↑ CO, ↓ SVR, ↓ PCWP','↓ CO, ↓ SVR, ↓ PCWP','↑ CO, ↑ SVR, ↑ PCWP'],a:2,e:'Early septic (distributive) shock: vasodilation lowers SVR, CO rises, PCWP is low, and mixed venous O₂ is high because tissues extract poorly.'},
+  {s:'IV phenylephrine is given to a healthy volunteer. Which response is expected within a minute?',o:['↓ MAP, ↑ HR','↑ MAP, ↑ HR','↑ MAP, ↓ HR','↓ MAP, ↓ HR','No change in MAP; ↑ HR'],a:2,e:'Pure α1 agonism raises TPR and MAP. Carotid and aortic baroreceptors fire more → ↑ vagal and ↓ sympathetic outflow → reflex bradycardia.'},
+  {s:'A patient pretreated with propranolol receives epinephrine. Compared with epinephrine alone, what happens?',o:['Greater rise in BP and no tachycardia','Smaller rise in BP and more tachycardia','BP falls (epinephrine reversal)','No change in either','Bronchodilation is enhanced'],a:0,e:'With β1 and β2 blocked, epinephrine acts only on α1. β2-mediated vasodilation is lost, so BP rises more, and β1 tachycardia is gone.'},
+  {s:'A climber ascends to 4,500 m. What happens to his pulmonary vascular resistance and why?',o:['Falls, because hypoxia dilates arterioles','Rises, because alveolar hypoxia constricts pulmonary arterioles','Rises, because of hypercapnia','Unchanged, because the pulmonary circulation does not autoregulate','Falls, because cardiac output rises'],a:1,e:'Hypoxic pulmonary vasoconstriction diverts blood away from poorly ventilated alveoli to match V/Q. Global hypoxia (altitude, COPD) raises PVR and can cause pulmonary HTN and cor pulmonale.'},
+  {s:'A 78-year-old woman has BP 172/68 mm Hg on repeated readings. What is the main cause of this pattern?',o:['↑ cardiac output','↑ arteriolar resistance','↓ aortic compliance','↑ blood volume','Aortic regurgitation'],a:2,e:'With age, the aorta stiffens. Each stroke volume produces a larger systolic rise and the diastolic pressure falls faster: isolated systolic hypertension with a wide pulse pressure.'}]
+}];
+
+var TESTS=[[1511,244,2070,1624,8546,1622,951,42,952,1974,159,2006,1621,1364,456],[1530,11851,237,1625,11745,15651,1516,11836,15180,1975,15693,901,1609,15241,1343],[1591,2107,15516,1529,1518,15650,2009,14966,143,1513,1509,148,1587,13979,1252]];
+
+/* ---------- render helpers ---------- */
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return [].slice.call((r||document).querySelectorAll(s));}
+function vkey(b,i){return b.id+'-'+i;}
+function mins(b){return b.time;}
+function qidInfo(q){for(var i=0;i<BLOCKS.length;i++)for(var j=0;j<BLOCKS[i].q.length;j++)if(BLOCKS[i].q[j][0]===q)return [BLOCKS[i],BLOCKS[i].q[j]];return null;}
+
+function renderOv(){
+  var tot=0;
+  $('#vall').innerHTML=BLOCKS.map(function(b){tot+=mins(b);
+    var dn=b.vids.filter(function(v,i){return S.v[vkey(b,i)];}).length;
+    return '<details class="vg" open><summary><span class="n">'+b.n+'</span>'+b.title+'<span class="m"><span data-vd="'+b.id+'">'+dn+'</span> / '+b.vids.length+' done</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><div class="vb">'+
+      b.vids.map(function(v,i){var k=vkey(b,i);return '<label class="vid'+(S.v[k]?' ck':'')+'"><input type="checkbox" data-v="'+k+'"'+(S.v[k]?' checked':'')+'><span class="vt"><small>'+v[0]+'</small>'+v[1]+'</span><span class="vm">'+(v[2]==null?'':v[2]+' min')+'</span></label>';}).join('')+'</div></details>';}).join('');
+  $('#vtot').textContent=BLOCKS.reduce(function(a,b){return a+b.vids.length;},0)+' Bootcamp references · '+tot+'-min session';
+  $('#ovtests').innerHTML=testCards();
+}
+function renderMap(){
+  $('#map').innerHTML=BLOCKS.map(function(b){
+    var d=b.q.filter(function(x){return S.q[x[0]];}).length;
+    return '<button class="mc" data-go="'+b.id+'"><span class="num">'+b.n+'</span><strong>'+b.title+'</strong><p>'+b.line+'</p>'+
+      '<span class="meta"><span class="pill">'+b.q.length+' QIDs</span><span class="pill">'+b.vids.length+' videos · '+mins(b)+' min</span><span class="pill">FA '+faRange(b)+'</span></span>'+
+      '<span class="done">'+d+' / '+b.q.length+' QIDs done</span></button>';
+  }).join('');
+}
+function faRange(b){
+  var ps=b.fa.map(function(f){return parseInt(String(f[1]).replace(/[^0-9]/g,''),10);}).filter(function(x){return x>200;});
+  if(!ps.length)ps=b.fa.map(function(f){return parseInt(String(f[1]).replace(/[^0-9]/g,''),10);});
+  var mn=Math.min.apply(null,ps),mx=Math.max.apply(null,ps);return mn===mx?mn:mn+'–'+mx;
+}
+function renderCov(){
+  var max=52;
+  $('#cov').innerHTML=COV.map(function(c){return '<div class="r"><span>'+c[0]+'</span><span class="bar" style="width:'+(c[1]/max*100)+'%;background:'+c[2]+'"></span><b>'+c[1]+'</b></div>';}).join('');
+}
+function qidBtn(x){return '<button class="qid'+(x[1]?' key':'')+(S.q[x[0]]?' done':'')+'" data-q="'+x[0]+'" aria-pressed="'+(S.q[x[0]]?'true':'false')+'" title="Tap to mark done">'+x[0]+(x[2]?'<small>'+x[2]+'</small>':'')+'</button>';}
+
+function renderBlocks(){
+  $('#blocks').innerHTML=BLOCKS.map(function(b){
+    var vids=b.vids.map(function(v,i){var k=vkey(b,i);return '<label class="vid'+(S.v[k]?' ck':'')+'"><input type="checkbox" data-v="'+k+'"'+(S.v[k]?' checked':'')+'><span class="vt"><small>'+v[0]+'</small>'+v[1]+'</span><span class="vm">'+(v[2]==null?'':v[2]+' min')+'</span></label>';}).join('');
+    var fa=b.fa.map(function(f){return '<div><span>'+f[0]+'</span><b>p. '+f[1]+'</b></div>';}).join('');
+    var qs=b.q.map(qidBtn).join('');
+    var db=b.db.map(function(d){return '<a href="'+DB+'#explorer" target="_blank" rel="noopener"><span>'+d[0]+'<br><small>'+d[1]+'</small></span>'+EXT+'</a>';}).join('');
+    var quiz=b.quiz.map(function(q,qi){return '<div class="q" data-b="'+b.id+'" data-qi="'+qi+'"><p class="stem"><b class="qn">Q'+(qi+1)+'</b>'+q.s+'</p><div class="opts">'+
+      q.o.map(function(o,oi){return '<button class="opt" data-oi="'+oi+'"><b>'+'ABCDE'[oi]+'</b><span>'+o+'</span></button>';}).join('')+
+      '</div><div class="exp"></div></div>';}).join('');
+    return '<section class="view" id="v-'+b.id+'" role="tabpanel">'+
+      '<div class="bhead"><span class="big">'+b.n+'</span><div><div class="kick">Block '+b.n+' of 5</div><h2>'+b.title+'</h2><p>'+b.line+'</p></div></div>'+
+      '<div class="card ovw"><div class="kick">Overview</div><div class="rgrid">'+
+        '<div class="sp"><h4>UWorld QIDs <span class="cnt" data-cnt="'+b.id+'"></span></h4><div class="qids">'+qs+'</div>'+
+          '<div class="sbtns"><button class="sbtn" data-copy="'+b.q.map(function(x){return x[0];}).join(', ')+'">Copy all</button><button class="sbtn" data-copy="'+b.q.filter(function(x){return x[1];}).map(function(x){return x[0];}).join(', ')+'">Copy &#9733; only</button></div>'+
+          '<p class="hint">&#9733; = most direct match. Tap a QID to mark it done.</p></div>'+
+        '<div class="sp"><h4>Bootcamp videos <span class="cnt">'+b.vids.length+' refs</span></h4>'+vids+'</div>'+
+        '<div class="sp"><h4>First Aid 2026</h4><div class="fa">'+fa+'</div></div>'+
+        '<div class="sp"><h4>CV Path Database</h4><div class="dbl">'+db+'</div><p class="hint">Opens the database explorer. Search the disease name for the full entry.</p></div>'+
+      '</div></div>'+
+      '<div class="duo">'+
+        '<details class="tg hy" open><summary><span class="tag">&#9733; Step 1 high yield</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>'+b.hy+'</p></details>'+
+        '<details class="tg traps" open><summary><span class="tag">! Step 1 traps</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><ul>'+b.traps.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></details>'+
+      '</div>'+
+      '<div class="card tool" id="tool-'+b.id+'"></div>'+
+      '<div class="card"><div class="kick">Quick check</div><p style="color:var(--muted);font-size:15px;margin:2px 0 10px">Step 1-style vignettes. Pick an answer to see the explanation.</p><div class="qz">'+quiz+'</div></div>'+
+      '</section>';
+  }).join('');
+}
+
+/* ---------- interactive tools ---------- */
+function svgEl(w,h,inner){return '<svg viewBox="0 0 '+w+' '+h+'" class="plot" role="img">'+inner+'</svg>';}
+
+/* Block 1: PV loop explorer + JVP decoder */
+function toolPV(el){
+  var X=function(v){return 46+(v/250)*290;}, Y=function(p){return 222-(p/200)*200;};
+  var ST={
+   norm:{t:'Normal',esv:50,edv:120,edp:10,avo:80,peak:122,esp:100,mvo:6,d:'Width = SV ≈ 70 mL, EF ≈ 58%. Vertical lines are the isovolumetric phases (all valves closed).',db:[]},
+   pre:{t:'↑ Preload',esv:50,edv:155,edp:15,avo:80,peak:126,esp:102,mvo:6,d:'<b>Right edge moves right</b> (↑ EDV). Same contractility, so SV ↑ by Frank-Starling. IV fluids, AR, MR (volume load).',db:[]},
+   aft:{t:'↑ Afterload',esv:75,edv:125,edp:11,avo:105,peak:155,esp:138,mvo:6,d:'<b>Left edge moves right</b> (↑ ESV) and the loop gets taller. SV ↓. Hypertension, aortic stenosis, vasoconstrictors.',db:['Primary (Essential) Hypertension']},
+   con:{t:'↑ Contractility',esv:28,edv:118,edp:9,avo:80,peak:135,esp:108,mvo:6,d:'<b>Left edge moves left</b> (↓ ESV). SV and EF ↑. Sympathetic stimulation, digoxin, dobutamine. (↓ contractility in systolic HF moves it right.)',db:[]},
+   as:{t:'Aortic stenosis',esv:60,edv:125,edp:18,avo:80,peak:195,esp:160,mvo:8,d:'<b>Tall, narrow loop</b> from very high LV systolic pressure. Concentric LVH → stiff LV (steeper filling edge) → depends on atrial kick. AF is poorly tolerated.',db:['Aortic Stenosis']},
+   ar:{t:'Aortic regurgitation',esv:75,edv:215,edp:20,avo:55,peak:155,esp:120,mvo:10,noIVR:1,d:'<b>Very wide loop, no isovolumetric relaxation</b>: the LV refills from the aorta as soon as it relaxes. ↑ EDV → ↑ SV → wide pulse pressure, bounding pulses. Eccentric hypertrophy.',db:['Aortic Regurgitation']},
+   mr:{t:'Mitral regurgitation',esv:40,edv:170,edp:22,avo:70,peak:118,esp:95,mvo:8,noIVC:1,d:'<b>Wide loop, no isovolumetric contraction</b>: blood leaks into the LA as soon as the LV contracts. Acute MR: ↑ preload, ↓ afterload, ↑ EF but ↓ forward SV. Large v wave on PCWP.',db:['Mitral Regurgitation']},
+   ms:{t:'Mitral stenosis',esv:42,edv:88,edp:6,avo:80,peak:115,esp:98,mvo:6,d:'<b>Small loop shifted left</b>: the LV underfills. ↑ LA pressure and PCWP, but LVEDP normal or ↓ (PCWP > LVEDP). Opening snap; the A2–OS interval shortens as MS worsens.',db:['Rheumatic Heart Disease (Mitral Stenosis)']}};
+  function path(s){
+    var A=[s.noIVR?s.esv+32:s.esv,s.mvo],B=[s.edv,s.edp],C=[s.noIVC?s.edv-28:s.edv,s.avo],D=[s.esv,s.esp];
+    var cy=(8*s.peak-C[1]-D[1])/6;
+    var f=function(v,p){return X(v).toFixed(1)+' '+Y(p).toFixed(1);};
+    return 'M'+f(A[0],A[1])+' C'+f(A[0]+(B[0]-A[0])*0.5,A[1]-4)+' '+f(B[0]-(B[0]-A[0])*0.15,B[1]*0.55)+' '+f(B[0],B[1])+
+      ' L'+f(C[0],C[1])+' C'+f(C[0]-(C[0]-D[0])*0.18,cy)+' '+f(D[0]+(C[0]-D[0])*0.2,cy)+' '+f(D[0],D[1])+' L'+f(A[0],A[1])+' Z';
+  }
+  var axes='<line x1="46" y1="222" x2="340" y2="222" class="ax"/><line x1="46" y1="222" x2="46" y2="16" class="ax"/>'+
+    [0,50,100,150,200,250].map(function(v){return '<text x="'+X(v)+'" y="238" class="tk" text-anchor="middle">'+v+'</text>';}).join('')+
+    [0,50,100,150,200].map(function(p){return '<text x="40" y="'+(Y(p)+4)+'" class="tk" text-anchor="end">'+p+'</text><line x1="46" x2="340" y1="'+Y(p)+'" y2="'+Y(p)+'" class="gr"/>';}).join('')+
+    '<text x="193" y="254" class="al" text-anchor="middle">LV volume (mL)</text><text x="12" y="120" class="al" text-anchor="middle" transform="rotate(-90 12 120)">LV pressure (mm Hg)</text>';
+  var JV={
+   af:['Absent a wave','Atrial fibrillation','No organized atrial contraction, so there is no a wave. Irregularly irregular pulse.',['Atrial Fibrillation']],
+   can:['Cannon a waves','AV dissociation','The atrium contracts against a closed tricuspid valve: complete heart block, VT, ventricular pacing.',['Third-Degree AV Block']],
+   v:['Large v wave','Tricuspid regurgitation','Blood regurgitates into the RA during systole (c-v wave). Pulsatile liver. The same logic gives a large v wave on PCWP in MR.',[]],
+   by:['Blunted / absent y descent','Cardiac tamponade','Fluid around the heart prevents RA emptying in early diastole. Pulsus paradoxus, Beck triad, electrical alternans.',['Cardiac Tamponade']],
+   dy:['Deep, steep y descent','Constrictive pericarditis','Rapid early filling stops abruptly at the rigid pericardium. Kussmaul sign, pericardial knock.',[]]};
+  el.innerHTML='<div class="kick">&#9881; Interactive · PV loop explorer</div><h3 style="margin-top:4px">Which edge moved?</h3><p style="color:var(--muted);font-size:15px">Pick a change or lesion. The dashed loop is normal.</p>'+
+   '<div class="seg nocase" id="pvseg">'+Object.keys(ST).map(function(k){return '<button data-k="'+k+'">'+ST[k].t+'</button>';}).join('')+'</div>'+
+   '<div class="split"><div class="plotwrap">'+svgEl(350,262,axes+'<path id="pvn" class="ghost" d="'+path(ST.norm)+'"/><path id="pvc" class="loop" d=""/><g id="pvlab"></g>')+'</div><div class="out" id="pvout"></div></div>'+
+   '<div style="margin-top:18px"><div class="kick">JVP decoder</div><p style="color:var(--muted);font-size:15px;margin:2px 0 6px">a = atrial contraction · c = tricuspid bulging · x = atrial relaxation · v = venous filling · y = RA emptying.</p>'+
+   '<div class="seg nocase" id="jseg">'+Object.keys(JV).map(function(k){return '<button data-k="'+k+'">'+JV[k][0]+'</button>';}).join('')+'</div><div class="out" id="jout"></div></div>';
+  function show(k){var s=ST[k];
+    $$('#pvseg button',el).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.k===k?'true':'false');});
+    $('#pvc',el).setAttribute('d',path(s));$('#pvn',el).style.display=k==='norm'?'none':'';
+    var sv=s.edv-s.esv,ef=Math.round(sv/s.edv*100);
+    $('#pvlab',el).innerHTML='<text x="'+X(s.edv)+'" y="'+(Y(s.edp)+16)+'" class="pl" text-anchor="middle">EDV '+s.edv+'</text><text x="'+(X(s.esv)-6)+'" y="'+(Y(s.esp)+4)+'" class="pl" text-anchor="end">ESV '+s.esv+'</text>';
+    $('#pvout',el).innerHTML='<h5>'+s.t+'</h5><p style="margin:2px 0 6px"><span class="pill">SV '+sv+' mL</span> <span class="pill">EF '+ef+'%</span> <span class="pill">LVEDP '+s.edp+'</span></p><p>'+s.d+'</p>'+(s.db.length?'<div class="chips">'+s.db.map(dbChip).join('')+'</div>':'');}
+  $$('#pvseg button',el).forEach(function(b){b.onclick=function(){show(b.dataset.k);};});
+  function jv(k){var j=JV[k];$$('#jseg button',el).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.k===k?'true':'false');});
+    $('#jout',el).innerHTML='<h5>'+j[1]+'</h5><p>'+j[2]+'</p>'+(j[3].length?'<div class="chips">'+j[3].map(dbChip).join('')+'</div>':'');}
+  $$('#jseg button',el).forEach(function(b){b.onclick=function(){jv(b.dataset.k);};});
+  show('as');jv('can');
+}
+
+/* Block 2: CO / venous return curves + Fick calculator */
+function toolCOVR(el){
+  var X=function(r){return 46+((r+4)/16)*290;}, Y=function(c){return 222-(c/14)*200;};
+  var N={msfp:7,R:1,cmax:12};
+  var ST={
+   norm:{t:'Normal',p:{},d:'Steady state where the two curves cross: CO ≈ 5 L/min at RAP ≈ 2 mm Hg. The VR x-intercept is mean systemic filling pressure (MSFP).'},
+   hem:{t:'Hemorrhage',p:{msfp:4},d:'<b>Venous return curve shifts left</b> (↓ volume → ↓ MSFP). Same slope. New point: ↓ CO, ↓ RAP.'},
+   ivf:{t:'IV fluids',p:{msfp:10},d:'<b>Venous return curve shifts right</b> (↑ MSFP). New point: ↑ CO, ↑ RAP. Venoconstriction does the same.'},
+   ino:{t:'Inotrope / ↑ sympathetic',p:{cmax:17},d:'<b>Cardiac function curve gets steeper</b> (digoxin, dobutamine, sympathetic tone). New point: ↑ CO, ↓ RAP: the stronger heart empties the venous side.'},
+   mi:{t:'Acute MI / systolic HF',p:{cmax:7.5},d:'<b>Cardiac function curve flattens.</b> New point: ↓ CO, ↑ RAP. Chronically, RAAS-driven volume retention shifts VR right, raising RAP further.'},
+   tpr:{t:'↓ TPR (AV fistula, exercise)',p:{R:0.6,cmax:16},d:'<b>Venous return curve rotates up</b> (steeper) around the same MSFP, and ↓ afterload lifts the cardiac function curve. New point: ↑ CO, RAP about the same.'}};
+  function P(o){return {msfp:o.msfp||N.msfp,R:o.R||N.R,cmax:o.cmax||N.cmax};}
+  function vr(r,p){return r<=-2?(p.msfp+2)/p.R:Math.max(0,(p.msfp-r)/p.R);}
+  function cf(r,p){var x=r+4;return x<=0?0:p.cmax*x*x/(x*x+50.4);}
+  function cross(p){var lo=-4,hi=p.msfp;for(var i=0;i<50;i++){var m=(lo+hi)/2;if(cf(m,p)-vr(m,p)>0)hi=m;else lo=m;}return [lo,cf(lo,p)];}
+  function line(fn,p,a,b){var d='';for(var r=a;r<=b+1e-9;r+=0.25){var c=fn(r,p);if(c>14)c=14;d+=(d?' L':'M')+X(r).toFixed(1)+' '+Y(c).toFixed(1);}return d;}
+  var axes='<line x1="46" y1="222" x2="340" y2="222" class="ax"/><line x1="'+X(0)+'" y1="222" x2="'+X(0)+'" y2="16" class="ax" style="stroke-dasharray:3 3"/><line x1="46" y1="222" x2="46" y2="16" class="ax"/>'+
+    [-4,0,4,8,12].map(function(r){return '<text x="'+X(r)+'" y="238" class="tk" text-anchor="middle">'+r+'</text>';}).join('')+
+    [0,4,8,12].map(function(c){return '<text x="40" y="'+(Y(c)+4)+'" class="tk" text-anchor="end">'+c+'</text><line x1="46" x2="340" y1="'+Y(c)+'" y2="'+Y(c)+'" class="gr"/>';}).join('')+
+    '<text x="193" y="254" class="al" text-anchor="middle">Right atrial pressure (mm Hg)</text><text x="12" y="120" class="al" text-anchor="middle" transform="rotate(-90 12 120)">CO or VR (L/min)</text>';
+  var pn=P({}),cn=cross(pn);
+  el.innerHTML='<div class="kick">&#9881; Interactive · cardiac &amp; vascular function curves</div><h3 style="margin-top:4px">Which curve moved?</h3><p style="color:var(--muted);font-size:15px">Red = cardiac function (CO), blue = venous return. Dashed = normal.</p>'+
+   '<div class="seg nocase" id="cvseg">'+Object.keys(ST).map(function(k){return '<button data-k="'+k+'">'+ST[k].t+'</button>';}).join('')+'</div>'+
+   '<div class="split"><div class="plotwrap">'+svgEl(350,262,axes+'<path class="ghost" d="'+line(cf,pn,-4,12)+'"/><path class="ghost" d="'+line(vr,pn,-4,pn.msfp)+'"/><circle cx="'+X(cn[0])+'" cy="'+Y(cn[1])+'" r="4" class="gdot"/><path id="cfc" class="cfl" d=""/><path id="vrc" class="vrl" d=""/><circle id="dot" r="6" class="dot"/>')+'</div><div class="out" id="cvout"></div></div>'+
+   '<div style="margin-top:18px"><div class="kick">Fick calculator</div><p style="color:var(--muted);font-size:15px;margin:2px 0 8px">CO = O₂ consumption ÷ (arterial − venous O₂ content). Remember: mL/dL × 10 = mL/L.</p>'+
+   '<div class="fick"><label>O₂ consumption<input type="number" id="fv" value="250"><small>mL/min</small></label><label>Arterial O₂<input type="number" id="fa" value="20" step="0.1"><small>mL/dL</small></label><label>Venous O₂<input type="number" id="fvn" value="15" step="0.1"><small>mL/dL</small></label><div class="fres" id="fres"></div></div></div>';
+  function show(k){var s=ST[k],p=P(s.p),c=cross(p);
+    $$('#cvseg button',el).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.k===k?'true':'false');});
+    $('#cfc',el).setAttribute('d',line(cf,p,-4,12));$('#vrc',el).setAttribute('d',line(vr,p,-4,p.msfp));
+    $('#dot',el).setAttribute('cx',X(c[0]));$('#dot',el).setAttribute('cy',Y(c[1]));
+    function ar(a,b){return Math.abs(a-b)<0.3?'≈':(a>b?'↑':'↓');}
+    $('#cvout',el).innerHTML='<h5>'+s.t+'</h5><p style="margin:2px 0 6px"><span class="pill">CO '+c[1].toFixed(1)+' L/min '+(k==='norm'?'':ar(c[1],cn[1]))+'</span> <span class="pill">RAP '+c[0].toFixed(1)+' mm Hg '+(k==='norm'?'':ar(c[0],cn[0]))+'</span> <span class="pill">MSFP '+p.msfp+'</span></p><p>'+s.d+'</p>'+
+      (k==='mi'?'<div class="chips">'+dbChip('HFrEF, Ischemic')+'</div>':'');}
+  $$('#cvseg button',el).forEach(function(b){b.onclick=function(){show(b.dataset.k);};});
+  function fick(){var v=+$('#fv',el).value,a=+$('#fa',el).value,w=+$('#fvn',el).value,d=(a-w)*10;
+    $('#fres',el).innerHTML=d>0?'<b>CO = '+(v/d).toFixed(1)+' L/min</b><small>'+v+' ÷ ('+(a*10).toFixed(0)+' − '+(w*10).toFixed(0)+' mL/L)</small>':'<b>—</b><small>Arterial must exceed venous</small>';}
+  $$('.fick input',el).forEach(function(i){i.oninput=fick;});
+  show('ino');fick();
+}
+
+/* Block 3: myocardial O2 supply vs demand */
+function toolO2(el){
+  var SC={
+   rest:{t:'Rest',s:62,d:55,v:'Balanced',m:'Extraction is already near-maximal (coronary sinus is the most deoxygenated blood in the body), so supply is set by flow. Autoregulation (adenosine, NO) holds flow steady over a perfusion pressure of about 60–140 mm Hg.',db:[]},
+   tach:{t:'Tachycardia',s:48,d:78,v:'Ischemia',m:'↑ HR raises demand and shortens diastole, the only time the LV is well perfused. Supply falls while demand rises.',db:[]},
+   ex:{t:'Exercise + fixed stenosis',s:60,d:90,v:'Ischemia (stable angina)',m:'Distal arterioles are already maximally dilated, so a fixed plaque cannot increase flow when demand rises. Pain with exertion, relief with rest.',db:['Stable Angina']},
+   as:{t:'Aortic stenosis',s:50,d:86,v:'Ischemia without CAD',m:'Demand: ↑ LV pressure and ↑ LV mass (wall stress × HR × contractility). Supply: ↑ LVEDP compresses subendocardial vessels and ↓ diastolic aortic pressure.',db:['Aortic Stenosis']},
+   ntg:{t:'Nitroglycerin',s:60,d:58,v:'Relief',m:'NO → ↑ cGMP → mainly venodilation → ↓ preload → ↓ LV radius and wall stress → ↓ demand. Reflex tachycardia can blunt the benefit (add a β-blocker).',db:[]},
+   pde:{t:'Nitrate + PDE-5 inhibitor',s:32,d:52,v:'Dangerous hypotension',m:'Both raise cGMP → profound vasodilation → ↓ coronary perfusion pressure and reflex tachycardia. Contraindicated together.',db:[]},
+   bb:{t:'β-blocker',s:64,d:46,v:'Relief',m:'↓ HR and contractility lower demand, and the longer diastole improves LV perfusion. First-line for chronic stable angina.',db:['Stable Angina']}};
+  el.innerHTML='<div class="kick">&#9881; Interactive · O₂ balance</div><h3 style="margin-top:4px">Supply vs demand</h3><p style="color:var(--muted);font-size:15px">Demand = wall stress (pressure × radius) × HR × contractility. Supply = coronary flow, mostly in diastole.</p>'+
+   '<div class="seg nocase" id="oseg">'+Object.keys(SC).map(function(k){return '<button data-k="'+k+'">'+SC[k].t+'</button>';}).join('')+'</div>'+
+   '<div class="out"><div class="bars"><div><span>Supply</span><div class="bt"><div class="bf sup" id="bs"></div></div></div><div><span>Demand</span><div class="bt"><div class="bf dem" id="bd"></div></div></div></div><div id="oout"></div></div>'+
+   '<div style="margin-top:18px"><div class="kick">Ischemia timeline</div><div class="tl"><div class="t1"><b>&lt; 60 s</b>Contractility lost</div><div class="t2"><b>&lt; 30 min</b>Reversible (stunned myocardium)</div><div class="t3"><b>&gt; 30 min</b>Irreversible injury → infarction</div></div><div class="chips" style="margin-top:8px">'+dbChip('Acute Coronary Syndrome: STEMI')+'</div></div>';
+  function show(k){var s=SC[k];$$('#oseg button',el).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.k===k?'true':'false');});
+    $('#bs',el).style.width=s.s+'%';$('#bd',el).style.width=s.d+'%';
+    var bad=s.d>s.s+5;
+    $('#oout',el).innerHTML='<h5 style="margin-top:10px;color:'+(bad?'var(--dn)':'var(--up)')+'">'+s.v+'</h5><p>'+s.m+'</p>'+(s.db.length?'<div class="chips">'+s.db.map(dbChip).join('')+'</div>':'');}
+  $$('#oseg button',el).forEach(function(b){b.onclick=function(){show(b.dataset.k);};});
+  show('tach');
+}
+
+/* Block 4: action potentials, antiarrhythmic classes, drug sorter */
+function toolAP(el){
+  var X=function(t){return 30+t*1.0;}, Y=function(v){return 120-(v+100)*0.8;};
+  function seg(pts){return pts.map(function(p,i){return (i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1);}).join(' ');}
+  function curve(a,c1,c2,b){return 'M'+X(a[0])+' '+Y(a[1])+' C'+X(c1[0])+' '+Y(c1[1])+' '+X(c2[0])+' '+Y(c2[1])+' '+X(b[0])+' '+Y(b[1]);}
+  var MY={'4a':seg([[0,-90],[40,-90]]),'0':seg([[40,-90],[44,25]]),'1':seg([[44,25],[54,5]]),'2':curve([54,5],[90,8],[140,4],[170,-8]),'3':curve([170,-8],[190,-30],[205,-85],[225,-90]),'4b':seg([[225,-90],[300,-90]])};
+  var PM={'4a':curve([0,-60],[40,-57],[80,-50],[110,-40]),'0':curve([110,-40],[120,-30],[130,5],[140,10]),'3':curve([140,10],[160,0],[185,-55],[205,-60]),'4b':curve([205,-60],[240,-57],[270,-50],[300,-42])};
+  function draw(id,P,lbl){var g='';for(var k in P)g+='<path class="aps" data-ph="'+k.charAt(0)+'" d="'+P[k]+'"/>';
+    return '<div class="apc"><div class="lab">'+lbl+'</div>'+svgEl(340,130,'<line x1="30" x2="330" y1="'+Y(0)+'" y2="'+Y(0)+'" class="gr"/><text x="26" y="'+(Y(0)+4)+'" class="tk" text-anchor="end">0</text><text x="26" y="'+(Y(-90)+4)+'" class="tk" text-anchor="end">−90</text><g id="'+id+'">'+g+'</g>')+'</div>';}
+  var PH={'4':['Phase 4 · resting / diastolic','Myocyte: stable resting potential, K⁺ leaks out (IK1). Pacemaker: slow spontaneous depolarization from the funny Na⁺ current (If), T-type Ca²⁺ and ↓ K⁺ efflux. β1 → ↑ cAMP → steeper slope → ↑ HR. ACh (M2) and adenosine → ↑ K⁺ out → flatter slope → ↓ HR. Ivabradine blocks If.'],
+   '0':['Phase 0 · upstroke','Myocyte: fast voltage-gated Na⁺ influx (blocked by class I). Pacemaker: slow L-type Ca²⁺ influx (blocked by class IV).'],
+   '1':['Phase 1 · early repolarization','Myocyte only: transient outward K⁺ current (Ito) and Na⁺ channel inactivation. Absent in pacemaker cells.'],
+   '2':['Phase 2 · plateau','Myocyte only: L-type Ca²⁺ in balances K⁺ out. The Ca²⁺ entry triggers Ca²⁺-induced Ca²⁺ release from the SR → contraction.'],
+   '3':['Phase 3 · repolarization','Both cells: K⁺ efflux through delayed-rectifier channels (IKr, IKs). Blocked by class III → longer AP and QT. Slowed IKr (congenital or drugs) → long QT → torsades.']};
+  var CL={
+   IA:['IA · quinidine, procainamide, disopyramide','Moderate Na⁺ block + K⁺ block','my','0,3','↑ QRS, ↑ QT','Quinidine: cinchonism, thrombocytopenia. Procainamide: drug-induced lupus. All: torsades.'],
+   IB:['IB · lidocaine, mexiletine','Weak Na⁺ block, fast off; prefers depolarized ischemic tissue','my','0','Little change','Post-MI ventricular arrhythmias, digoxin-induced arrhythmias. CNS toxicity (seizures, paresthesias).'],
+   IC:['IC · flecainide, propafenone','Strong, most use-dependent Na⁺ block','my','0','↑↑ QRS','SVT/AF in structurally normal hearts. Contraindicated in structural or ischemic heart disease.'],
+   II:['II · β-blockers (metoprolol, esmolol, propranolol)','β1 → ↓ cAMP → ↓ If and Ca²⁺ currents','pm','4','↑ PR','Rate control, post-MI. Bradycardia, AV block, bronchospasm (nonselective), masks hypoglycemia. Overdose → glucagon.'],
+   III:['III · amiodarone, sotalol, dofetilide, ibutilide','K⁺ block → longer phase 3 and refractory period','my','3','↑ QT','Amiodarone: pulmonary fibrosis, hepatotoxicity, hypo/hyperthyroidism, corneal deposits, blue-gray skin (check PFTs, LFTs, TFTs). Sotalol/dofetilide: torsades.'],
+   IV:['IV · verapamil, diltiazem','L-type Ca²⁺ block in nodal tissue','pm','0','↑ PR','Rate control for AF/SVT. Constipation (verapamil), gingival hyperplasia, AV block. Avoid in HFrEF and in WPW with AF.']};
+  el.innerHTML='<div class="kick">&#9881; Interactive · action potentials</div><h3 style="margin-top:4px">Ion by phase, drug by ion</h3><p style="color:var(--muted);font-size:15px">Tap a phase or an antiarrhythmic class. Highlighted segments show where it acts.</p>'+
+   '<div class="lab" style="font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Phase</div><div class="seg nocase" id="phseg">'+['4','0','1','2','3'].map(function(p){return '<button data-p="'+p+'">Phase '+p+'</button>';}).join('')+'</div>'+
+   '<div class="lab" style="font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Class</div><div class="seg nocase" id="clseg">'+Object.keys(CL).map(function(c){return '<button data-c="'+c+'">Class '+c+'</button>';}).join('')+'</div>'+
+   '<div class="aps2">'+draw('gmy',MY,'Ventricular myocyte / Purkinje')+draw('gpm',PM,'Pacemaker cell (SA, AV node)')+'</div><div class="out" id="apout"></div>'+
+   '<div class="sorter" style="margin-top:18px"><div class="kick">Antiarrhythmic sorter</div><div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><span class="hormone" id="dh"></span><span class="score" id="dsc">0 / 0</span></div>'+
+   '<div class="seg nocase" id="dseg">'+['IA','IB','IC','II','III','IV','Other'].map(function(c){return '<button data-m="'+c+'">'+(c==='Other'?'Other':'Class '+c)+'</button>';}).join('')+'</div><div class="fb" id="dfb"></div></div>';
+  function hl(my,pm){$$('#gmy .aps',el).forEach(function(p){p.classList.toggle('on',my.indexOf(p.dataset.ph)>-1);});$$('#gpm .aps',el).forEach(function(p){p.classList.toggle('on',pm.indexOf(p.dataset.ph)>-1);});}
+  function press(sel,attr,v){$$(sel+' button',el).forEach(function(b){b.setAttribute('aria-pressed',b.dataset[attr]===v?'true':'false');});}
+  function phase(p){press('#phseg','p',p);press('#clseg','c','');var h=PH[p];hl([p],(p==='1'||p==='2')?[]:[p]);
+    $('#apout',el).innerHTML='<h5>'+h[0]+'</h5><p>'+h[1]+'</p>'+((p==='1'||p==='2')?'<p style="color:var(--muted);font-size:14.5px">Pacemaker cells have no phase 1 or 2.</p>':'');}
+  function cls(c){press('#clseg','c',c);press('#phseg','p','');var x=CL[c],ph=x[3].split(',');hl(x[2]==='my'?ph:[],x[2]==='pm'?ph:[]);
+    $('#apout',el).innerHTML='<h5>'+x[0]+'</h5><dl class="kv"><dt>Blocks</dt><dd>'+x[1]+'</dd><dt>ECG</dt><dd>'+x[4]+'</dd><dt>High yield</dt><dd>'+x[5]+'</dd></dl>';}
+  $$('#phseg button',el).forEach(function(b){b.onclick=function(){phase(b.dataset.p);};});
+  $$('#clseg button',el).forEach(function(b){b.onclick=function(){cls(b.dataset.c);};});
+  phase('0');
+  var D=[['Quinidine','IA'],['Procainamide','IA'],['Disopyramide','IA'],['Lidocaine','IB'],['Mexiletine','IB'],['Flecainide','IC'],['Propafenone','IC'],['Metoprolol','II'],['Esmolol','II'],['Propranolol','II'],['Amiodarone','III'],['Sotalol','III'],['Dofetilide','III'],['Ibutilide','III'],['Verapamil','IV'],['Diltiazem','IV'],['Adenosine','Other'],['Digoxin','Other'],['Magnesium','Other'],['Ivabradine','Other']];
+  var o=D.slice(),i=0,ok=0,tot=0,lock=false;
+  for(var j=o.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1)),t=o[j];o[j]=o[k];o[k]=t;}
+  function next(){lock=false;$('#dh',el).textContent=o[i%o.length][0];$('#dfb',el).textContent='Which class?';$('#dfb',el).className='fb';}
+  $$('#dseg button',el).forEach(function(b){b.onclick=function(){if(lock)return;lock=true;var d=o[i%o.length];tot++;
+    if(b.dataset.m===d[1]){ok++;$('#dfb',el).textContent='✓ Correct: '+(d[1]==='Other'?'not in the I–IV scheme':'class '+d[1]);$('#dfb',el).className='fb ok';}
+    else{$('#dfb',el).textContent='✗ '+d[0]+' is '+(d[1]==='Other'?'outside the I–IV classes':'class '+d[1]);$('#dfb',el).className='fb no';}
+    $('#dsc',el).textContent=ok+' / '+tot;i++;setTimeout(next,1300);};});
+  next();
+}
+
+/* Block 5: shock pattern drill + baroreceptor reflex predictor */
+function toolShock(el){
+  var P=[['↓','↑','↓','Hypovolemic','Hemorrhage, dehydration, burns. Cold, clammy, flat neck veins. Give volume.',['Ruptured Abdominal Aortic Aneurysm']],
+         ['↓','↑','↑','Cardiogenic','MI, acute valve failure, myocarditis. Cold with pulmonary edema and ↑ JVP.',['Acute Coronary Syndrome: STEMI']],
+         ['↓','↑','↑','Obstructive · tamponade','↑ CVP, equalized diastolic pressures, pulsus paradoxus, Beck triad. Pericardiocentesis.',['Cardiac Tamponade']],
+         ['↓','↑','↓','Obstructive · massive PE','RV fails behind a blocked pulmonary artery: ↑ CVP but low PCWP (LV underfilled).',['Cor Pulmonale']],
+         ['↑','↓','↓','Septic (early)','Warm extremities, bounding pulses; ↑ mixed venous O₂ (poor extraction).',['Septic Shock']],
+         ['↓','↓','↓','Neurogenic','Spinal cord injury: loss of sympathetic tone → hypotension with bradycardia, warm skin.',[]]];
+  var R={
+   phe:['Phenylephrine (α1 agonist)','↑','↓','↑ TPR → ↑ MAP → baroreceptors fire → ↑ vagal, ↓ sympathetic → reflex bradycardia.'],
+   hyd:['Hydralazine (arteriolar dilator)','↓','↑','↓ TPR → ↓ MAP → reflex tachycardia and RAAS-driven salt/water retention. Give with a β-blocker and diuretic.'],
+   ne:['Norepinephrine (α1 > β1)','↑↑','↓ / ↔','Strong α1 vasoconstriction. Reflex vagal slowing can outweigh its direct β1 effect on HR.'],
+   iso:['Isoproterenol (β1 = β2)','↓','↑↑','β2 vasodilation lowers TPR and diastolic BP; β1 plus reflex drive raises HR strongly.'],
+   epp:['Epinephrine after propranolol','↑↑','↓','β blocked → pure α1 effect: BP rises more, no tachycardia (reflex slowing instead).'],
+   car:['Carotid sinus massage','↓','↓','Stretch mimics ↑ BP → CN IX afferent → ↑ vagal efferent → slows the SA node and AV node conduction (can terminate SVT).']};
+  var order=[0,1,2,3,4,5],cur=0,score=0,tot=0,lock=false;
+  for(var j=order.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1)),t=order[j];order[j]=order[k];order[k]=t;}
+  el.innerHTML='<div class="kick">&#9881; Interactive · shock drill</div><h3 style="margin-top:4px">Name the shock</h3><p style="color:var(--muted);font-size:15px">Read the CO, SVR and PCWP, then pick the shock type.</p>'+
+   '<div class="out"><div style="display:flex;gap:10px;flex-wrap:wrap" id="spat"></div><div class="seg nocase" id="sdx" style="margin-top:10px"></div><div id="sfb"></div><div class="score" style="margin-top:8px" id="ssc"></div></div>'+
+   '<div style="margin-top:18px"><div class="kick">Reflex predictor</div><p style="color:var(--muted);font-size:15px;margin:2px 0 6px">Pick a drug or maneuver to see the MAP and the baroreceptor-driven HR response.</p>'+
+   '<div class="seg nocase" id="rseg">'+Object.keys(R).map(function(k){return '<button data-k="'+k+'">'+R[k][0]+'</button>';}).join('')+'</div><div class="out" id="rout"></div></div>';
+  function q(){lock=false;var p=P[order[cur%order.length]];
+    $('#spat',el).innerHTML=['CO','SVR','PCWP'].map(function(l,i){return '<span class="pill" style="font-size:18px;padding:5px 12px">'+l+' <b>'+p[i]+'</b></span>';}).join('');
+    $('#sdx',el).innerHTML=P.map(function(x,i){return '<button data-j="'+i+'">'+x[3]+'</button>';}).join('');
+    $('#sfb',el).innerHTML='';$('#ssc',el).textContent=tot?'Score '+score+' / '+tot:'';
+    $$('#sdx button',el).forEach(function(b){b.onclick=function(){if(lock)return;lock=true;tot++;var right=order[cur%order.length],pick=+b.dataset.j,x=P[pick];
+      var same=x[0]===p[0]&&x[1]===p[1]&&x[2]===p[2],good=pick===right||same;if(good)score++;b.setAttribute('aria-pressed','true');
+      $('#sfb',el).innerHTML='<p style="margin:8px 0 0"><b style="color:'+(good?'var(--up)':'var(--dn)')+'">'+(good?'✓ ':'✗ ')+p[3]+'.</b> '+p[4]+(same&&pick!==right?' <i>(Same numbers as '+x[3]+'. Tell them apart with the clinical clue.)</i>':'')+'</p>'+(p[5].length?'<div class="chips">'+p[5].map(dbChip).join('')+'</div>':'')+'<div class="sbtns"><button class="sbtn" id="snext">Next pattern →</button></div>';
+      $('#ssc',el).textContent='Score '+score+' / '+tot;$('#snext',el).onclick=function(){cur++;q();};};});}
+  q();
+  function rf(k){var r=R[k];$$('#rseg button',el).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.k===k?'true':'false');});
+    $('#rout',el).innerHTML='<h5>'+r[0]+'</h5><p style="margin:2px 0 6px"><span class="pill" style="font-size:16px">MAP <b>'+r[1]+'</b></span> <span class="pill" style="font-size:16px">HR <b>'+r[2]+'</b></span></p><p>'+r[3]+'</p>';}
+  $$('#rseg button',el).forEach(function(b){b.onclick=function(){rf(b.dataset.k);};});
+  rf('phe');
+}
+
+/* ---------- quiz ---------- */
+function bindQuiz(){
+  $$('.q').forEach(function(qe){
+    var b=BLOCKS.filter(function(x){return x.id===qe.dataset.b;})[0],q=b.quiz[+qe.dataset.qi];
+    $$('.opt',qe).forEach(function(o){o.onclick=function(){
+      var oi=+o.dataset.oi;
+      $$('.opt',qe).forEach(function(x){x.disabled=true;if(+x.dataset.oi===q.a)x.classList.add('right');});
+      if(oi!==q.a)o.classList.add('wrong');
+      var ex=$('.exp',qe);ex.innerHTML='<span class="v" style="color:'+(oi===q.a?'var(--up)':'var(--dn)')+'">'+(oi===q.a?'Correct.':'Not quite. Answer: '+'ABCDE'[q.a]+'.')+'</span>'+q.e+' <button class="sbtn" style="margin-left:6px">Retry</button>';ex.classList.add('on');
+      $('.sbtn',ex).onclick=function(){$$('.opt',qe).forEach(function(x){x.disabled=false;x.classList.remove('right','wrong');});ex.classList.remove('on');};
+    };});
+  });
+}
+
+/* ---------- tests ---------- */
+function testCards(){
+  return TESTS.map(function(t,i){var d=S.t[i];
+    return '<div class="tc'+(d?' done':'')+'"><div class="kick">15 questions · mixed</div><h3>Test '+(i+1)+'</h3><div class="ql">'+t.join(', ')+'</div>'+
+     '<div class="row2"><button class="sbtn" data-copy="'+t.join(', ')+'">Copy QIDs</button>'+
+     '<label><input type="checkbox" data-t="'+i+'"'+(d?' checked':'')+'>Done</label>'+
+     '<label>Score % <input type="number" min="0" max="100" data-sc="'+i+'" value="'+(S.sc[i]||'')+'"></label></div></div>';}).join('');
+}
+function renderTests(){
+  $('#tests').innerHTML=testCards();
+  var heads=BLOCKS.map(function(b){return b.short;});
+  var rows=TESTS.map(function(t,i){return '<tr><td>Test '+(i+1)+'</td>'+BLOCKS.map(function(b){return '<td>'+t.filter(function(q){return b.q.some(function(x){return x[0]===q;});}).map(function(q){var x=qidInfo(q)[1];return (x[1]?'<b>&#9733;'+q+'</b>':q);}).join(', ')+'</td>';}).join('')+'</tr>';}).join('');
+  $('#ttable').innerHTML='<thead><tr><th>Test</th>'+heads.map(function(h){return '<th>'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody>';
+}
+
+/* ---------- progress ---------- */
+function allQ(){var a=[];BLOCKS.forEach(function(b){b.q.forEach(function(x){a.push(x[0]);});});return a;}
+function prog(){
+  BLOCKS.forEach(function(b){var e=$('[data-vd="'+b.id+'"]');if(e)e.textContent=b.vids.filter(function(v,i){return S.v[vkey(b,i)];}).length;});
+  var q=allQ(),dq=q.filter(function(x){return S.q[x];}).length;
+  var nv=0,dv=0;BLOCKS.forEach(function(b){b.vids.forEach(function(v,i){nv++;if(S.v[vkey(b,i)])dv++;});});
+  var dt=[0,1,2].filter(function(i){return S.t[i];}).length;
+  BLOCKS.forEach(function(b){var c=$('[data-cnt="'+b.id+'"]');if(c)c.textContent=b.q.filter(function(x){return S.q[x[0]];}).length+' / '+b.q.length;});
+}
+
+/* ---------- views ---------- */
+var VIEWS=['overview','b1','b2','b3','b4','b5','tests'];
+function show(v,scroll){
+  if(VIEWS.indexOf(v)<0)v='overview';
+  $$('.view').forEach(function(s){s.classList.toggle('on',s.id==='v-'+v);});
+  $$('.tab').forEach(function(t){t.setAttribute('aria-selected',t.dataset.v===v?'true':'false');});
+  try{history.replaceState(null,'','#'+v);}catch(e){}
+  if(scroll){var tb=$('#tabs');window.scrollTo({top:tb.getBoundingClientRect().top+window.scrollY-2,behavior:'smooth'});}
+}
+
+/* ---------- copy ---------- */
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove('on');},1400);}
+function copy(txt,btn){
+  function ok(){toast('Copied '+txt.split(',').length+' QIDs');if(btn){btn.classList.add('ok');setTimeout(function(){btn.classList.remove('ok');},1200);}}
+  try{navigator.clipboard.writeText(txt).then(ok,fallback);}catch(e){fallback();}
+  function fallback(){var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){toast('Select and copy the list');}document.body.removeChild(ta);}
+}
+
+/* ---------- boot ---------- */
+renderBlocks();renderTests();renderOv();
+toolPV($('#tool-b1'));toolCOVR($('#tool-b2'));toolO2($('#tool-b3'));toolAP($('#tool-b4'));toolShock($('#tool-b5'));
+bindQuiz();prog();
+document.addEventListener('click',function(e){
+  var t=e.target.closest('[data-go]');if(t){e.preventDefault();show(t.dataset.go,true);return;}
+  var tab=e.target.closest('.tab');if(tab){show(tab.dataset.v,false);return;}
+  var q=e.target.closest('.qid');if(q){var id=q.dataset.q;if(S.q[id])delete S.q[id];else S.q[id]=1;save();$$('.qid[data-q="'+id+'"]').forEach(function(x){x.classList.toggle('done',!!S.q[id]);x.setAttribute('aria-pressed',S.q[id]?'true':'false');});prog();return;}
+  var vx=e.target.closest('[data-vx]');if(vx){$$('#vall details').forEach(function(d){d.open=vx.dataset.vx==='1';});return;}
+  var c=e.target.closest('[data-copy]');if(c){copy(c.dataset.copy,c);return;}
+});
+document.addEventListener('change',function(e){
+  var t=e.target;
+  if(t.dataset.v){if(t.checked)S.v[t.dataset.v]=1;else delete S.v[t.dataset.v];$$('[data-v="'+t.dataset.v+'"]').forEach(function(x){x.checked=t.checked;x.closest('.vid').classList.toggle('ck',t.checked);});save();prog();}
+  if(t.dataset.t!==undefined){if(t.checked)S.t[t.dataset.t]=1;else delete S.t[t.dataset.t];$$('[data-t="'+t.dataset.t+'"]').forEach(function(x){x.checked=t.checked;x.closest('.tc').classList.toggle('done',t.checked);});save();prog();}
+  if(t.dataset.sc!==undefined){S.sc[t.dataset.sc]=t.value;$$('[data-sc="'+t.dataset.sc+'"]').forEach(function(x){if(x!==t)x.value=t.value;});save();}
+});
+show((location.hash||'').slice(1)||'overview',false);
+</script>
+</body>
+</html>
