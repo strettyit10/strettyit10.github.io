@@ -103,6 +103,7 @@
       width: min(92vw, calc(85vh * 2 / 3));
       width: min(92vw, calc(85dvh * 2 / 3));
       aspect-ratio: 1024 / 1536;
+      container-type: inline-size;
     }
 
     .body-img {
@@ -270,6 +271,41 @@
     .callout-msk   { top: 64%; left: 40%; }
     .callout-msk   .line { width: 180px; transform: rotate(180deg); }
     .callout-msk   .pill { right: 190px; }
+
+    /* ── Desktop: pills sit fully OUTSIDE the body image (lines run from dot to past the image edge).
+       Line length = distance from the dot to the frame edge (in cqw = % of image width) + a fixed gap.
+       If you add a new region, use its left% here (left-side pills) or 100 − left% (right-side pills). ── */
+    @media (min-width: 961px) {
+      .body-frame {
+        width: min(calc(100vw - 480px), calc(85vh * 2 / 3));
+        width: min(calc(100vw - 480px), calc(85dvh * 2 / 3));
+        --gap: 36px;
+      }
+      .callout-hnss .line { width: calc(50cqw + var(--gap)); }
+      .callout-hnss .pill { right: calc(50cqw + var(--gap) + 10px); }
+      .callout-gi .line { width: calc(50cqw + var(--gap)); }
+      .callout-gi .pill { right: calc(50cqw + var(--gap) + 10px); }
+      .callout-immuno .line { width: calc(38cqw + var(--gap)); }
+      .callout-immuno .pill { right: calc(38cqw + var(--gap) + 10px); }
+      .callout-micro .line { width: calc(39cqw + var(--gap)); }
+      .callout-micro .pill { right: calc(39cqw + var(--gap) + 10px); }
+      .callout-pulm .line { width: calc(43cqw + var(--gap)); }
+      .callout-pulm .pill { right: calc(43cqw + var(--gap) + 10px); }
+      .callout-msk .line { width: calc(40cqw + var(--gap)); }
+      .callout-msk .pill { right: calc(40cqw + var(--gap) + 10px); }
+      .callout-endo .line { width: calc(50cqw + var(--gap)); }
+      .callout-endo .pill { left: calc(50cqw + var(--gap) + 10px); }
+      .callout-repro .line { width: calc(50cqw + var(--gap)); }
+      .callout-repro .pill { left: calc(50cqw + var(--gap) + 10px); }
+      .callout-cardio .line { width: calc(48cqw + var(--gap)); }
+      .callout-cardio .pill { left: calc(48cqw + var(--gap) + 10px); }
+      .callout-renal .line { width: calc(44cqw + var(--gap)); }
+      .callout-renal .pill { left: calc(44cqw + var(--gap) + 10px); }
+      .callout-cns .line { width: calc(50cqw + var(--gap)); }
+      .callout-cns .pill { left: calc(50cqw + var(--gap) + 10px); }
+      .callout-heme .line { width: calc(40cqw + var(--gap)); }
+      .callout-heme .pill { left: calc(40cqw + var(--gap) + 10px); }
+    }
 
     /* ══════════════════════════════════════
        RESPONSIVE
