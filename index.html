@@ -52,6 +52,7 @@
       transition: color 0.15s;
     }
     .readme-link:hover { color: #fff; }
+    .readme-link.hidden, .readme-link.hidden:hover { color: #000; text-shadow: none; pointer-events: none; cursor: default; user-select: none; }
 
     /* ── STEP 1 link (top-right) ── */
     .step1-link {
@@ -203,6 +204,11 @@
                   0 0 28px 6px rgba(255,255,255,0.55);
     }
 
+    /* ── Blue-filled pills (Block 2 + Block 6). Add "fill-blue" to a callout's class to use it. ── */
+    .callout.fill-blue .pill { background: #1d5fd6; border-color: #3b82f6; color: #fff; }
+    .callout.fill-blue:hover .pill { background: #3b82f6; border-color: #93c5fd; color: #fff; box-shadow: 0 8px 28px rgba(59,130,246,0.45); }
+    .callout.fill-blue:hover .pill small { opacity: 0.75; }
+
     /* ── Per-region placement (tuned to 1024×1536 portrait) ── */
 
     /* HNSS — head / face, pill to the LEFT (extended to clear the hand) */
@@ -225,7 +231,7 @@
     .callout-repro .line { width: 240px; transform: rotate(0deg); }
     .callout-repro .pill { left: 250px; }
 
-    /* ── Placeholders: units coming soon. To launch one, delete the word "soon" from its class. ── */
+    /* ── Placeholders / deactivated units (greyed + not clickable). To (re)activate one, delete the word "soon" from its class. ── */
     .callout.soon { pointer-events: none; }
     .callout.soon .pill { border-style: dashed; border-color: rgba(255,255,255,0.45); color: rgba(255,255,255,0.6); background: rgba(0,0,0,0.45); }
     .callout.soon .dot { background: rgba(255,255,255,0.55); box-shadow: 0 0 0 3px rgba(255,255,255,0.08); }
@@ -493,7 +499,8 @@
 
 <body>
   <div class="brand">HoyaDocs</div>
-  <a class="readme-link" href="https://hoyadocs.com/hoyadocs-101">Read Me</a>
+  <!-- Read Me temporarily hidden. To restore: change data-href back to href and delete the word "hidden" from the class. -->
+  <a class="readme-link hidden" data-href="https://hoyadocs.com/hoyadocs-101" tabindex="-1" aria-hidden="true">Read Me</a>
   <a class="step1-link" href="https://www.hoyadocs.com/Step1" aria-label="USMLE Step 1">
     <small>USMLE</small>Step 1
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
@@ -511,21 +518,21 @@
       </a>
 
       <!-- ENDO — neck / thyroid -->
-      <a class="callout callout-endo" href="https://strettyit10.github.io/Block4-Endocrine/" aria-label="Endocrine Hub">
+      <a class="callout callout-endo soon" href="https://strettyit10.github.io/Block4-Endocrine/" aria-label="Endocrine Hub (unavailable)" tabindex="-1">
         <span class="dot"></span>
         <span class="line"></span>
         <span class="pill"><small>Block 4</small>Endocrine</span>
       </a>
 
       <!-- GI — stomach / intestines -->
-      <a class="callout callout-gi" href="https://strettyit10.github.io/Block4-GI/" aria-label="GI Hub">
+      <a class="callout callout-gi soon" href="https://strettyit10.github.io/Block4-GI/" aria-label="GI Hub (unavailable)" tabindex="-1">
         <span class="dot"></span>
         <span class="line"></span>
         <span class="pill"><small>Block 4</small>GI</span>
       </a>
 
       <!-- REPRO — pelvis -->
-      <a class="callout callout-repro" href="https://strettyit10.github.io/Block4-Repro/" aria-label="Repro Hub">
+      <a class="callout callout-repro soon" href="https://strettyit10.github.io/Block4-Repro/" aria-label="Repro Hub (unavailable)" tabindex="-1">
         <span class="dot"></span>
         <span class="line"></span>
         <span class="pill"><small>Block 4</small>Reproduction</span>
@@ -546,21 +553,21 @@
       </a>
 
       <!-- CNS — brain -->
-      <a class="callout callout-cns" href="https://www.hoyadocs.com/Block6-CNS" aria-label="CNS Hub">
+      <a class="callout callout-cns fill-blue" href="https://www.hoyadocs.com/Block6-CNS" aria-label="CNS Hub">
         <span class="dot"></span>
         <span class="line"></span>
         <span class="pill"><small>Block 6</small>CNS</span>
       </a>
 
       <!-- IMMUNO — axillary lymph nodes -->
-      <a class="callout callout-immuno" href="https://www.hoyadocs.com/Block2-Immuno" aria-label="Immuno Hub">
+      <a class="callout callout-immuno fill-blue" href="https://www.hoyadocs.com/Block2-Immuno" aria-label="Immuno Hub">
         <span class="dot"></span>
         <span class="line"></span>
         <span class="pill"><small>Block 2</small>Immuno</span>
       </a>
 
       <!-- MICRO — lower leg -->
-      <a class="callout callout-micro" href="https://www.hoyadocs.com/Block2-Micro" aria-label="Micro Hub">
+      <a class="callout callout-micro fill-blue" href="https://www.hoyadocs.com/Block2-Micro" aria-label="Micro Hub">
         <span class="dot"></span>
         <span class="line"></span>
         <span class="pill"><small>Block 2</small>Micro</span>
